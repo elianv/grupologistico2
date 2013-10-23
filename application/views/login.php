@@ -52,15 +52,16 @@
       <div class="row">
         <div class="login-form">
           <h2>Login</h2>
-          <form action="" method ="post">
+          <?php echo validation_errors(); ?>
+          <?php echo form_open('verifylogin'); ?>
             <fieldset>
               <div class="clearfix">
-                <input type="text" placeholder="Username" >
+                <input type="text" placeholder="RUT" id="username" name="username">
               </div>
               <div class="clearfix">
-                <input type="password" placeholder="Password">
+                <input type="password" placeholder="Contraseña" id="password" name="password">
               </div>
-              <a class="btn btn-success" type="submit" href='#'>Sign in</a>
+              <a class="btn btn-success" type="submit">Entrar</a>
             </fieldset>
           </form>
         </div>
