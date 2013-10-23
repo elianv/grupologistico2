@@ -61,9 +61,9 @@
               <div class="clearfix">
                 <input type="password" placeholder="Contraseña" id="password" name="password">
               </div>
-              <a class="btn btn-success" type="submit">Entrar</a>
+                <input class="btn btn-success" type="submit" value="Entrar">
             </fieldset>
-          </form>
+          <?php echo form_close(); ?>
         </div>
       </div>
     </div>
