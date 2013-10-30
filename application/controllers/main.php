@@ -12,9 +12,14 @@ class Main extends CI_Controller{
         
         if($this->session->userdata('logged_in')){
             
-            $session_data = $this->session->userdata('logeado');
-            $data['username'] = $session_data['username'];
+            $session_data = $this->session->userdata('logged_in');
+                      
+            $data['nombre'] = $session_data['nombre'];
+            
+            $this->load->view('include/head',$data);
             $this->load->view('home_view', $data);
+            $this->load->view('include/script', $data);
+            
             
         }
         
@@ -23,7 +28,7 @@ class Main extends CI_Controller{
             redirect('home','refresh');
             
         }
-        
+    }        
         function logout(){
             
             $this->session->unset_userdata('logged_in');
@@ -31,10 +36,6 @@ class Main extends CI_Controller{
             redirect('main','refresh');
             
         }
-    
-        
-    }
-    
 }
 
 ?>

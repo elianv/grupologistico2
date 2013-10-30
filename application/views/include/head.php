@@ -10,8 +10,8 @@
     <body>
   <div class="navbar ">
   <div class="navbar-inner">
-  <div class="container" style="width: auto:">
-    <a class="brand" href="#">Grupo Logistico</a>
+  <div class="container" style="width: auto">
+    <a class="brand" href="main">Grupo Logistico</a>
       <ul class="nav">
   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantención <b class="caret"></b></a>
@@ -67,9 +67,12 @@
        
 
       </ul>
+        
      	<ul class="nav pull-right">
-	<li class="divider-vertical"></li>            
-        <li><a href="home"><i class="icon-off"></i>Cerrar Sesión</a></li>
+            <li class="divider-vertical"></li>
+            <li><a href=""><i class="icon-user"></i><?php echo $nombre; ?></a></li>
+            <li class="divider-vertical"></li>            
+            <li><a href="main/logout"><i class="icon-off"></i>Cerrar Sesión</a></li>
         </ul>
     </div>
   </div>
