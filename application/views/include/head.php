@@ -11,30 +11,29 @@
   <div class="navbar ">
   <div class="navbar-inner">
   <div class="container" style="width: auto">
-    <a class="brand" href="main">Grupo Logistico</a>
+    <a class="brand" href=<?php echo base_url();?>index.php/main>Grupo Logistico</a>
       <ul class="nav">
   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantención <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                      <li><a href="links/mantencion/clientes">Cientes</a></li>
-                      <li><a href="naves.html">Naves</a></li>
-                      <li><a href="navieras.html">Navieras</a></li>
-                      <li><a href="agencias.html">Agencias Aduanas</a></li>
-                      <li><a href="tramos.html">Tramos</a></li>
-                      <li><a href="camiones.html">Camiones/Choferes</a></li>
-                      <li><a href="proveedores.html">Proveedores</a></li>
-                      <li><a href="puertos.html">Puertos</a></li>
-                      <li><a href="carga.html">Tipos de Carga</a></li>
-                      <li><a href="depositos.html">Depósitos</a></li>
-                      <li><a href="bodegas.html">Bodegas</a></li>
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/clientes>Cientes</a></li>
+                      <li><a href="#">Naves</a></li>
+                      <li><a href="#">Navieras</a></li>
+                      <li><a href="#">Agencias Aduanas</a></li>
+                      <li><a href="#">Tramos</a></li>
+                      <li><a href="#">Camiones/Choferes</a></li>
+                      <li><a href="#">Proveedores</a></li>
+                      <li><a href="#">Puertos</a></li>
+                      <li><a href="#">Tipos de Carga</a></li>
+                      <li><a href="#">Depósitos</a></li>
+                      <li><a href="#">Bodegas</a></li>
                     </ul>
   </li>
     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transacciones<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                       <li><a href="orden_servicio.html">Orden de Servicio</a></li>
-                      <li><a href="#">Emisión de Documentos</a></li>
-                      <li><a href="#">Crea Factura Nula</a></li>
+                      <li><a href="#">Facturación</a></li>
                     </ul>
   </li>    
       <li class="dropdown">
@@ -42,19 +41,15 @@
                     <ul class="dropdown-menu">
                       <li><a href="#">Generar Datos</a></li>
                        <li class="divider"></li>
-                      <li><a href="#">Informe Cobranzas</a></li>
                       <li><a href="#">Libro de Ventas</a></li>
                        <li class="divider"></li>
-                       <li class="nav-header">O.T.</li>
+                       <li class="nav-header">O.S.</li>
                       <li><a href="#">Facturadas</a></li>
                       <li><a href="#">Realizadas</a></li>
                       <li><a href="#">Clientes</a></li>
                       <li><a href="#">Proveedor</a></li>
-                      <li><a href="#">Por Origen</a></li>
-                      <li><a href="#">P. Embarque</a></li>
                       <li><a href="#">Camión</a></li>
-                      <li><a href="#">D. Precios</a></li>
-                    </ul>
+                      </ul>
   </li>
       <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Específicos<b class="caret"></b></a>
@@ -69,7 +64,7 @@
       </ul>
         
      	<ul class="nav pull-right">
-            <li class="divider-vertical"></li>
+            
             <li><a href=""><i class="icon-user"></i><?php echo $nombre; ?></a></li>
             <li class="divider-vertical"></li>            
             <li><a href="main/logout"><i class="icon-off"></i>Cerrar Sesión</a></li>
