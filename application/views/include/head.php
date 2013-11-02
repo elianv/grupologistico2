@@ -67,7 +67,7 @@
             
             <li><a href=""><i class="icon-user"></i><?php echo $nombre; ?></a></li>
             <li class="divider-vertical"></li>            
-            <li><a href="main/logout"><i class="icon-off"></i>Cerrar Sesión</a></li>
+            <li><a href="<?php echo base_url();?>/index.php/main/logout"><i class="icon-off"></i>Cerrar Sesión</a></li>
         </ul>
     </div>
   </div>
