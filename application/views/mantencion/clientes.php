@@ -75,7 +75,7 @@
                     <div class="control-group">
                      <label class="control-label" for="dplazo"><strong>Días Plazo</strong></label>
                      <div class="controls">
-                      <input type="text" class="span1" id="dplazo" name="dplazoS" placeholder="">
+                      <input type="text" class="span1" id="dplazo" name="dplazo" placeholder="">
                      </div>
                     </div>
                 </div>

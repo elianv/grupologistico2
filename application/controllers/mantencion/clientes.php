@@ -57,14 +57,16 @@ class Clientes extends CI_Controller{
             $data['tfacturacion'] = $this->Facturacion->GetTipo();
             //inicializo la validacion de campos
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean');
-            
+            $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]');
+            $this->form_validation->set_rules('dplazo', 'Días Plazo','numeric');
+            // si validacion incorrecta
             if($this->form_validation->run() == FALSE){
                 
                 $this->load->view('include/head',$session_data);
                 $this->load->view('mantencion/clientes',$data);
                 $this->load->view('include/script');
             }
+            
             else{
                 
                 $arreglo = array(
@@ -73,25 +75,31 @@ class Clientes extends CI_Controller{
                                     'comuna' => $this->input->post('comuna'),
                                     'contacto' => $this->input->post('contacto'),
                                     'direccion' => $this->input->post('direccion'),
-                                    'dplazo' => $this->input->post('dplazo'),
+                                    'dias_plazo' => $this->input->post('dplazo'),
                                     'giro' => $this->input->post('giro'),
-                                    'rsocial' => $this->input->post('rsocial'),
-                                    'rut' => $this->input->post('rut'),
-                                    'tfactura' => ""
+                                    'razon_social' => $this->input->post('rsocial'),
+                                    'rut_cliente' => $this->input->post('rut'),
+                                    'id_tipo_facturacion' => ""
                                 );
                 $tfacturas = $this->Facturacion->GetTipo();
                     
                 foreach($tfacturas as $dato){
                     if($dato['tipo_facturacion'] == $this->input->post('tfactura')){
-                         $arreglo['tfactura'] = $dato['id_tipo_facturacion'];
+                         $arreglo['id_tipo_facturacion'] = $dato['id_tipo_facturacion'];
                     }
                 }
-                print_r($arreglo);
+                
+                $this->Clientes_model->insertar($arreglo);
+                
+                redirect('mantencion/clientes','refresh');
+                /*
                 $this->load->view('include/head',$session_data);
                 $this->load->view('mantencion/clientes',$data);
                 $this->load->view('include/script');
+                 
+                */
             }
-            //redirect('mantencion/clientes','refresh');
+            
         }
         
         else{
