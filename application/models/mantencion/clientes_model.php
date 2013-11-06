@@ -10,6 +10,7 @@ class Clientes_model extends CI_Model{
         else{
             return false;
         }
+         
     }
     
     function repetido($rut){
@@ -20,7 +21,7 @@ class Clientes_model extends CI_Model{
                 
         $query = $this->db->get();
         
-        if($query->num_rows() < 1){
+        if($query->num_rows() == 0){
             
             return false;
         }

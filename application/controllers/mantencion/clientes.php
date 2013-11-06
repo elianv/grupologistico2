@@ -36,9 +36,19 @@ class Clientes extends CI_Controller{
             
             $data['tfacturacion'] = $this->Facturacion->GetTipo();
             
-            $this->load->view('include/head',$session_data);
-            $this->load->view('mantencion/clientes',$data);
-            $this->load->view('include/script');
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]');
+            
+            if($this->form_validation->run() == FALSE){
+                
+                $this->load->view('include/head',$session_data);
+                $this->load->view('mantencion/clientes',$data);
+                $this->load->view('include/script');
+            }
+            
+            else{
+            
+            }
         }
         
         else{
@@ -57,7 +67,7 @@ class Clientes extends CI_Controller{
             $data['tfacturacion'] = $this->Facturacion->GetTipo();
             //inicializo la validacion de campos
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]');
+            $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]|callback_check_database');
             $this->form_validation->set_rules('dplazo', 'Días Plazo','numeric');
             // si validacion incorrecta
             if($this->form_validation->run() == FALSE){
@@ -79,16 +89,18 @@ class Clientes extends CI_Controller{
                                     'giro' => $this->input->post('giro'),
                                     'razon_social' => $this->input->post('rsocial'),
                                     'rut_cliente' => $this->input->post('rut'),
-                                    'id_tipo_facturacion' => ""
+                                    'fono' => $this->input->post('telefono'),
+                                    'tipo_factura_id_tipo_facturacion' => ""
                                 );
                 $tfacturas = $this->Facturacion->GetTipo();
-                    
+                 
                 foreach($tfacturas as $dato){
+                    
                     if($dato['tipo_facturacion'] == $this->input->post('tfactura')){
-                         $arreglo['id_tipo_facturacion'] = $dato['id_tipo_facturacion'];
+                         $arreglo['tipo_factura_id_tipo_facturacion'] = $dato['id_tipo_facturacion'];
                     }
                 }
-                
+                //print_r($arreglo);
                 $this->Clientes_model->insertar($arreglo);
                 
                 redirect('mantencion/clientes','refresh');
@@ -97,7 +109,10 @@ class Clientes extends CI_Controller{
                 $this->load->view('mantencion/clientes',$data);
                 $this->load->view('include/script');
                  
-                */
+                 * 
+                 */
+                
+                
             }
             
         }
@@ -106,6 +121,23 @@ class Clientes extends CI_Controller{
             redirect('home','refresh');
         }
         
+    }
+    
+    function check_database($rut){
+        $rut2 = $this->input->post('rut');
+        
+        $result = $this->Clientes_model->repetido($rut);
+        
+        if($result){
+            
+            $this->form_validation->set_message('check_database','El RUT que ingresa ya se encuentra en el sistema, intente con otro.');
+            return false;
+        }
+        else{
+            
+            return true;
+        }
+            
     }
     
 }
