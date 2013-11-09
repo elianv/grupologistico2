@@ -17,8 +17,8 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantención <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                       <li><a href=<?php echo base_url();?>index.php/mantencion/clientes>Cientes</a></li>
-                      <li><a href=<?php echo base_url();?>index.php/mantencion/navieras>Naves</a></li>
-                      <li><a href="#">Navieras</a></li>
+                      <li><a href="#">Naves</a></li>
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/navieras>Navieras</a></li>
                       <li><a href="#">Agencias Aduanas</a></li>
                       <li><a href="#">Tramos</a></li>
                       <li><a href="#">Camiones/Choferes</a></li>

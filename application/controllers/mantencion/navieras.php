@@ -13,17 +13,21 @@ class Navieras extends CI_Controller{
             
             $session_data = $this->session->userdata('logged_in');
               
-              //if ($this->Navieras_model->ultimo_codigo() == 0){
-                  $data['cod_naviera'] = 0;
-                  print_r($this->Navieras_model->ultimo_codigo());
-              /*    
+              $resultado = $this->Navieras_model->ultimo_codigo();
+              
+              
+              if ($resultado[0]['codigo_naviera'] == ""){
+                  $data['cod_naviera'] = 1;
+                 
+                  //print_r($this->Navieras_model->ultimo_codigo());
+              
               }
               else{
-                  print_r($this->Navieras_model->ultimo_codigo());
+                  $data['cod_naviera'] = $resultado[0]['codigo_naviera'] + 1;
+                  //$data['cod_naviera'] = $this->Navieras_model->ultimo_codigo();
               }
                  
-               * 
-               */ 
+                
               $this->load->view('include/head',$session_data);
               $this->load->view('mantencion/navieras',$data);
               $this->load->view('include/script');
@@ -37,7 +41,13 @@ class Navieras extends CI_Controller{
     function guarda_naviera(){
         if($this->session->userdata('logged_in')){
             
-            $dato['nombre_naviera'] = $this->input->post('nombre_naviera'); 
+            echo $this->input->post('nombre');
+            $datos = array(
+                        'nombre'=>$this->input->post('nombre'),
+                        );
+            
+            $this->Navieras_model->insertar_naviera($datos);
+            redirect('mantencion/navieras','refresh');
             
         }
         else{
