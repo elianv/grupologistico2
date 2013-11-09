@@ -13,7 +13,7 @@ class Naves extends CI_Controller{
             $session_data = $this->session->userdata('logged_in');
             $datos['navieras'] = $this->Naves_model->nombre_navieras();
             $data['naviera_codigo_naviera'] = '';
-            $data['placeholder'] = '"Ingrese solo código"';
+            $data['placeholder'] = "Ingrese solo código";
             
             $resultado = $this->Naves_model->ultimo_codigo();
             
@@ -42,7 +42,7 @@ class Naves extends CI_Controller{
         if($this->session->userdata('logged_in')){
             $session_data = $this->session->userdata('logged_in');
             $datos['navieras'] = $this->Naves_model->nombre_navieras();
-            $data['placeholder'] = '0 ';
+            $data['placeholder'] = '0';
             
             $resultado = $this->Naves_model->ultimo_codigo();
             $codigo_nombre = explode('-',$this->input->post('multiselect'));
@@ -76,14 +76,14 @@ class Naves extends CI_Controller{
             
             $this->load->library('form_validation');
             $this->form_validation->set_rules('nombre', 'Nombre Nave','trim|required|xss_clean');
-            $this->form_validation->set_rules('naviera_codigo_naviera', 'Naviera','numeric|trim|xss_clean|required');
+            $this->form_validation->set_rules('naviera_codigo_naviera', 'Naviera','numeric|trim|xss_clean|required|callback_check_unique');
            
             if($this->form_validation->run() == FALSE){
                 
                 $session_data = $this->session->userdata('logged_in');
                 $datos['navieras'] = $this->Naves_model->nombre_navieras();
-                $data['naviera_codigo_naviera'] = "Inserte solo código";
-            
+                $data['naviera_codigo_naviera'] = "";
+                $data['placeholder'] ="Inserte solo código";
                 $resultado = $this->Naves_model->ultimo_codigo();
                 
                 if ($resultado[0]['codigo_nave'] == ""){
@@ -118,6 +118,25 @@ class Naves extends CI_Controller{
         else{
             redirect('home','refresh');
         }
+    }
+    
+    function check_unique(){
+        
+        $codigo = $this->input->post('naviera_codigo_naviera');
+        
+        $result = explode('-',$this->Naves_model->existe($codigo));
+        
+        if($result[0] == 0){
+            $this->form_validation->set_message('check_unique','El codigo de Naviera que ingresa no se encuentra en el sistema, intente con otro.');
+            return false;
+        }
+        else{
+            
+            return true;
+        }
+        /*print_r($codigo);
+        $this->load->view('prueba');
+         */
     }
 }
 ?>

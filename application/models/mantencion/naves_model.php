@@ -32,7 +32,22 @@ class Naves_model extends CI_Model{
         }
     }
     
-    function repetido(){
+    function existe($codigo){
+        
+        $this->db->select('codigo_naviera');
+        $this->db->from('naviera');
+        $this->db->where('codigo_naviera',$codigo);
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return false;
+        }
+        
+        else{
+            
+            return true;
+        }
         
     }
 }

@@ -25,7 +25,7 @@
                 <label class="control-label" for="naviera"><strong>Naviera</strong></label>
                 <div class="controls">
                     <?php
-                        echo "<div class='input-append'><input type='text' class='input-large' id='naviera_codigo_naviera' name='naviera_codigo_naviera' placeholder=".$placeholder."  value='".$naviera_codigo_naviera."'><span class='add-on'><i class='icon-search' data-toggle='modal' href='#modal'></i></span></div>";
+                        echo "<div class='input-append'><input type='text' class='input-large' id='naviera_codigo_naviera' name='naviera_codigo_naviera' placeholder='".$placeholder."'  value='".$naviera_codigo_naviera."'><span class='add-on'><i class='icon-search' data-toggle='modal' href='#modal'></i></span></div>";
                     ?>
                 </div>
             </div>
