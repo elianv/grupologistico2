@@ -11,7 +11,7 @@ class Navieras extends CI_Controller{
         
         if($this->session->userdata('logged_in')){
             
-            $session_data = $this->session->userdata('logged_in');
+              $session_data = $this->session->userdata('logged_in');
               
               $resultado = $this->Navieras_model->ultimo_codigo();
               

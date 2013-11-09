@@ -9,7 +9,7 @@
                 <label class="control-label" for="codigo_naviera"><strong>Código Naviera</strong></label>
                 <div class="controls">
                     <?php
-                        echo "<input type='text' class='span2' name='codigo_naviera' id='codigo_naviera' placeholder=".$cod_naviera." readonly='readonly'>";
+                        echo "<input type='text' class='span2' name='codigo_naviera' id='codigo_naviera' placeholder=".$cod_naviera.">";
                         
                     ?>
                 </div>
