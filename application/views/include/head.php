@@ -19,7 +19,7 @@
                       <li><a href=<?php echo base_url();?>index.php/mantencion/clientes>Cientes</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/naves>Naves</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/navieras>Navieras</a></li>
-                      <li><a href="#">Agencias Aduanas</a></li>
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/agencias>Agencias Aduanas</a></li>
                       <li><a href="#">Tramos</a></li>
                       <li><a href="#">Camiones/Choferes</a></li>
                       <li><a href="#">Proveedores</a></li>
