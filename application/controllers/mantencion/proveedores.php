@@ -5,6 +5,8 @@ class Proveedores extends CI_Controller{
     function __construct() {
         parent::__construct();
         $this->load->model('mantencion/Proveedores_model');
+        
+        
     }
     
     function index(){
@@ -13,6 +15,7 @@ class Proveedores extends CI_Controller{
                    
             $session_data = $this->session->userdata('logged_in');
             
+            $data['tablas'] = ($this->Proveedores_model->listar_proveedores());
             $this->load->view('include/head',$session_data);
             $this->load->view('mantencion/proveedores',$data);
             $this->load->view('include/script');
@@ -30,12 +33,13 @@ class Proveedores extends CI_Controller{
         if($this->session->userdata('logged_in')){
             $session_data = $this->session->userdata('logged_in');
             
-            
+
             $this->load->library('form_validation');
             $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]');
             
             if($this->form_validation->run() == FALSE){
                 
+                $data['tablas'] = $this->Proveedores_model->listar_proveedores();
                 $this->load->view('include/head',$session_data);
                 $this->load->view('mantencion/proveedores',$data);
                 $this->load->view('include/script');
@@ -58,12 +62,15 @@ class Proveedores extends CI_Controller{
             
             //asigno los datos de session
             $session_data = $this->session->userdata('logged_in');
+            
             //inicializo la validacion de campos
+            
             $this->load->library('form_validation');
             $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]|callback_check_database');
             // si validacion incorrecta
             if($this->form_validation->run() == FALSE){
                 
+                $data['tablas'] = $this->Proveedores_model->listar_proveedores();               
                 $this->load->view('include/head',$session_data);
                 $this->load->view('mantencion/proveedores',$data);
                 $this->load->view('include/script');
@@ -78,25 +85,19 @@ class Proveedores extends CI_Controller{
                                     'direccion' => $this->input->post('direccion'),
                                     'giro' => $this->input->post('giro'),
                                     'razon_social' => $this->input->post('rsocial'),
-                                    'rut_cliente' => $this->input->post('rut'),
+                                    'rut_proveedor' => $this->input->post('rut'),
                                     'fono' => $this->input->post('telefono'),
                                 );
                 }
-                //print_r($arreglo);
+
                 $this->Proveedores_model->insertar($arreglo);
                 
                 redirect('mantencion/proveedores','refresh');
-                /*
-                $this->load->view('include/head',$session_data);
-                $this->load->view('mantencion/clientes',$data);
-                $this->load->view('include/script');
-                 
-                 * 
-                 */
-                
-                
+              
             }
             
+        
+        
         else{
             redirect('home','refresh');
         }
@@ -119,7 +120,7 @@ class Proveedores extends CI_Controller{
         }
             
     }
-    
+     
 }
 
 ?>

@@ -31,6 +31,15 @@ class Proveedores_model extends CI_Model{
             return true;
         }
     }
+    
+    function listar_proveedores(){
+        
+        $this->db->select('rut_proveedor,razon_social');
+        $resultado = $this->db->get('proveedor');
+        
+        return $resultado->result_array();
+        
+    }
 }
 
 ?>

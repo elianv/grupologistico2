@@ -1,12 +1,12 @@
-<div class="container">
+
         
     <legend><h3><center>Mantención de Proveedores</center></h3></legend> 
     
   <div class="row">
      <div class="span6">
-         <?php echo validation_errors(); ?>
+         <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
          
-         <form class="form-horizontal" method="post">
+         <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
             <div class="control-group">
                 <label class="control-label"><strong>R.U.T</strong></label>
@@ -63,8 +63,7 @@
                  <input type="text" class="span3" id="celular" name="celular" placeholder="09-telefóno">
                 </div>
             </div>
-               
-             <div class="form-actions">
+                            <div class="form-actions">
                  
                  
                  <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/proveedores/guardar_proveedor'" value="Guardar" />
@@ -73,13 +72,30 @@
              </div>
            </fieldset>
           </form>
+        </div>
+               
+      <div class="span8" style="margin-left: 50px">
+                  <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+                      <thead>
+                        <tr>
+                            <th>RUT</th>
+                            <th>Razón Social</th>
+			</tr>
+                      </thead>
+                      <tbody>
+                              <?php
+                              foreach ($tablas as $tabla){
+                                  echo "<tr>";
+                                  echo "<td>".strtoupper($tabla['rut_proveedor'])."</td>";
+                                  echo "<td>".$tabla['razon_social']."</td>";
+                              }
+                              ?>
+                       </tbody>
+                  </table>    
+       </div>
+               
+
      </div>
-      <div class="span6">
-          hola!
-          
-      </div>
-  </div>
-</div>
-              
+
 
 

@@ -16,14 +16,14 @@
   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantención <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                      <li><a href=<?php echo base_url();?>index.php/mantencion/clientes>Cientes</a></li>
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/clientes>Cl                  ientes</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/naves>Naves</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/navieras>Navieras</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/agencias>Agencias Aduanas</a></li>
                       <li><a href="#">Tramos</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/camiones>Camiones</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/conductores>Conductores</a></li>
-                      <li><a href="#">Proveedores</a></li>
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/proveedores>Proveedores</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/puertos>Puertos</a></li>
                       <li><a href="#">Tipos de Carga</a></li>
                       <li><a href="#">Depósitos</a></li>
