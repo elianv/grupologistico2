@@ -16,6 +16,7 @@ class Navieras extends CI_Controller{
               $resultado = $this->Navieras_model->ultimo_codigo();
               $data['tablas'] = $this->Navieras_model->listar_navieras();
               
+              
               if ($resultado[0]['codigo_naviera'] == ""){
                   $data['form']['cod_naviera'] = 1;
                  

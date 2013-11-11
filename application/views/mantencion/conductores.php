@@ -14,9 +14,9 @@
             </div>
             
             <div class="control-group">
-                <label class="control-label" for="contacto"><strong>Contacto</strong></label>
+                <label class="control-label" for="descripcion"><strong>Descripción</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xlarge" name="contacto" id="contacto" placeholder="">
+                 <input type="text" class="input-xlarge" name="descripcion" id="descripcion" placeholder="">
                 </div>
             </div>
                
@@ -31,8 +31,8 @@
                   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                       <thead>
                         <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
+                            <th>RUT</th>
+                            <th>Descripción</th>
 			</tr>
                       </thead>
                       <tbody>
@@ -40,7 +40,7 @@
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
                                   echo "<td>".$tabla['rut']."</td>";
-                                  echo "<td>".strtoupper($tabla['contacto'])."</td>";
+                                  echo "<td>".strtoupper($tabla['descripcion'])."</td>";
                               }
                               ?>
                        </tbody>

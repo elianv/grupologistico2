@@ -35,7 +35,7 @@ class Conductores_model extends CI_Model{
     }
     
     function listar_conductores(){
-        $this->db->select('rut,contacto');
+        $this->db->select('rut,descripcion');
         $resultado = $this->db->get('conductor');
         
         return $resultado->result_array();

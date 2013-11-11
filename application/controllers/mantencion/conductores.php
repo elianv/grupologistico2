@@ -25,7 +25,7 @@ class Conductores extends CI_Controller{
         if($this->session->userdata('logged_in')){
             $this->load->library('form_validation');
             $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]|callback_check_database');
-            $this->form_validation->set_rules('contacto', 'Contacto', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('descripcion', 'Descripcion', 'trim|required|xss_clean');
             
             if($this->form_validation->run() == FALSE){
                 $session_data = $this->session->userdata('logged_in');
@@ -38,7 +38,7 @@ class Conductores extends CI_Controller{
             else{
                 $conductor = array(
                             'rut' => $this->input->post('rut'),
-                            'contacto' => $this->input->post('contacto')
+                            'descripcion' => $this->input->post('descripcion')
                             );
                 
                 $this->Conductores_model->insertar_conductor($conductor);
