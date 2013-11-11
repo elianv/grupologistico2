@@ -17,6 +17,7 @@ class Clientes extends CI_Controller{
             $session_data = $this->session->userdata('logged_in');
             
             $data['tfacturacion'] = $this->Facturacion->GetTipo();
+            $data['tablas'] = ($this->Clientes_model->listar_clientes());
             $this->load->view('include/head',$session_data);
             $this->load->view('mantencion/clientes',$data);
             $this->load->view('include/script');
@@ -34,13 +35,14 @@ class Clientes extends CI_Controller{
         if($this->session->userdata('logged_in')){
             $session_data = $this->session->userdata('logged_in');
             
-            $data['tfacturacion'] = $this->Facturacion->GetTipo();
-            
+
             $this->load->library('form_validation');
             $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]');
             
             if($this->form_validation->run() == FALSE){
                 
+                $data['tfacturacion'] = $this->Facturacion->GetTipo();
+                $data['tablas'] = $this->Clientes_model->listar_clientes();
                 $this->load->view('include/head',$session_data);
                 $this->load->view('mantencion/clientes',$data);
                 $this->load->view('include/script');
@@ -63,15 +65,19 @@ class Clientes extends CI_Controller{
             
             //asigno los datos de session
             $session_data = $this->session->userdata('logged_in');
+            
             //obtengo los tipo de facturacion para el formulario
             $data['tfacturacion'] = $this->Facturacion->GetTipo();
             //inicializo la validacion de campos
+            
             $this->load->library('form_validation');
             $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]|callback_check_database');
             $this->form_validation->set_rules('dplazo', 'Días Plazo','numeric');
             // si validacion incorrecta
             if($this->form_validation->run() == FALSE){
                 
+                $data['tfacturacion'] = $this->Facturacion->GetTipo();
+                $data['tablas'] = $this->Clientes_model->listar_clientes();               
                 $this->load->view('include/head',$session_data);
                 $this->load->view('mantencion/clientes',$data);
                 $this->load->view('include/script');
@@ -100,19 +106,11 @@ class Clientes extends CI_Controller{
                          $arreglo['tipo_factura_id_tipo_facturacion'] = $dato['id_tipo_facturacion'];
                     }
                 }
-                //print_r($arreglo);
+
                 $this->Clientes_model->insertar($arreglo);
                 
                 redirect('mantencion/clientes','refresh');
-                /*
-                $this->load->view('include/head',$session_data);
-                $this->load->view('mantencion/clientes',$data);
-                $this->load->view('include/script');
-                 
-                 * 
-                 */
-                
-                
+              
             }
             
         }
@@ -139,7 +137,7 @@ class Clientes extends CI_Controller{
         }
             
     }
-    
+     
 }
 
 ?>

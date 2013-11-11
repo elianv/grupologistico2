@@ -1,19 +1,19 @@
 
 
-<div class="container">
+
         
-          <legend><h3>Mantención Agencias Aduaneras</h3></legend> 
-          
+<legend><h3><center>Mantención Agencias Aduaneras</center></h3></legend> 
+
           <div class="row">
               <div class="span6">
                   <?php echo validation_errors(); ?>
-                  <form class="form-horizontal" method="post">
+                  <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
             <div class="control-group">
                 <label class="control-label" for="codigo_aduna"><strong>Código Agencia A.</strong></label>
                 <div class="controls">
                     <?php
-                        echo "<input type='text' class='span2' id='codigo_aduana' name='codigo_aduana' placeholder='' value=".$codigo_aduana.">";
+                        echo "<input type='text' class='span2' id='codigo_aduana' name='codigo_aduana' placeholder='' value=".$form['codigo_aduana'].">";
                      ?>
                 </div>
             </div>
@@ -46,9 +46,25 @@
            </fieldset>
           </form>
               </div>
-              <div class="span6">
-                  
+              <div class="span8" style="margin-left: 50px">
+                  <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+                      <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nombre</th>
+			</tr>
+                      </thead>
+                      <tbody>
+                              <?php
+                              foreach ($tablas as $tabla){
+                                  echo "<tr>";
+                                  echo "<td>".$tabla['codigo_aduana']."</td>";
+                                  echo "<td>".strtoupper($tabla['nombre'])."</td>";
+                              }
+                              ?>
+                       </tbody>
+                  </table>    
               </div>
           </div>
 
-            </div>
+            

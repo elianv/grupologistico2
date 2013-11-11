@@ -14,20 +14,20 @@ class Navieras extends CI_Controller{
               $session_data = $this->session->userdata('logged_in');
               
               $resultado = $this->Navieras_model->ultimo_codigo();
-              
+              $data['tablas'] = $this->Navieras_model->listar_navieras();
               
               if ($resultado[0]['codigo_naviera'] == ""){
-                  $data['cod_naviera'] = 1;
+                  $data['form']['cod_naviera'] = 1;
                  
                   //print_r($this->Navieras_model->ultimo_codigo());
               
               }
               else{
-                  $data['cod_naviera'] = $resultado[0]['codigo_naviera'] + 1;
+                  $data['form']['cod_naviera'] = $resultado[0]['codigo_naviera'] + 1;
                   //$data['cod_naviera'] = $this->Navieras_model->ultimo_codigo();
               }
                  
-                
+              
               $this->load->view('include/head',$session_data);
               $this->load->view('mantencion/navieras',$data);
               $this->load->view('include/script');
@@ -41,13 +41,37 @@ class Navieras extends CI_Controller{
     function guarda_naviera(){
         if($this->session->userdata('logged_in')){
             
-            echo $this->input->post('nombre');
-            $datos = array(
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('nombre', 'Nombre Naviera','trim|required|xss_clean');
+            
+            if($this->form_validation->run() == FALSE){
+                
+                $session_data = $this->session->userdata('logged_in');
+                $resultado = $this->Navieras_model->ultimo_codigo();
+                             
+                if ($resultado[0]['codigo_naviera'] == ""){
+                      $data['form']['cod_naviera'] = 1;
+                }
+              
+                else{
+                      $data['form']['cod_naviera'] = $resultado[0]['codigo_naviera'] + 1;
+                }
+                $data['tablas'] = $this->Navieras_model->listar_navieras();             
+                $this->load->view('include/head',$session_data);
+                $this->load->view('mantencion/navieras',$data);
+                $this->load->view('include/script');
+                
+            }
+            else{
+                echo $this->input->post('nombre');
+                $datos = array(
                         'nombre'=>$this->input->post('nombre'),
                         );
             
-            $this->Navieras_model->insertar_naviera($datos);
-            redirect('mantencion/navieras','refresh');
+                $this->Navieras_model->insertar_naviera($datos);
+                redirect('mantencion/navieras','refresh');
+            }
+            
             
         }
         else{

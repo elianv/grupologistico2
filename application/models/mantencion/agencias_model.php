@@ -24,6 +24,15 @@ class Agencias_model extends CI_Model{
         }
          
      }
+     
+     function listar_agencias(){
+         
+         $this->db->select('codigo_aduana,nombre');
+         $resultado = $this->db->get('aduana');
+         
+         return $resultado->result_array();
+         
+     }
     
 }
 ?>

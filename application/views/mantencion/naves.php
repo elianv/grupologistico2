@@ -1,9 +1,9 @@
-<div class="container">
+
     <legend><h3><center>Mantención Naves</center></h3></legend> 
 <div class="row">
 <div class="span6">
-          <?php echo validation_errors(); ?>
-    <form class="form-horizontal" method="post">
+          <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
+    <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
             <div class="control-group">
                 <label class="control-label" for="codigo_nave"><strong>Código Nave</strong></label>
@@ -39,7 +39,25 @@
 
             </div>
 
-<div class="span6"></div>
+      <div class="span8" style="margin-left: 50px">
+                  <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+                      <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Nombre Nave</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                              <?php
+                              foreach ($tablas as $tabla){
+                                  echo "<tr>";
+                                  echo "<td>".$tabla['codigo_nave']."</td>";
+                                  echo "<td>".strtoupper($tabla['nombre'])."</td>";
+                              }
+                              ?>
+                       </tbody>
+                  </table>    
+       </div>
 </div>
-</div>
+
 

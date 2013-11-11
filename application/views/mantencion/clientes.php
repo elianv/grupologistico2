@@ -1,12 +1,12 @@
-<div class="container">
+
         
     <legend><h3><center>Mantención de Clientes</center></h3></legend> 
     
   <div class="row">
      <div class="span6">
-         <?php echo validation_errors(); ?>
+         <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
          
-         <form class="form-horizontal" method="post">
+         <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
             <div class="control-group">
                 <label class="control-label"><strong>R.U.T</strong></label>
@@ -112,12 +112,28 @@
            </fieldset>
           </form>
      </div>
-      <div class="span6">
-          hola!
+      <div class="span8" style="margin-left: 50px">
+                  <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+                      <thead>
+                        <tr>
+                            <th>RUT</th>
+                            <th>Razón Social</th>
+			</tr>
+                      </thead>
+                      <tbody>
+                              <?php
+                              foreach ($tablas as $tabla){
+                                  echo "<tr>";
+                                  echo "<td>".strtoupper($tabla['rut_cliente'])."</td>";
+                                  echo "<td>".$tabla['razon_social']."</td>";
+                              }
+                              ?>
+                       </tbody>
+                  </table>    
+       </div>
+        
           
       </div>
   </div>
-</div>
-              
 
 

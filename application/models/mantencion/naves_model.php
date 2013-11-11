@@ -50,6 +50,13 @@ class Naves_model extends CI_Model{
         }
         
     }
+    
+    function listar_naves(){
+        $this->db->select('codigo_nave,nombre');
+        $resultado = $this->db->get('nave');
+        
+        return $resultado->result_array();
+    }
 }
 ?>
 

@@ -15,13 +15,15 @@ class Agencias extends CI_Controller{
                  
                  
                  if ($resultado[0]['codigo_aduana'] == ""){
-                    $data['codigo_aduana'] = 1;
+                    $data['form']['codigo_aduana'] = 1;
                           
                  }
                  else{
-                    $data['codigo_aduana'] = $resultado[0]['codigo_aduana'] + 1;
+                    $data['form']['codigo_aduana'] = $resultado[0]['codigo_aduana'] + 1;
                   
                  }
+                 
+                 $data['tablas'] = $this->Agencias_model->listar_agencias();
                  $this->load->view('include/head',$session_data);
                  $this->load->view('mantencion/agencias',$data);
                  $this->load->view('include/script');
@@ -44,16 +46,16 @@ class Agencias extends CI_Controller{
                 
                     $session_data = $this->session->userdata('logged_in');
                     $resultado = $this->Agencias_model->ultimo_codigo();
-                    print_r($resultado);
-                 
+                                     
                  if ($resultado[0]['codigo_aduana'] == ""){
-                    $data['codigo_aduana'] = 1;
+                    $data['form']['codigo_aduana'] = 1;
                           
                  }
                  else{
-                    $data['codigo_aduana'] = $resultado[0]['codigo_aduana'] + 1;
+                    $data['form']['codigo_aduana'] = $resultado[0]['codigo_aduana'] + 1;
                   
                  }
+                 $data['tablas'] = $this->Agencias_model->listar_agencias();
                  $this->load->view('include/head',$session_data);
                  $this->load->view('mantencion/agencias',$data);
                  $this->load->view('include/script');

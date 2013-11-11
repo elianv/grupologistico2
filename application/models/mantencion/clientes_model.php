@@ -31,6 +31,15 @@ class Clientes_model extends CI_Model{
             return true;
         }
     }
+    
+    function listar_clientes(){
+        
+        $this->db->select('rut_cliente,razon_social');
+        $resultado = $this->db->get('cliente');
+        
+        return $resultado->result_array();
+        
+    }
 }
 
 ?>

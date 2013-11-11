@@ -14,7 +14,7 @@ class Naves extends CI_Controller{
             $datos['navieras'] = $this->Naves_model->nombre_navieras();
             $data['naviera_codigo_naviera'] = '';
             $data['placeholder'] = "Ingrese solo código";
-            
+            $data['tablas'] = $this->Naves_model->listar_naves();
             $resultado = $this->Naves_model->ultimo_codigo();
             
             if ($resultado[0]['codigo_nave'] == ""){
@@ -43,7 +43,7 @@ class Naves extends CI_Controller{
             $session_data = $this->session->userdata('logged_in');
             $datos['navieras'] = $this->Naves_model->nombre_navieras();
             $data['placeholder'] = '0';
-            
+            $data['tablas'] = $this->Naves_model->listar_naves();
             $resultado = $this->Naves_model->ultimo_codigo();
             $codigo_nombre = explode('-',$this->input->post('multiselect'));
             $codigo_nombre[0] = str_replace('[', '', $codigo_nombre[0]);
@@ -85,7 +85,7 @@ class Naves extends CI_Controller{
                 $data['naviera_codigo_naviera'] = "";
                 $data['placeholder'] ="Inserte solo código";
                 $resultado = $this->Naves_model->ultimo_codigo();
-                
+                $data['tablas'] = $this->Naves_model->listar_naves();
                 if ($resultado[0]['codigo_nave'] == ""){
                     $data['codigo_nave'] = 1;
                           
