@@ -50,7 +50,6 @@ class Naves extends CI_Controller{
             $codigo_nombre[0] = str_replace(']', '', $codigo_nombre[0]);
             
             $data['naviera_codigo_naviera'] = (integer)$codigo_nombre[0];
-            
             if ($resultado[0]['codigo_nave'] == ""){
                   $data['codigo_nave'] = 1;
                           
@@ -59,11 +58,13 @@ class Naves extends CI_Controller{
                   $data['codigo_nave'] = $resultado[0]['codigo_nave'] + 1;
                   
               }
-                       
+              
+                  
             $this->load->view('include/head',$session_data);
             $this->load->view('mantencion/naves',$data);
             $this->load->view('include/modal_naves',$datos);
             $this->load->view('include/script');
+             
         }
         
         else{
@@ -94,7 +95,7 @@ class Naves extends CI_Controller{
                     $data['codigo_nave'] = $resultado[0]['codigo_nave'] + 1;
                   
                 }
-            
+                    
                     $this->load->view('include/head',$session_data);
                     $this->load->view('mantencion/naves',$data);
                     $this->load->view('include/modal_naves',$datos);
@@ -102,7 +103,17 @@ class Naves extends CI_Controller{
                 }
             else{
                 
-                $naviera = explode('-', $this->input->post('naviera_codigo_naviera'));
+                $caracter = "-";
+                
+                if(strpos($this->input->post('naviera_codigo_naviera'), $caracter)){
+                    $naviera = explode('-', $this->input->post('naviera_codigo_naviera'));
+                    $naviera[0] = str_replace('[', '', $naviera[0]);
+                    $naviera[0] = str_replace(']', '', $naviera[0]);  
+                }
+                else{
+                    $naviera[0]= $this->input->post('naviera_codigo_naviera');
+                }
+                  
                 
                 $nave = array(
                         'nombre' => $this->input->post('nombre'),
@@ -110,7 +121,9 @@ class Naves extends CI_Controller{
                         );
                 $this->Naves_model->insertar_nave($nave);
                 redirect('mantencion/naves','refresh');
-                    
+                
+                
+                $this->load->view('prueba');    
             }
             
         }
@@ -120,19 +133,22 @@ class Naves extends CI_Controller{
         }
     }
     
-    function check_unique(){
+    function check_unique($naviera_codigo_naviera){
+              
+        $result = explode('-',$this->Naves_model->existe($naviera_codigo_naviera));
+        $result[0] = str_replace('[', '', $result[0]);
+        $result[0] = str_replace(']', '', $result[0]);
+            
+        $result[0] = (integer)$result[0];
         
-        $codigo = $this->input->post('naviera_codigo_naviera');
-        
-        $result = explode('-',$this->Naves_model->existe($codigo));
-        
-        if($result[0] == 0){
+        if($result){
             $this->form_validation->set_message('check_unique','El codigo de Naviera que ingresa no se encuentra en el sistema, intente con otro.');
-            return false;
+            return 0;
         }
         else{
             
-            return true;
+            return 1;
+            
         }
         /*print_r($codigo);
         $this->load->view('prueba');

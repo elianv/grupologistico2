@@ -6,7 +6,10 @@ class Bodegas_model extends CI_Model{
     }
     
     function ultimo_codigo(){
+        $this->db->select_max('codigo_bodega');
+        $result = $this->db->get('bodega');
         
+            return $result->result_array();
     }
     
     function insertar_bodega($bodega){
@@ -20,6 +23,29 @@ class Bodegas_model extends CI_Model{
     }
     
     function listar_bodegas(){
+        $this->db->select('codigo_bodega,nombre');
+        $resultado = $this->db->get('bodega');
+        
+        return $resultado->result_array();
+        
+    }
+    
+    function existe_nombre($nombre){
+        
+        $this->db->select('nombre');
+        $this->db->from('bodega');
+        $this->db->where('nombre',$nombre);
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return false;
+        }
+        
+        else{
+            
+            return true;
+        }
         
     }
 }

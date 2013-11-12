@@ -41,12 +41,12 @@ class Naves_model extends CI_Model{
         
         if($query->num_rows() == 0){
             
-            return false;
+            return 1;
         }
         
         else{
             
-            return true;
+            return 0;
         }
         
     }

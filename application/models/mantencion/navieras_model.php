@@ -27,6 +27,9 @@ class Navieras_model extends CI_Model{
         return $resultado->result_array();
     }
     
+    
+    
+    
 }
 
 ?>
