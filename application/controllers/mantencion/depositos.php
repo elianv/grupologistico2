@@ -63,12 +63,12 @@ class Depositos extends CI_Controller{
                 
             }
             else{
-                echo $this->input->post('descripcion');
+                
                 $datos = array(
                         'descripcion'=>$this->input->post('descripcion'),
                         );
             
-                $this->Depositoss_model->insertar_deposito($datos);
+                $this->Depositos_model->insertar_deposito($datos);
                 redirect('mantencion/depositos','refresh');
             }
             

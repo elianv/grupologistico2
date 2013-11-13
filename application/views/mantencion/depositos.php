@@ -24,8 +24,8 @@
 
             <div class="form-actions">
                  
-                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/deposito/guarda_deposito'" value="Guardar" />
-                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/deposito/borrar_deposito'" value="Borrar" />
+                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/depositos/guarda_deposito'" value="Guardar" />
+                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/depositos/borrar_deposito'" value="Borrar" />
  
              </div>
            </fieldset>

@@ -1,6 +1,6 @@
 <div class="container">
         
-          <legend><h3>Orden de Servicio</h3></legend> 
+    <legend><h3><center>Orden de Servicio</center></h3></legend> 
           <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
           <form class="form-horizontal">
            <fieldset>  
@@ -183,13 +183,27 @@
                    </div>
                    
                </div>
-               
+<div class="row show-grid">
+    
+    <div class="span5">
                         <div class="control-group">
                         <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
                         <div class="controls">
                             <input type="text" class="input-large" id="referencia" name="referencia" placeholder="">
                         </div>
+                        </div>        
+    </div>
+    <div class="span5">
+                        <div class="control-group">
+                            <label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>
+                            <div class="controls">
+                                <div class="input-append"><input type="text" class="span2" id="rut" name="rut" placeholder="sin puntos, ni guion"><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-proveedor"></i></span></div>
+                            </div>
                         </div>
+    </div>
+    
+</div>
+
                
                         <div class="control-group">
                             <label class="control-label" for="observacion"><strong>Observación</strong></label>
@@ -197,28 +211,39 @@
                              <textarea class="input-xxlarge" id="observacion" name="observacion" rows="3"></textarea>
                             </div>
                         </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="servicio"><strong>Servicio</strong></label>
+                            <div class="controls">
+                                <div class="input-append"><input type="text" class="input-xxlarge" id="servicio" name="servicio" ><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-servicio"></i></span></div>
+                            </div>
+                        </div>
                </br>
                </br>
                
                <!--   #########################################################################    -->
-                <div class="row show-grid">
-                    <div class="span5">
-                        <div class="control-group">
-                            <label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>
-                            <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="rut" name="rut" placeholder="sin puntos, ni guion"><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-rut"></i></span></div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="row show-grid">
+                    
+          <div class="span5">
+           <div class="control-group">
+                <label class="control-label" for="conductor"><strong>Conductor</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" class="span2" id="conductor" name="conductor" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-conductor"></i></span></div>
+                </div>
+           </div>
+         </div>
+            
                     <div class="span5">
                         <div class="control-group">
                             <label class="control-label" for="patente"><strong>Patente</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-patente"></i></span></div>
+                                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-conductor"></i></span></div>
                             </div>
                         </div>
                     </div>
-                </div>
+       </div>
+          
+
                <div class="form-actions" >
               <button type="submit" class="btn btn-success">Guardar</button>
               <button class="btn">Buscar</button>

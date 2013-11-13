@@ -88,12 +88,12 @@ class Proveedores extends CI_Controller{
                                     'rut_proveedor' => $this->input->post('rut'),
                                     'fono' => $this->input->post('telefono'),
                                 );
-                }
+                
 
                 $this->Proveedores_model->insertar($arreglo);
                 
                 redirect('mantencion/proveedores','refresh');
-              
+                }
             }
             
         

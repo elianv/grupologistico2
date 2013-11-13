@@ -14,7 +14,7 @@ class Depositos_model extends CI_Model{
     function ultimo_codigo(){
         
         $this->db->select_max('codigo_deposito');
-        $result = $this->db->get('tipo_deposito');
+        $result = $this->db->get('deposito');
         
             return $result->result_array();
         
