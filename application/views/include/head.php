@@ -25,14 +25,9 @@
                       <li><a href=<?php echo base_url();?>index.php/mantencion/conductores>Conductores</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/proveedores>Proveedores</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/puertos>Puertos</a></li>
-<<<<<<< HEAD
                       <li><a href=<?php echo base_url();?>index.php/mantencion/cargas>Tipos de Carga</a></li>
-                      <li><a href=<?php echo base_url();?>index.php/mantencion/deposito>Depósitos</a></li>
-=======
-                      <li><a href="#">Tipos de Carga</a></li>
-                      <li><a href="#">Depósitos</a></li>
->>>>>>> origin/master
-                      <li><a href=<?php echo base_url();?>index.php/mantencion/bodegas>Bodegas</a></li>
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/depositos>Depósitos</a></li>
+                    <li><a href=<?php echo base_url();?>index.php/mantencion/bodegas>Bodegas</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/servicios>Servicios</a></li>
                     </ul>
   </li>
