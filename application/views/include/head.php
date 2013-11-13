@@ -20,13 +20,18 @@
                       <li><a href=<?php echo base_url();?>index.php/mantencion/naves>Naves</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/navieras>Navieras</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/agencias>Agencias Aduanas</a></li>
-                      <li><a href="#">Tramos</a></li>
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/tramos>Tramos</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/camiones>Camiones</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/conductores>Conductores</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/proveedores>Proveedores</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/puertos>Puertos</a></li>
+<<<<<<< HEAD
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/cargas>Tipos de Carga</a></li>
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/deposito>Depósitos</a></li>
+=======
                       <li><a href="#">Tipos de Carga</a></li>
                       <li><a href="#">Depósitos</a></li>
+>>>>>>> origin/master
                       <li><a href=<?php echo base_url();?>index.php/mantencion/bodegas>Bodegas</a></li>
                     </ul>
   </li>
