@@ -27,7 +27,11 @@
                       <li><a href=<?php echo base_url();?>index.php/mantencion/puertos>Puertos</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/cargas>Tipos de Carga</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/depositos>Depósitos</a></li>
+<<<<<<< HEAD
                     <li><a href=<?php echo base_url();?>index.php/mantencion/bodegas>Bodegas</a></li>
+=======
+                      <li><a href=<?php echo base_url();?>index.php/mantencion/bodegas>Bodegas</a></li>
+>>>>>>> origin/master
                       <li><a href=<?php echo base_url();?>index.php/mantencion/servicios>Servicios</a></li>
                     </ul>
   </li>
