@@ -64,7 +64,7 @@ class Navieras extends CI_Controller{
                 
             }
             else{
-                echo $this->input->post('nombre');
+                
                 $datos = array(
                         'nombre'=>$this->input->post('nombre'),
                         );

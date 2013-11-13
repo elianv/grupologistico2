@@ -18,6 +18,15 @@ class Facturacion extends CI_Model{
         return $query->result_array();
     }
     
+    function listar_tramos(){
+        
+        $this->db->select('codigo_tramo,descripcion');
+        $result = $this->db->get('tramo');
+        
+        return $result->result_array();
+        
+    }
+    
     
 }
 
