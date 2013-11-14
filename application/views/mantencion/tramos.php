@@ -9,11 +9,15 @@
          <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
             <div class="control-group">
-                <label class="control-label"><strong>Código Tramo</strong></label>
+                <label class="control-label" for="codigo_tramo"><strong>Código Tramo</strong></label>
                 <div class="controls">
-                 <input type="text" class="span2" id="codigo_tramo" name="codigo_tramo" placeholder="">
+                    <?php
+                        echo "<input type='text' class='span2' name='codigo_tramo' id='codigo_tramo' placeholder=".$form['cod_tramo'].">";
+                        
+                    ?>
                 </div>
             </div>
+
             
             <div class="control-group">
                 <label class="control-label"><strong>Descripción</strong></label>
@@ -47,7 +51,7 @@
                                   // print_r(tfacturacion[0]);
                                    foreach ($tmoneda as $tipo){
                                        
-                                       echo "<option>".$tipo['tipo_moneda']."</option>";
+                                       echo "<option>".$tipo['moneda']."</option>";
                                        
                                    }
                                 

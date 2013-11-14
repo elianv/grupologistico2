@@ -13,25 +13,15 @@ class Tramos_model extends CI_Model{
          
     }
     
-    function repetido($codigo_tramo){
+    function ultimo_codigo(){
         
-        $this->db->select ('codigo_tramo');
-        $this->db->from('tramo');
-        $this->db->where('codigo_tramo',$codigo_tramo);
-                
-        $query = $this->db->get();
+        $this->db->select_max('codigo_tramo');
+        $result = $this->db->get('tramo');
         
-        if($query->num_rows() == 0){
-            
-            return false;
-        }
+            return $result->result_array();
         
-        else{
-            
-            return true;
-        }
     }
-    
+        
     function listar_tramos(){
         
         $this->db->select('codigo_tramo,descripcion');

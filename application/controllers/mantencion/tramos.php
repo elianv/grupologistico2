@@ -14,13 +14,24 @@ class Tramos extends CI_Controller{
         
         if($this->session->userdata('logged_in')){
                    
-            $session_data = $this->session->userdata('logged_in');
-            
+            $session_data = $this->session->userdata('logged_in');            
+            $resultado = $this->Tramos_model->ultimo_codigo();
+
+            if ($resultado[0]['codigo_tramo'] == ""){
+                $data['form']['cod_tramo'] = 1;
+                 
+              
+            }
+            else{
+                $data['form']['cod_tramo'] = $resultado[0]['codigo_tramo'] + 1;
+            }
+ 
             $data['tmoneda'] = $this->Moneda->GetTipo();
             $data['tablas'] = ($this->Tramos_model->listar_tramos());
             $this->load->view('include/head',$session_data);
             $this->load->view('mantencion/tramos',$data);
             $this->load->view('include/script');
+             
         }
         
         else{
@@ -37,7 +48,7 @@ class Tramos extends CI_Controller{
             
 
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('codigo_tramo', 'codigo_tramo','trim|required|xss_clean|min_length[7]');
+            $this->form_validation->set_rules('descripcion', 'Descripción','trim|required|xss_clean');
             
             if($this->form_validation->run() == FALSE){
                 
@@ -71,7 +82,7 @@ class Tramos extends CI_Controller{
             //inicializo la validacion de campos
             
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('codigo_tramo', 'Código Tramo','trim|required|xss_clean|min_length[7]|callback_check_database');
+            $this->form_validation->set_rules('descripcion', 'Descripción','trim|required|xss_clean');
             $this->form_validation->set_rules('valor_costo', 'Valor Costo','numeric');
             $this->form_validation->set_rules('valor_venta', 'Valor Venta','numeric');
 
@@ -79,6 +90,16 @@ class Tramos extends CI_Controller{
             if($this->form_validation->run() == FALSE){
                 
                 $data['tmoneda'] = $this->Moneda->GetTipo();
+                $resultado = $this->Tramos_model->ultimo_codigo();
+                             
+                if ($resultado[0]['codigo_tramo'] == ""){
+                      $data['form']['cod_tramo'] = 1;
+                }
+              
+                else{
+                      $data['form']['cod_tramo'] = $resultado[0]['codigo_tramo'] + 1;
+                }
+                
                 $data['tablas'] = $this->Tramos_model->listar_tramos();               
                 $this->load->view('include/head',$session_data);
                 $this->load->view('mantencion/tramos',$data);
@@ -92,14 +113,14 @@ class Tramos extends CI_Controller{
                                     'descripcion' => $this->input->post('descripcion'),
                                     'valor_costo' => $this->input->post('valor_costo'),
                                     'valor_venta' => $this->input->post('valor_venta'),
-                                    'tipo_moneda_id_tipo_moneda' => ""
+                                    'moneda_id_moneda' => ""
                                 );
                 $tmoneda = $this->Moneda->GetTipo();
                  
                 foreach($tmoneda as $dato){
                     
-                    if($dato['tipo_moneda'] == $this->input->post('tmoneda')){
-                         $arreglo['tipo_moneda_id_tipo_moneda'] = $dato['id_tipo_moneda'];
+                    if($dato['moneda'] == $this->input->post('tmoneda')){
+                         $arreglo['moneda_id_moneda'] = $dato['id_moneda'];
                     }
                 }
 
@@ -115,23 +136,6 @@ class Tramos extends CI_Controller{
             redirect('home','refresh');
         }
         
-    }
-    
-    function check_database($rut){
-        $codigo_tramo2 = $this->input->post('codigo_tramo');
-        
-        $result = $this->Tramos_model->repetido($codigo_tramo);
-        
-        if($result){
-            
-            $this->form_validation->set_message('check_database','El Código que ingresa ya se encuentra en el sistema, intente con otro.');
-            return false;
-        }
-        else{
-            
-            return true;
-        }
-            
     }
      
 }
