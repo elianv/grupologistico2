@@ -48,5 +48,25 @@ class Bodegas_model extends CI_Model{
         }
         
     }
+    
+    function existe_bodega($bodega){
+        $this->db->select ('codigo_bodega');
+        $this->db->from('bodega');
+        $this->db->where('codigo_bodega',$bodega);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
+    
+    
 }
 ?>

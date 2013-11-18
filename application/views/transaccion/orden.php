@@ -2,7 +2,7 @@
         
     <legend><h3><center>Orden de Servicio</center></h3></legend> 
           <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
-          <form class="form-horizontal">
+          <form class="form-horizontal" method="post">
            <fieldset>  
                
             <div class="row show-grid">
@@ -64,7 +64,7 @@
 <!--   ##############################################################    -->     
 
             <div class="control-group">
-                <label class="control-label" for="cliente"><strong>Cliente</strong></label>
+                <label class="control-label" for="cliente"><strong>RUT Cliente</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="cliente" name="cliente" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-cliente"></i></span></div>
                 </div>
@@ -110,7 +110,7 @@
             <div class="control-group">
                 <label class="control-label" for="carga"><strong>Carga</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xlarge" id="carga" name="carga" placeholder="">
+                    <div class="input-append"><input type="text" class="span2" id="carga" name="carga" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-carga"></i></span></div>
                 </div>
             </div>
              </div>
@@ -177,7 +177,7 @@
                         <div class="control-group">
                         <label class="control-label" for="puerto"><strong>Puerto Embarque</strong></label>
                         <div class="controls">
-                            <div class="input-append"><input type="text" class="span2" id="puerto" id="puerto" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-puerto"></i></span></div>
+                            <div class="input-append"><input type="text" class="span2" id="puerto" name="puerto" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-puerto"></i></span></div>
                         </div>
                         </div>
                    </div>
@@ -189,7 +189,7 @@
                         <div class="control-group">
                         <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
                         <div class="controls">
-                            <input type="text" class="input-large" id="referencia" name="referencia" placeholder="">
+                            <input type="text" class="input-large" id="referencia2" name="referencia2" placeholder="">
                         </div>
                         </div>        
     </div>
@@ -237,7 +237,7 @@
                         <div class="control-group">
                             <label class="control-label" for="patente"><strong>Patente</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-conductor"></i></span></div>
+                                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-camion"></i></span></div>
                             </div>
                         </div>
                     </div>
@@ -245,10 +245,9 @@
           
 
                <div class="form-actions" >
-              <button type="submit" class="btn btn-success">Guardar</button>
-              <button class="btn">Buscar</button>
-              <button class="btn btn-danger">Borrar</button>
-             </div>
+                <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/guardar'" value="Guardar"/>
+                <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/index'" value="Editar" />
+               </div>
            </fieldset>
           </form>
 </div>

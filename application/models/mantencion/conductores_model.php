@@ -42,5 +42,24 @@ class Conductores_model extends CI_Model{
         
     }
     
+        
+    function existe_conductor($rut){
+        $this->db->select ('rut');
+        $this->db->from('conductor');
+        $this->db->where('rut',$rut);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
+    
 }
 ?>

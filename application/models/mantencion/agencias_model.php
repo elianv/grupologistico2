@@ -33,6 +33,24 @@ class Agencias_model extends CI_Model{
          return $resultado->result_array();
          
      }
+     
+        function existe_aduana($aduana){
+            $this->db->select ('codigo_aduana');
+            $this->db->from('aduana');
+            $this->db->where('codigo_aduana',$aduana);
+
+            $query = $this->db->get();
+
+            if($query->num_rows() == 0){
+
+                return true;
+            }
+
+            else{
+
+                return false;
+        }
+    }
     
 }
 ?>

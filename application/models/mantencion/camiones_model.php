@@ -40,6 +40,25 @@ class Camiones_model extends CI_Model{
         
         return $resultado->result_array();
     }
+    
+        
+    function existe_camion($patente){
+        $this->db->select ('patente');
+        $this->db->from('camion');
+        $this->db->where('patente',$patente);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
 }
 
 ?>
