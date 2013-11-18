@@ -33,6 +33,25 @@ class Servicios_model extends CI_Model{
          
      }
      
+     function existe_servicio($servicio){
+        $this->db->select ('codigo_servicio');
+        $this->db->from('servicio');
+        $this->db->where('codigo_servicio',$servicio);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
+     
+    
 }
 
 ?>

@@ -27,6 +27,24 @@ class Cargas_model extends CI_Model{
         return $resultado->result_array();
     }
     
+    function existe_carga($carga){
+        $this->db->select ('codigo_carga');
+        $this->db->from('tipo_carga');
+        $this->db->where('codigo_carga',$carga);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
+    
 }
 
 ?>

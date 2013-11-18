@@ -112,25 +112,25 @@
            </fieldset>
           </form>
      </div>
-      <div class="span8" style="margin-left: 50px">
-                  <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
-                      <thead>
-                        <tr>
-                            <th>RUT</th>
-                            <th>Razón Social</th>
-			</tr>
-                      </thead>
-                      <tbody>
-                              <?php
-                              foreach ($tablas as $tabla){
-                                  echo "<tr>";
-                                  echo "<td>".strtoupper($tabla['rut_cliente'])."</td>";
-                                  echo "<td>".$tabla['razon_social']."</td>";
-                              }
-                              ?>
-                       </tbody>
-                  </table>    
-       </div>
+    <div class="span8" style="margin-left: 50px">
+        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+            <thead>
+              <tr>
+                  <th>RUT</th>
+                  <th>Razón Social</th>
+              </tr>
+            </thead>
+            <tbody>
+                    <?php
+                    foreach ($tablas as $tabla){
+                        echo "<tr>";
+                        echo "<td><a class='codigo-click' href='#'>".strtoupper($tabla['rut_cliente'])."</a></td>";
+                        echo "<td>".$tabla['razon_social']."</td>";
+                    }
+                    ?>
+             </tbody>
+        </table>    
+     </div>
         
           
       </div>

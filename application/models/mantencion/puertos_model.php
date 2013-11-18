@@ -60,6 +60,24 @@ class Puertos_model extends CI_Model{
         return $resultado->result_array();
     }
     
+    function existe_puerto($puerto){
+        $this->db->select ('codigo_puerto');
+        $this->db->from('puerto');
+        $this->db->where('codigo_puerto',$puerto);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
+    
 }
 
 ?>

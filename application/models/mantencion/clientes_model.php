@@ -40,6 +40,24 @@ class Clientes_model extends CI_Model{
         return $resultado->result_array();
         
     }
+    
+    function existe_rut($rut){
+        $this->db->select ('rut_cliente');
+        $this->db->from('cliente');
+        $this->db->where('rut_cliente',$rut);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
 }
 
 ?>
