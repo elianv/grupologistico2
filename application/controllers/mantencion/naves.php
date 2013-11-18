@@ -38,6 +38,56 @@ class Naves extends CI_Controller{
         
     }
     
+    function modificar_nave(){
+        if($this->session->userdata('logged_in')){
+            
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('nombre', 'Nombre Nave','trim|required|xss_clean');
+            $this->form_validation->set_rules('codigo_naviera', 'Codigo Naviera','numeric|trim|xss_clean|required|callback_check_unique');
+           
+            if($this->form_validation->run() == FALSE){
+                
+                $session_data = $this->session->userdata('logged_in');
+                $datos['navieras'] = $this->Naves_model->nombre_navieras();
+                                
+                $resultado = $this->Naves_model->ultimo_codigo();
+                $data['tablas'] = $this->Naves_model->listar_naves();
+                if ($resultado[0]['codigo_nave'] == ""){
+                    $data['codigo_nave'] = 1;
+                          
+                }
+                else{
+                    $data['codigo_nave'] = $resultado[0]['codigo_nave'] + 1;
+                  
+                }
+                    
+                    $this->load->view('include/head',$session_data);
+                    $this->load->view('mantencion/naves',$data);
+                    $this->load->view('modal/modal_naves',$datos);
+                    $this->load->view('include/script');
+                }
+            else{
+                
+                                
+                $nave = array(
+                        'nombre' => $this->input->post('nombre'),
+                        'naviera_codigo_naviera' => $this->input->post('codigo_naviera')
+                        );
+                $codigo_nave = $this->input->post('codigo_nave');
+                
+                $this->Naves_model->modificar_nave($nave,$codigo_nave);
+               
+                redirect('mantencion/naves','refresh');
+ 
+            }
+            
+        }
+        
+        else{
+            redirect('home','refresh');
+        }
+    }
+
     function guardar_nave(){
         if($this->session->userdata('logged_in')){
             

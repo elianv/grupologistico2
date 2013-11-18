@@ -32,6 +32,16 @@ class Naves_model extends CI_Model{
         }
     }
     
+    function modificar_nave($nave,$codigo_nave){
+        $this->db->where('codigo_nave', $codigo_nave);           
+        if($this->db->update('nave', $nave)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }   
+    
     function existe($codigo){
         
         $this->db->select('codigo_naviera');

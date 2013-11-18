@@ -24,6 +24,16 @@ class Puertos_model extends CI_Model{
         }
     }
     
+        function modificar_puerto($puerto,$codigo_puerto){
+        $this->db->where('codigo_puerto', $codigo_puerto);   
+        if($this->db->update('puerto', $puerto)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     function nombre_repetido($nombre){
         
         $this->db->select ('nombre');
