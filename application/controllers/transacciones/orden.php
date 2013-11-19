@@ -176,12 +176,7 @@ class Orden extends CI_Controller{
                     //obtengo ultimo viaje creado
                     $ultimo_viaje = $this->Viaje->ultimo_codigo();
                     
-                    print_r($ultimo_viaje);
-                    
-                    echo "</br>";
-                    
-                    
-                    $orden = array(
+                   $orden = array(
                         'referencia' => $this->input->post('referencia'),
                         'fecha' => $this->input->post('fecha'),
                         'cliente_rut_cliente' => $this->input->post('cliente'),
@@ -216,14 +211,10 @@ class Orden extends CI_Controller{
                         }
                     }
                     
-                    print_r($orden);
-                    $this->load->view('prueba');
-                    
                     $this->Orden_model->insert_orden($orden);
-                    //redirect('transaccion/orden','refresh');
+                    redirect('transacciones/orden','refresh');
 
                     
-                    $this->load->view('prueba');
                 }
             }
             
