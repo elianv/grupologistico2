@@ -76,6 +76,51 @@ class Bodegas extends CI_Controller{
             redirect('home','refresh');
         }
     }
+
+    function modificar_bodega(){
+         
+        if($this->session->userdata('logged_in')){
+            
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('nombre', 'Nombre','trim|required|xss_clean|callback_check_unico');
+           
+            if($this->form_validation->run() == FALSE){
+                $session_data = $this->session->userdata('logged_in');
+            
+                $data['tablas'] = $this->Bodegas_model->listar_bodegas();
+                $resultado = $this->Bodegas_model->ultimo_codigo();
+            
+                if ($resultado[0]['codigo_bodega'] == ""){
+                   $data['form']['codigo_bodega'] = 1;
+                          
+                }
+                else{
+                  $data['form']['codigo_bodega'] = $resultado[0]['codigo_bodega'] + 1;
+                }
+                
+                $this->load->view('include/head',$session_data);
+                $this->load->view('mantencion/bodegas',$data);
+                $this->load->view('include/script');
+            }
+            else{
+                $bodega = array(
+                            'nombre' => $this->input->post('nombre'),
+                            'direccion' => $this->input->post('direccion'),
+                            'contacto' => $this->input->post('contacto'),
+                            'telefono' => $this->input->post('telefono')
+                                );
+                
+                $codigo_bodega = $this->input->post('codigo_bodega');
+                $this->Bodegas_model->modificar_bodega($bodega,$codigo_bodega);
+                redirect('mantencion/bodegas','refresh');
+                $this->load->view('prueba');
+            }
+                  
+        }
+        else{
+            redirect('home','refresh');
+        }
+    }
     
     function check_unico($nombre){
         

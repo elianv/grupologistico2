@@ -33,6 +33,17 @@ class Conductores_model extends CI_Model{
             return false;
         }
     }
+
+   function modificar_conductor($conductor,$rut){
+        $this->db->where('rut',$rut);               
+       
+        if($this->db->update('conductor', $conductor)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     
     function listar_conductores(){
         $this->db->select('rut,descripcion');

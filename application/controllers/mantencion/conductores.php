@@ -50,6 +50,39 @@ class Conductores extends CI_Controller{
         }
             
     }
+
+    function modificar_conductor(){
+        
+        if($this->session->userdata('logged_in')){
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]');
+            $this->form_validation->set_rules('descripcion', 'Descripcion', 'trim|required|xss_clean');
+            
+            if($this->form_validation->run() == FALSE){
+                $session_data = $this->session->userdata('logged_in');
+                $data['tablas'] = $this->Conductores_model->listar_conductores();
+                $this->load->view('include/head',$session_data);
+                $this->load->view('mantencion/conductores',$data);
+                $this->load->view('include/script');
+            }
+        
+            else{
+                $conductor = array(
+                            'rut' => $this->input->post('rut'),
+                            'descripcion' => $this->input->post('descripcion')
+                            );
+                
+                $rut = $this->input->post('rut');
+                
+                $this->Conductores_model->modificar_conductor($conductor,$rut);
+                redirect('mantencion/conductores','refresh');
+            }
+        }
+        else{
+            redirect('home',refresh);
+        }
+            
+    }
     
     function check_database($rut){
         

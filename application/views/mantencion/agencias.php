@@ -41,7 +41,7 @@
 
             <div class="form-actions">
                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/agencias/guardar_aduana'" value="Guardar" />
-                <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/agencias/index'" value="Borrar" />
+                <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/agencias/modificar_aduana'" value="Modificar" />
              </div>
            </fieldset>
           </form>

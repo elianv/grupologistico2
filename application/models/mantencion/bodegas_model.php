@@ -21,6 +21,18 @@ class Bodegas_model extends CI_Model{
         }
         
     }
+
+    function modificar_bodega($bodega,$codigo_bodega){
+        $this->db->where('codigo_bodega',$codigo_bodega);               
+        
+        if($this->db->update('bodega', $bodega)){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
     
     function listar_bodegas(){
         $this->db->select('codigo_bodega,nombre');

@@ -13,6 +13,18 @@ class Tramos_model extends CI_Model{
          
     }
     
+    function modificar($datos,$codigo_tramo){
+        $this->db->where('codigo_tramo',$codigo_tramo);               
+        
+        if($this->db->update('tramo', $datos)){
+            return true;
+        }
+        else{
+            return false;
+        }
+         
+    }    
+    
     function ultimo_codigo(){
         
         $this->db->select_max('codigo_tramo');

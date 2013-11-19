@@ -25,7 +25,7 @@
             <div class="form-actions">
                  
                  <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/navieras/guarda_naviera'" value="Guardar" />
-                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/naviera/borrar_naviera'" value="Borrar" />
+                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/navieras/modificar_naviera'" value="Modificar" />
  
              </div>
            </fieldset>

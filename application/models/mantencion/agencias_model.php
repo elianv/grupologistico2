@@ -25,6 +25,16 @@ class Agencias_model extends CI_Model{
          
      }
      
+    function modificar_agencia($agencia,$codigo_agencia){
+        $this->db->where('codigo_aduana',$codigo_agencia);               
+        if($this->db->update('aduana', $agencia)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }     
+     
      function listar_agencias(){
          
          $this->db->select('codigo_aduana,nombre');

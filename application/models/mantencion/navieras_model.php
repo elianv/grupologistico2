@@ -11,6 +11,16 @@ class Navieras_model extends CI_Model{
         }
     }
     
+    function modificar_naviera($datos,$codigo_naviera){
+        $this->db->where('codigo_naviera', $codigo_naviera);           
+        if($this->db->update('naviera', $datos)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    } 
+    
     function ultimo_codigo(){
         
         $this->db->select_max('codigo_naviera');

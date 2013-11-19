@@ -10,6 +10,17 @@ class Depositos_model extends CI_Model{
             return false;
         }
     }
+
+    function modificar_deposito($datos,$codigo_deposito){
+        $this->db->where('codigo_deposito',$codigo_deposito);               
+        
+        if($this->db->update('deposito', $datos)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     
     function ultimo_codigo(){
         
