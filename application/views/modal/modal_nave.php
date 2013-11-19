@@ -1,16 +1,16 @@
-<div id="modal-tramo" class="modal hide fade in" style="display: none;" >
+<div id="modal-nave" class="modal hide fade in" style="display: none;" >
     <div class="modal-header">
         <a data-dismiss="modal" class="close">×</a>
-        <h3><center>Seleccione un Tramo</center></h3>
+        <h3><center>Listado de Naves</center></h3>
      </div>
     <form method="post">
      <div class="modal-body">
          <select multiple="multiple" id="multiselect"name="multiselect" style="width:500px" size="10">
              <?php 
              //echo $clientes;
-                foreach($tramos as $tramo){
-                    echo "<option>[".$tramo['codigo_tramo']."] - ";
-                    echo $tramo['descripcion']."</option>"; 
+                foreach($naves as $nave){
+                    echo "<option>[".$nave['codigo_nave']."] - ";
+                    echo $nave['nombre']."</option>"; 
                 }
              ?>
 

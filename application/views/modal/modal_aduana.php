@@ -1,7 +1,7 @@
 <div id="modal-aduana" class="modal hide fade in" style="display: none;" >
     <div class="modal-header">
         <a data-dismiss="modal" class="close">×</a>
-        <h3><center>Seleccione un Cliente</center></h3>
+        <h3><center>Seleccione una A.A.</center></h3>
      </div>
     <form method="post">
      <div class="modal-body">

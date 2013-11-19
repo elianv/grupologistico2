@@ -67,6 +67,25 @@ class Naves_model extends CI_Model{
         
         return $resultado->result_array();
     }
+        
+    function existe_nave($nave){
+        $this->db->select ('codigo_nave');
+        $this->db->from('nave');
+        $this->db->where('codigo_nave',$nave);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
+    
 }
 ?>
 

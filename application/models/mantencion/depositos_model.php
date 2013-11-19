@@ -38,6 +38,24 @@ class Depositos_model extends CI_Model{
         return $resultado->result_array();
     }
     
+    function existe_deposito($deposito){
+        $this->db->select ('codigo_deposito');
+        $this->db->from('deposito');
+        $this->db->where('codigo_deposito',$deposito);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
+    
 }
 
 ?>

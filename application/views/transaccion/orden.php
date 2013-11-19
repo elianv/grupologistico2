@@ -102,6 +102,13 @@
                  <input type="text" class="input-xxlarge" id="referencia" name="referencia" placeholder="">
                 </div>
             </div>
+
+            <div class="control-group">
+                <label class="control-label" for="cliente"><strong>Nave</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="nave" name="nave" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-nave"></i></span></div>
+                </div>
+            </div>
                </br>
                </br>
 <!--   ##############################################################    -->  
@@ -163,6 +170,13 @@
                 </div>
             </div>
                
+            <div class="control-group">
+                <label class="control-label" for="bodega"><strong>Depósito</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-deposito"></i></span></div>
+                </div>
+            </div>               
+
                <div class="row show-grid">
                    <div class="span5">
                         <div class="control-group">

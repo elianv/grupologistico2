@@ -17,6 +17,8 @@ class Orden extends CI_Controller{
         $this->load->model('mantencion/Conductores_model');
         $this->load->model('mantencion/Tramos_model');
         $this->load->model('mantencion/Cargas_model');
+        $this->load->model('mantencion/Depositos_model');
+        $this->load->model('mantencion/Naves_model');
         
     }
             
@@ -47,6 +49,10 @@ class Orden extends CI_Controller{
             $data['conductores'] = $this->Conductores_model->listar_conductores();
             //listar carga
             $data['cargas'] = $this->Cargas_model->listar_cargas();
+            //listar depositos
+            $data['depositos'] = $this->Depositos_model->listar_depositos();
+            //listar depositos
+            $data['naves'] = $this->Naves_model->listar_naves();
             
             $codigo = $this->Orden_model->ultimo_codigo();
             
@@ -70,6 +76,8 @@ class Orden extends CI_Controller{
             $this->load->view('modal/modal_servicio',$data);
             $this->load->view('modal/modal_conductor',$data);
             $this->load->view('modal/modal_carga',$data);
+            $this->load->view('modal/modal_deposito',$data);
+            $this->load->view('modal/modal_nave',$data);
             $this->load->view('include/script');
         }
           
@@ -86,7 +94,7 @@ class Orden extends CI_Controller{
                 
                 
                 $this->load->library('form_validation');
-                
+                 
                   $this->form_validation->set_rules('cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
                   $this->form_validation->set_rules('tramo','Tramo','trim|xss_clean|numeric|required|callback_check_tramo');
                   $this->form_validation->set_rules('aduana','Aduana','trim|xss_clean|numeric|required|callback_check_aduana');
@@ -97,9 +105,9 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('carga','Carga','trim|xss_clean|required|numeric|callback_check_carga');
                   $this->form_validation->set_rules('conductor','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
-                
-               
-                
+                  $this->form_validation->set_rules('deposito', 'Deposito','trim|xss_clean|required|numeric|callback_check_deposito');
+                  $this->form_validation->set_rules('nave','Nave','trim|xss_clean|numeric|required|callback_check_nave');
+                  
                 if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
                     //tipo facturacion
@@ -124,6 +132,11 @@ class Orden extends CI_Controller{
                     $data['conductores'] = $this->Conductores_model->listar_conductores();
                     //listar carga
                     $data['cargas'] = $this->Cargas_model->listar_cargas();
+                    //listar depositos
+                    $data['depositos'] = $this->Depositos_model->listar_depositos();
+                    //listar Naves
+                    $data['naves'] = $this->Naves_model->listar_naves();
+                    
 
                     $codigo = $this->Orden_model->ultimo_codigo();
 
@@ -148,6 +161,8 @@ class Orden extends CI_Controller{
                     $this->load->view('modal/modal_servicio',$data);
                     $this->load->view('modal/modal_conductor',$data);
                     $this->load->view('modal/modal_carga',$data);
+                    $this->load->view('modal/modal_deposito',$data);
+                    $this->load->view('modal/modal_nave',$data);
                     $this->load->view('include/script');
                 }
                 else{
@@ -157,15 +172,11 @@ class Orden extends CI_Controller{
                                 'camion_patente' => $this->input->post('patente'),
                                 'conductor_rut' => $this->input->post('conductor')
                             );
-                    //$this->Viaje->crear_viaje($viaje);
+                    $this->Viaje->crear_viaje($viaje);
                     //obtengo ultimo viaje creado
                     $ultimo_viaje = $this->Viaje->ultimo_codigo();
                     
-                    
-                    echo "</br>";
-                    
-                    
-                    $orden = array(
+                   $orden = array(
                         'referencia' => $this->input->post('referencia'),
                         'fecha' => $this->input->post('fecha'),
                         'cliente_rut_cliente' => $this->input->post('cliente'),
@@ -186,7 +197,9 @@ class Orden extends CI_Controller{
                         'referencia_2' => $this->input->post('referencia2'),
                         'viaje_id_viaje' => $ultimo_viaje[0]['id_viaje'],
                         'tipo_carga_codigo_carga'	=> $this->input->post('carga'),
-                        'tipo_factura_id_tipo_facturacion' => ''
+                        'tipo_factura_id_tipo_facturacion' => '',
+                        'deposito_codigo_deposito' => $this->input->post('deposito'),
+                        'nave_codigo_nave' => $this->input->post('nave')
                     );
                     
                     $tfacturas = $this->Facturacion->GetTipo();
@@ -198,14 +211,10 @@ class Orden extends CI_Controller{
                         }
                     }
                     
-                    print_r($orden);
-                    $this->load->view('prueba');
-                    
                     $this->Orden_model->insert_orden($orden);
-                    //redirect('transaccion/orden','refresh');
+                    redirect('transacciones/orden','refresh');
 
                     
-                    $this->load->view('prueba');
                 }
             }
             
@@ -366,6 +375,39 @@ class Orden extends CI_Controller{
         if($result){
             
             $this->form_validation->set_message('check_carga','La Carga que ingresa no se encuentra en el sistema, intente con otro.');
+            return false;
+        }
+        else{
+            
+            return true;
+        }
+    
+    }
+    
+            
+    function check_deposito($deposito){
+                
+        $result = $this->Depositos_model->existe_deposito($deposito);
+        
+        if($result){
+            
+            $this->form_validation->set_message('check_deposito','El Depósito que ingresa no se encuentra en el sistema, intente con otro.');
+            return false;
+        }
+        else{
+            
+            return true;
+        }
+    
+    }
+                
+    function check_nave($nave){
+                
+        $result = $this->Naves_model->existe_nave($nave);
+        
+        if($result){
+            
+            $this->form_validation->set_message('check_nave','La Nave que ingresa no se encuentra en el sistema, intente con otro.');
             return false;
         }
         else{
