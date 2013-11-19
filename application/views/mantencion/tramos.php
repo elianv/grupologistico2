@@ -81,13 +81,18 @@
                         <tr>
                             <th>Código Tramo</th>
                             <th>Descripción</th>
-			</tr>
+                        </tr>
                       </thead>
                       <tbody>
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  echo "<td>".strtoupper($tabla['codigo_tramo'])."</td>";
+                                  if($tabla['codigo_tramo'] <10){
+                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_tramo'].">0".$tabla['codigo_tramo']."</a></td>";
+                                  }
+                                  else{
+                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_tramo'].">".$tabla['codigo_tramo']."</a></td>";
+                                  }
                                   echo "<td>".$tabla['descripcion']."</td>";
                               }
                               ?>

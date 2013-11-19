@@ -2,16 +2,16 @@
 <div id="modal" class="modal hide fade in" style="display: none;" >
     <div class="modal-header">
         <a data-dismiss="modal" class="close">×</a>
-        <h3><center>Seleccione una Naviera</center></h3>
+        <h3><center>Seleccione una Naviera </center></h3>
      </div>
-    <form method="post">
+
      <div class="modal-body">
-         <div class="modal-naves">
-		<div class="span">
+
+
                   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="modal-example">
                       <thead>
                         <tr>
-                            <th>Codigo</th>
+                            <th>Código</th>
                             <th>Nombre Naviera</th>
                         </tr>
                       </thead>
@@ -31,15 +31,12 @@
                               }
                               ?>
                        </tbody>
-                  </table>    
-       </div>	 
-	 </div>
-		 
+
+                  </table>
     </div>
     
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-        
     </div>
-        </form>
+
 </div>

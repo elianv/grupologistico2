@@ -5,17 +5,36 @@
      </div>
     <form method="post">
      <div class="modal-body">
-         <select multiple="multiple" id="multiselect"name="multiselect" style="width:500px" size="10">
-             <?php 
-             //echo $clientes;
-                foreach($aduanas as $aduana){
-                    echo "<option>[".$aduana['codigo_aduana']."] - ";
-                    echo $aduana['nombre']."</option>"; 
-                }
-             ?>
-
-         </select>
-    </div>  
+         
+		
+                    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="modal-example">
+                      <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                              <?php
+                              foreach ($aduanas as $aduana){
+                                  echo "<tr>";
+                                  if($aduana['codigo_aduana'] < 10){
+                                      echo "<td><a class='codigo-click' data-codigo=".$aduana['codigo_aduana'].">0".$aduana['codigo_aduana']."</a></td>";
+                                  }
+                                  else{
+                                      echo "<td><a class='codigo-click' data-codigo=".$aduana['codigo_aduana'].">".$aduana['codigo_aduana']."</a></td>";
+                                  }
+                                  
+                                  echo "<td>".strtoupper($aduana['nombre'])."</td>";
+                                  echo "</tr>";
+                              }
+                              ?>
+                       </tbody>
+                  </table>    
+       	 
+	 
+		 
+    </div>
     
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
@@ -23,4 +42,3 @@
     </div>
         </form>
 </div>
-

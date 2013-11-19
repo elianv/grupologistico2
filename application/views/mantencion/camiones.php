@@ -39,7 +39,7 @@
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  echo "<td>".strtoupper($tabla['patente'])."</td>";
+                                  echo "<td><a class='codigo-click' data-codigo=".strtoupper($tabla['patente']).">".strtoupper($tabla['patente'])."</a></td>";
                                   echo "<td>".$tabla['celular']."</td>";
                               }
                               ?>

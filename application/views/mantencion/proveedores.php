@@ -80,14 +80,14 @@
                         <tr>
                             <th>RUT</th>
                             <th>Razón Social</th>
-			</tr>
+                        </tr>
                       </thead>
                       <tbody>
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  echo "<td>".strtoupper($tabla['rut_proveedor'])."</td>";
-                                  echo "<td>".$tabla['razon_social']."</td>";
+                                  echo "<td><a class='codigo-click' data-codigo=".$tabla['rut_proveedor'].">".$tabla['rut_proveedor']."</a></td>";
+                                  echo "<td>".strtoupper($tabla['razon_social'])."</td>";
                               }
                               ?>
                        </tbody>

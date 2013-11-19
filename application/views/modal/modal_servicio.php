@@ -3,23 +3,36 @@
         <a data-dismiss="modal" class="close">×</a>
         <h3><center>Listado de Servicios</center></h3>
      </div>
-    <form method="post">
-     <div class="modal-body">
-         <select multiple="multiple" id="multiselect"name="multiselect" style="width:500px" size="10">
-             <?php 
-             //echo $clientes;
-                foreach($servicios as $servicio){
-                    echo "<option>[".$servicio['codigo_servicio']."] - ";
-                    echo $servicio['descripcion']."</option>"; 
-                }
-             ?>
 
-         </select>
+     <div class="modal-body">
+         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+                      <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Descripción</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                              <?php
+                              foreach ($servicios as $servicio){
+                                  echo "<tr>";
+                                  if($servicio['codigo_servicio']< 10){
+                                      echo "<td><a class='codigo-click' data-codigo=".$servicio['codigo_servicio'].">0".$servicio['codigo_servicio']."</a></td>";
+                                  }
+                                  else{
+                                      echo "<td><a class='codigo-click' data-codigo=".$servicio['codigo_servicio'].">".$servicio['codigo_servicio']."</a></td>";
+                                  }
+                                  
+                                  echo "<td>".strtoupper($servicio['descripcion'])."</td>";
+                              }
+                              ?>
+                       </tbody>
+                  </table>    
     </div>
     
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
         
     </div>
-        </form>
+
 </div>

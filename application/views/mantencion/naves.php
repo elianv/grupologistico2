@@ -53,7 +53,7 @@
                                       echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_nave'].">0".$tabla['codigo_nave']."</a></td>";
                                   }
                                   else{
-                                      echo "<td><a class='codigo-click' data-codigo='codigo_nave'>".$tabla['codigo_nave']."</a></td>";
+                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_nave'].">".$tabla['codigo_nave']."</a></td>";
                                   }
                                   
                                   echo "<td>".strtoupper($tabla['nombre'])."</td>";

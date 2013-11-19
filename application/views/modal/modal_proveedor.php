@@ -3,23 +3,29 @@
         <a data-dismiss="modal" class="close">×</a>
         <h3><center>Listado de Proveedores</center></h3>
      </div>
-    <form method="post">
-     <div class="modal-body">
-         <select multiple="multiple" id="multiselect"name="multiselect" style="width:500px" size="10">
-             <?php 
-             //echo $clientes;
-                foreach($proveedores as $proveedor){
-                    echo "<option>[".$proveedor['rut_proveedor']."] - ";
-                    echo $proveedor['razon_social']."</option>"; 
-                }
-             ?>
 
-         </select>
+     <div class="modal-body">
+         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+                      <thead>
+                        <tr>
+                            <th>RUT</th>
+                            <th>Razón Social</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                              <?php
+                              foreach ($proveedores as $proveedor){
+                                  echo "<tr>";
+                                  echo "<td><a class='codigo-click' data-codigo=".$proveedor['rut_proveedor'].">".$proveedor['rut_proveedor']."</a></td>";
+                                  echo "<td>".strtoupper($proveedor['razon_social'])."</td>";
+                              }
+                              ?>
+                       </tbody>
+                  </table>    
     </div>
     
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-        
     </div>
-        </form>
+
 </div>

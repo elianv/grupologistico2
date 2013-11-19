@@ -36,13 +36,18 @@
                         <tr>
                             <th>Código</th>
                             <th>Nombre</th>
-			</tr>
+                        </tr>
                       </thead>
                       <tbody>
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  echo "<td>".$tabla['codigo_puerto']."</td>";
+                                  if($tabla['codigo_puerto'] <10){
+                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_puerto'].">0".$tabla['codigo_puerto']."</a></td>";
+                                  }
+                                  else{
+                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_puerto'].">".$tabla['codigo_puerto']."</a></td>";
+                                  }
                                   echo "<td>".strtoupper($tabla['nombre'])."</td>";
                               }
                               ?>

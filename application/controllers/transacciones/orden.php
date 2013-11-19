@@ -224,6 +224,90 @@ class Orden extends CI_Controller{
             
     }
     
+    function editar(){
+        if($this->session->userdata('logged_in')){
+            
+                $this->load->library('form_validation');
+                /* 
+                $this->form_validation->set_rules('cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
+                $this->form_validation->set_rules('tramo','Tramo','trim|xss_clean|numeric|required|callback_check_tramo');
+                $this->form_validation->set_rules('aduana','Aduana','trim|xss_clean|numeric|required|callback_check_aduana');
+                $this->form_validation->set_rules('bodega','Bodega','trim|xss_clean|numeric|required|callback_check_bodega');
+                $this->form_validation->set_rules('puerto','Puerto','trim|xss_clean|numeric|required|callback_check_puerto');
+                $this->form_validation->set_rules('rut','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
+                $this->form_validation->set_rules('servicio','Servicio','trim|xss_clean|required|numeric|callback_check_servicio');
+                $this->form_validation->set_rules('carga','Carga','trim|xss_clean|required|numeric|callback_check_carga');
+                $this->form_validation->set_rules('conductor','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
+                $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
+                $this->form_validation->set_rules('deposito', 'Deposito','trim|xss_clean|required|numeric|callback_check_deposito');
+                $this->form_validation->set_rules('nave','Nave','trim|xss_clean|numeric|required|callback_check_nave');
+                 */
+                if($this->form_validation->run() == FALSE){
+                    $session_data = $this->session->userdata('logged_in');
+                    //tipo facturacion
+                    $data['tfacturacion'] = $this->Facturacion->GetTipo();
+                    //listado clientes
+                    $data['clientes'] = $this->Clientes_model->listar_clientes();
+                    //listado tramos
+                    $data['tramos'] = $this->Facturacion->listar_tramos();
+                    //listado aduanas
+                    $data['aduanas'] = $this->Agencias_model->listar_agencias();
+                    //listar bodegas
+                    $data['bodegas']= $this->Bodegas_model->listar_bodegas();
+                    //listar puertos
+                    $data['puertos'] = $this->Puertos_model->listar_puertos();
+                    //listar proveedores
+                    $data['proveedores'] = $this->Proveedores_model->listar_proveedores();
+                    //listar camiones
+                    $data['camiones'] = $this->Camiones_model->listar_camiones();
+                    //listar servicios
+                    $data['servicios'] = $this->Servicios_model->listar_servicios();
+                    //listar conductores
+                    $data['conductores'] = $this->Conductores_model->listar_conductores();
+                    //listar carga
+                    $data['cargas'] = $this->Cargas_model->listar_cargas();
+                    //listar depositos
+                    $data['depositos'] = $this->Depositos_model->listar_depositos();
+                    //listar Naves
+                    $data['naves'] = $this->Naves_model->listar_naves();
+                    
+
+                    $codigo = $this->Orden_model->ultimo_codigo();
+
+                    if ($codigo[0]['id_orden'] == ""){
+                          $data['numero_orden'] = 1;
+
+                    }
+                    else{
+                          $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
+
+                    }
+                    
+                    $this->load->view('include/head',$session_data);
+                    $this->load->view('transaccion/orden',$data);
+                    $this->load->view('modal/modal_aduana', $data);
+                    $this->load->view('modal/modal_cliente',$data);
+                    $this->load->view('modal/modal_tramo',$data);
+                    $this->load->view('modal/modal_bodega',$data);
+                    $this->load->view('modal/modal_puerto',$data);
+                    $this->load->view('modal/modal_proveedor',$data);
+                    $this->load->view('modal/modal_camion',$data);
+                    $this->load->view('modal/modal_servicio',$data);
+                    $this->load->view('modal/modal_conductor',$data);
+                    $this->load->view('modal/modal_carga',$data);
+                    $this->load->view('modal/modal_deposito',$data);
+                    $this->load->view('modal/modal_nave',$data);
+                    $this->load->view('include/script');
+                }
+            
+        }
+        
+        else{
+            redirect('home','refresh');
+        }
+        
+    }
+            
     function check_cliente($rut){
                 
         $result = $this->Clientes_model->existe_rut($rut);
@@ -383,7 +467,6 @@ class Orden extends CI_Controller{
         }
     
     }
-    
             
     function check_deposito($deposito){
                 

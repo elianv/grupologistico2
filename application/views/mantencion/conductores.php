@@ -33,13 +33,13 @@
                         <tr>
                             <th>RUT</th>
                             <th>Descripción</th>
-			</tr>
+                        </tr>
                       </thead>
                       <tbody>
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  echo "<td>".$tabla['rut']."</td>";
+                                  echo "<td><a class='codigo-click' data-codigo=".strtoupper($tabla['rut']).">".strtoupper($tabla['rut'])."</td>";
                                   echo "<td>".strtoupper($tabla['descripcion'])."</td>";
                               }
                               ?>
