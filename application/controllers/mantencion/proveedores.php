@@ -103,7 +103,56 @@ class Proveedores extends CI_Controller{
         }
         
     }
-    
+
+    function modificar_proveedor(){
+        
+        if($this->session->userdata('logged_in')){
+            
+            //asigno los datos de session
+            $session_data = $this->session->userdata('logged_in');
+            
+            //inicializo la validacion de campos
+            
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('rut', 'RUT','trim|required|xss_clean|min_length[7]');
+            // si validacion incorrecta
+            if($this->form_validation->run() == FALSE){
+                
+                $data['tablas'] = $this->Proveedores_model->listar_proveedores();               
+                $this->load->view('include/head',$session_data);
+                $this->load->view('mantencion/proveedores',$data);
+                $this->load->view('include/script');
+            }
+            
+            else{
+                
+                $arreglo = array(
+                                    'celular' => $this->input->post('celular'),
+                                    'ciudad' => $this->input->post('ciudad'),
+                                    'comuna' => $this->input->post('comuna'),
+                                    'direccion' => $this->input->post('direccion'),
+                                    'giro' => $this->input->post('giro'),
+                                    'razon_social' => $this->input->post('rsocial'),
+                                    'rut_proveedor' => $this->input->post('rut'),
+                                    'fono' => $this->input->post('telefono'),
+                                );
+                
+                $rut_proveedor = $this->input->post('rut');
+                
+                $this->Proveedores_model->modificar($arreglo,$rut_proveedor);
+                
+                redirect('mantencion/proveedores','refresh');
+                }
+            }
+            
+        
+        
+        else{
+            redirect('home','refresh');
+        }
+        
+    }
+        
     function check_database($rut){
         $rut2 = $this->input->post('rut');
         

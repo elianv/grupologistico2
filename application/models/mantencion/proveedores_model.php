@@ -13,6 +13,18 @@ class Proveedores_model extends CI_Model{
          
     }
     
+    function modificar($datos,$rut_proveedor){
+        $this->db->where('rut_proveedor',$rut_proveedor);               
+        
+        if($this->db->update('proveedor', $datos)){
+            return true;
+        }
+        else{
+            return false;
+        }
+         
+    }
+    
     function repetido($rut){
         
         $this->db->select ('rut_proveedor');

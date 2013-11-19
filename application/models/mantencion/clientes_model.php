@@ -12,6 +12,18 @@ class Clientes_model extends CI_Model{
         }
          
     }
+
+    function modificar($datos,$rut_cliente){
+        $this->db->where('rut_cliente',$rut_cliente);               
+        
+        if($this->db->update('cliente', $datos)){
+            return true;
+        }
+        else{
+            return false;
+        }
+         
+    }    
     
     function repetido($rut){
         
