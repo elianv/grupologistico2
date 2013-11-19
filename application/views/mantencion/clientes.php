@@ -102,7 +102,7 @@
                
 
                
-             <div class="form-actions">
+             <div class="form-actions form-clientes" >
                  
                  
                  <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/clientes/guardar_cliente'" value="Guardar" />
@@ -112,7 +112,7 @@
            </fieldset>
           </form>
      </div>
-    <div class="span8" style="margin-left: 50px">
+    <div class="span8 form-clientes-span" style="margin-left: 50px">
         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
             <thead>
               <tr>

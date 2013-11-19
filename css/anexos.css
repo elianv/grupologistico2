@@ -1,0 +1,29 @@
+/*#example_wrapper div.row:first-child div.span6
+{
+	width: 300px;
+}*/
+
+.modal-naves
+{
+	float: left;
+    height: 260px;
+    overflow-y: auto;
+    width: 530px;
+}
+
+		.modal-naves .color-1
+		{
+			background:#fff;
+			color:#999;
+		}
+		
+		.modal-naves .color-2
+		{
+			background:#eaeaea;
+			color:#999;
+		}
+		
+		.modal-naves td
+		{
+			width:300px;
+		}
