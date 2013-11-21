@@ -15,6 +15,17 @@ class Camiones_model extends CI_Model{
         }
     }
     
+    function modificar_camion($camion,$patente){
+        $this->db->where('patente',$patente);               
+
+        if($this->db->update('camion', $camion)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
     function patente_repetida($dato){
         $this->db->select('patente');
         $this->db->from('camion');

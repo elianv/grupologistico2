@@ -106,7 +106,7 @@
                  
                  
                  <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/clientes/guardar_cliente'" value="Guardar" />
-                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/clientes/borrar_cliente'" value="Borrar" />
+                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/clientes/modificar_cliente'" value="Modificar" />
  
              </div>
            </fieldset>

@@ -23,6 +23,18 @@ class Servicios_model extends CI_Model{
         }
          
      }
+
+     function modificar_servicio($servicio,$codigo_servicio){
+        $this->db->where('codigo_servicio',$codigo_servicio);               
+         
+         if($this->db->update('servicio', $servicio)){
+            return true;
+        }
+        else{
+            return false;
+        }
+         
+     }
      
      function listar_servicios(){
          

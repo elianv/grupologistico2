@@ -10,6 +10,17 @@ class Cargas_model extends CI_Model{
             return false;
         }
     }
+
+    function modificar_carga($datos,$codigo_carga){
+        $this->db->where('codigo_carga',$codigo_carga);               
+        
+        if($this->db->update('tipo_carga', $datos)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     
     function ultimo_codigo(){
         
