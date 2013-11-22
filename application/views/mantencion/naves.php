@@ -24,7 +24,7 @@
             <div class="control-group">
                 <label class="control-label" for="codigo_naviera"><strong>Naviera</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-large" id="codigo_naviera" name="codigo_naviera" placeholder="Ingrese solo Código"><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal"></i></span></div>
+                    <div class="input-append"><input type="text" class="input-large" id="codigo_naviera" name="codigo_naviera" placeholder="Ingrese solo Código"><button class="btn" type="button" data-toggle="modal" href="#modal"><i class="icon-search"></i></button></div>
                     
                 </div>
             

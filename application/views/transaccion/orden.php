@@ -8,11 +8,11 @@
             <div class="row show-grid">
                 <div class="span5">
                      <div class="control-group">
-                        <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
+                         <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
                         <div class="controls">
-                            <?php
-                                echo "<input type='text' class='span2' name='numero_orden' id='numero_orden' placeholder='Solo números' value=".$numero_orden.">";
-                            ?>
+                           
+                               <div class="input-append"><input type="text" class="span2" name="numero_orden" id="numero_orden" placeholder="Solo números" value="<?php $numero_orden ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-orden"><i class="icon-search"></i></button></div>
+                            
                         </div>
                      </div>
                <div class="control-group">
@@ -66,7 +66,7 @@
             <div class="control-group">
                 <label class="control-label" for="cliente"><strong>RUT Cliente</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="cliente" name="cliente" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-cliente"></i></span></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="cliente" name="cliente" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-cliente"><i class="icon-search"></i></button></div>
                 </div>
             </div>
 
@@ -83,7 +83,7 @@
                         <div class="control-group">
                             <label class="control-label" for="tramo"><strong>Tramo</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="tramo" name="tramo" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-tramo"></i></span></div>
+                                <div class="input-append"><input type="text" class="span2" id="tramo" name="tramo" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-tramo"><i class="icon-search"></i></button></div>
                             </div>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Aduana</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xlarge" id="aduana" name="aduana" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-aduana"></i></span></div>
+                    <div class="input-append"><input type="text" class="input-xlarge" id="aduana" name="aduana" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-aduana"><i class="icon-search"></i></button></div>
                 </div>
             </div>
 
@@ -106,7 +106,7 @@
             <div class="control-group">
                 <label class="control-label" for="cliente"><strong>Nave</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="nave" name="nave" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-nave"></i></span></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="nave" name="nave" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-nave"><i class="icon-search"></i></button></div>
                 </div>
             </div>
                </br>
@@ -117,7 +117,7 @@
             <div class="control-group">
                 <label class="control-label" for="carga"><strong>Carga</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="span2" id="carga" name="carga" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-carga"></i></span></div>
+                    <div class="input-append"><input type="text" class="span2" id="carga" name="carga" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-carga"><i class="icon-search"></i></button></div>
                 </div>
             </div>
              </div>
@@ -166,14 +166,14 @@
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Bodega</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="bodega" name="bodega" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-bodega"></i></span></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="bodega" name="bodega" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-bodega"><i class="icon-search"></i></button></div>
                 </div>
             </div>
                
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Depósito</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-deposito"></i></span></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-deposito"><i class="icon-search"></i></button></div>
                 </div>
             </div>               
 
@@ -191,7 +191,7 @@
                         <div class="control-group">
                         <label class="control-label" for="puerto"><strong>Puerto Embarque</strong></label>
                         <div class="controls">
-                            <div class="input-append"><input type="text" class="span2" id="puerto" name="puerto" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-puerto"></i></span></div>
+                            <div class="input-append"><input type="text" class="span2" id="puerto" name="puerto" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-puerto"><i class="icon-search"></i></button></div>
                         </div>
                         </div>
                    </div>
@@ -211,7 +211,7 @@
                         <div class="control-group">
                             <label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="rut" name="rut" placeholder="sin puntos, ni guion"><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-proveedor"></i></span></div>
+                                <div class="input-append"><input type="text" class="span2" id="rut" name="rut" placeholder="sin puntos, ni guion"><button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button></div>
                             </div>
                         </div>
     </div>
@@ -229,7 +229,7 @@
                         <div class="control-group">
                             <label class="control-label" for="servicio"><strong>Servicio</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="input-xxlarge" id="servicio" name="servicio" ><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-servicio"></i></span></div>
+                                <div class="input-append"><input type="text" class="input-xxlarge" id="servicio" name="servicio" ><button class="btn" type="button" data-toggle="modal" href="#modal-servicio"><i class="icon-search"></i></button></div>
                             </div>
                         </div>
                </br>
@@ -242,7 +242,7 @@
            <div class="control-group">
                 <label class="control-label" for="conductor"><strong>Conductor</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="span2" id="conductor" name="conductor" placeholder=""><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-conductor"></i></span></div>
+                    <div class="input-append"><input type="text" class="span2" id="conductor" name="conductor" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-conductor"><i class="icon-search"></i></button></div>
                 </div>
            </div>
          </div>
@@ -251,7 +251,7 @@
                         <div class="control-group">
                             <label class="control-label" for="patente"><strong>Patente</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><span class="add-on"><i class="icon-search" data-toggle="modal" href="#modal-camion"></i></span></div>
+                                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><button class="btn" type="button" data-toggle="modal" href="#modal-camion"><i class="icon-search"></i></button></div>
                             </div>
                         </div>
                     </div>

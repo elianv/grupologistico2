@@ -35,7 +35,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transacciones<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                       <li><a href=<?php echo base_url();?>index.php/transacciones/orden>Orden de Servicio</a></li>
-                      <li><a href="#">Facturación</a></li>
+                      <li><a href=<?php echo base_url();?>index.php/transacciones/facturacion>Facturación</a></li>
                     </ul>
   </li>    
       <li class="dropdown">

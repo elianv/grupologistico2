@@ -30,5 +30,26 @@
 
 .logo
 {
-	
+	background: url("../img/logo-top.png") no-repeat scroll 0 0;
+    float: left;
+    height: 20px;
+    margin: 0 10px 0 0;
+    width: 59px;
+	text-indent:-99999px;
+	text-transform:capitalize;
+}
+
+/*Bienvenida*/
+
+.bienvenida h1 
+{
+	font: 45px 'Open Sans';
+    text-align: center;
+}
+
+.welcome-logo
+{
+	background: url("../img/logo.png") no-repeat center center;
+    height: 168px;
+    width: 100%;
 }
