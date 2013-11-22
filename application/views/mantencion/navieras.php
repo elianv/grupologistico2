@@ -1,7 +1,7 @@
-        
+      
     <legend><h3><center>Mantención Navieras</center></h3></legend> 
           <div class="row">
-              <div class="span6">
+              <div class="span6 form-left-navieras">
                   <div style="margin-left: 10px"><?php echo validation_errors(); ?></div> 
                   <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
@@ -32,7 +32,7 @@
           </form>
               
               </div>
-                <div class="span8" style="margin-left: 50px">
+                <div class="span8 form-navieras" style="margin-left: 50px">
                   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                       <thead>
                         <tr>
@@ -50,7 +50,7 @@
                                   else{
                                       echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_naviera'].">".$tabla['codigo_naviera']."</a></td>";
                                   }
-                                  echo "<td>".strtoupper($tabla['nombre'])."</td>";
+                                  echo "<td class='nombre'>".strtoupper($tabla['nombre'])."</td>";
                               }
                               ?>
                        </tbody>

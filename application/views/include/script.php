@@ -11,5 +11,6 @@
     <script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/jquery.js"></script>
     <script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/DT_bootstrap.js"></script>
+    <script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/main.js"></script>
     </body>
 </html>

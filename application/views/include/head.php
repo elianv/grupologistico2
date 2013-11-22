@@ -11,7 +11,7 @@
   <div class="navbar ">
   <div class="navbar-inner">
   <div class="container" style="width: auto">
-    <a class="brand" href=<?php echo base_url();?>index.php/main>Grupo Logistico</a>
+    <a class="brand logo" href=<?php echo base_url();?>index.php/main>Grupo Logistico</a>
       <ul class="nav">
   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantención <b class="caret"></b></a>
@@ -74,4 +74,3 @@
     </div>
   </div>
 </div>
-

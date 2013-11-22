@@ -93,7 +93,7 @@
                                   else{
                                       echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_tramo'].">".$tabla['codigo_tramo']."</a></td>";
                                   }
-                                  echo "<td>".$tabla['descripcion']."</td>";
+                                  echo "<td>".strtoupper($tabla['descripcion'])."</td>";
                               }
                               ?>
                        </tbody>

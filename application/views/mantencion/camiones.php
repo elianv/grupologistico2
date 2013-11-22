@@ -1,8 +1,6 @@
-
-        
-    <legend><h3><center>Mantención Camiones</center></h3></legend> 
+<legend><h3><center>Mantención Camiones</center></h3></legend> 
           <div class="row">
-              <div class="span6">
+              <div class="span6 form-left-camiones">
                   <div style="margin-left: 10px"><?php echo validation_errors(); ?></div> 
                   <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
@@ -27,7 +25,7 @@
            </fieldset>
           </form>
               </div>
-              <div class="span8" style="margin-left: 50px">
+              <div class="span8 form-camiones" style="margin-left: 50px">
                   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                       <thead>
                         <tr>
@@ -40,7 +38,7 @@
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
                                   echo "<td><a class='codigo-click' data-codigo=".strtoupper($tabla['patente']).">".strtoupper($tabla['patente'])."</a></td>";
-                                  echo "<td>".$tabla['celular']."</td>";
+                                  echo "<td class='celular'>".$tabla['celular']."</td>";
                               }
                               ?>
                        </tbody>
@@ -49,8 +47,3 @@
                  
               
           </div>
-          
-          
-
-
-

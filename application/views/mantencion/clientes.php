@@ -125,7 +125,7 @@
                     foreach ($tablas as $tabla){
                         echo "<tr>";
                         echo "<td><a class='codigo-click' data-codigo=".strtoupper($tabla['rut_cliente']).">".strtoupper($tabla['rut_cliente'])."</a></td>";
-                        echo "<td>".$tabla['razon_social']."</td>";
+                        echo "<td>".strtoupper($tabla['razon_social'])."</td>";
                     }
                     ?>
              </tbody>

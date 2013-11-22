@@ -1,60 +1,50 @@
 
-<div class="row">
-    <legend><h3><center>Mantención Puertos</center></h3></legend>
-    <div class="span6">
-          <div style="margin-left: 10px"><?php echo validation_errors(); ?></div> 
-          <form class="form-horizontal" method="post" style="margin-left: 10px">
+<legend><h3><center>Mantención Camiones</center></h3></legend> 
+          <div class="row">
+              <div class="span6 form-left-camiones">
+                  <div style="margin-left: 10px"><?php echo validation_errors(); ?></div> 
+                  <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
             <div class="control-group">
-                <label class="control-label" for="codigo_puerto"><strong>Código Puerto</strong></label>
+                <label class="control-label" for="patente"><strong>Patente</strong></label>
                 <div class="controls">
-                 <?php   
-                 echo "<input type='text' class='span2' id='codigo_puerto' name='codigo_puerto' value=".$form['codigo_puerto'].">";
-                 ?>
+                    <input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó AA1111">
                 </div>
             </div>
             
             <div class="control-group">
-                <label class="control-label" for="nombre"><strong>Nombre Puerto</strong></label>
+                <label class="control-label" for="telefono"><strong>Telefono Celular</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xlarge" name="nombre" id="nombre" placeholder="">
+                 <input type="text" class="input-xlarge" name="telefono" id="telefono" placeholder="09 - número">
                 </div>
             </div>
-
+               
             <div class="form-actions">
-                    <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/puertos/insertar_puerto'" value="Guardar" />
-                    <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/puertos/modificar_puerto'" value="Modificar" />
+                    <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/camiones/guardar_camion'" value="Guardar" />
+                    <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/camiones/modificar_camion'" value="Modificar" />
              </div>
            </fieldset>
           </form>
-
-            </div>
-       
-    <div class="span8" style="margin-left: 50px">
+              </div>
+              <div class="span8 form-camiones" style="margin-left: 50px">
                   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                       <thead>
                         <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                        </tr>
+                            <th>Patente</th>
+                            <th>Celular</th>
+			</tr>
                       </thead>
                       <tbody>
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  if($tabla['codigo_puerto'] <10){
-                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_puerto'].">0".$tabla['codigo_puerto']."</a></td>";
-                                  }
-                                  else{
-                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_puerto'].">".$tabla['codigo_puerto']."</a></td>";
-                                  }
-                                  echo "<td>".strtoupper($tabla['nombre'])."</td>";
+                                  echo "<td><a class='codigo-click' data-codigo=".strtoupper($tabla['patente']).">".strtoupper($tabla['patente'])."</a></td>";
+                                  echo "<td class='celular'>".$tabla['celular']."</td>";
                               }
                               ?>
                        </tbody>
                   </table>    
-              </div>   
-</div>
-
-
-
+              </div>
+                 
+              
+          </div>
