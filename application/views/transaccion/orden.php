@@ -1,6 +1,6 @@
 <div class="container">
         
-    <legend><h3><center>Orden de Servicio</center></h3></legend> 
+    
           <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
           <form class="form-horizontal" method="post">
            <fieldset>  
@@ -27,7 +27,7 @@
         
                 <div class="span6">
                  <div class="control-group">
-                    <label class="control-label" for="tipo_factura">Tipo Factura</label>
+                     <label class="control-label" for="tipo_factura"><strong>Tipo Factura</strong></label>
                     <div class="controls">
                        <select id="tipo_factura" name="tipo_factura" class="span2">
                            <?php
@@ -227,7 +227,7 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="servicio"><strong>Servicio</strong></label>
+                            <label class="control-label" for="servicio"><strong>Otro Servicio</strong></label>
                             <div class="controls">
                                 <div class="input-append"><input type="text" class="input-xxlarge" id="servicio" name="servicio" ><button class="btn" type="button" data-toggle="modal" href="#modal-servicio"><i class="icon-search"></i></button></div>
                             </div>

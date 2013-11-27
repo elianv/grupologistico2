@@ -109,7 +109,6 @@ class Tramos extends CI_Controller{
             else{
                 
                 $arreglo = array(
-                                    'codigo_tramo' => $this->input->post('codigo_tramo'),
                                     'descripcion' => $this->input->post('descripcion'),
                                     'valor_costo' => $this->input->post('valor_costo'),
                                     'valor_venta' => $this->input->post('valor_venta'),

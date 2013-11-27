@@ -66,7 +66,9 @@ class Orden extends CI_Controller{
                   $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
                   
               }
+            $tab['active'] = 'exportacion';
             $this->load->view('include/head',$session_data);
+            $this->load->view('include/tabs',$tab);
             $this->load->view('transaccion/orden',$data);
             $this->load->view('modal/modal_aduana', $data);
             $this->load->view('modal/modal_cliente',$data);
@@ -151,8 +153,10 @@ class Orden extends CI_Controller{
                           $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
 
                     }
+                    $tab['active'] = 'exportacion';
                     
                     $this->load->view('include/head',$session_data);
+                    $this->load->view('include/tabs',$tab);
                     $this->load->view('transaccion/orden',$data);
                     $this->load->view('modal/modal_aduana', $data);
                     $this->load->view('modal/modal_cliente',$data);
