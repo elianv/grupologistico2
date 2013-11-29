@@ -11,8 +11,39 @@ class Clientes extends CI_Controller{
     }
     
     function index(){
+		
+		//Juano
+		$codigo = isset($_POST['codigo'])?$_POST['codigo']:'';
+		
+		if(isset($codigo) && $codigo != ''){
+			
+			// set no layout para que el response del ajax sea de la consulta al modelo segun el rut, return array..
+			// codigo aqui..
+			$response = json_encode($this->datos_cliente($codigo));
+			
+			echo $response;
+			
+		} else {
+		
+			if($this->session->userdata('logged_in')){
+                   
+				$session_data = $this->session->userdata('logged_in');
+				
+				$data['tfacturacion'] = $this->Facturacion->GetTipo();
+				$data['tablas'] = ($this->Clientes_model->listar_clientes());
+				$this->load->view('include/head',$session_data);
+				$this->load->view('mantencion/clientes',$data);
+				$this->load->view('include/script');
+			}
         
-        if($this->session->userdata('logged_in')){
+			else{
+				redirect('home','refresh');
+			}
+		
+		}
+        //fin Juano
+		
+        /*if($this->session->userdata('logged_in')){
                    
             $session_data = $this->session->userdata('logged_in');
             
@@ -25,7 +56,7 @@ class Clientes extends CI_Controller{
         
         else{
             redirect('home','refresh');
-        }
+        }*/
            
         
     }
@@ -199,6 +230,15 @@ class Clientes extends CI_Controller{
             return true;
         }
             
+    }
+    
+    function datos_cliente($rut){
+        
+        $this->Clientes_model->datos_cliente($rut);
+        
+		$ret = $this->Clientes_model->datos_cliente($rut);
+		return $ret;
+        
     }
      
 }

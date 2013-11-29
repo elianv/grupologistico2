@@ -170,3 +170,122 @@ $(document).ready(function() {
 	} );
 } );
 
+$(document).ready(function() {
+	$('#example-cliente').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-tramo').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-nave').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-carga').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-bodega').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-deposito').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-puerto').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-proveedor').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-servicio').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-camion').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-conductor').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );
+
+$(document).ready(function() {
+	$('#example-orden').dataTable( {
+		"sDom": "<'row'<'span'l><'span'f>r>t<'row'<'span'i><'span'p>>",
+		"sPaginationType": "bootstrap",
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ Datos por pagina"
+		}
+	} );
+} );

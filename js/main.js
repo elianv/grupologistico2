@@ -91,3 +91,136 @@ $('.form-depositos .codigo-click').click(function(e){
 	$('.form-left-depositos #descripcion').attr('value', nombre);
 
 });
+
+//Llevar los datos por Ajax Clientes
+
+$('.form-clientes .codigo-click').click(function(e){
+
+	e.preventDefault();
+
+	$.ajax({
+		type:'post',
+		url:'../mantencion/clientes',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		beforeSend: function(){
+			alert('oli');
+		},
+		success:function(response) {
+			console.log(response);
+			$('#rut').val(response[0].rut_cliente);
+			$('#rsocial').val(response[0].razon_social);
+		}
+	});
+
+});
+
+/*
+
+	[{"	rut_cliente":"1234567-7",
+		"razon_social":"Servicios VArios",
+		"giro":"Sevicios LTDA",
+		"direccion":"Blah street",
+		"comuna":"MAcul",
+		"ciudad":"SAntiago",
+		"fono":"987654321",
+		"contacto":"Elian VAllejos",
+		"celular":"976431852",
+		"dias_plazo":"10",
+		"tipo_factura_id_tipo_facturacion":"4"}]
+
+
+*/
+
+/*CAmbio campo REt*/
+
+$('.form-orden #tipo_factura').change(function(){
+
+	var filtro = $('.form-orden #tipo_factura :selected').text();
+
+	if(filtro == 'NACIONAL')
+	{
+		$('.form-orden .ret label strong').text('Origen');
+		$('.form-orden .booking label strong').text('Booking');
+		$('.form-orden .destino label strong').text('Destino');
+		$('.form-orden .tramo label strong').text('Tramo');
+	}
+	if(filtro == 'EXPORTACION'){
+		$('.form-orden .ret label strong').text('Ret. Contenedor');
+		$('.form-orden .booking label strong').text('Booking');
+		$('.form-orden .destino label strong').text('Destino');
+		$('.form-orden .tramo label strong').text('Tramo');
+	}
+	if(filtro == 'IMPORTACION'){
+		$('.form-orden .ret label strong').text('Ret. Contenedor');
+		$('.form-orden .booking label strong').text('Tarjeton');
+		$('.form-orden .destino label strong').text('Entrega vacio');
+		$('.form-orden .tramo label strong').text('Tramo');		
+	}
+	if(filtro == 'OTRO SERVICIO'){
+		$('.form-orden .ret label strong').text('Ret. Contenedor');
+		$('.form-orden .booking label strong').text('Booking');
+		$('.form-orden .destino label strong').text('Destino');
+		$('.form-orden .tramo label strong').text('Descripcion');		
+	}
+
+});
+
+
+//$('.form-orden #fecha').datepicker();
+$('.form-orden #fecha').datetimepicker();
+
+$.datepicker.regional['es'] = {
+		clearText: 'Borra',
+		clearStatus: 'Borra fecha actual',
+		closeText: 'Cerrar',
+		closeStatus: 'Cerrar sin guardar',
+		prevText: '<Ant',
+		prevBigText: '<<',
+		prevStatus: 'Mostrar mes anterior',
+		prevBigStatus: 'Mostrar año anterior',
+		nextText: 'Sig>',
+		nextBigText: '>>',
+		nextStatus: 'Mostrar mes siguiente',
+		nextBigStatus: 'Mostrar año siguiente',
+		currentText: 'Hoy',
+		currentStatus: 'Mostrar mes actual',
+		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+		monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+		monthStatus: 'Seleccionar otro mes',
+		yearStatus: 'Seleccionar otro año',
+		weekHeader: 'Sm',
+		weekStatus: 'Semana del año',
+		dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado'],
+		dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab'],
+		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
+		dayStatus: 'Set DD as first week day',
+		dateStatus: 'Select D, M d',
+		dateFormat: 'dd/mm/yy',
+		firstDay: 1,
+		initStatus: 'Seleccionar fecha',
+		isRTL: false
+	};
+	$.datepicker.setDefaults($.datepicker.regional['es']);
+	
+	
+	
+	
+/*Pasar de modal*/
+
+$('#modal-cliente .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #cliente').attr('value', $(this).data('codigo'));
+	
+	$('#modal-cliente').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});

@@ -5,7 +5,7 @@
      </div>
     
      <div class="modal-body">
-         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example-camion">
                       <thead>
                         <tr>
                             <th>Patente</th>

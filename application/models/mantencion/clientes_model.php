@@ -70,6 +70,15 @@ class Clientes_model extends CI_Model{
             return false;
         }
     }
+    
+        function datos_cliente($rut){
+        
+        $this->db->select('rut_cliente,razon_social,giro,direccion,comuna,ciudad,fono,contacto,celular,dias_plazo,tipo_factura_id_tipo_facturacion');
+        $resultado = $this->db->get('cliente');
+        
+        return $resultado->result_array();
+        
+    }
 }
 
 ?>

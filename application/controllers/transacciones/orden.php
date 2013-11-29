@@ -5,6 +5,7 @@ class Orden extends CI_Controller{
     function __construct() {
         parent::__construct();
         $this->load->model('transacciones/Orden_model');
+        $this->load->model('transacciones/Orden_detalle_model');
         $this->load->model('utils/Facturacion');
         $this->load->model('utils/Viaje');
         $this->load->model('mantencion/Clientes_model');
@@ -28,7 +29,7 @@ class Orden extends CI_Controller{
             
             $session_data = $this->session->userdata('logged_in');
             //tipo facturacion
-            $data['tfacturacion'] = $this->Facturacion->GetTipo();
+            $data['tfacturacion'] = $this->Facturacion->tipo_orden();
             //listado clientes
             $data['clientes'] = $this->Clientes_model->listar_clientes();
             //listado tramos
@@ -68,7 +69,6 @@ class Orden extends CI_Controller{
               }
             $tab['active'] = 'exportacion';
             $this->load->view('include/head',$session_data);
-            $this->load->view('include/tabs',$tab);
             $this->load->view('transaccion/orden',$data);
             $this->load->view('modal/modal_aduana', $data);
             $this->load->view('modal/modal_cliente',$data);
@@ -116,7 +116,7 @@ class Orden extends CI_Controller{
                 if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
                     //tipo facturacion
-                    $data['tfacturacion'] = $this->Facturacion->GetTipo();
+                    $data['tfacturacion'] = $this->Facturacion->tipo_orden();
                     //listado clientes
                     $data['clientes'] = $this->Clientes_model->listar_clientes();
                     //listado tramos
@@ -156,7 +156,6 @@ class Orden extends CI_Controller{
                     $tab['active'] = 'exportacion';
                     
                     $this->load->view('include/head',$session_data);
-                    $this->load->view('include/tabs',$tab);
                     $this->load->view('transaccion/orden',$data);
                     $this->load->view('modal/modal_aduana', $data);
                     $this->load->view('modal/modal_cliente',$data);
@@ -188,7 +187,6 @@ class Orden extends CI_Controller{
                         'fecha' => $this->input->post('fecha'),
                         'cliente_rut_cliente' => $this->input->post('cliente'),
                         'booking' => $this->input->post('booking'),
-                        'tramo_codigo_tramo' => $this->input->post('tramo'),
                         'aduana_codigo_aduana' => $this->input->post('aduana'),
                         'numero' => $this->input->post('numero'),
                         'peso' => $this->input->post('peso'),
@@ -206,19 +204,27 @@ class Orden extends CI_Controller{
                         'tipo_carga_codigo_carga'	=> $this->input->post('carga'),
                         'tipo_factura_id_tipo_facturacion' => '',
                         'deposito_codigo_deposito' => $this->input->post('deposito'),
-                        'nave_codigo_nave' => $this->input->post('nave')
+                        'nave_codigo_nave' => $this->input->post('nave'),
+                        'mercaderia' =>  $this->input->post('mercaderia')  
                     );
-                    
-                    $tfacturas = $this->Facturacion->GetTipo();
+                   
+                    $tfacturas = $this->Facturacion->tipo_orden();
                  
                     foreach($tfacturas as $tfactura){
                     
-                        if($tfactura['tipo_facturacion'] == $this->input->post('tipo_factura')){
-                             $orden['tipo_factura_id_tipo_facturacion'] = $tfactura['id_tipo_facturacion'];
+                        if($tfactura['tipo_orden'] == $this->input->post('tipo_factura')){
+                             $orden['tipo_orden_id_tipo_tipo_orden'] = $tfactura['id_tipo_orden'];
                         }
                     }
                     
+                    $detalle = array(
+                                    'servicio_codigo_servicio' => $this->input->post('servicio'),
+                                    'tramo_codigo_tramo'=> $this->input->post('tramo'),
+                                    'orden_id_orden'=> $this->input->post('numero_orden'),
+                                );
+                    
                     $this->Orden_model->insert_orden($orden);
+                    $this->Orden_detalle_model->guardar_detalle($detalle);
                     redirect('transacciones/orden','refresh');
 
                     
@@ -253,7 +259,7 @@ class Orden extends CI_Controller{
                 if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
                     //tipo facturacion
-                    $data['tfacturacion'] = $this->Facturacion->GetTipo();
+                   $data['tfacturacion'] = $this->Facturacion->tipo_orden();
                     //listado clientes
                     $data['clientes'] = $this->Clientes_model->listar_clientes();
                     //listado tramos

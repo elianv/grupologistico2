@@ -1,8 +1,8 @@
 <div class="container">
         
-    
+    <legend><h3><center>Orden de Servicio</center></h3></legend>
           <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
-          <form class="form-horizontal" method="post">
+          <form class="form-horizontal form-orden" method="post">
            <fieldset>  
                
             <div class="row show-grid">
@@ -11,7 +11,7 @@
                          <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
                         <div class="controls">
                            
-                               <div class="input-append"><input type="text" class="span2" name="numero_orden" id="numero_orden" placeholder="Solo números" value="<?php $numero_orden ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-orden"><i class="icon-search"></i></button></div>
+                              <?php echo "<div class='input-append'><input type='text' class='span2' name='numero_orden' id='numero_orden' placeholder='Solo números' value=".$numero_orden."><button class='btn' type='button' data-toggle='modal' href='#modal-orden'><i class='icon-search'></i></button></div>"; ?>
                             
                         </div>
                      </div>
@@ -27,14 +27,14 @@
         
                 <div class="span6">
                  <div class="control-group">
-                     <label class="control-label" for="tipo_factura"><strong>Tipo Factura</strong></label>
+                     <label class="control-label" for="tipo_factura"><strong>Tipo</strong></label>
                     <div class="controls">
                        <select id="tipo_factura" name="tipo_factura" class="span2">
                            <?php
                                   // print_r(tfacturacion[0]);
                                    foreach ($tfacturacion as $tipo){
                                        
-                                       echo "<option>".$tipo['tipo_facturacion']."</option>";
+                                       echo "<option>".$tipo['tipo_orden']."</option>";
                                        
                                    }
                                 
@@ -47,7 +47,7 @@
                      <div class="control-group">
                         <label class="control-label" for="fecha"><strong>Fecha</strong></label>
                         <div class="controls">
-                            <input type="text" class="span2" name="fecha" id="fecha" placeholder="dd-mm-aaaa">
+                            <input type="text" class="span2" name="fecha" id="fecha" placeholder="Seleccione">
                         </div>
                      </div> 
                     
@@ -72,7 +72,7 @@
 
                 <div class="row show-grid">
                     <div class="span5">
-                        <div class="control-group">
+                        <div class="control-group booking">
                             <label class="control-label" for="booking"><strong>Booking</strong></label>
                             <div class="controls">
                                 <input type="text" class="span2" id="booking" name="booking" placeholder="">
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="span5">
-                        <div class="control-group">
+                        <div class="control-group tramo">
                             <label class="control-label" for="tramo"><strong>Tramo</strong></label>
                             <div class="controls">
                                 <div class="input-append"><input type="text" class="span2" id="tramo" name="tramo" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-tramo"><i class="icon-search"></i></button></div>
@@ -149,13 +149,20 @@
             </div>
              </div>
          </div>
-            <div class="control-group">
+            <div class="control-group ret">
                 <label class="control-label" for="contenedor"><strong>Ret. Contenedor</strong></label>
                 <div class="controls">
                  <input type="text" class="input-xxlarge" id="contenedor" name ="contenedor" placeholder="">
                 </div>
             </div>
                
+            <div class="control-group">
+                <label class="control-label" for="observacion"><strong>Mercaderia</strong></label>
+                <div class="controls">
+                     <textarea class="input-xxlarge" id="mercaderia" name="mercaderia" rows="3"></textarea>
+                </div>
+            </div>
+
             <div class="control-group">
                 <label class="control-label" for="fecha_prensentacion"><strong>Fecha Presentación</strong></label>
                 <div class="controls">
@@ -179,7 +186,7 @@
 
                <div class="row show-grid">
                    <div class="span5">
-                        <div class="control-group">
+                        <div class="control-group destino">
                             <label class="control-label" for="destino"><strong>Destino</strong></label>
                             <div class="controls">
                                 <input type="text" class="input-large" id="destino" name="destino" placeholder="">

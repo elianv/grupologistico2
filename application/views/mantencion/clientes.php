@@ -6,7 +6,7 @@
      <div class="span6">
          <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
          
-         <form class="form-horizontal" method="post" style="margin-left: 10px">
+         <form class="form-horizontal form-left-clientes" method="post" style="margin-left: 10px">
            <fieldset>  
             <div class="control-group">
                 <label class="control-label"><strong>R.U.T</strong></label>
@@ -112,7 +112,7 @@
            </fieldset>
           </form>
      </div>
-    <div class="span8 form-clientes-span" style="margin-left: 50px">
+    <div class="span8 form-clientes" style="margin-left: 50px">
         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
             <thead>
               <tr>
@@ -135,5 +135,4 @@
           
       </div>
   </div>
-
 

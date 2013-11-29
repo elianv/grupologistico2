@@ -27,6 +27,15 @@ class Facturacion extends CI_Model{
         
     }
     
+    //obtiene el tipo de orden (exp,imp,nac,otro s.)
+    function tipo_orden(){
+        
+        $query = $this->db->get('tipo_orden');
+        
+        return $query->result_array();
+        
+    }
+    
     
 }
 
