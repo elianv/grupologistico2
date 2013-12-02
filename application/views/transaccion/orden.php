@@ -71,7 +71,7 @@
             </div>
 
                 <div class="row show-grid">
-                    <div class="span5">
+                    <div class="span3">
                         <div class="control-group booking">
                             <label class="control-label" for="booking"><strong>Booking</strong></label>
                             <div class="controls">
@@ -79,11 +79,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="span5">
-                        <div class="control-group tramo">
-                            <label class="control-label" for="tramo"><strong>Tramo</strong></label>
+                    <div class="span6">
+                        <div class="control-group">
+                            
+                            <label class="control-label" for="referencia"><strong>Referencia</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="tramo" name="tramo" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-tramo"><i class="icon-search"></i></button></div>
+                                 <input type="text" class="span4" id="referencia" name="referencia" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -96,21 +97,48 @@
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="control-label" for="referencia"><strong>Referencia</strong></label>
-                <div class="controls">
-                 <input type="text" class="input-xxlarge" id="referencia" name="referencia" placeholder="">
-                </div>
-            </div>
-
-            <div class="control-group">
+           <div class="control-group">
                 <label class="control-label" for="cliente"><strong>Nave</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="nave" name="nave" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-nave"><i class="icon-search"></i></button></div>
                 </div>
             </div>
+
+            <div class="control-group tramo">
+                <label class="control-label" for="tramo"><strong>Tramo</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="tramo" name="tramo" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-tramo"><i class="icon-search"></i></button></div>
+                </div>
+            </div>
+
+            <div class="control">
+                <label class="checkbox">
+                    <input type="checkbox" id="valores_tramo" name="valores_tramo[]" value=1 style="margin-left: 158px">Usar los Precios de Mantención, para Tramo
+                </label>
+            </div>
+            <div class="row show-grid">
+             <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="valor_costo_tramo"><strong>Valor Costo</strong></label>
+                <div class="controls">
+                    <input type="text" class="span2" id="valor_costo_tramo" name="valor_costo_tramo" placeholder="$">
+                </div>
+            </div>
+             </div>
+             <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="valor_venta_tramo"><strong>Valor Venta</strong></label>
+                <div class="controls">
+                    <input type="text" class="span2" id="valor_venta_tramo" name="valor_venta_tramo" placeholder="$">
+                </div>
+            </div>
+             </div>
+         </div>
+
                </br>
                </br>
+               </br>
+
 <!--   ##############################################################    -->  
          <div class="row show-grid">
              <div class="span5">
@@ -239,6 +267,31 @@
                                 <div class="input-append"><input type="text" class="input-xxlarge" id="servicio" name="servicio" ><button class="btn" type="button" data-toggle="modal" href="#modal-servicio"><i class="icon-search"></i></button></div>
                             </div>
                         </div>
+
+                        <div class="control">
+                            <label class="checkbox">
+                                <input type="checkbox" id="valores_servicio" name="valores_servicio[]" value=1   style="margin-left: 158px">Usar los Precios de Mantención, para Otro Servicio
+                            </label>
+                        </div>
+                        <div class="row show-grid">
+                             <div class="span5">    
+                                <div class="control-group">
+                                    <label class="control-label" for="valor_costo_servicio"><strong>Valor Costo</strong></label>
+                                    <div class="controls">
+                                        <input type="text" class="span2" id="valor_costo_servicio" name="valor_costo_servicio" placeholder="$">
+                                    </div>
+                                </div>
+                             </div>
+                        <div class="span5">
+                            <div class="control-group">
+                                <label class="control-label" for="valor_venta_servicio"><strong>Valor Venta</strong></label>
+                                <div class="controls">
+                                    <input type="text" class="span2" id="valor_venta_servicio" name="valor_venta_servicio" placeholder="$">
+                                </div>
+                            </div>
+                         </div>
+                        </div>
+               </br>
                </br>
                </br>
                

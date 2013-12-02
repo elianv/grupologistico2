@@ -99,7 +99,7 @@ class Orden extends CI_Controller{
                 
                 
                 $this->load->library('form_validation');
-                 
+                 /*
                   $this->form_validation->set_rules('cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
                   $this->form_validation->set_rules('tramo','Tramo','trim|xss_clean|numeric|required|callback_check_tramo');
                   $this->form_validation->set_rules('aduana','Aduana','trim|xss_clean|numeric|required|callback_check_aduana');
@@ -111,6 +111,8 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('conductor','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito', 'Deposito','trim|xss_clean|required|numeric|callback_check_deposito');
+                  * 
+                  */
                   $this->form_validation->set_rules('nave','Nave','trim|xss_clean|numeric|required|callback_check_nave');
                   
                 if($this->form_validation->run() == FALSE){
@@ -178,7 +180,7 @@ class Orden extends CI_Controller{
                                 'camion_patente' => $this->input->post('patente'),
                                 'conductor_rut' => $this->input->post('conductor')
                             );
-                    $this->Viaje->crear_viaje($viaje);
+                    //$this->Viaje->crear_viaje($viaje);
                     //obtengo ultimo viaje creado
                     $ultimo_viaje = $this->Viaje->ultimo_codigo();
                     
@@ -208,12 +210,12 @@ class Orden extends CI_Controller{
                         'mercaderia' =>  $this->input->post('mercaderia')  
                     );
                    
-                    $tfacturas = $this->Facturacion->tipo_orden();
+                    $tipo_ordenes = $this->Facturacion->tipo_orden();
                  
-                    foreach($tfacturas as $tfactura){
+                    foreach($tipo_ordenes as $tipo_orden){
                     
-                        if($tfactura['tipo_orden'] == $this->input->post('tipo_factura')){
-                             $orden['tipo_orden_id_tipo_tipo_orden'] = $tfactura['id_tipo_orden'];
+                        if($tipo_orden['tipo_orden'] == $this->input->post('tipo_factura')){
+                             $orden['tipo_orden_id_tipo_tipo_orden'] = $tipo_orden['id_tipo_orden'];
                         }
                     }
                     
@@ -222,10 +224,25 @@ class Orden extends CI_Controller{
                                     'tramo_codigo_tramo'=> $this->input->post('tramo'),
                                     'orden_id_orden'=> $this->input->post('numero_orden'),
                                 );
+                   
+                                print_r($_POST);
+                                
+                                if(isset($_POST['valores_tramo'])){
+                                    echo "</br>";
+                                    echo "check box tramo seleccionado";
+                                }
+                                
+                                if(isset($_POST['valores_servicio'])){
+                                    echo "</br>";   
+                                    echo "check box servicio seleccionado";
+                                }
+                    //$this->Orden_model->insert_orden($orden);
+                    //$this->Orden_detalle_model->guardar_detalle($detalle);
+                    //redirect('transacciones/orden','refresh');
                     
-                    $this->Orden_model->insert_orden($orden);
-                    $this->Orden_detalle_model->guardar_detalle($detalle);
-                    redirect('transacciones/orden','refresh');
+                    
+                    //$this->load->view('prueba');
+                    $this->pdf->Output("Lista de alumnos.pdf", 'I');
 
                     
                 }
