@@ -15,7 +15,7 @@
                 <div class="control-group">
                     <label class="control-label" for="guia_despacho"><strong>Guía Despacho</strong></label>
                     <div class="controls">
-                        <input type="text" class="span2" name="guia_despacho" id="numero_factura" placeholder="Solo números">
+                        <input type="text" class="input-xxlarge" name="guia_despacho" id="numero_factura" placeholder="Solo números">
                     </div>
                 </div>
                 
@@ -31,15 +31,11 @@
                     </div>
                 </div>
                 
-                <div class="control-group">
-                    <label class="control-label" for="numero_factura"><strong>Monto 2</strong></label>
-                    <div class="controls">
-                        <input type="text" class="span2" name="numero_factura" id="numero_factura" placeholder="Solo números">
-                    </div>
-                </div>
+
                 
             </div>
             
+        </div>         
             <div style="margin-left: 30px"><h3>Asociar O.S.</h3></div>
             
               <div class="span8" style="margin-left: 50px">
