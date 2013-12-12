@@ -9,32 +9,45 @@ class Servicios extends CI_Controller{
     }
     
     function index(){
+	
+		$codigo = isset($_POST['codigo'])?$_POST['codigo']:'';
+		
+		if(isset($codigo) && $codigo != ''){
+			
+			// set no layout para que el response del ajax sea de la consulta al modelo segun el rut, return array..
+			// codigo aqui..
+			$response = json_encode($this->datos_servicios($codigo));
+			
+			echo $response;
+		
+		} else{
         
-        if($this->session->userdata('logged_in')){
-                    
-                 $session_data = $this->session->userdata('logged_in');
-                 $resultado = $this->Servicios_model->ultimo_codigo();
-                 $data['monedas'] = $this->Moneda->GetTipo();
-                 
-                 
-                 if ($resultado[0]['codigo_servicio'] == ""){
-                     $data['form']['codigo_servicio'] = 1;
-                          
-                 }
-                 else{
-                    $data['form']['codigo_servicio'] = $resultado[0]['codigo_servicio'] + 1;
-                  
-                 }
-                 
-                 $data['tablas'] = $this->Servicios_model->listar_servicios();
-                 $this->load->view('include/head',$session_data);
-                 $this->load->view('mantencion/servicios',$data);
-                 $this->load->view('include/script');
-                 
-             }
-             else{
-                 redirect('home','refresh');
-             }
+			if($this->session->userdata('logged_in')){
+						
+					 $session_data = $this->session->userdata('logged_in');
+					 $resultado = $this->Servicios_model->ultimo_codigo();
+					 $data['monedas'] = $this->Moneda->GetTipo();
+					 
+					 
+					 if ($resultado[0]['codigo_servicio'] == ""){
+						 $data['form']['codigo_servicio'] = 1;
+							  
+					 }
+					 else{
+						$data['form']['codigo_servicio'] = $resultado[0]['codigo_servicio'] + 1;
+					  
+					 }
+					 
+					 $data['tablas'] = $this->Servicios_model->listar_servicios();
+					 $this->load->view('include/head',$session_data);
+					 $this->load->view('mantencion/servicios',$data);
+					 $this->load->view('include/script');
+					 
+				 }
+				 else{
+					 redirect('home','refresh');
+				 }
+			}
     }
     
     function modificar_servicio(){
@@ -156,7 +169,17 @@ class Servicios extends CI_Controller{
         else{
             redirect('home','refresh');
         }
-    }    
+    }
+
+    function datos_servicios($rut){
+        
+        $this->Servicios_model->datos_servicio($rut);
+        
+		$ret = $this->Servicios_model->datos_servicio($rut);
+		return $ret;
+        
+    }
+	
 }
 
 ?>

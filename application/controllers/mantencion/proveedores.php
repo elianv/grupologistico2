@@ -10,22 +10,52 @@ class Proveedores extends CI_Controller{
     }
     
     function index(){
+	
+		$codigo = isset($_POST['codigo'])?$_POST['codigo']:'';
+		
+		if(isset($codigo) && $codigo != ''){
+			
+			// set no layout para que el response del ajax sea de la consulta al modelo segun el rut, return array..
+			// codigo aqui..
+			$response = json_encode($this->datos_proveedores($codigo));
+			
+			echo $response;
+		
+		} else{
         
-        if($this->session->userdata('logged_in')){
-                   
-            $session_data = $this->session->userdata('logged_in');
-            
-            $data['tablas'] = ($this->Proveedores_model->listar_proveedores());
-            $this->load->view('include/head',$session_data);
-            $this->load->view('mantencion/proveedores',$data);
-            $this->load->view('include/script');
-        }
-        
-        else{
-            redirect('home','refresh');
-        }
+			if($this->session->userdata('logged_in')){
+					   
+				$session_data = $this->session->userdata('logged_in');
+				
+				$data['tablas'] = ($this->Proveedores_model->listar_proveedores());
+				$this->load->view('include/head',$session_data);
+				$this->load->view('mantencion/proveedores',$data);
+				$this->load->view('include/script');
+			}
+			
+			else{
+				redirect('home','refresh');
+			}
            
-        
+        }
+		
+		//Fin Juano
+		/*
+			if($this->session->userdata('logged_in')){
+					   
+				$session_data = $this->session->userdata('logged_in');
+				
+				$data['tablas'] = ($this->Proveedores_model->listar_proveedores());
+				$this->load->view('include/head',$session_data);
+				$this->load->view('mantencion/proveedores',$data);
+				$this->load->view('include/script');
+			}
+			
+			else{
+				redirect('home','refresh');
+			}
+		*/
+		
     }
     
     function borrar_proveedor(){
@@ -168,6 +198,15 @@ class Proveedores extends CI_Controller{
             return true;
         }
             
+    }
+	
+	function datos_proveedores($rut){
+        
+        $this->Proveedores_model->datos_proveedor($rut);
+        
+		$ret = $this->Proveedores_model->datos_proveedor($rut);
+		return $ret;
+        
     }
      
 }

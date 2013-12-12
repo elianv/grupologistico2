@@ -61,6 +61,16 @@ class Agencias_model extends CI_Model{
                 return false;
         }
     }
+	
+	function datos_aduana($rut) {
+			$this->db->select ();
+			$this->db->from('aduana');
+			$this->db->where('codigo_aduana',$rut);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+        
+    }
     
 }
 ?>

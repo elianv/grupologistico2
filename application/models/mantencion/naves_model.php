@@ -85,6 +85,16 @@ class Naves_model extends CI_Model{
             return false;
         }
     }
+	
+	function datos_nave($rut) {
+			$this->db->select ();
+			$this->db->from('nave');
+			$this->db->where('codigo_nave',$rut);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+        
+    }
     
 }
 ?>

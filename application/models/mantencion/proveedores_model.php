@@ -71,6 +71,16 @@ class Proveedores_model extends CI_Model{
             return false;
         }
     }
+	
+	function datos_proveedor($rut) {
+			$this->db->select ();
+			$this->db->from('proveedor');
+			$this->db->where('rut_proveedor',$rut);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+        
+    }
 }
 
 ?>

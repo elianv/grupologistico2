@@ -11,34 +11,46 @@ class Tramos extends CI_Controller{
     }
     
     function index(){
+	
+		$codigo = isset($_POST['codigo'])?$_POST['codigo']:'';
+		
+		if(isset($codigo) && $codigo != ''){
+			
+			// set no layout para que el response del ajax sea de la consulta al modelo segun el rut, return array..
+			// codigo aqui..
+			$response = json_encode($this->datos_tramos($codigo));
+			
+			echo $response;
+		
+		} else{
         
-        if($this->session->userdata('logged_in')){
-                   
-            $session_data = $this->session->userdata('logged_in');            
-            $resultado = $this->Tramos_model->ultimo_codigo();
+			if($this->session->userdata('logged_in')){
+					   
+				$session_data = $this->session->userdata('logged_in');            
+				$resultado = $this->Tramos_model->ultimo_codigo();
 
-            if ($resultado[0]['codigo_tramo'] == ""){
-                $data['form']['cod_tramo'] = 1;
-                 
-              
-            }
-            else{
-                $data['form']['cod_tramo'] = $resultado[0]['codigo_tramo'] + 1;
-            }
- 
-            $data['tmoneda'] = $this->Moneda->GetTipo();
-            $data['tablas'] = ($this->Tramos_model->listar_tramos());
-            $this->load->view('include/head',$session_data);
-            $this->load->view('mantencion/tramos',$data);
-            $this->load->view('include/script');
-             
-        }
-        
-        else{
-            redirect('home','refresh');
-        }
+				if ($resultado[0]['codigo_tramo'] == ""){
+					$data['form']['cod_tramo'] = 1;
+					 
+				  
+				}
+				else{
+					$data['form']['cod_tramo'] = $resultado[0]['codigo_tramo'] + 1;
+				}
+	 
+				$data['tmoneda'] = $this->Moneda->GetTipo();
+				$data['tablas'] = ($this->Tramos_model->listar_tramos());
+				$this->load->view('include/head',$session_data);
+				$this->load->view('mantencion/tramos',$data);
+				$this->load->view('include/script');
+				 
+			}
+			
+			else{
+				redirect('home','refresh');
+			}
            
-        
+        }
     }
     
     function borrar_tramo(){
@@ -204,7 +216,16 @@ class Tramos extends CI_Controller{
             redirect('home','refresh');
         }
         
-    }    
+    }
+	
+	function datos_tramos($rut){
+        
+        $this->Tramos_model->datos_tramo($rut);
+        
+		$ret = $this->Tramos_model->datos_tramo($rut);
+		return $ret;
+        
+    }
      
 }
 

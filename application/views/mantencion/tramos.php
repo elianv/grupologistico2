@@ -3,7 +3,7 @@
     <legend><h3><center>Mantención de Tramos</center></h3></legend> 
     
   <div class="row">
-     <div class="span6">
+     <div class="span6 form-left-tramos">
          <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
          
          <form class="form-horizontal" method="post" style="margin-left: 10px">
@@ -75,7 +75,7 @@
            </fieldset>
           </form>
      </div>
-      <div class="span8" style="margin-left: 50px">
+      <div class="span8 form-tramos" style="margin-left: 50px">
                   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                       <thead>
                         <tr>

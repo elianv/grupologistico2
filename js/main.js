@@ -97,42 +97,32 @@ $('.form-depositos .codigo-click').click(function(e){
 $('.form-clientes .codigo-click').click(function(e){
 
 	e.preventDefault();
-
+	
 	$.ajax({
 		type:'post',
 		url:'../mantencion/clientes',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
-		beforeSend: function(){
-			alert('oli');
-		},
+		//beforeSend: function(){//},
 		success:function(response) {
-			console.log(response);
+			//console.log(response);
 			$('#rut').val(response[0].rut_cliente);
 			$('#rsocial').val(response[0].razon_social);
+			$('#giro').val(response[0].giro);
+			$('#direccion').val(response[0].direccion);
+			$('#comuna').val(response[0].comuna);
+			$('#ciudad').val(response[0].ciudad);
+			$('#telefono').val(response[0].fono);
+			$('#celular').val(response[0].celular);
+			$('#contacto').val(response[0].contacto);
+			$('#dplazo').val(response[0].dias_plazo);
+			$('#tfactura').val(response[0].tipo_factura_id_tipo_facturacion);
 		}
 	});
 
 });
 
-/*
-
-	[{"	rut_cliente":"1234567-7",
-		"razon_social":"Servicios VArios",
-		"giro":"Sevicios LTDA",
-		"direccion":"Blah street",
-		"comuna":"MAcul",
-		"ciudad":"SAntiago",
-		"fono":"987654321",
-		"contacto":"Elian VAllejos",
-		"celular":"976431852",
-		"dias_plazo":"10",
-		"tipo_factura_id_tipo_facturacion":"4"}]
-
-
-*/
-
-/*CAmbio campo REt*/
+/*CAmbio campo Ret*/
 
 $('.form-orden #tipo_factura').change(function(){
 
@@ -221,6 +211,163 @@ $('#modal-cliente .codigo-click').click(function(e){
 		$('.modal-backdrop.fade.in').remove();
 	
 	
+	});
+
+});
+
+/*Duplicar*/
+
+$('.boton-repetir a').click(function(e){
+
+	e.preventDefault();
+	
+	$('.campo-a-repetir:last').after($('.campo-a-repetir:last').clone());
+
+});
+
+/*Tipos de Naves*/
+
+$('.form-naves .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/naves',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('#codigo_nave').val(response[0].codigo_nave);
+			$('#nombre').val(response[0].nombre);
+			$('#codigo_naviera').val(response[0].naviera_codigo_naviera);
+		}
+	});
+
+});
+
+/*Agencias Aduanas*/
+
+$('.form-aduanas .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/agencias',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('#codigo_aduana').val(response[0].codigo_aduana);
+			$('#nombre').val(response[0].nombre);
+			$('#contacto').val(response[0].contacto);
+			$('#telefono').val(response[0].telefono);
+		}
+	});
+
+});
+
+/*Tramos*/
+
+$('.form-tramos .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/tramos',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('#codigo_tramo').val(response[0].codigo_tramo);
+			$('#descripcion').val(response[0].descripcion);
+			$('#valor_costo').val(response[0].valor_costo);
+			$('#valor_venta').val(response[0].valor_venta);
+			$('#tfactura').val(response[0].moneda_id_moneda);
+		}
+	});
+
+});
+
+/*Proveedores*/
+
+$('.form-proveedores .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/proveedores',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('#rut').val(response[0].rut_proveedor);
+			$('#rsocial').val(response[0].razon_social);
+			$('#giro').val(response[0].giro);
+			$('#direccion').val(response[0].direccion);
+			$('#comuna').val(response[0].comuna);
+			$('#ciudad').val(response[0].ciudad);
+			$('#telefono').val(response[0].fono);
+			$('#celular').val(response[0].celular);
+			$('#contacto').val(response[0].contacto);
+			$('#dplazo').val(response[0].dias_plazo);
+			$('#tfactura').val(response[0].tipo_factura_id_tipo_facturacion);
+		}
+	});
+
+});
+
+/*Bodegas*/
+
+$('.form-bodegas .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/bodegas',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('#codigo_bodega').val(response[0].codigo_bodega);
+			$('#nombre').val(response[0].nombre);
+			$('#contacto').val(response[0].contacto);
+			$('#direccion').val(response[0].direccion);
+			$('#telefono').val(response[0].telefono);
+		}
+	});
+
+});
+
+/*Servicios*/
+
+$('.form-servicios .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/servicios',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('#codigo').val(response[0].codigo_servicio);
+			$('#descripcion').val(response[0].descripcion);
+			$('#vcosto').val(response[0].valor_costo);
+			$('#vventa').val(response[0].valor_venta);
+			$('#moneda').val(response[0].moneda_id_moneda);
+		}
 	});
 
 });

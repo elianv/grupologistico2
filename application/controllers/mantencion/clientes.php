@@ -6,13 +6,12 @@ class Clientes extends CI_Controller{
         parent::__construct();
         $this->load->model('utils/Facturacion');
         $this->load->model('mantencion/Clientes_model');
-        
-        
     }
     
     function index(){
 		
 		//Juano
+		
 		$codigo = isset($_POST['codigo'])?$_POST['codigo']:'';
 		
 		if(isset($codigo) && $codigo != ''){

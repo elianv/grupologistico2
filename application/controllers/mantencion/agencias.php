@@ -8,31 +8,44 @@ class Agencias extends CI_Controller{
     }
     
     function index(){
-             if($this->session->userdata('logged_in')){
-                    
-                 $session_data = $this->session->userdata('logged_in');
-                 $resultado = $this->Agencias_model->ultimo_codigo();
-                 
-                 
-                 if ($resultado[0]['codigo_aduana'] == ""){
-                    $data['form']['codigo_aduana'] = 1;
-                          
-                 }
-                 else{
-                    $data['form']['codigo_aduana'] = $resultado[0]['codigo_aduana'] + 1;
-                  
-                 }
-                 
-                 $data['tablas'] = $this->Agencias_model->listar_agencias();
-                 $this->load->view('include/head',$session_data);
-                 $this->load->view('mantencion/agencias',$data);
-                 $this->load->view('include/script');
-                 
-             }
-             else{
-                 redirect('home','refresh');
-             }
-                   
+	
+		$codigo = isset($_POST['codigo'])?$_POST['codigo']:'';
+		
+		if(isset($codigo) && $codigo != ''){
+			
+			// set no layout para que el response del ajax sea de la consulta al modelo segun el rut, return array..
+			// codigo aqui..
+			$response = json_encode($this->datos_aduanas($codigo));
+			
+			echo $response;
+		
+		} else{
+		
+			if($this->session->userdata('logged_in')){
+				
+			 $session_data = $this->session->userdata('logged_in');
+			 $resultado = $this->Agencias_model->ultimo_codigo();
+			 
+			 
+			 if ($resultado[0]['codigo_aduana'] == ""){
+				$data['form']['codigo_aduana'] = 1;
+					  
+			 }
+			 else{
+				$data['form']['codigo_aduana'] = $resultado[0]['codigo_aduana'] + 1;
+			  
+			 }
+			 
+			 $data['tablas'] = $this->Agencias_model->listar_agencias();
+			 $this->load->view('include/head',$session_data);
+			 $this->load->view('mantencion/agencias',$data);
+			 $this->load->view('include/script');
+			 
+			}
+			else{
+			 redirect('home','refresh');
+			}
+		}          
     }
     
     function guardar_aduana(){
@@ -123,6 +136,16 @@ class Agencias extends CI_Controller{
         else{
                  redirect('home','refresh');
              }
-    }    
+    }
+	
+	function datos_aduanas($rut){
+        
+        $this->Agencias_model->datos_aduana($rut);
+        
+		$ret = $this->Agencias_model->datos_aduana($rut);
+		return $ret;
+        
+    }
+	
 }
 ?>

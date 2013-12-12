@@ -68,3 +68,30 @@
     height: 168px;
     width: 100%;
 }
+
+/*boton-repetir*/
+
+.boton-repetir a
+{
+	float: right;
+    margin: 0 180px 0 0;
+	width:170px;
+}
+
+	.boton-repetir a span
+	{
+		background: #5FBE5F;
+		border-radius: 5px;
+		color: #fff;
+		float: right;
+		font: 18px 'Arial';
+		margin: 0 0 0 10px;
+		text-align: center;
+		width: 20px;
+	}
+	
+		.boton-repetir a:hover span
+		{
+			background:#e0e0e0;
+			color:#5FBE5F;
+		}

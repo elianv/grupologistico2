@@ -8,30 +8,42 @@ class Bodegas extends CI_Controller{
     }
     
     function index(){
+	
+		$codigo = isset($_POST['codigo'])?$_POST['codigo']:'';
+		
+		if(isset($codigo) && $codigo != ''){
+			
+			// set no layout para que el response del ajax sea de la consulta al modelo segun el rut, return array..
+			// codigo aqui..
+			$response = json_encode($this->datos_bodegas($codigo));
+			
+			echo $response;
+		
+		} else{
     
-        if($this->session->userdata('logged_in')){
-            $session_data = $this->session->userdata('logged_in');
-            
-            $data['tablas'] = $this->Bodegas_model->listar_bodegas();
-            $resultado = $this->Bodegas_model->ultimo_codigo();
-            
-            if ($resultado[0]['codigo_bodega'] == ""){
-                  $data['form']['codigo_bodega'] = 1;
-                          
-              }
-              else{
-                  $data['form']['codigo_bodega'] = $resultado[0]['codigo_bodega'] + 1;
-                  
-              }
-            
-            $this->load->view('include/head',$session_data);
-            $this->load->view('mantencion/bodegas',$data);
-            $this->load->view('include/script');
+			if($this->session->userdata('logged_in')){
+				$session_data = $this->session->userdata('logged_in');
+				
+				$data['tablas'] = $this->Bodegas_model->listar_bodegas();
+				$resultado = $this->Bodegas_model->ultimo_codigo();
+				
+				if ($resultado[0]['codigo_bodega'] == ""){
+					  $data['form']['codigo_bodega'] = 1;
+							  
+				  }
+				  else{
+					  $data['form']['codigo_bodega'] = $resultado[0]['codigo_bodega'] + 1;
+					  
+				  }
+				
+				$this->load->view('include/head',$session_data);
+				$this->load->view('mantencion/bodegas',$data);
+				$this->load->view('include/script');
+			}
+			else{
+				redirect('home','refresh');
+			}
         }
-        else{
-            redirect('home','refresh');
-        }
-        
     }
     
     function guardar_bodega(){
@@ -136,5 +148,15 @@ class Bodegas extends CI_Controller{
             
         }
     }
+	
+	function datos_bodegas($rut){
+        
+        $this->Bodegas_model->datos_bodega($rut);
+        
+		$ret = $this->Bodegas_model->datos_bodega($rut);
+		return $ret;
+        
+    }
+	
 }
 ?>

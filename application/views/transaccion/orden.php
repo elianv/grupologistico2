@@ -260,37 +260,49 @@
                              <textarea class="input-xxlarge" id="observacion" name="observacion" rows="3"></textarea>
                             </div>
                         </div>
+						
+						<div class="campo-a-repetir">
 
-                        <div class="control-group">
-                            <label class="control-label" for="servicio"><strong>Otro Servicio</strong></label>
-                            <div class="controls">
-                                <div class="input-append"><input type="text" class="input-xxlarge" id="servicio" name="servicio" ><button class="btn" type="button" data-toggle="modal" href="#modal-servicio"><i class="icon-search"></i></button></div>
-                            </div>
-                        </div>
+							<div class="control-group">
+								<label class="control-label" for="servicio"><strong>Otro Servicio</strong></label>
+								<div class="controls">
+									<div class="input-append">
+										<input type="text" class="input-xxlarge" id="servicio" name="servicio[]" >
+										<button class="btn" type="button" data-toggle="modal" href="#modal-servicio">
+											<i class="icon-search"></i>
+										</button>
+									</div>
+								</div>
+							</div>
 
-                        <div class="control">
-                            <label class="checkbox">
-                                <input type="checkbox" id="valores_servicio" name="valores_servicio[]" value=1   style="margin-left: 158px">Usar los Precios de Mantención, para Otro Servicio
-                            </label>
-                        </div>
-                        <div class="row show-grid">
-                             <div class="span5">    
-                                <div class="control-group">
-                                    <label class="control-label" for="valor_costo_servicio"><strong>Valor Costo</strong></label>
-                                    <div class="controls">
-                                        <input type="text" class="span2" id="valor_costo_servicio" name="valor_costo_servicio" placeholder="$">
-                                    </div>
-                                </div>
-                             </div>
-                        <div class="span5">
-                            <div class="control-group">
-                                <label class="control-label" for="valor_venta_servicio"><strong>Valor Venta</strong></label>
-                                <div class="controls">
-                                    <input type="text" class="span2" id="valor_venta_servicio" name="valor_venta_servicio" placeholder="$">
-                                </div>
-                            </div>
-                         </div>
-                        </div>
+							<div class="control">
+								<label class="checkbox">
+									<input type="checkbox" id="valores_servicio" name="valores_servicio[]" value=1   style="margin-left: 158px">Usar los Precios de Mantención, para Otro Servicio
+								</label>
+							</div>
+							<div class="row show-grid">
+								 <div class="span5">    
+									<div class="control-group">
+										<label class="control-label" for="valor_costo_servicio"><strong>Valor Costo</strong></label>
+										<div class="controls">
+											<input type="text" class="span2" id="valor_costo_servicio" name="valor_costo_servicio[]" placeholder="$">
+										</div>
+									</div>
+								 </div>
+							<div class="span5">
+								<div class="control-group">
+									<label class="control-label" for="valor_venta_servicio"><strong>Valor Venta</strong></label>
+									<div class="controls">
+										<input type="text" class="span2" id="valor_venta_servicio" name="valor_venta_servicio[]" placeholder="$">
+									</div>
+								</div>
+							 </div>
+							</div>
+						</div>
+						
+						<div class="boton-repetir">
+							<a href="#">Agregar otro Servicio <span>+</span></a>
+						</div>
                </br>
                </br>
                </br>

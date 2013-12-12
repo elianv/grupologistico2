@@ -78,6 +78,16 @@ class Bodegas_model extends CI_Model{
             return false;
         }
     }
+	
+	function datos_bodega($rut) {
+			$this->db->select ();
+			$this->db->from('bodega');
+			$this->db->where('codigo_bodega',$rut);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+        
+    }
     
     
 }

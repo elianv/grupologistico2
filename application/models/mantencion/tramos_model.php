@@ -60,6 +60,17 @@ class Tramos_model extends CI_Model{
             return false;
         }
     }
+	
+	function datos_tramo($rut) {
+			$this->db->select ();
+			$this->db->from('tramo');
+			$this->db->where('codigo_tramo',$rut);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+        
+    }
+	
 }
 
 ?>
