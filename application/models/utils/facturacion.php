@@ -11,13 +11,6 @@ class Facturacion extends CI_Model{
         parent::__construct();
     }
     
-    function GetTipo(){
-        //$this->db->select('tipo_facturacion');
-        $query = $this->db->get('tipo_factura');
-        //$query = "select * from tipo_factura;";
-        return $query->result_array();
-    }
-    
     function listar_tramos(){
         
         $this->db->select('codigo_tramo,descripcion');

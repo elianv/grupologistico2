@@ -75,7 +75,11 @@
                     <div class="control-group">
                      <label class="control-label" for="dplazo"><strong>Días Plazo</strong></label>
                      <div class="controls">
-                      <input type="text" class="span1" id="dplazo" name="dplazo" placeholder="">
+                         <select name="dplazo" id="dplazo">
+                             <option value="30">30 días</option>
+                             <option value="60">60 días</option>
+                             <option value="90">90 días</option>
+                         </select>
                      </div>
                     </div>
                 </div>
@@ -84,16 +88,8 @@
                      <label class="control-label" for="tfactura"><strong>Tipo Factura</strong></label>
                     <div class="controls">
                        <select id="tfactura" name="tfactura">
-                           <?php
-                                  // print_r(tfacturacion[0]);
-                                   foreach ($tfacturacion as $tipo){
-                                       
-                                       echo "<option>".$tipo['tipo_facturacion']."</option>";
-                                       
-                                   }
-                                
-                                
-                           ?>
+                                <option value="manual">Manual</option>
+                                <option value="automatica">Automatíca</option>
                        </select>
                     </div>
                 </div>
