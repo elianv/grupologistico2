@@ -9,7 +9,7 @@
                       <thead>
                         <tr>
                             <th>RUT</th>
-                            <th>Descripción</th>
+                            <th>Nombre</th>
                         </tr>
                       </thead>
                       <tbody>

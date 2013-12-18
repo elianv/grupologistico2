@@ -14,7 +14,7 @@
             </div>
             
             <div class="control-group">
-                <label class="control-label" for="descripcion"><strong>Descripción</strong></label>
+                <label class="control-label" for="descripcion"><strong>Nombre</strong></label>
                 <div class="controls">
                  <input type="text" class="input-xlarge" name="descripcion" id="descripcion" placeholder="">
                 </div>
@@ -32,7 +32,7 @@
                       <thead>
                         <tr>
                             <th>RUT</th>
-                            <th>Descripción</th>
+                            <th>Nombre</th>
                         </tr>
                       </thead>
                       <tbody>

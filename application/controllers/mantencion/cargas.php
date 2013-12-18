@@ -107,7 +107,7 @@ class Cargas extends CI_Controller{
                 
             }
             else{
-                echo $this->input->post('descripcion');
+                
                 $datos = array(
                         'descripcion'=>$this->input->post('descripcion'),
                         );

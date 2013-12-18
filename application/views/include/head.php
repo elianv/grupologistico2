@@ -28,7 +28,7 @@
                       <li><a href=<?php echo base_url();?>index.php/mantencion/cargas>Tipos de Carga</a></li>
                       <li><a href=<?php echo base_url();?>index.php/mantencion/depositos>Depósitos</a></li>
                     <li><a href=<?php echo base_url();?>index.php/mantencion/bodegas>Bodegas</a></li>
-                    <li><a href=<?php echo base_url();?>index.php/mantencion/servicios>Servicios</a></li>
+                    <li><a href=<?php echo base_url();?>index.php/mantencion/servicios>Otros Servicios</a></li>
                     </ul>
   </li>
     <li class="dropdown">

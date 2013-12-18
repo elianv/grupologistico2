@@ -1,5 +1,3 @@
-
-        
     <legend><h3><center>Mantención de Tramos</center></h3></legend> 
     
   <div class="row">
@@ -29,14 +27,14 @@
             <div class="control-group">
                 <label class="control-label"><strong>Valor Costo</strong></label>
                 <div class="controls">
-                 <input type="text" class="span3" id="valor_costo" name="valor_costo" placeholder="">
+                 <input type="text" class="span3" id="valor_costo" name="valor_costo" placeholder="" >
                 </div>
             </div>
                
             <div class="control-group">
                 <label class="control-label"><strong>Valor Venta</strong></label>
                 <div class="controls">
-                 <input type="text" class="span3" id="valor_venta" name="valor_venta" placeholder="">
+                 <input type="text" class="span3" id="valor_venta" name="valor_venta" placeholder="" >
                 </div>
             </div>             
               

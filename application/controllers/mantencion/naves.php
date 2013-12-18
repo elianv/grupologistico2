@@ -55,7 +55,7 @@ class Naves extends CI_Controller{
             
             $this->load->library('form_validation');
             $this->form_validation->set_rules('nombre', 'Nombre Nave','trim|required|xss_clean');
-            $this->form_validation->set_rules('codigo_naviera', 'Codigo Naviera','numeric|trim|xss_clean|required|callback_check_unique');
+            $this->form_validation->set_rules('codigo_naviera', 'Codigo Naviera','trim|xss_clean|required|callback_check_unique');
            
             if($this->form_validation->run() == FALSE){
                 
@@ -80,10 +80,10 @@ class Naves extends CI_Controller{
                 }
             else{
                 
-                                
+                $codigo_naviera = explode("-",$this->input->post('codigo_naviera'));               
                 $nave = array(
                         'nombre' => $this->input->post('nombre'),
-                        'naviera_codigo_naviera' => $this->input->post('codigo_naviera')
+                        'naviera_codigo_naviera' => $codigo_naviera[0]
                         );
                 $codigo_nave = $this->input->post('codigo_nave');
                 
@@ -105,7 +105,7 @@ class Naves extends CI_Controller{
             
             $this->load->library('form_validation');
             $this->form_validation->set_rules('nombre', 'Nombre Nave','trim|required|xss_clean');
-            $this->form_validation->set_rules('codigo_naviera', 'Codigo Naviera','numeric|trim|xss_clean|required|callback_check_unique');
+            $this->form_validation->set_rules('codigo_naviera', 'Codigo Naviera','trim|xss_clean|required|callback_check_unique');
            
             if($this->form_validation->run() == FALSE){
                 
@@ -130,14 +130,14 @@ class Naves extends CI_Controller{
                 }
             else{
                 
-                                
+                $codigo_naviera = explode("-",$this->input->post('codigo_naviera'));
                 $nave = array(
                         'nombre' => $this->input->post('nombre'),
-                        'naviera_codigo_naviera' => $this->input->post('codigo_naviera')
+                        'naviera_codigo_naviera' => $codigo_naviera[0]
                         );
                 $this->Naves_model->insertar_nave($nave);
                 redirect('mantencion/naves','refresh');
- 
+                 
             }
             
         }
@@ -147,9 +147,10 @@ class Naves extends CI_Controller{
         }
     }
     
-    function check_unique($naviera_codigo_naviera){
+    function check_unique($codigo){
               
-        $result = $this->Naves_model->existe($naviera_codigo_naviera);
+        $codigo_naviera = explode("-",$codigo);
+        $result = $this->Naves_model->existe($codigo_naviera[0]);
                 
         if($result){
             $this->form_validation->set_message('check_unique','El codigo de Naviera que ingresa no se encuentra en el sistema, intente con otro.');
@@ -164,8 +165,8 @@ class Naves extends CI_Controller{
         $this->load->view('prueba');
          */
     }
-	
-	 function datos_naves($rut){
+    
+    function datos_naves($rut){
         
         $this->Naves_model->datos_nave($rut);
         
