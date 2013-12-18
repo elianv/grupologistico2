@@ -1,66 +1,58 @@
 <div class="container">
-        
-    <legend><h3><center>Orden de Servicio</center></h3></legend>
-          <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
-          <form class="form-horizontal form-orden" method="post">
-           <fieldset>  
+
+	<legend><h3><center>Orden de Servicio</center></h3></legend>
+	
+	<div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
+		<form class="form-horizontal form-orden" method="post">
+			<fieldset>  
                
-            <div class="row show-grid">
-                <div class="span5">
-                     <div class="control-group">
-                         <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
+			<div class="row show-grid">
+				<div class="span5">
+					<div class="control-group">
+						
+						<label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
                         <div class="controls">
                            
-                              <?php echo "<div class='input-append'><input type='text' class='span2' name='numero_orden' id='numero_orden' placeholder='Solo números' value=".$numero_orden."><button class='btn' type='button' data-toggle='modal' href='#modal-orden'><i class='icon-search'></i></button></div>"; ?>
+							<?php echo "<div class='input-append'><input type='text' class='span2' name='numero_orden' id='numero_orden' placeholder='Solo números' value=".$numero_orden."><button class='btn' type='button' data-toggle='modal' href='#modal-orden'><i class='icon-search'></i></button></div>"; ?>
                             
                         </div>
-                     </div>
-               <div class="control-group">
-                <label class="control-label" for="referencia"><strong>Referencia</strong></label>
-                <div class="controls">
-                 <input type="text" name="referencia" id="referencia" placeholder="">
-                </div>
-            </div>
-                </div>
-                
-
-        
-                <div class="span6">
-                 <div class="control-group">
-                     <label class="control-label" for="tipo_factura"><strong>Tipo</strong></label>
-                    <div class="controls">
-                       <select id="tipo_factura" name="tipo_factura" class="span2">
-                           <?php
-                                  // print_r(tfacturacion[0]);
-                                   foreach ($tfacturacion as $tipo){
-                                       
-                                       echo "<option>".$tipo['tipo_orden']."</option>";
-                                       
-                                   }
-                                
-                                
-                           ?>
-                       </select>
-                    </div>
-                 </div>
-                    
-                     <div class="control-group">
-                        <label class="control-label" for="fecha"><strong>Fecha</strong></label>
-                        <div class="controls">
-                            <input type="text" class="span2" name="fecha" id="fecha" placeholder="Seleccione">
-                        </div>
-                     </div> 
-                    
-                </div>
-            </div>
-                
-
-              
-            	
-               
-
-               </br>
-               </br>
+						
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="referencia"><strong>Referencia</strong></label>
+						<div class="controls">
+							<input type="text" name="referencia" id="referencia" placeholder="">
+						</div>
+					</div>
+				</div>
+			
+				<div class="span6">
+					<div class="control-group">
+						<label class="control-label" for="tipo_factura"><strong>Tipo</strong></label>
+						<div class="controls">
+						   <select id="tipo_factura" name="tipo_factura" class="span2">
+								<?php
+									// print_r(tfacturacion[0]);
+									foreach ($tfacturacion as $tipo){
+										echo "<option>".$tipo['tipo_orden']."</option>";
+									}
+								?>
+							</select>
+						</div>
+					</div>
+						
+					<div class="control-group">
+						<label class="control-label" for="fecha"><strong>Fecha</strong></label>
+						<div class="controls">
+							<input type="text" class="span2" name="fecha" id="fecha" placeholder="Seleccione">
+						</div>
+					</div> 
+						
+				</div>
+			</div>
+            
+			</br>
+			</br>
 <!--   ##############################################################    -->     
 
             <div class="control-group">

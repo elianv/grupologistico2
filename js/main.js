@@ -193,38 +193,6 @@ $.datepicker.regional['es'] = {
 	};
 	$.datepicker.setDefaults($.datepicker.regional['es']);
 	
-	
-	
-	
-/*Pasar de modal*/
-
-$('#modal-cliente .codigo-click').click(function(e){
-
-	e.preventDefault();
-	
-	$('.form-orden #cliente').attr('value', $(this).data('codigo'));
-	
-	$('#modal-cliente').fadeOut('fast',function(){
-	
-		$('body').removeClass('modal-open');
-		
-		$('.modal-backdrop.fade.in').remove();
-	
-	
-	});
-
-});
-
-/*Duplicar*/
-
-$('.boton-repetir a').click(function(e){
-
-	e.preventDefault();
-	
-	$('.campo-a-repetir:last').after($('.campo-a-repetir:last').clone());
-
-});
-
 /*Tipos de Naves*/
 
 $('.form-naves .codigo-click').click(function(e){
@@ -368,6 +336,307 @@ $('.form-servicios .codigo-click').click(function(e){
 			$('#vventa').val(response[0].valor_venta);
 			$('#moneda').val(response[0].moneda_id_moneda);
 		}
+	});
+
+});
+
+/*--Ordenes--*/
+
+$('.boton-repetir a').click(function(e){
+
+	e.preventDefault();
+	
+	$('.campo-a-repetir:last').after($('.campo-a-repetir:last').clone());
+	
+	document.setCloneEvent();
+	
+});
+
+/*Repetir campo + funcion para que Clon pueda quedar "activo"*/
+
+(document.setCloneEvent = function(){
+
+	$('.campo-a-repetir .btn').last().click(function(){
+		
+		$('.campo-a-repetir').removeClass('activo');
+
+		$(this).parent().parent().parent().parent().addClass('activo');
+
+	});
+})();
+
+$('#modal-servicio .close').click(function(){
+
+	$('.campo-a-repetir').removeClass('activo');
+
+});
+
+/*Pasar de modal c/s clon*/
+
+$('#modal-servicio .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.campo-a-repetir.activo #servicio').attr('value', $(this).data('codigo'));
+	
+	$('#modal-servicio').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	});
+
+});
+
+/*Pasar de modal*/
+
+$('#modal-cliente .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #cliente').attr('value', $(this).data('codigo'));
+	
+	$('#modal-cliente').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Pasar de modal Navieras*/
+
+$('#modal-servicio .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	var nombre = $(this).parent().next('td').text();
+	
+	$('#codigo_naviera').attr('value', $(this).data('codigo')+'-'+nombre);
+	
+	$('.modal-naves').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - Aduanas */
+
+$('#modal-aduana .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #aduana').attr('value', $(this).data('codigo'));
+	
+	$('#modal-aduana').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - Nave */
+
+$('#modal-nave .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #nave').attr('value', $(this).data('codigo'));
+	
+	$('#modal-nave').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - tramo */
+
+$('#modal-tramo .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #tramo').attr('value', $(this).data('codigo'));
+	
+	$('#modal-tramo').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - carga */
+
+$('#modal-carga .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #carga').attr('value', $(this).data('codigo'));
+	
+	$('#modal-carga').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - bodega */
+
+$('#modal-bodega .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #bodega').attr('value', $(this).data('codigo'));
+	
+	$('#modal-bodega').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - bodega */
+
+$('#modal-deposito .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #deposito').attr('value', $(this).data('codigo'));
+	
+	$('#modal-deposito').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - Puerto */
+
+$('#modal-puerto .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #puerto').attr('value', $(this).data('codigo'));
+	
+	$('#modal-puerto').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - proveedor */
+
+$('#modal-proveedor .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #rut').attr('value', $(this).data('codigo'));
+	
+	$('#modal-proveedor').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - proveedor */
+
+$('#modal-conductor .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #conductor').attr('value', $(this).data('codigo'));
+	
+	$('#modal-conductor').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - Patente */
+
+$('#modal-camion .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$('.form-orden #patente').attr('value', $(this).data('codigo'));
+	
+	$('#modal-camion').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+
+/*Ordenes Servicios*/
+
+$('.modal-naves .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	var nombre = $(this).parent().next('td').text();
+	
+	$('#codigo_naviera').attr('value', $(this).data('codigo')+'-'+nombre);
+	
+	$('.modal-naves').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
 	});
 
 });

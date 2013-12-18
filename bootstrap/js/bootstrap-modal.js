@@ -156,6 +156,7 @@
   function removeBackdrop() {
     this.$backdrop.remove()
     this.$backdrop = null
+	$('.campo-a-repetir').removeClass('activo');
   }
 
   function escape() {
