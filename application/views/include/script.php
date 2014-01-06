@@ -18,6 +18,7 @@
 	
     <script type="text/javascript" charset="utf-8" language="javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/jquery.Rut.min.js"></script>
 	
     <script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/main.js"></script>
     </body>

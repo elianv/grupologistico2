@@ -72,7 +72,7 @@ class Clientes_model extends CI_Model{
     }
     
         function datos_cliente($rut) {
-			$this->db->select ('rut_cliente,razon_social,giro,direccion,comuna,ciudad,fono,contacto,celular,dias_plazo,tipo_factura_id_tipo_facturacion');
+			$this->db->select ('rut_cliente,razon_social,giro,direccion,comuna,ciudad,fono,contacto,celular,dias_plazo,tipo_factura');
 			$this->db->from('cliente');
 			$this->db->where('rut_cliente',$rut);
 			$resultado = $this->db->get();

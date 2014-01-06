@@ -116,7 +116,7 @@ $('.form-clientes .codigo-click').click(function(e){
 			$('#celular').val(response[0].celular);
 			$('#contacto').val(response[0].contacto);
 			$('#dplazo').val(response[0].dias_plazo);
-			$('#tfactura').val(response[0].tipo_factura_id_tipo_facturacion);
+			$('#tfactura').val(response[0].tipo_factura);
 		}
 	});
 
@@ -396,6 +396,7 @@ $('#modal-cliente .codigo-click').click(function(e){
 	e.preventDefault();
 	
 	$('.form-orden #cliente').attr('value', $(this).data('codigo'));
+	$('.form-orden #cliente').val($(this).data('codigo'));
 	
 	$('#modal-cliente').fadeOut('fast',function(){
 	
@@ -640,3 +641,39 @@ $('.modal-naves .codigo-click').click(function(e){
 	});
 
 });
+
+/*VAlores Decimales*/
+
+function valor_format(input){
+
+	input = input.replace(/[^0-9]*/gi, '');
+
+    var output = '';
+    $(input.split('').reverse()).each(function(i){
+        output += this;
+        
+        if (i % 3 == 2) output += '.';
+    });
+    return output.split('').reverse().join('').replace(/^\./, '');
+}
+//valor_format();
+
+$('.form-left-tramos #valor_costo , .form-left-tramos #valor_venta , .form-left-servicios #vcosto , .form-left-servicios #vventa , .form-orden #valor_costo_tramo , .form-orden #valor_venta_tramo , .form-orden #valor_costo_servicio , .form-orden #valor_venta_servicio').on('keyup', function(){
+
+/* Lo mismo de abajo pero en menos lineas
+	var valor = $(this).val();
+	
+	valor = valor_format(valor);
+	
+	$(this).val(valor);
+*/
+	
+	$(this).val(valor_format($(this).val()));
+});
+
+/*Rut*/
+
+$(".form-left-clientes #rut , .form-left-conductores #rut , .form-left-proveedores #rut , .form-orden #cliente , .form-orden #rut , .form-orden #conductor").Rut({
+   on_error: function(){ alert('El rut ingresado es incorrecto'); },
+    format_on: 'keyup'
+})
