@@ -12,9 +12,9 @@
             </div>
             
             <div class="control-group">
-                <label class="control-label" for="telefono"><strong>Telefono Celular</strong></label>
+                <label class="control-label" for="telefono"><strong>Descripción</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xlarge" name="telefono" id="telefono" placeholder="09 - número">
+                 <input type="text" class="input-xlarge" name="telefono" id="telefono" placeholder="Opcional">
                 </div>
             </div>
                
@@ -30,7 +30,7 @@
                       <thead>
                         <tr>
                             <th>Patente</th>
-                            <th>Celular</th>
+                            <th>Descripción</th>
 			</tr>
                       </thead>
                       <tbody>
