@@ -28,22 +28,6 @@ $('.form-camiones .codigo-click').click(function(e){
 
 });
 
-/*Conductores*/
-
-$('.form-conductores .codigo-click').click(function(e){
-
-	e.preventDefault();
-	
-	var codigo = $(this).attr('data-codigo');
-	
-	$('.form-left-conductores #rut').attr('value', codigo);
-	
-	var nombre = $(this).parent().next('.descripcion').text();
-
-	$('.form-left-conductores #descripcion').attr('value', nombre);
-
-});
-
 /*Puertos*/
 
 $('.form-puertos .codigo-click').click(function(e){
@@ -159,6 +143,7 @@ $('.form-orden #tipo_factura').change(function(){
 
 //$('.form-orden #fecha').datepicker();
 $('.form-orden #fecha').datetimepicker();
+$('.form-orden #fecha_carga').datetimepicker();
 
 $.datepicker.regional['es'] = {
 		clearText: 'Borra',
@@ -209,7 +194,7 @@ $('.form-naves .codigo-click').click(function(e){
 			console.log(response);
 			$('#codigo_nave').val(response[0].codigo_nave);
 			$('#nombre').val(response[0].nombre);
-			$('#codigo_naviera').val(response[0].naviera_codigo_naviera);
+			$('#codigo_naviera').val(response[0].naviera_codigo_naviera+' - '+response[0].nombre);
 		}
 	});
 
@@ -256,7 +241,7 @@ $('.form-tramos .codigo-click').click(function(e){
 			$('#descripcion').val(response[0].descripcion);
 			$('#valor_costo').val(response[0].valor_costo);
 			$('#valor_venta').val(response[0].valor_venta);
-			$('#tfactura').val(response[0].moneda_id_moneda);
+			$('#tfactura').val($('#tfactura option[value='+response[0].moneda_id_moneda+']').val());
 		}
 	});
 
@@ -340,6 +325,28 @@ $('.form-servicios .codigo-click').click(function(e){
 
 });
 
+/*Conductores*/
+
+$('.form-conductores .codigo-click').click(function(e){
+	
+	e.preventDefault();
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/conductores',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('#rut').val(response[0].rut);
+			$('#descripcion').val(response[0].descripcion);
+			$('#telefono').val(response[0].telefono);
+		}
+	});
+
+});
+
 /*--Ordenes--*/
 
 $('.boton-repetir a').click(function(e){
@@ -395,8 +402,11 @@ $('#modal-cliente .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
+	var nombre = $(this).parent().next('td').text();
+	
 	$('.form-orden #cliente').attr('value', $(this).data('codigo'));
 	$('.form-orden #cliente').val($(this).data('codigo'));
+	$('.form-orden .nombre-cliente').val(nombre);
 	
 	$('#modal-cliente').fadeOut('fast',function(){
 	
@@ -436,7 +446,9 @@ $('#modal-aduana .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.form-orden #aduana').attr('value', $(this).data('codigo'));
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #aduana').val($(this).data('codigo')+' - '+nombre);
 	
 	$('#modal-aduana').fadeOut('fast',function(){
 	
@@ -455,7 +467,9 @@ $('#modal-nave .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.form-orden #nave').attr('value', $(this).data('codigo'));
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #nave').val($(this).data('codigo')+' - '+nombre);
 	
 	$('#modal-nave').fadeOut('fast',function(){
 	
@@ -474,7 +488,9 @@ $('#modal-tramo .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.form-orden #tramo').attr('value', $(this).data('codigo'));
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #tramo').val($(this).data('codigo')+' - '+nombre);
 	
 	$('#modal-tramo').fadeOut('fast',function(){
 	
@@ -493,7 +509,9 @@ $('#modal-carga .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.form-orden #carga').attr('value', $(this).data('codigo'));
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #carga').val($(this).data('codigo')+' - '+nombre);
 	
 	$('#modal-carga').fadeOut('fast',function(){
 	
@@ -512,7 +530,9 @@ $('#modal-bodega .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.form-orden #bodega').attr('value', $(this).data('codigo'));
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #bodega').val($(this).data('codigo')+' - '+nombre);
 	
 	$('#modal-bodega').fadeOut('fast',function(){
 	
@@ -525,13 +545,15 @@ $('#modal-bodega .codigo-click').click(function(e){
 
 });
 
-/*Modal Ordn - bodega */
+/*Modal Ordn - Deposito */
 
 $('#modal-deposito .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.form-orden #deposito').attr('value', $(this).data('codigo'));
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #deposito').val($(this).data('codigo')+' - '+nombre);
 	
 	$('#modal-deposito').fadeOut('fast',function(){
 	
@@ -544,13 +566,36 @@ $('#modal-deposito .codigo-click').click(function(e){
 
 });
 
-/*Modal Ordn - Puerto */
+/*Modal Ordn - Destino */
 
 $('#modal-puerto .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.form-orden #puerto').attr('value', $(this).data('codigo'));
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #destino').val($(this).data('codigo')+' - '+nombre);
+	
+	$('#modal-puerto').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+/*Modal Ordn - Embarque */
+
+$('#modal-puerto .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #puerto').val($(this).data('codigo')+' - '+nombre);
 	
 	$('#modal-puerto').fadeOut('fast',function(){
 	
@@ -582,13 +627,17 @@ $('#modal-proveedor .codigo-click').click(function(e){
 
 });
 
-/*Modal Ordn - proveedor */
+/*Modal Ordn - conductor */
 
 $('#modal-conductor .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.form-orden #conductor').attr('value', $(this).data('codigo'));
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #conductor').val($(this).data('codigo'));
+	
+	$('.form-orden .nombre-conductor').val(nombre);
 	
 	$('#modal-conductor').fadeOut('fast',function(){
 	
@@ -677,3 +726,20 @@ $(".form-left-clientes #rut , .form-left-conductores #rut , .form-left-proveedor
    on_error: function(){ alert('El rut ingresado es incorrecto'); },
     format_on: 'keyup'
 })
+
+
+
+
+/*--Ordenes--*/
+
+$('.boton-clonar a').click(function(e){
+
+	e.preventDefault();
+	
+	$('.repetir-guia:last').after($('.repetir-guia:last').clone());
+	
+	document.setCloneEvent();
+	
+});
+
+

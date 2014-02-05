@@ -19,6 +19,13 @@
                  <input type="text" class="input-xlarge" name="descripcion" id="descripcion" placeholder="">
                 </div>
             </div>
+			
+			<div class="control-group">
+                <label class="control-label" for="descripcion"><strong>Teléfono</strong></label>
+                <div class="controls">
+					<input type="text" class="input-xlarge" name="telefono" id="telefono" placeholder="">
+                </div>
+            </div>
                
             <div class="form-actions">
                     <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/conductores/guardar_conductor'" value="Guardar" />

@@ -47,9 +47,9 @@
                        <select id="tfactura" name="tmoneda">
                            <?php
                                   // print_r(tfacturacion[0]);
-                                   foreach ($tmoneda as $tipo){
-                                       
-                                       echo "<option>".$tipo['moneda']."</option>";
+                                   foreach ($tmoneda as  $index => $tipo){
+                                       $num = range(3,100);
+                                       echo "<option value='".$num[$index]."'>".$tipo['moneda']."</option>";
                                        
                                    }
                                 

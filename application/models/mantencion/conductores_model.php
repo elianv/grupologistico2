@@ -71,6 +71,16 @@ class Conductores_model extends CI_Model{
             return false;
         }
     }
+	
+	function datos_conductor($rut) {
+			$this->db->select('rut,descripcion,telefono');
+			$this->db->from('conductor');
+			$this->db->where('rut',$rut);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+        
+    }
     
 }
 ?>

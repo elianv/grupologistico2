@@ -126,12 +126,16 @@ class Tramos extends CI_Controller{
                                     'valor_venta' => $this->input->post('valor_venta'),
                                     'moneda_id_moneda' => ""
                                 );
+
+                $arreglo['valor_venta'] = str_replace(".", "", $arreglo['valor_venta']);
+                $arreglo['valor_costo'] = str_replace(".", "", $arreglo['valor_costo']);
+
                 $tmoneda = $this->Moneda->GetTipo();
-                 
+                
+
                 foreach($tmoneda as $dato){
-                    
-                    if($dato['moneda'] == $this->input->post('tmoneda')){
-                         $arreglo['moneda_id_moneda'] = $dato['id_moneda'];
+                    if($dato['id_moneda'] == $this->input->post('tmoneda')){
+                        $arreglo['moneda_id_moneda'] = $dato['id_moneda'];
                     }
                 }
 
@@ -194,11 +198,15 @@ class Tramos extends CI_Controller{
                                     'valor_venta' => $this->input->post('valor_venta'),
                                     'moneda_id_moneda' => ""
                                 );
+
+                $arreglo['valor_venta'] = str_replace(".", "", $arreglo['valor_venta']);
+                $arreglo['valor_costo'] = str_replace(".", "", $arreglo['valor_costo']);
+
                 $tmoneda = $this->Moneda->GetTipo();
                  
                 foreach($tmoneda as $dato){
                     
-                    if($dato['moneda'] == $this->input->post('tmoneda')){
+                    if($dato['id_moneda'] == $this->input->post('tmoneda')){
                          $arreglo['moneda_id_moneda'] = $dato['id_moneda'];
                     }
                 }
