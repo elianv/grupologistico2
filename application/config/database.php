@@ -49,9 +49,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '1234';
-$db['default']['database'] = 'grupologistico';
+$db['default']['username'] = 'grupologistico';
+$db['default']['password'] = 'grupo1234';
+$db['default']['database'] = 'zadmin_grupologistico';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
