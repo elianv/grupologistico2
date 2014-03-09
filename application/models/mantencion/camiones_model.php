@@ -15,9 +15,8 @@ class Camiones_model extends CI_Model{
         }
     }
     
-    function modificar_camion($camion,$patente){
-        $this->db->where('patente',$patente);               
-
+    function modificar_camion($camion,$id_camion){
+        $this->db->where('camion_id',$id_camion);               
         if($this->db->update('camion', $camion)){
             return true;
         }
@@ -52,7 +51,6 @@ class Camiones_model extends CI_Model{
         return $resultado->result_array();
     }
     
-        
     function existe_camion($patente){
         $this->db->select ('patente');
         $this->db->from('camion');
@@ -69,6 +67,16 @@ class Camiones_model extends CI_Model{
             
             return false;
         }
+    }
+    
+	function datos_camion($rut) {
+			$this->db->select ();
+			$this->db->from('camion');
+			$this->db->where('patente',$rut);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+        
     }
 }
 

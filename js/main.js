@@ -15,16 +15,22 @@ $('.form-navieras .codigo-click').click(function(e){
 /*Camiones*/
 
 $('.form-camiones .codigo-click').click(function(e){
-
+	
 	e.preventDefault();
 	
-	var codigo = $(this).attr('data-codigo');
-	
-	$('.form-left-camiones #patente').attr('value', codigo);
-	
-	var nombre = $(this).parent().next('.celular').text();
-
-	$('.form-left-camiones #telefono').attr('value', nombre);
+	$.ajax({
+		type:'post',
+		url:'../mantencion/camiones',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('.form-left-camiones input[type="hidden"]').val(response[0].camion_id);
+			$('.form-left-camiones #patente').val(response[0].patente);
+			$('#telefono').val(response[0].celular);
+		}
+	});
 
 });
 
@@ -384,7 +390,19 @@ $('#modal-servicio .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.campo-a-repetir.activo #servicio').attr('value', $(this).data('codigo'));
+	$.ajax({
+		type:'post',
+		url:'../mantencion/servicios',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('.campo-a-repetir.activo #servicio').val(response[0].codigo_servicio);
+			$('.campo-a-repetir.activo #valor_costo_servicio').val(response[0].valor_costo);
+			$('.campo-a-repetir.activo #valor_venta_servicio').val(response[0].valor_venta);
+		}
+	});
 	
 	$('#modal-servicio').fadeOut('fast',function(){
 	
@@ -490,7 +508,21 @@ $('#modal-tramo .codigo-click').click(function(e){
 	
 	var nombre = $(this).parent().next('td').text();
 	
-	$('.form-orden #tramo').val($(this).data('codigo')+' - '+nombre);
+	//$('.form-orden #tramo').val($(this).data('codigo')+' - '+nombre);
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/tramos',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('.form-orden #tramo').val(response[0].codigo_tramo);
+			$('.form-orden #valor_costo_tramo').val(response[0].valor_costo);
+			$('.form-orden #valor_venta_tramo').val(response[0].valor_venta);
+		}
+	});
 	
 	$('#modal-tramo').fadeOut('fast',function(){
 	
@@ -595,7 +627,7 @@ $('#modal-puerto .codigo-click').click(function(e){
 	
 	var nombre = $(this).parent().next('td').text();
 	
-	$('.form-orden #puerto').val($(this).data('codigo')+' - '+nombre);
+	$('.form-orden #destino').val($(this).data('codigo')+' - '+nombre);
 	
 	$('#modal-puerto').fadeOut('fast',function(){
 	
@@ -656,7 +688,20 @@ $('#modal-camion .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
-	$('.form-orden #patente').attr('value', $(this).data('codigo'));
+	//$('.form-orden #patente').attr('value', $(this).data('codigo'));
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/camiones',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('.form-orden #camion_id').val(response[0].camion_id);
+			$('.form-orden #patente').val(response[0].patente);
+		}
+	});
 	
 	$('#modal-camion').fadeOut('fast',function(){
 	
@@ -742,4 +787,27 @@ $('.boton-clonar a').click(function(e){
 	
 });
 
+
+/*Modal Orden - Puerto embarque*/
+
+$('#modal-puerto_embarque .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #puerto').attr('value', '');
+	$('.form-orden #puerto').attr('value', $(this).data('codigo')+'-'+nombre);
+	$('.form-orden #puerto').text($(this).data('codigo')+'-'+nombre);
+	
+	$('#modal-puerto_embarque').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
 

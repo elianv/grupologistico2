@@ -339,6 +339,7 @@
                             <label class="control-label" for="patente"><strong>Patente</strong></label>
                             <div class="controls">
                                 <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><button class="btn" type="button" data-toggle="modal" href="#modal-camion"><i class="icon-search"></i></button></div>
+                                <input type="hidden" name="camion_id" id="camion_id" value="">
                             </div>
                         </div>
                     </div>

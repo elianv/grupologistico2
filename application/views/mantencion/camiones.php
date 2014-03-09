@@ -3,7 +3,11 @@
               <div class="span6 form-left-camiones">
                   <div style="margin-left: 10px"><?php echo validation_errors(); ?></div> 
                   <form class="form-horizontal" method="post" style="margin-left: 10px">
-           <fieldset>  
+           <fieldset>
+               
+               <div>
+                   <input type="hidden" name="id_camion" value="">
+               </div>  
             <div class="control-group">
                 <label class="control-label" for="patente"><strong>Patente</strong></label>
                 <div class="controls">

@@ -8,19 +8,32 @@ class Camiones extends CI_Controller{
     }
     
     function index(){
+	
+		$codigo = isset($_POST['codigo'])?$_POST['codigo']:'';
+		
+		if(isset($codigo) && $codigo != ''){
+			
+			// set no layout para que el response del ajax sea de la consulta al modelo segun el rut, return array..
+			// codigo aqui..
+			$response = json_encode($this->datos_camion($codigo));
+			
+			echo $response;
+		
+		} else{
         
-        if($this->session->userdata('logged_in')){
-            $session_data = $this->session->userdata('logged_in');
-            $data['tablas'] = $this->Camiones_model->listar_camiones();
-            $this->load->view('include/head',$session_data);
-            $this->load->view('mantencion/camiones',$data);
-            $this->load->view('include/script');
-        }
-        else{
-            redirect('home','refresh');
-        }
+			if($this->session->userdata('logged_in')){
+				$session_data = $this->session->userdata('logged_in');
+				$data['tablas'] = $this->Camiones_model->listar_camiones();
+				$this->load->view('include/head',$session_data);
+				$this->load->view('mantencion/camiones',$data);
+				$this->load->view('include/script');
+			}
+			else{
+				redirect('home','refresh');
+			}
 
-    }
+		}
+	}
     
     function guardar_camion(){
         if($this->session->userdata('logged_in')){
@@ -73,10 +86,7 @@ class Camiones extends CI_Controller{
                             'patente' => strtoupper($this->input->post('patente')),
                             'celular' => $this->input->post('telefono')
                             );
-
-                $patente = strtoupper($this->input->post('patente'));
-
-                $this->Camiones_model->modificar_camion($camion,$patente);
+                $this->Camiones_model->modificar_camion($camion,$this->input->post('id_camion'));
                 redirect('mantencion/camiones','refresh');   
             }
             
@@ -99,6 +109,15 @@ class Camiones extends CI_Controller{
             
             return true;
         }
+    }
+	
+	function datos_camion($rut){
+        
+        $this->Camiones_model->datos_camion($rut);
+        
+		$ret = $this->Camiones_model->datos_camion($rut);
+		return $ret;
+        
     }
 }
 ?>
