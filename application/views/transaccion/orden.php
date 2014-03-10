@@ -5,17 +5,14 @@
 	<div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
 		<form class="form-horizontal form-orden" method="post">
 			<fieldset>  
-               
 			<div class="row show-grid">
 				<div class="span5">
 					<div class="control-group">
 						
-						<label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
-                        <div class="controls">
-                           
-							<?php echo "<div class='input-append'><input type='text' class='span2' name='numero_orden' id='numero_orden' placeholder='Solo números' value=".$numero_orden."><button class='btn' type='button' data-toggle='modal' href='#modal-orden'><i class='icon-search'></i></button></div>"; ?>
-                            
-                        </div>
+                                            <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
+                                            <div class="controls">
+                                                <?php echo "<div class='input-append'><input type='text' class='span2' name='numero_orden' id='numero_orden' placeholder='Solo números' value=".$numero_orden."><button class='btn' type='button' data-toggle='modal' href='#modal-orden'><i class='icon-search'></i></button></div>"; ?>
+                                            </div>
 						
 					</div>
 					<div class="control-group">
@@ -30,7 +27,7 @@
 					<div class="control-group">
 						<label class="control-label" for="tipo_factura"><strong>Tipo</strong></label>
 						<div class="controls">
-						   <select id="tipo_factura" name="tipo_factura" class="span2">
+						   <select id="tipo_factura" name="tipo_orden" class="span2">
 								<?php
 									// print_r(tfacturacion[0]);
 									foreach ($tfacturacion as $tipo){
@@ -40,14 +37,12 @@
 							</select>
 						</div>
 					</div>
-						
 					<div class="control-group">
 						<label class="control-label" for="fecha"><strong>Fecha</strong></label>
 						<div class="controls">
 							<input type="text" class="span2" name="fecha" id="fecha" placeholder="Seleccione">
 						</div>
 					</div> 
-						
 				</div>
 			</div>
             
@@ -59,7 +54,7 @@
                 <label class="control-label" for="cliente"><strong>RUT Cliente</strong></label>
                 <div class="controls">
                     <div class="input-append">
-						<input type="text" class="span2" id="cliente" name="cliente" placeholder="">
+						<input type="text" class="span2" id="cliente" name="cliente_rut_cliente" placeholder="">
 						<button class="btn" type="button" data-toggle="modal" href="#modal-cliente"><i class="icon-search"></i></button>
 						<input class="nombre-cliente" type="text" disabled="disabled" value="" placeholder="Nombre Cliente..."/>
 					</div>
@@ -71,17 +66,12 @@
                         <div class="control-group booking">
                             <label class="control-label" for="booking"><strong>Booking</strong></label>
                             <div class="controls">
-                                <input type="text" class="span2" id="booking" name="booking" placeholder="">
+                                <input type="text" class="input-xlarge" id="booking" name="booking" placeholder="">
                             </div>
                         </div>
                     </div>
                     <div class="span6">
                         <div class="control-group">
-                            
-                            <label class="control-label" for="referencia"><strong>Referencia</strong></label>
-                            <div class="controls">
-                                 <input type="text" class="span4" id="referencia" name="referencia" placeholder="">
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,29 +79,24 @@
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Aduana</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xlarge" id="aduana" name="aduana" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-aduana"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xlarge" id="aduana" name="aduana_codigo_aduana" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-aduana"><i class="icon-search"></i></button></div>
                 </div>
             </div>
 
            <div class="control-group">
                 <label class="control-label" for="cliente"><strong>Nave</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="nave" name="nave" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-nave"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="nave" name="nave_codigo_nave" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-nave"><i class="icon-search"></i></button></div>
                 </div>
             </div>
 
             <div class="control-group tramo">
                 <label class="control-label" for="tramo"><strong>Tramo</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="tramo" name="tramo" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-tramo"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="tramo" name="tramo_codigo_tramo" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-tramo"><i class="icon-search"></i></button></div>
                 </div>
             </div>
 
-            <div class="control">
-                <label class="checkbox">
-                    <input type="checkbox" id="valores_tramo" name="valores_tramo[]" value=1 style="margin-left: 158px">Usar los Precios de Mantención, para Tramo
-                </label>
-            </div>
             <div class="row show-grid">
              <div class="span5">
             <div class="control-group">
@@ -132,8 +117,7 @@
          </div>
 
                </br>
-               </br>
-               </br>
+
 
 <!--   ##############################################################    -->  
          <div class="row show-grid">
@@ -142,7 +126,7 @@
                 <label class="control-label" for="carga"><strong>Carga</strong></label>
                 <div class="controls">
                     <div class="input-append">
-						<input type="text" class="span2" id="carga" name="carga" placeholder="">
+						<input type="text" class="span2" id="carga" name="tipo_carga_codigo_carga" placeholder="">
 							<button class="btn" type="button" data-toggle="modal" href="#modal-carga">
 								<i class="icon-search"></i>
 							</button>
@@ -205,14 +189,14 @@
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Bodega</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="bodega" name="bodega" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-bodega"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="bodega" name="bodega_codigo_bodega" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-bodega"><i class="icon-search"></i></button></div>
                 </div>
             </div>
                
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Depósito</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-deposito"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito_codigo_deposito" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-deposito"><i class="icon-search"></i></button></div>
                 </div>
             </div>               
 
@@ -221,7 +205,7 @@
                         <div class="control-group destino">
                             <label class="control-label" for="destino"><strong>Destino</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="input-span2" id="destino" name="destino" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-puerto"><i class="icon-search"></i></button></div>
+                                <div class="input-append"><input type="text" class="input-span2" id="destino" name="destino" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-destino"><i class="icon-search"></i></button></div>
                               </div>
                         </div>
                    </div>
@@ -231,11 +215,9 @@
                         <label class="label-corto control-label" for="puerto"><strong>Puerto Embarque</strong></label>
                         <div class="controls">
                             <div class="input-append">
-								<input type="text" class="span2" id="puerto" name="puerto" placeholder="">
-								<button class="btn" type="button" data-toggle="modal" href="#modal-puerto">
-									<i class="icon-search"></i>
-								</button>
-							</div>
+                                <input type="text" class="span2" id="puerto" name="puerto_codigo_puerto" placeholder="">
+				<button class="btn" type="button" data-toggle="modal" href="#modal-puerto"><i class="icon-search"></i></button>
+                            </div>
                         </div>
                         </div>
                    </div>
@@ -255,7 +237,7 @@
                         <div class="control-group">
                             <label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="rut" name="rut" placeholder="sin puntos, ni guion"><button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button></div>
+                                <div class="input-append"><input type="text" class="span2" id="rut" name="proveedor_rut_proveedor" placeholder="sin puntos, ni guion"><button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button></div>
                             </div>
                         </div>
     </div>
@@ -276,19 +258,13 @@
 								<label class="control-label" for="servicio"><strong>Otro Servicio</strong></label>
 								<div class="controls">
 									<div class="input-append">
-										<input type="text" class="input-xxlarge" id="servicio" name="servicio[]" >
-										<button class="btn" type="button" data-toggle="modal" href="#modal-servicio">
-											<i class="icon-search"></i>
-										</button>
+										<input type="text" class="input-xxlarge" id="servicio" name="codigo_servicio[]" >
+                                                                                <input type="hidden" id="id_detalle" name="id_detalle">
+										<button class="btn" type="button" data-toggle="modal" href="#modal-servicio"><i class="icon-search"></i></button>
 									</div>
 								</div>
 							</div>
 
-							<div class="control">
-								<label class="checkbox">
-									<input type="checkbox" id="valores_servicio" name="valores_servicio[]" value=1   style="margin-left: 158px">Usar los Precios de Mantención, para Otro Servicio
-								</label>
-							</div>
 							<div class="row show-grid">
 								 <div class="span5">    
 									<div class="control-group">
@@ -324,7 +300,7 @@
                 <label class="control-label" for="conductor"><strong>Conductor</strong></label>
                 <div class="controls">
                     <div class="input-append">
-						<input type="text" class="span2" id="conductor" name="conductor" placeholder="">
+						<input type="text" class="span2" id="conductor" name="conductor_rut" placeholder="">
 						<button class="btn" type="button" data-toggle="modal" href="#modal-conductor">
 							<i class="icon-search"></i>
 						</button>
@@ -339,7 +315,7 @@
                             <label class="control-label" for="patente"><strong>Patente</strong></label>
                             <div class="controls">
                                 <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><button class="btn" type="button" data-toggle="modal" href="#modal-camion"><i class="icon-search"></i></button></div>
-                                <input type="hidden" name="camion_id" id="camion_id" value="">
+                                <input type="hidden" name="camion_camion_id" id="camion_id" value="">
                             </div>
                         </div>
                     </div>
