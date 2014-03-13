@@ -6,28 +6,17 @@ class Orden_model extends CI_Model{
         
         $this->db->select_max('id_orden');
         $result = $this->db->get('orden');
-        
-            return $result->result_array();
-        
+        return $result->result_array();
     }
     
     function insert_orden($orden){
                  
-         if($this->db->insert('orden', $orden)){
+         if($this->db->insert('orden',$orden)){
             return true;
         }
         else{
             return false;
         }
-    }
-    
-    function obtener_viaje($id_orden){
-        
-        $this->db->select('viaje_id_viaje');
-        $this->db->where('id_orden',$id_orden);
-        $result = $this->db->get('orden');
-        
-        return $result->result_array();
     }
     
     function editar_orden($orden){
@@ -61,10 +50,17 @@ class Orden_model extends CI_Model{
          $resultado = $this->db->get();
          
          return $resultado->result_array();
-         
      }
+	
+	function get_orden($id_orden){
+		
+		$this->db->select();
+		$this->db->from('orden');
+		$this->db->where('id_orden',$id_orden);
+		$result = $this->db->get();
+		
+		return $result->result_array();
+		
+	}
 }
-
-
 ?>
-

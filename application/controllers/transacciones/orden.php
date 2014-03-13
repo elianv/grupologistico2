@@ -5,7 +5,6 @@ class Orden extends CI_Controller{
     function __construct() {
         parent::__construct();
         $this->load->model('transacciones/Orden_model');
-        $this->load->model('transacciones/Orden_detalle_model');
         $this->load->model('utils/Facturacion');
         $this->load->model('utils/Viaje');
         $this->load->model('utils/Detalle');
@@ -101,21 +100,19 @@ class Orden extends CI_Controller{
                 
                 
                 $this->load->library('form_validation');
-                 /*
-                  $this->form_validation->set_rules('cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
-                  $this->form_validation->set_rules('tramo','Tramo','trim|xss_clean|numeric|required|callback_check_tramo');
-                  $this->form_validation->set_rules('aduana','Aduana','trim|xss_clean|numeric|required|callback_check_aduana');
-                  $this->form_validation->set_rules('bodega','Bodega','trim|xss_clean|numeric|required|callback_check_bodega');
-                  $this->form_validation->set_rules('puerto','Puerto','trim|xss_clean|numeric|required|callback_check_puerto');
-                  $this->form_validation->set_rules('rut','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
-                  $this->form_validation->set_rules('servicio','Servicio','trim|xss_clean|required|numeric|callback_check_servicio');
-                  $this->form_validation->set_rules('carga','Carga','trim|xss_clean|required|numeric|callback_check_carga');
-                  $this->form_validation->set_rules('conductor','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
+                 
+                  $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
+                  $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
+                  $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
+                  $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
+                  $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
+                  $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
+                  $this->form_validation->set_rules('proveedor_rut_proveedor','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
+                  $this->form_validation->set_rules('tipo_carga_codigo_carga','Carga','trim|xss_clean|required|callback_check_carga');
+                  $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
-                  $this->form_validation->set_rules('deposito', 'Deposito','trim|xss_clean|required|numeric|callback_check_deposito');
-                  * 
-                  */
-                  $this->form_validation->set_rules('nave_codigo_nave','Nave','trim|xss_clean|required|callback_check_nave');
+                  $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
+                  $this->form_validation->set_rules('nave_codigo_nave','Nave','trim|xss_clean|callback_check_nave');
                   
                 if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
@@ -180,7 +177,7 @@ class Orden extends CI_Controller{
 
                     //creando nuevo viaje
                     $ultimo_viaje = $this->Viaje->ultimo_codigo();
-                    if ($ultimo_viaje[0]['id_viaje'] != NULL){
+                    if ($ultimo_viaje[0]['id_viaje'] == NULL){
                         $id_viaje = 1;
                     }
                     else{
@@ -193,7 +190,7 @@ class Orden extends CI_Controller{
                                 'conductor_rut' => $this->input->post('conductor_rut'),
                                 'id_viaje' => $id_viaje
                             );
-                    
+    
                     $aduana = explode(' - ', $this->input->post('aduana_codigo_aduana'));
                     $nave = explode(' - ',  $this->input->post('nave_codigo_nave'));
                     $bodega = explode(' - ',  $this->input->post('bodega_codigo_bodega'));
@@ -201,6 +198,7 @@ class Orden extends CI_Controller{
                     $puerto = explode(' - ', $this->input->post('puerto_codigo_puerto'));
                     $carga = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
                     $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
+                    $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
                     
                     $orden = array(
                         'referencia' => $this->input->post('referencia'),
@@ -218,7 +216,6 @@ class Orden extends CI_Controller{
                         'proveedor_rut_proveedor' => $this->input->post('proveedor_rut_proveedor'),
                         'observacion' => $this->input->post('observacion'),
                         'referencia_2' => $this->input->post('referencia2'),
-                        'viaje_id_viaje' => $ultimo_viaje[0]['id_viaje'],
                         'tipo_carga_codigo_carga'=> $carga[0],
                         'tipo_orden_id_tipo_orden' => '',
                         'deposito_codigo_deposito' => $deposito[0],
@@ -226,6 +223,7 @@ class Orden extends CI_Controller{
                         'mercaderia' =>  $this->input->post('mercaderia'),
                         'num_servicios' => count($this->input->post('codigo_Servicio')),
                         'viaje_id_viaje' => $id_viaje,
+                        'tramo_codigo_tramo' => $tramo[0],
                         'valor_costo_tramo' => $this->input->post('valor_costo_tramo'),
                         'valor_venta_tramo' => $this->input->post('valor_venta_tramo')
                     );
@@ -238,45 +236,41 @@ class Orden extends CI_Controller{
                         }
                     }
                     
-                    $cod_detalle = $this->Detalle->ultimo_codigo();
-                    if ( $cod_detalle[0]['id_detalle'] != NULL){
-                        $id_viaje = $this->Detalle->ultimo_codigo() + 1;
-                    }
-                    else{
-                        $id_detalle = 1;
-                    }
-                            
-                    $i = 0;
-                    /*
-                     * 
-                     * Falta crear el arreglo cada id_detalle debe aumentar.
-                    foreach ($this->input->post('codigo_servicio') as $servicio){
-                        
-                       $detalle[$i] = array(
-                                    'id_detalle' => $id_detalle,
-                                    'servicio_codigo_servicio' => $this->input->post('servicio'),
-                                    'tramo_codigo_tramo'=> $this->input->post('tramo'),
-                                    'orden_id_orden'=> $this->input->post('numero_orden'),
-                                );
-                       $i++;
-                    }
-                    */
-                    
-                   
 
-                    //$this->Orden_model->insert_orden($orden);
-                    //$this->Orden_detalle_model->guardar_detalle($detalle);
-                    //redirect('transacciones/orden','refresh');
+                    //guarda viaje y la orden.
+                    $this->Viaje->crear_viaje($viaje);
+		    $this->Orden_model->insert_orden($orden);
+                    $i = 0;
+                                    
+                    $num_orden = $this->input->post('numero_orden');
+                    $costo = $this->input->post('valor_costo_servicio');
+                    $venta = $this->input->post('valor_venta_servicio');
                     
-                    echo "<pre>";
-                    echo "POST :<br>";
-                    print_r($_POST);
-                    echo "<br>";
-                    echo "ORDEN :<br>";
-                    print_r($orden);
-                    echo "Viaje :<br>";
-                    print_r($viaje);
-                    echo "<pre>";
+                    $cod_detalle = $this->Detalle->ultimo_codigo();
+                        if ( $cod_detalle[0]['id_detalle'] == NULL){
+                            $id_detalle = 1;
+                        }
+                        else{
+                            $id_detalle = $cod_detalle[0]['id_detalle'] + 1;
+                        }
+                                        
+                    foreach ($this->input->post('codigo_servicio') as $servicio){
+                       $detalle = array(
+                                    'id_detalle' => $id_detalle,
+                                    'servicio_codigo_servicio' => $servicio,
+                                    'orden_id_orden'=> $num_orden,
+                                    'valor_costo'=> $costo[$i],
+                                    'valor_venta'=> $venta[$i]
+                       );
+                       $i = $i + 1;
+                       $id_detalle = $id_detalle + 1;
+                       										
+                       //guarda uno a uno los detalles.
+                       $this->Detalle->guardar_detalle($detalle);
+                    }
+                redirect('transacciones/orden','refresh');
+                
+                    
                 }
             }
             
@@ -288,27 +282,27 @@ class Orden extends CI_Controller{
     
     function editar(){
         if($this->session->userdata('logged_in')){
-            
+                            
+                
                 $this->load->library('form_validation');
                  
-                $this->form_validation->set_rules('numero_orden','O.S. N°','trim|xss_clean|required|numeric|callback_check_orden');
-                $this->form_validation->set_rules('cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente2');
-                $this->form_validation->set_rules('tramo','Tramo','trim|xss_clean|numeric|required|callback_check_tramo2');
-                $this->form_validation->set_rules('aduana','Aduana','trim|xss_clean|numeric|required|callback_check_aduana2');
-                $this->form_validation->set_rules('bodega','Bodega','trim|xss_clean|numeric|required|callback_check_bodega2');
-                $this->form_validation->set_rules('puerto','Puerto','trim|xss_clean|numeric|required|callback_check_puerto2');
-                $this->form_validation->set_rules('rut','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor2');
-                $this->form_validation->set_rules('servicio','Servicio','trim|xss_clean|required|numeric|callback_check_servicio2');
-                $this->form_validation->set_rules('carga','Carga','trim|xss_clean|required|numeric|callback_check_carga2');
-                $this->form_validation->set_rules('conductor','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor2');
-                $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente2');
-                $this->form_validation->set_rules('deposito', 'Deposito','trim|xss_clean|required|numeric|callback_check_deposito2');
-                $this->form_validation->set_rules('nave','Nave','trim|xss_clean|numeric|required|callback_check_nave2');
-                
+                  $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
+                  $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
+                  $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
+                  $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
+                  $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
+                  $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
+                  $this->form_validation->set_rules('proveedor_rut_proveedor','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
+                  $this->form_validation->set_rules('tipo_carga_codigo_carga','Carga','trim|xss_clean|required|callback_check_carga');
+                  $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
+                  $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
+                  $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
+                  $this->form_validation->set_rules('nave_codigo_nave','Nave','trim|xss_clean|callback_check_nave');
+                  
                 if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
                     //tipo facturacion
-                   $data['tfacturacion'] = $this->Facturacion->tipo_orden();
+                    $data['tfacturacion'] = $this->Facturacion->tipo_orden();
                     //listado clientes
                     $data['clientes'] = $this->Clientes_model->listar_clientes();
                     //listado tramos
@@ -333,6 +327,8 @@ class Orden extends CI_Controller{
                     $data['depositos'] = $this->Depositos_model->listar_depositos();
                     //listar Naves
                     $data['naves'] = $this->Naves_model->listar_naves();
+					
+					$data['ordenes'] = $this->Orden_model->listar_ordenes();
                     
 
                     $codigo = $this->Orden_model->ultimo_codigo();
@@ -345,6 +341,7 @@ class Orden extends CI_Controller{
                           $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
 
                     }
+                    $tab['active'] = 'exportacion';
                     
                     $this->load->view('include/head',$session_data);
                     $this->load->view('transaccion/orden',$data);
@@ -353,6 +350,7 @@ class Orden extends CI_Controller{
                     $this->load->view('modal/modal_tramo',$data);
                     $this->load->view('modal/modal_bodega',$data);
                     $this->load->view('modal/modal_puerto',$data);
+                    $this->load->view('modal/modal_destino',$data);
                     $this->load->view('modal/modal_proveedor',$data);
                     $this->load->view('modal/modal_camion',$data);
                     $this->load->view('modal/modal_servicio',$data);
@@ -360,65 +358,108 @@ class Orden extends CI_Controller{
                     $this->load->view('modal/modal_carga',$data);
                     $this->load->view('modal/modal_deposito',$data);
                     $this->load->view('modal/modal_nave',$data);
+					$this->load->view('modal/modal_orden',$data);
                     $this->load->view('include/script');
                 }
                 else{
-                    
+                    	
+					$orden_bd = $this->Orden_model->get_orden($this->input->post('numero_orden'));
+                    $id_viaje = $this->Viaje->seleccionar_viaje($orden_bd[0]['viaje_id_viaje']);
                     
                     $viaje = array(
-                        'camion_patente' => $this->input->post('patente'),
-                        'conductor_rut' => $this->input->post('conductor')
-                    );
+                                'camion_camion_id' => $this->input->post('camion_camion_id'),
+                                'conductor_rut' => $this->input->post('conductor_rut'),
+                                'id_viaje' => $id_viaje[0]['id_viaje']
+                            );
+    
+                    $aduana = explode(' - ', $this->input->post('aduana_codigo_aduana'));
+                    $nave = explode(' - ',  $this->input->post('nave_codigo_nave'));
+                    $bodega = explode(' - ',  $this->input->post('bodega_codigo_bodega'));
+                    $destino = explode(' - ',  $this->input->post('destino'));
+                    $puerto = explode(' - ', $this->input->post('puerto_codigo_puerto'));
+                    $carga = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
+                    $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
+                    $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
                     
-                    //obtengo id del viaje a editar
-                    $id_viaje = $this->Orden_model->obtener_viaje($this->input->post('numero_orden'));
-                    $id_viaje = $id_viaje[0]['viaje_id_viaje'];
-                                        
-                    //cambio el chofer y camion del viaje y luego lo asocio a la orden 
-                    $this->Viaje->editar_viaje($id_viaje,$viaje);
+								
                     
                     $orden = array(
-                        'id_orden' => $this->input->post('numero_orden'),
+                        'id_orden' =>$this->input->post('numero_orden'),
                         'referencia' => $this->input->post('referencia'),
                         'fecha' => $this->input->post('fecha'),
-                        'cliente_rut_cliente' => $this->input->post('cliente'),
+                        'cliente_rut_cliente' => $this->input->post('cliente_rut_cliente'),
                         'booking' => $this->input->post('booking'),
-                        'tramo_codigo_tramo' => $this->input->post('tramo'),
-                        'aduana_codigo_aduana' => $this->input->post('aduana'),
+                        'aduana_codigo_aduana' => $aduana[0],
                         'numero' => $this->input->post('numero'),
                         'peso' => $this->input->post('peso'),
                         'set_point' => $this->input->post('set_point'),
-                        'ret_contenedor' => $this->input->post('contenedor'),
                         'fecha_presentacion' => $this->input->post('fecha_prensentacion'),
-                        'bodega_codigo_bodega' => $this->input->post('bodega'),
-                        'puerto_embarque' => $this->input->post('destino'),
-                        'puerto_codigo_puerto' => $this->input->post('puerto'),
-                        'proveedor_rut_proveedor' => $this->input->post('rut'),
+                        'bodega_codigo_bodega' => $bodega[0],
+                        'destino' => $destino[0],
+                        'puerto_codigo_puerto' => $puerto[0],
+                        'proveedor_rut_proveedor' => $this->input->post('proveedor_rut_proveedor'),
                         'observacion' => $this->input->post('observacion'),
-                        'servicio_codigo_servicio' => $this->input->post('servicio'),
                         'referencia_2' => $this->input->post('referencia2'),
-                        'viaje_id_viaje' => $id_viaje,
-                        'tipo_carga_codigo_carga'	=> $this->input->post('carga'),
-                        'tipo_factura_id_tipo_facturacion' => '',
-                        'deposito_codigo_deposito' => $this->input->post('deposito'),
-                        'nave_codigo_nave' => $this->input->post('nave')
+                        'tipo_carga_codigo_carga'=> $carga[0],
+                        'tipo_orden_id_tipo_orden' => '',
+                        'deposito_codigo_deposito' => $deposito[0],
+                        'nave_codigo_nave' => $nave[0],
+                        'mercaderia' =>  $this->input->post('mercaderia'),
+                        'num_servicios' => count($this->input->post('codigo_Servicio')),
+                        'viaje_id_viaje' => $id_viaje[0]['id_viaje'],
+                        'tramo_codigo_tramo' => $tramo[0],
+                        'valor_costo_tramo' => $this->input->post('valor_costo_tramo'),
+                        'valor_venta_tramo' => $this->input->post('valor_venta_tramo')
                     );
+                   
+                    $tipo_ordenes = $this->Facturacion->tipo_orden();
+                    foreach($tipo_ordenes as $tipo_orden){
                     
-                    $tfacturas = $this->Facturacion->GetTipo();
-                 
-                    foreach($tfacturas as $tfactura){
-                    
-                        if($tfactura['tipo_facturacion'] == $this->input->post('tipo_factura')){
-                             $orden['tipo_factura_id_tipo_facturacion'] = $tfactura['id_tipo_facturacion'];
+                        if($tipo_orden['tipo_orden'] == $this->input->post('tipo_orden')){
+                             $orden['tipo_orden_id_tipo_orden'] = $tipo_orden['id_tipo_orden'];
                         }
                     }
                     
-                    $this->Orden_model->editar_orden($orden);
-                    redirect('transacciones/orden','refresh');
+
+                    //guarda viaje y la orden.
+                    //$this->Viaje->editar_viaje($viaje);
+		            //$this->Orden_model->editar_orden($orden);
+
+                    $id_detalle = $this->input->post('id_detalle');
                     
-               }
-            
-        }
+                    $i = 0;
+                    $num_orden = $this->input->post('numero_orden');
+                    $costo = $this->input->post('valor_costo_servicio');
+                    $venta = $this->input->post('valor_venta_servicio');
+
+
+                    foreach ($this->input->post('codigo_servicio') as $servicio){
+                           
+                       $detalle = array(
+                                    'id_detalle' => $id_detalle[$i],
+                                    'servicio_codigo_servicio' => $servicio,
+                                    'orden_id_orden'=> $num_orden,
+                                    'valor_costo'=> $costo[$i],
+                                    'valor_venta'=> $venta[$i]
+                       );
+                        $i = $i + 1;
+                       //guarda uno a uno los detalles.
+                       //$this->Detalle->editar_detalle($detalle);
+                    }
+                    echo "<pre>";
+                    echo "ORDEN:";
+                    print_r($orden);
+                    echo "<br> DETALLE :";
+                    print_r($detalle);
+                    echo "<br> VIAJE ";
+                    print_r($viaje);
+                    echo "</pre>";
+                    
+                //redirect('transacciones/orden','refresh');
+
+                }
+        }    
+                
         
         else{
             redirect('home','refresh');
@@ -497,6 +538,22 @@ class Orden extends CI_Controller{
         if($result){
             
             $this->form_validation->set_message('check_puerto','El Puerto que ingresa no se encuentra en el sistema, intente con otro.');
+            return false;
+        }
+        else{
+            
+            return true;
+        }
+    
+    }
+
+    function check_destino($puerto){
+                
+        $result = $this->Puertos_model->existe_puerto($puerto);
+        
+        if($result){
+            
+            $this->form_validation->set_message('check_destino','El Destino que ingresa no se encuentra en el sistema, intente con otro.');
             return false;
         }
         else{
@@ -618,7 +675,7 @@ class Orden extends CI_Controller{
     
     }
     
-        function check_orden($orden){
+    function check_orden($orden){
                 
         $result = $this->Orden_model->existe_orden($orden);
         

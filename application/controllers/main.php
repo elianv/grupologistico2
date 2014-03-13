@@ -22,10 +22,10 @@ class Main extends CI_Controller{
         if($this->session->userdata('logged_in')){
             
             $session_data = $this->session->userdata('logged_in');
-                      
+            $this->load->view('include/script');          
             $this->load->view('include/head',$session_data);
             $this->load->view('home_view');
-            $this->load->view('include/script');
+
             
             
         }

@@ -259,7 +259,7 @@
 								<div class="controls">
 									<div class="input-append">
 										<input type="text" class="input-xxlarge" id="servicio" name="codigo_servicio[]" >
-                                                                                <input type="hidden" id="id_detalle" name="id_detalle">
+                                        <input type="hidden" id="id_detalle" name="id_detalle[]">
 										<button class="btn" type="button" data-toggle="modal" href="#modal-servicio"><i class="icon-search"></i></button>
 									</div>
 								</div>
@@ -316,6 +316,7 @@
                             <div class="controls">
                                 <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><button class="btn" type="button" data-toggle="modal" href="#modal-camion"><i class="icon-search"></i></button></div>
                                 <input type="hidden" name="camion_camion_id" id="camion_id" value="">
+                                <input type="hidden" name="viaje_id" id="viaje_id" value"">
                             </div>
                         </div>
                     </div>
