@@ -467,6 +467,31 @@ class Orden extends CI_Controller{
         
     }
             
+	function pdf(){
+		//print_r($_POST);
+		$this->load->library('pdf');
+		$this->pdf = new Pdf();
+		$this->pdf->AddPage();
+		
+		$this->pdf->SetTitle("Prueba");
+        $this->pdf->SetLeftMargin(15);
+        $this->pdf->SetRightMargin(15);
+        $this->pdf->SetFillColor(200,200,200);
+		$this->pdf->SetFont('Arial', 'B', 9);
+		 
+		$this->pdf->Cell(15,7,'NUM','TBL',0,'C','1');
+        $this->pdf->Cell(25,7,'PATERNO','TB',0,'L','1');
+        $this->pdf->Cell(25,7,'MATERNO','TB',0,'L','1');
+        $this->pdf->Cell(25,7,'NOMBRE','TB',0,'L','1');
+        $this->pdf->Cell(40,7,'FECHA DE NACIMIENTO','TB',0,'C','1');
+        $this->pdf->Cell(25,7,'GRADO','TB',0,'L','1');
+        $this->pdf->Cell(25,7,'GRUPO','TBR',0,'C','1');
+		$this->pdf->Ln(7);
+		
+		ob_end_clean();
+		$this->pdf->Output("pdf.pdf", 'I');
+	}		
+			
     function check_cliente($rut){
                 
         $result = $this->Clientes_model->existe_rut($rut);

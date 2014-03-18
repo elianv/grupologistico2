@@ -99,6 +99,30 @@
 			color:#5FBE5F;
 		}
 		
+.original .eliminar-campo a
+{
+	display:none;
+}
+		
+	.eliminar-campo a
+	{
+		float: right;
+		margin: 0 180px 0 0;
+		width:auto;
+	}
+		
+		.eliminar-campo a span
+		{
+			background: #5FBE5F;
+			border-radius: 5px;
+			color: #fff;
+			float: right;
+			font: 18px 'Arial';
+			margin: 0 0 0 10px;
+			text-align: center;
+			width: 20px;
+		}
+		
 /*03-02-2014*/
 
 .input-append .nombre-cliente

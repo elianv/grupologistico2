@@ -252,7 +252,7 @@
                             </div>
                         </div>
 						
-						<div class="campo-a-repetir">
+						<div class="campo-a-repetir original">
 
 							<div class="control-group">
 								<label class="control-label" for="servicio"><strong>Otro Servicio</strong></label>
@@ -283,11 +283,18 @@
 								</div>
 							 </div>
 							</div>
+							
+							<div class="eliminar-campo">
+								<a href="javascript:void(0);">Eliminar Servicio <span>-</span></a>
+							</div>
+						
 						</div>
 						
 						<div class="boton-repetir">
 							<a href="#">Agregar otro Servicio <span>+</span></a>
 						</div>
+						
+						
                </br>
                </br>
                </br>
@@ -325,7 +332,8 @@
 
                <div class="form-actions" >
                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/guardar'" value="Guardar"/>
-                <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/editar'" value="Editar" />
+                <input type="submit" class="btn btn-danger"  onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/editar'" value="Editar" />
+                <input type="submit" class="btn"             onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/pdf/'" value="PDF"/>
                </div>
            </fieldset>
           </form>

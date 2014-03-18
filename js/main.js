@@ -150,6 +150,7 @@ $('.form-orden #tipo_factura').change(function(){
 //$('.form-orden #fecha').datepicker();
 $('.form-orden #fecha').datetimepicker();
 $('.form-orden #fecha_carga').datetimepicker();
+$('.form-orden #fecha_presentacion').datetimepicker();
 
 $.datepicker.regional['es'] = {
 		clearText: 'Borra',
@@ -361,6 +362,8 @@ $('.boton-repetir a').click(function(e){
 	
 	$('.campo-a-repetir:last').after($('.campo-a-repetir:last').clone());
 	
+	$('.campo-a-repetir:last').removeClass('original');
+	
 	document.setCloneEvent();
 	
 });
@@ -376,6 +379,7 @@ $('.boton-repetir a').click(function(e){
 		$(this).parent().parent().parent().parent().addClass('activo');
 
 	});
+	
 })();
 
 $('#modal-servicio .close').click(function(){
@@ -398,7 +402,7 @@ $('#modal-servicio .codigo-click').click(function(e){
 		//beforeSend: function(){//},
 		success:function(response) {
 			console.log(response);
-			$('.campo-a-repetir.activo #servicio').val(response[0].codigo_servicio);
+			$('.campo-a-repetir.activo #servicio').val(response[0].codigo_servicio+' - '+response[0].descripcion);
 			$('.campo-a-repetir.activo #valor_costo_servicio').val(response[0].valor_costo);
 			$('.campo-a-repetir.activo #valor_venta_servicio').val(response[0].valor_venta);
 		}
@@ -508,8 +512,6 @@ $('#modal-tramo .codigo-click').click(function(e){
 	
 	var nombre = $(this).parent().next('td').text();
 	
-	//$('.form-orden #tramo').val($(this).data('codigo')+' - '+nombre);
-	
 	$.ajax({
 		type:'post',
 		url:'../mantencion/tramos',
@@ -598,48 +600,6 @@ $('#modal-deposito .codigo-click').click(function(e){
 
 });
 
-/*Modal Ordn - Destino */
-
-$('#modal-puerto .codigo-click').click(function(e){
-
-	e.preventDefault();
-	
-	var nombre = $(this).parent().next('td').text();
-	
-	$('.form-orden #destino').val($(this).data('codigo')+' - '+nombre);
-	
-	$('#modal-puerto').fadeOut('fast',function(){
-	
-		$('body').removeClass('modal-open');
-		
-		$('.modal-backdrop.fade.in').remove();
-	
-	
-	});
-
-});
-
-/*Modal Ordn - Embarque */
-
-$('#modal-puerto .codigo-click').click(function(e){
-
-	e.preventDefault();
-	
-	var nombre = $(this).parent().next('td').text();
-	
-	$('.form-orden #destino').val($(this).data('codigo')+' - '+nombre);
-	
-	$('#modal-puerto').fadeOut('fast',function(){
-	
-		$('body').removeClass('modal-open');
-		
-		$('.modal-backdrop.fade.in').remove();
-	
-	
-	});
-
-});
-
 /*Modal Ordn - proveedor */
 
 $('#modal-proveedor .codigo-click').click(function(e){
@@ -687,8 +647,6 @@ $('#modal-conductor .codigo-click').click(function(e){
 $('#modal-camion .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
-	//$('.form-orden #patente').attr('value', $(this).data('codigo'));
 	
 	$.ajax({
 		type:'post',
@@ -788,24 +746,46 @@ $('.boton-clonar a').click(function(e){
 });
 
 
-/*Modal Orden - Puerto embarque*/
+/*Modal Orden - Puerto*/
 
-$('#modal-puerto_embarque .codigo-click').click(function(e){
+$('#modal-puerto .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
 	var nombre = $(this).parent().next('td').text();
 	
 	$('.form-orden #puerto').attr('value', '');
-	$('.form-orden #puerto').attr('value', $(this).data('codigo')+'-'+nombre);
+	//$('.form-orden #puerto').attr('value', $(this).data('codigo')+'-'+nombre);
+	$('.form-orden #puerto').val($(this).data('codigo')+'-'+nombre);
 	$('.form-orden #puerto').text($(this).data('codigo')+'-'+nombre);
 	
-	$('#modal-puerto_embarque').fadeOut('fast',function(){
+	$('#modal-puerto').fadeOut('fast',function(){
 	
 		$('body').removeClass('modal-open');
 		
 		$('.modal-backdrop.fade.in').remove();
 	
+	});
+
+});
+
+/*Modal Orden - Destino*/
+
+$('#modal-destino .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #destino').attr('value', '');
+	$('.form-orden #destino').val($(this).data('codigo')+'-'+nombre);
+	$('.form-orden #destino').text($(this).data('codigo')+'-'+nombre);
+	
+	$('#modal-destino').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
 	
 	});
 
