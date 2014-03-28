@@ -56,6 +56,15 @@ class Cargas_model extends CI_Model{
         }
     }
     
+    function datos_carga($id){
+		$this->db->select ();
+		$this->db->from('tipo_carga');
+		$this->db->where('codigo_carga',$id);
+		$resultado = $this->db->get();
+			
+		return $resultado->result_array();
+	}
+    
 }
 
 ?>

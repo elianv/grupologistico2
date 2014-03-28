@@ -24,7 +24,7 @@ class Puertos_model extends CI_Model{
         }
     }
     
-        function modificar_puerto($puerto,$codigo_puerto){
+    function modificar_puerto($puerto,$codigo_puerto){
         $this->db->where('codigo_puerto', $codigo_puerto);   
         if($this->db->update('puerto', $puerto)){
             return true;
@@ -76,6 +76,16 @@ class Puertos_model extends CI_Model{
             
             return false;
         }
+    }
+    
+    function datos_puerto($rut) {
+			$this->db->select ();
+			$this->db->from('puerto');
+			$this->db->where('codigo_puerto',$rut);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+        
     }
     
 }

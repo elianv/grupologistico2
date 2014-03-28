@@ -56,6 +56,14 @@ class Depositos_model extends CI_Model{
         }
     }
     
+    function datos_deposito($id){
+		$this->db->select ();
+		$this->db->from('deposito');
+		$this->db->where('codigo_deposito',$id);
+		$resultado = $this->db->get();
+			
+		return $resultado->result_array();
+	}
 }
 
 ?>

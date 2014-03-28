@@ -20,12 +20,32 @@ class Orden extends CI_Controller{
         $this->load->model('mantencion/Cargas_model');
         $this->load->model('mantencion/Depositos_model');
         $this->load->model('mantencion/Naves_model');
+        $this->load->model('mantencion/Navieras_model');
+        date_default_timezone_set('America/Santiago');
         
     }
             
     function index(){
+	
+		$id_orden = isset($_POST['id_orden'])?$_POST['id_orden']:'';
+		$codigo_detalle = isset($_POST['id_orden_detalle'])?$_POST['id_orden_detalle']:'';
+		
+		
+		if(isset($id_orden) && $id_orden != ''){
+			
+			// set no layout para que el response del ajax sea de la consulta al modelo segun el rut, return array..
+			// codigo aqui..
+			$response = json_encode($this->datos_ordensh($id_orden));
+			
+			echo $response;
+		
+		} else if(isset($codigo_detalle) && $codigo_detalle != '') {
+			$response = json_encode($this->datos_detalle($codigo_detalle));
+			
+			echo $response;
+		}  else{
         
-        if($this->session->userdata('logged_in')){
+            if($this->session->userdata('logged_in')){
             
             $session_data = $this->session->userdata('logged_in');
             //tipo facturacion
@@ -67,31 +87,31 @@ class Orden extends CI_Controller{
                   $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
                   
               }
-            $tab['active'] = 'exportacion';
-            $this->load->view('include/head',$session_data);
-            $this->load->view('transaccion/orden',$data);
-            $this->load->view('modal/modal_aduana', $data);
-            $this->load->view('modal/modal_cliente',$data);
-            $this->load->view('modal/modal_tramo',$data);
-            $this->load->view('modal/modal_bodega',$data);
-            $this->load->view('modal/modal_puerto',$data);
-            $this->load->view('modal/modal_destino',$data);
-            $this->load->view('modal/modal_proveedor',$data);
-            $this->load->view('modal/modal_camion',$data);
-            $this->load->view('modal/modal_servicio',$data);
-            $this->load->view('modal/modal_conductor',$data);
-            $this->load->view('modal/modal_carga',$data);
-            $this->load->view('modal/modal_deposito',$data);
-            $this->load->view('modal/modal_nave',$data);
-            $this->load->view('modal/modal_orden',$data);
-            $this->load->view('include/script');
-        }
+				$tab['active'] = 'exportacion';
+				$this->load->view('include/head',$session_data);
+				$this->load->view('transaccion/orden',$data);
+				$this->load->view('modal/modal_aduana', $data);
+				$this->load->view('modal/modal_cliente',$data);
+				$this->load->view('modal/modal_tramo',$data);
+				$this->load->view('modal/modal_bodega',$data);
+				$this->load->view('modal/modal_puerto',$data);
+				$this->load->view('modal/modal_destino',$data);
+				$this->load->view('modal/modal_proveedor',$data);
+				$this->load->view('modal/modal_camion',$data);
+				$this->load->view('modal/modal_servicio',$data);
+				$this->load->view('modal/modal_conductor',$data);
+				$this->load->view('modal/modal_carga',$data);
+				$this->load->view('modal/modal_deposito',$data);
+				$this->load->view('modal/modal_nave',$data);
+				$this->load->view('modal/modal_orden',$data);
+				$this->load->view('include/script');
+			}
           
-        else{
-            redirect('home','refresh');
-        }
+			else{
+				redirect('home','refresh');
+			}
                 
-        
+        }
     }
     
     function guardar(){
@@ -100,7 +120,7 @@ class Orden extends CI_Controller{
                 
                 
                 $this->load->library('form_validation');
-                 
+/*
                   $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
                   $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
                   $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
@@ -112,7 +132,9 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
-                  $this->form_validation->set_rules('nave_codigo_nave','Nave','trim|xss_clean|callback_check_nave');
+                  */$this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
+ 
+
                   
                 if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
@@ -199,17 +221,26 @@ class Orden extends CI_Controller{
                     $carga = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
                     $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
                     $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
+                    $fecha = $this->input->post('fecha');
+                    $fecha_presentacion = $this->input->post('fecha_presentacion');
+                    
+                    $fecha = str_replace('/','-', $fecha);
+                    $fecha = date("Y-m-d H:i",strtotime($fecha));
+                    
+                    $fecha_presentacion = str_replace('/','-', $fecha_presentacion);
+                    $fecha_presentacion = date("Y-m-d H:i",strtotime($fecha_presentacion));
+                    
                     
                     $orden = array(
                         'referencia' => $this->input->post('referencia'),
-                        'fecha' => $this->input->post('fecha'),
+                        'fecha' => $fecha ,
                         'cliente_rut_cliente' => $this->input->post('cliente_rut_cliente'),
                         'booking' => $this->input->post('booking'),
                         'aduana_codigo_aduana' => $aduana[0],
                         'numero' => $this->input->post('numero'),
                         'peso' => $this->input->post('peso'),
                         'set_point' => $this->input->post('set_point'),
-                        'fecha_presentacion' => $this->input->post('fecha_prensentacion'),
+                        'fecha_presentacion' => $fecha_presentacion,
                         'bodega_codigo_bodega' => $bodega[0],
                         'destino' => $destino[0],
                         'puerto_codigo_puerto' => $puerto[0],
@@ -221,7 +252,7 @@ class Orden extends CI_Controller{
                         'deposito_codigo_deposito' => $deposito[0],
                         'nave_codigo_nave' => $nave[0],
                         'mercaderia' =>  $this->input->post('mercaderia'),
-                        'num_servicios' => count($this->input->post('codigo_Servicio')),
+                        'num_servicios' => count($this->input->post('codigo_servicio')),
                         'viaje_id_viaje' => $id_viaje,
                         'tramo_codigo_tramo' => $tramo[0],
                         'valor_costo_tramo' => $this->input->post('valor_costo_tramo'),
@@ -268,9 +299,9 @@ class Orden extends CI_Controller{
                        //guarda uno a uno los detalles.
                        $this->Detalle->guardar_detalle($detalle);
                     }
-                redirect('transacciones/orden','refresh');
-                
                     
+                $this->session->set_flashdata('sin_orden','La orden se guardo con éxito');
+                redirect('transacciones/orden','refresh');
                 }
             }
             
@@ -297,7 +328,7 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
-                  $this->form_validation->set_rules('nave_codigo_nave','Nave','trim|xss_clean|callback_check_nave');
+                  $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
                   
                 if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
@@ -467,30 +498,463 @@ class Orden extends CI_Controller{
         
     }
             
-	function pdf(){
-		//print_r($_POST);
-		$this->load->library('pdf');
-		$this->pdf = new Pdf();
-		$this->pdf->AddPage();
-		
-		$this->pdf->SetTitle("Prueba");
-        $this->pdf->SetLeftMargin(15);
-        $this->pdf->SetRightMargin(15);
-        $this->pdf->SetFillColor(200,200,200);
-		$this->pdf->SetFont('Arial', 'B', 9);
-		 
-		$this->pdf->Cell(15,7,'NUM','TBL',0,'C','1');
-        $this->pdf->Cell(25,7,'PATERNO','TB',0,'L','1');
-        $this->pdf->Cell(25,7,'MATERNO','TB',0,'L','1');
-        $this->pdf->Cell(25,7,'NOMBRE','TB',0,'L','1');
-        $this->pdf->Cell(40,7,'FECHA DE NACIMIENTO','TB',0,'C','1');
-        $this->pdf->Cell(25,7,'GRADO','TB',0,'L','1');
-        $this->pdf->Cell(25,7,'GRUPO','TBR',0,'C','1');
-		$this->pdf->Ln(7);
-		
-		ob_end_clean();
-		$this->pdf->Output("pdf.pdf", 'I');
-	}		
+    function pdf(){
+        
+        $orden = $this->Orden_model->get_orden($this->input->post('numero_orden'));
+        
+        if(count($orden) == 0){
+            $this->session->set_flashdata('sin_orden','No existe la Orden de Servicio N° '.$_POST['numero_orden']);
+            redirect('transacciones/orden','refresh');
+            
+        }
+        else{
+            $this->load->library('pdf');
+            $this->pdf = new Pdf($this->input->post('numero_orden'));
+            $numero = $this->input->post('numero_orden');
+
+            $this->pdf->SetTitle($numero);
+            $this->pdf->AddPage();
+            $this->pdf->SetLeftMargin(15);
+            $this->pdf->SetRightMargin(15);
+            $this->pdf->SetFillColor(200,200,200);
+            
+            $nave = $this->Naves_model->datos_nave($orden[0]['nave_codigo_nave']);
+            $cliente = $this->Clientes_model->datos_cliente($orden[0]['cliente_rut_cliente']);
+            $tramo = $this->Tramos_model->datos_tramo($orden[0]['tramo_codigo_tramo']);
+            $aduana = $this->Agencias_model->datos_aduana($orden[0]['aduana_codigo_aduana']);
+            $carga = $this->Cargas_model->datos_carga($orden[0]['tipo_carga_codigo_carga']);
+            $ret_cont = $this->Depositos_model->datos_deposito($orden[0]['deposito_codigo_deposito']);
+            $bodega = $this->Bodegas_model->datos_bodega($orden[0]['bodega_codigo_bodega']);
+            $puerto_embarque = $this->Puertos_model->datos_puerto($orden[0]['puerto_codigo_puerto']);
+            $destino = $this->Puertos_model->datos_puerto($orden[0]['destino']);
+            $proveedor = $this->Proveedores_model->datos_proveedor($orden[0]['proveedor_rut_proveedor']);
+            $viaje = $this->Viaje->seleccionar_viaje($orden[0]['viaje_id_viaje']);
+            $camion = $this->Camiones_model->getCamion($viaje[0]['camion_camion_id']);
+            $chofer = $this->Conductores_model->datos_conductor($viaje[0]['conductor_rut']);
+            $detalles = $this->Detalle->detalle_orden($orden[0]['id_orden']);
+            
+
+            $orden[0]['nave'] = $nave[0];
+            $orden[0]['naviera'] = $this->Navieras_model->get_naviera($orden[0]['nave']['naviera_codigo_naviera']);
+            $orden[0]['cliente']['rut_cliente'] = $cliente[0]['rut_cliente'];
+            $orden[0]['cliente']['razon_social'] = $cliente[0]['razon_social'];
+            $orden[0]['tramo']['tramo'] = $tramo[0]['descripcion'];
+            $orden[0]['aduana'] = $aduana[0];
+            $orden[0]['carga'] = $carga[0];
+            $orden[0]['deposito'] = $ret_cont[0];
+            $orden[0]['bodega'] = $bodega[0];
+            $orden[0]['puerto'] = $puerto_embarque[0];
+            $orden[0]['puerto_destino'] = $destino[0]; 
+            $orden[0]['proveedor'] = $proveedor[0];
+            $orden[0]['camion'] = $camion[0];
+            $orden[0]['chofer'] = $chofer[0];
+            $orden[0]['fecha_presentacion'] = date("d-m-Y H:i",strtotime($orden[0]['fecha_presentacion']));
+            $orden[0]['fecha'] = date("d-m-Y H:i",strtotime($orden[0]['fecha']));
+            
+            for($j = 0;$j < count($detalles);$j++){
+                $orden[0]['detalle'][$j]  = $detalles[$j];
+                $datos =  $this->Servicios_model->datos_servicio($detalles[$j]['servicio_codigo_servicio']);
+                $orden[0]['detalle'][$j]['datos'] = $datos[0];
+            }
+
+            //NACIONAL
+            if ($orden[0]['tipo_orden_id_tipo_orden'] == 7 ){
+                    $this->pdf->Ln(10); 
+                    $this->pdf->SetFont('Arial', 'B', 12);
+                    $this->pdf->Cell(150,0,'Cierre Nacional',0,0,'L','0');
+                    $this->pdf->Cell(25,0,'Santiago, '.date("j/m/Y"),0,0,'R','0');
+                    $this->pdf->Ln(10);
+                    $this->pdf->SetFont('Arial', '', 10);
+                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACIÓN"),'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Ref. Cliente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportación"),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia_2']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Nave','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['nave']['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'ETA','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':','0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Booking','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['booking']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Naviera','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['naviera'][0]['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Cliente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['cliente']['razon_social']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'RUT','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['cliente']['rut_cliente'],'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Tramo','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['tramo']['tramo']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Agencia Aduana','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['aduana']['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Contacto AGA','0',0,'L',0);
+                    $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['aduana']['contacto']),'0',0,'L',0);
+
+                    $this->pdf->Cell(20,6,'FONO','0',0,'L',0);
+                    $this->pdf->Cell(30,6,':   '.$orden[0]['aduana']['telefono'],'0',1,'L',0);
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+
+
+                    $this->pdf->Cell(180,7,"  CARGA",'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Carga','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['carga']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Mercadería),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['mercaderia']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Contenedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['numero'],'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Peso','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['peso']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Set Point','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Origen','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentación),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['nombre']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Dirección).' Bodega','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['direccion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Contacto Bodega','0',0,'L',0);
+                    $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['bodega']['contacto']),'0',0,'L',0);
+                    $this->pdf->Cell(20,6,'FONO','0',0,'L',0);
+                    $this->pdf->Cell(30,6,':   '.$orden[0]['bodega']['telefono'],'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Destino','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['puerto_destino']['nombre']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Observaciones','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['observacion']),'0',1,'L',0);
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+
+                    $this->pdf->Cell(180,7,"  PROVEEDOR",'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Proveedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['proveedor']['razon_social']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Patente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['camion']['patente']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Conductor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['chofer']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Celular','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['chofer']['telefono'],'0',1,'L',0);
+
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+            }
+
+            //IMPORTACION
+            if ($orden[0]['tipo_orden_id_tipo_orden'] == 6){
+                    $this->pdf->Ln(10); 
+                    $this->pdf->SetFont('Arial', 'B', 12);
+                    $this->pdf->Cell(150,0,'Cierre de '.  utf8_decode(Importación),0,0,'L','0');
+                    $this->pdf->Cell(25,0,'Santiago, '.date("j/m/Y"),0,0,'R','0');
+                    $this->pdf->Ln(10);
+                    $this->pdf->SetFont('Arial', '', 10);
+                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACIÓN"),'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Ref. Cliente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportación"),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia_2']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Nave','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['nave']['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'ETA','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':','0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Tarjeton','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.($orden[0]['booking']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Naviera','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.($orden[0]['naviera'][0]['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Cliente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.($orden[0]['cliente']['razon_social']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'RUT','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['cliente']['rut_cliente'],'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Tramo','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.($orden[0]['tramo']['tramo']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Agencia Aduana','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['aduana']['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Contacto AGA','0',0,'L',0);
+                    $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['aduana']['contacto']),'0',0,'L',0);
+
+                    $this->pdf->Cell(20,6,'FONO','0',0,'L',0);
+                    $this->pdf->Cell(30,6,':   '.$orden[0]['aduana']['telefono'],'0',1,'L',0);
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+
+
+                    $this->pdf->Cell(180,7,"  CARGA",'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Carga','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['carga']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Mercadería),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['mercaderia']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Contenedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['numero']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Peso','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['peso']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Set Point','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
+                    //RET Contenedor = deposito
+                    $this->pdf->Cell(60,6,'Ret. Contenedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentación),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['nombre']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Dirección).' Bodega','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['direccion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Contacto Bodega','0',0,'L',0);
+                    $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['bodega']['contacto']),'0',0,'L',0);
+                    $this->pdf->Cell(20,6,'FONO','0',0,'L',0);
+                    $this->pdf->Cell(30,6,':   '.$orden[0]['bodega']['telefono'],'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Entrega '. utf8_decode(Vacio),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['puerto_destino']['nombre']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Observaciones','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['observacion']),'0',1,'L',0);
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+
+                    $this->pdf->Cell(180,7,"  PROVEEDOR",'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Proveedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['proveedor']['razon_social'],'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Patente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['camion']['patente']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Conductor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['chofer']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Celular','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['chofer']['telefono'],'0',1,'L',0);
+
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+            }
+            
+            //EXPORTACION
+            if ($orden[0]['tipo_orden_id_tipo_orden'] == 5){
+                    $this->pdf->Ln(10); 
+                    $this->pdf->SetFont('Arial', 'B', 12);
+                    $this->pdf->Cell(150,0,'Cierre de '.  utf8_decode(Exportación),0,0,'L','0');
+                    $this->pdf->Cell(25,0,'Santiago, '.date("j/m/Y"),0,0,'R','0');
+                    $this->pdf->Ln(5);
+                    $this->pdf->SetFont('Arial', '', 10);
+                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACIÓN"),'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Ref. Cliente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportación"),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia_2']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Nave','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['nave']['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'ETA','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   ','0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Booking','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['booking']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Naviera','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['naviera'][0]['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Cliente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['cliente']['razon_social']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'RUT','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['cliente']['rut_cliente'],'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Tramo','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['tramo']['tramo']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Agencia Aduana','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['aduana']['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Contacto AGA','0',0,'L',0);
+                    $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['aduana']['contacto']),'0',0,'L',0);
+
+                    $this->pdf->Cell(20,6,'FONO','0',0,'L',0);
+                    $this->pdf->Cell(30,6,':   '.$orden[0]['aduana']['telefono'],'0',1,'L',0);
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+
+
+                    $this->pdf->Cell(180,7,"  CARGA",'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Carga','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['carga']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Mercadería),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['mercaderia']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Contenedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['numero']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Peso','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['peso']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Set Point','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
+                    //RET Contenedor = deposito
+                    $this->pdf->Cell(60,6,'Ret. Contenedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentación),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['nombre']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Dirección).' Bodega','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['direccion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Contacto Bodega','0',0,'L',0);
+                    $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['bodega']['contacto']),'0',0,'L',0);
+                    $this->pdf->Cell(20,6,'FONO','0',0,'L',0);
+                    $this->pdf->Cell(30,6,':   '.$orden[0]['bodega']['telefono'],'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Puerto Embarque','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['puerto']['nombre']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Puerto Destino','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['puerto_destino']['nombre']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Observaciones','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['observacion']),'0',1,'L',0);
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+
+                    $this->pdf->Cell(180,7,"  PROVEEDOR",'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Proveedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['proveedor']['razon_social']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Patente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['camion']['patente']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Conductor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['chofer']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Celular','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['chofer']['telefono'],'0',1,'L',0);
+
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+            }
+            
+            //OTROS SERVICIOS
+            if ($orden[0]['tipo_orden_id_tipo_orden'] == 8){
+                    $this->pdf->Ln(10); 
+                    $this->pdf->SetFont('Arial', 'B', 12);
+                    $this->pdf->Cell(150,0,'Cierre de Otro Servicio',0,0,'L','0');
+                    $this->pdf->Cell(25,0,'Santiago, '.date("j/m/Y"),0,0,'R','0');
+                    $this->pdf->Ln(5);
+                    $this->pdf->SetFont('Arial', '', 10);
+                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACIÓN"),'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Ref. Cliente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportación"),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia_2']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Nave','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['nave']['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'ETA','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':','0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Naviera','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['naviera'][0]['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Cliente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['cliente']['razon_social']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'RUT','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['cliente']['rut_cliente'],'0',1,'L',0);
+                   
+                    for($i = 0;$i < $orden[0]['num_servicios']; $i++ ){
+                        $this->pdf->Cell(60,6,  utf8_decode(Descripción),'0',0,'L',0);
+                        $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['detalle'][$i]['datos']['descripcion']),'0',1,'L',0);
+                    }
+                    
+//DESCRIPCION DINAMICA
+                    $this->pdf->Cell(60,6,'Agencia Aduana','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['aduana']['nombre']),'0',1,'L',0);
+
+                    $this->pdf->Cell(60,6,'Contacto AGA','0',0,'L',0);
+                    $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['aduana']['contacto']),'0',0,'L',0);
+
+                    $this->pdf->Cell(20,6,'FONO','0',0,'L',0);
+                    $this->pdf->Cell(30,6,':   '.$orden[0]['aduana']['telefono'],'0',1,'L',0);
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+
+
+                    $this->pdf->Cell(180,7,"  CARGA",'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Carga','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['carga']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Mercadería),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['mercaderia']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Contenedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['numero']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Peso','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['peso']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Set Point','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentación),'0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['fecha_presentacion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['nombre']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Dirección).' Bodega','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['direccion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Contacto Bodega','0',0,'L',0);
+                    $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['bodega']['contacto']),'0',0,'L',0);
+                    $this->pdf->Cell(20,6,'FONO','0',0,'L',0);
+                    $this->pdf->Cell(30,6,':   '.$orden[0]['bodega']['telefono'],'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Observaciones','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['observacion']),'0',1,'L',0);
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+
+                    $this->pdf->Cell(180,7,"  PROVEEDOR",'B',0,'L',0);
+                    $this->pdf->Ln(10);
+                    $this->pdf->Cell(60,6,'Proveedor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['proveedor']['razon_social']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Patente','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['camion']['patente']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Conductor','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['chofer']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(60,6,'Celular','0',0,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['chofer']['telefono'],'0',1,'L',0);
+
+                    $this->pdf->Cell(180,8,"  ",'T',0,'L',0);
+                    $this->pdf->Ln(7);
+            }
+
+            $numero = $this->input->post('numero_orden');	
+            ob_end_clean();
+/*
+            echo "<pre>";
+            print_r($orden);
+            //print_r($servicio);
+            echo "</pre>"; 
+ 
+ * 
+ */
+ 
+           $this->pdf->Output("Orden_de_Servicio_".$numero.".pdf", 'D');
+
+        }
+
+	      
+        
+    }		
 			
     function check_cliente($rut){
                 
@@ -715,5 +1179,30 @@ class Orden extends CI_Controller{
         }
             
     }
+
+    function datos_ordensh($id_orden){
+        
+        //$this->Orden_model->get_orden($id_orden);
+        
+		$ret = $this->Orden_model->get_orden($id_orden);
+		
+		/*
+		foreach ( $ret2 as $code_servicio) {
+			$ret3[] = $this->Servicios_model->datos_servicio($code_servicio['servicio_codigo_servicio']);
+		}
+		
+		$lastret = array_merge($ret,$ret3);
+		*/
+		return $ret;
+        
+    }
+	
+    function datos_detalle($id_orden_detalle) {
+		$ret = $this->Orden_model->getDetalleByOrdenId($id_orden_detalle);
+		foreach ( $ret as $id_servicio) {
+			$servicio[] = $this->Servicios_model->datos_servicio($id_servicio['servicio_codigo_servicio']);
+		}
+		return $servicio;
+	}
 }
 ?>

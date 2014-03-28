@@ -78,6 +78,15 @@ class Camiones_model extends CI_Model{
 			return $resultado->result_array();
         
     }
+    
+    function getCamion($id){
+			$this->db->select ();
+			$this->db->from('camion');
+			$this->db->where('camion_id',$id);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+	}
 }
 
 ?>

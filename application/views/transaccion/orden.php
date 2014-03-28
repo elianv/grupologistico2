@@ -2,7 +2,26 @@
 
 	<legend><h3><center>Orden de Servicio</center></h3></legend>
 	
-	<div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
+	<div style="margin-left: 10px">
+            <?php 
+                if(validation_errors()){
+                    echo "<div class='alert alert-info '>";
+                    echo "<a class='close' data-dismiss='alert'>×</a>";
+                    echo validation_errors();
+                    echo "</div>";
+                } 
+            ?>
+        </div>
+        <?php
+            $correcto = $this->session->flashdata('sin_orden');
+            if ($correcto){
+                echo "<div class='alert alert-error'>";
+                echo "<a class='close' data-dismiss='alert'>×</a>";
+                echo "<span id='registroCorrecto'>".$correcto."</span>";
+                echo "</div>";
+            }
+        ?>
+        
 		<form class="form-horizontal form-orden" method="post">
 			<fieldset>  
 			<div class="row show-grid">
@@ -180,9 +199,9 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label" for="fecha_prensentacion"><strong>Fecha Presentación</strong></label>
+                <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_prensentacion" placeholder="">
+                 <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" placeholder="">
                 </div>
             </div>
                

@@ -53,7 +53,6 @@ class Proveedores_model extends CI_Model{
         
     }
     
-        
     function existe_rut($rut){
         $this->db->select ('rut_proveedor');
         $this->db->from('proveedor');

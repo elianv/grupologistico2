@@ -388,6 +388,14 @@ $('#modal-servicio .close').click(function(){
 
 });
 
+$(document).on('click', '.eliminar-campo a',function(e){
+
+	e.preventDefault();
+	
+	$(this).closest('.campo-a-repetir').remove();
+
+});
+
 /*Pasar de modal c/s clon*/
 
 $('#modal-servicio .codigo-click').click(function(e){
@@ -655,7 +663,6 @@ $('#modal-camion .codigo-click').click(function(e){
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
 		success:function(response) {
-			console.log(response);
 			$('.form-orden #camion_id').val(response[0].camion_id);
 			$('.form-orden #patente').val(response[0].patente);
 		}
@@ -791,3 +798,62 @@ $('#modal-destino .codigo-click').click(function(e){
 
 });
 
+/*Cargar datos Orden*/
+
+$('#modal-orden .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	var nombre = $(this).parent().next('td').text();
+	var serv = [];
+	var code = $(this).data('codigo');
+	
+	$.ajax({
+		type:'post',
+		url:'../transacciones/orden',
+		dataType : 'json',
+		data:{id_orden:code},
+		//beforeSend: function(){//},
+		success:function(res) {
+			console.log(res);
+			$('#referencia').val(res[0].referencia);
+		}, 
+		complete: function(){
+			$.ajax({
+				type     : 'post',
+				url      : '../transacciones/orden',
+				dataType : 'json',
+				data     : { id_orden_detalle : code },
+				success : function(res2){
+					console.log(res2);
+					$.each(res2, function(index, element){
+						if ( index < ( res2.length - 1) ) {
+							$('.boton-repetir a').trigger('click');
+						}
+						
+						//Datos servicio
+						setServicioData(res2, index);
+						//alert(res2[index][0].codigo_servicio);
+					});
+				}
+			});
+		}
+	});
+	
+	function setServicioData(res2, index){
+		//alert(res2[index][0].codigo_servicio);
+		$('#servicio').each(function(key, element){
+			$(element).eq(key).val(res2[index][0].codigo_servicio);
+		});
+	
+	};
+	
+	$('#modal-orden').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	});
+
+});

@@ -4,29 +4,33 @@
  
     //Extendemos la clase Pdf de la clase fpdf para que herede todas sus variables y funciones
     class Pdf extends FPDF {
-        public function __construct() {
+        public function __construct($dato) {
+            $this->Numero = $dato;
             parent::__construct();
         }
 		
         // El encabezado del PDF
         
         public function Header(){
-        //    $this->Image('imagenes/logo.png',10,8,22);
-            $this->SetFont('Arial','B',13);
+            
+            //global $orden;
+            $this->Image('img/logo.png',10,8,45);
+            $this->SetFont('Arial','B',16);
             $this->Cell(30);
-            $this->Cell(120,10,'ESCUELA X',0,0,'C');
+            $this->Cell(120,10,'Orden de Servicio '.  utf8_decode(N°).''.$this->Numero,0,0,'C');
             $this->Ln('5');
             $this->SetFont('Arial','B',8);
             $this->Cell(30);
-            $this->Cell(120,10,'INFORMACION DE CONTACTO',0,0,'C');
+           // $this->Cell(120,10,'INFORMACION DE CONTACTO',0,0,'C');
             $this->Ln(20);
        }
        // El pie del pdf
        public function Footer(){
            $this->SetY(-15);
            $this->SetFont('Arial','I',8);
-           $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+           $this->Cell(0,6,'SANDRA MIRANDA',0,1,'C');
+           $this->Cell(0,6,'Grupo Logistico GLC Chile y Cia Ltda.',0,0,'C');
       }
-		
+	
     }
 ?>;

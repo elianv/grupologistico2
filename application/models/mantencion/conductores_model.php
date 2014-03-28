@@ -52,8 +52,7 @@ class Conductores_model extends CI_Model{
         return $resultado->result_array();
         
     }
-    
-        
+            
     function existe_conductor($rut){
         $this->db->select ('rut');
         $this->db->from('conductor');
@@ -79,7 +78,7 @@ class Conductores_model extends CI_Model{
 			$resultado = $this->db->get();
 			
 			return $resultado->result_array();
-        
+
     }
     
 }

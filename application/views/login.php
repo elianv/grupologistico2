@@ -52,10 +52,17 @@
       <div class="row">
         <div class="login-form">
           <h2>Login</h2>
-          <?php echo validation_errors(); ?>
+            <?php 
+                if(validation_errors()){
+                    echo "<div class='label label-important'>";
+                    echo validation_errors();
+                    echo "</div>";
+                } 
+            ?>
           <?php echo form_open('verifylogin'); ?>
+          <br>
             <fieldset>
-              <div class="clearfix">
+                <div class="clearfix" style="center">
                 <input type="text" placeholder="RUT" id="username" name="username">
               </div>
               <div class="clearfix">

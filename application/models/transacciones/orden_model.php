@@ -62,5 +62,16 @@ class Orden_model extends CI_Model{
 		return $result->result_array();
 		
 	}
+	
+	function getDetalleByOrdenId($id_orden){
+		
+		$this->db->select();
+		$this->db->from('detalle');
+		$this->db->where('orden_id_orden',$id_orden);
+		$result = $this->db->get();
+		
+		return $result->result_array();
+		
+	}
 }
 ?>

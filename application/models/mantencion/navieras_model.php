@@ -37,6 +37,17 @@ class Navieras_model extends CI_Model{
         return $resultado->result_array();
     }
     
+    function get_naviera($id){
+        
+			$this->db->select ();
+			$this->db->from('naviera');
+			$this->db->where('codigo_naviera',$id);
+			$resultado = $this->db->get();
+			
+			return $resultado->result_array();
+   
+    }
+    
     
     
     
