@@ -59,6 +59,7 @@ class Conductores extends CI_Controller{
                             );
                 
                 $this->Conductores_model->insertar_conductor($conductor);
+                $this->session->set_flashdata('mensaje','Conductor guardado con éxito');
                 redirect('mantencion/conductores','refresh');
             }
         }
@@ -93,6 +94,7 @@ class Conductores extends CI_Controller{
                 $rut = $this->input->post('rut');
                 
                 $this->Conductores_model->modificar_conductor($conductor,$rut);
+                $this->session->set_flashdata('mensaje','Conductor guardado con éxito');
                 redirect('mantencion/conductores','refresh');
             }
         }

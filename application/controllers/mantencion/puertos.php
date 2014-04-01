@@ -62,6 +62,7 @@ class Puertos extends CI_Controller{
                             'nombre' => $this->input->post('nombre')
                         );
                 $this->Puertos_model->insertar_puerto($puerto);
+                $this->session->set_flashdata('mensaje','Puerto guardado con éxito');
                 redirect('mantencion/puertos','refresh');
             }
         }
@@ -101,6 +102,7 @@ class Puertos extends CI_Controller{
                 $codigo_puerto = $this->input->post('codigo_puerto');
                 
                 $this->Puertos_model->modificar_puerto($puerto,$codigo_puerto);
+				$this->session->set_flashdata('mensaje','Puerto editado con éxito');
                 redirect('mantencion/puertos','refresh');
             }
         }

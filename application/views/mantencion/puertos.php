@@ -1,7 +1,23 @@
 <div class="row">
     <legend><h3><center>Mantención Puertos</center></h3></legend>
+                <?php
+            $correcto = $this->session->flashdata('mensaje');
+            if ($correcto){
+                echo "<div class='alert alert-error' align=center>";
+                echo "<a class='close' data-dismiss='alert'>×</a>";
+                echo "<span id='registroCorrecto'>".$correcto."</span>";
+                echo "</div>";
+            }
+ 
+                if(validation_errors()){
+                    echo "<div class='alert alert-info' align=center>";
+                    echo "<a class='close' data-dismiss='alert'>×</a>";
+                    echo validation_errors();
+                    echo "</div>";
+                } 
+            ?> 
     <div class="span6 form-left-puertos">
-          <div style="margin-left: 10px"><?php echo validation_errors(); ?></div> 
+
           <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
             <div class="control-group">

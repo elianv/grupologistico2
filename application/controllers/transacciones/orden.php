@@ -120,7 +120,7 @@ class Orden extends CI_Controller{
                 
                 
                 $this->load->library('form_validation');
-/*
+
                   $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
                   $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
                   $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
@@ -132,7 +132,7 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
-                  */$this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
+                  $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
  
 
                   
@@ -270,7 +270,7 @@ class Orden extends CI_Controller{
 
                     //guarda viaje y la orden.
                     $this->Viaje->crear_viaje($viaje);
-		    $this->Orden_model->insert_orden($orden);
+		            $this->Orden_model->insert_orden($orden);
                     $i = 0;
                                     
                     $num_orden = $this->input->post('numero_orden');
@@ -400,7 +400,7 @@ class Orden extends CI_Controller{
                     $viaje = array(
                                 'camion_camion_id' => $this->input->post('camion_camion_id'),
                                 'conductor_rut' => $this->input->post('conductor_rut'),
-                                'id_viaje' => $id_viaje[0]['id_viaje']
+                                'id_viaje' => $orden_bd[0]['viaje_id_viaje']
                             );
     
                     $aduana = explode(' - ', $this->input->post('aduana_codigo_aduana'));
@@ -411,6 +411,14 @@ class Orden extends CI_Controller{
                     $carga = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
                     $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
                     $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
+                    $fecha = $this->input->post('fecha');
+                    $fecha_presentacion = $this->input->post('fecha_presentacion');
+                    
+                    $fecha = str_replace('/','-', $fecha);
+                    $fecha = date("Y-m-d H:i",strtotime($fecha));
+                    
+                    $fecha_presentacion = str_replace('/','-', $fecha_presentacion);
+                    $fecha_presentacion = date("Y-m-d H:i",strtotime($fecha_presentacion));
                     
 								
                     
@@ -437,7 +445,7 @@ class Orden extends CI_Controller{
                         'nave_codigo_nave' => $nave[0],
                         'mercaderia' =>  $this->input->post('mercaderia'),
                         'num_servicios' => count($this->input->post('codigo_Servicio')),
-                        'viaje_id_viaje' => $id_viaje[0]['id_viaje'],
+                        'viaje_id_viaje' => $orden_bd[0]['viaje_id_viaje'],
                         'tramo_codigo_tramo' => $tramo[0],
                         'valor_costo_tramo' => $this->input->post('valor_costo_tramo'),
                         'valor_venta_tramo' => $this->input->post('valor_venta_tramo')
@@ -456,16 +464,14 @@ class Orden extends CI_Controller{
                     //$this->Viaje->editar_viaje($viaje);
 		            //$this->Orden_model->editar_orden($orden);
 
-                    $id_detalle = $this->input->post('id_detalle');
-                    
                     $i = 0;
                     $num_orden = $this->input->post('numero_orden');
                     $costo = $this->input->post('valor_costo_servicio');
                     $venta = $this->input->post('valor_venta_servicio');
-
+                    $detalle_orden = $this->Detalle->existe_detalle($this->input->post('numero_orden'));
 
                     foreach ($this->input->post('codigo_servicio') as $servicio){
-                           
+                       /*    
                        $detalle = array(
                                     'id_detalle' => $id_detalle[$i],
                                     'servicio_codigo_servicio' => $servicio,
@@ -473,6 +479,7 @@ class Orden extends CI_Controller{
                                     'valor_costo'=> $costo[$i],
                                     'valor_venta'=> $venta[$i]
                        );
+                       */
                         $i = $i + 1;
                        //guarda uno a uno los detalles.
                        //$this->Detalle->editar_detalle($detalle);
@@ -481,9 +488,11 @@ class Orden extends CI_Controller{
                     echo "ORDEN:";
                     print_r($orden);
                     echo "<br> DETALLE :";
-                    print_r($detalle);
+                    print_r($this->input->post('numero_orden'));
                     echo "<br> VIAJE ";
                     print_r($viaje);
+                    echo "<br> POST:";
+                    print_r($_POST);
                     echo "</pre>";
                     
                 //redirect('transacciones/orden','refresh');
@@ -882,7 +891,7 @@ class Orden extends CI_Controller{
                         $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['detalle'][$i]['datos']['descripcion']),'0',1,'L',0);
                     }
                     
-//DESCRIPCION DINAMICA
+                    //DESCRIPCION DINAMICA
                     $this->pdf->Cell(60,6,'Agencia Aduana','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['aduana']['nombre']),'0',1,'L',0);
 

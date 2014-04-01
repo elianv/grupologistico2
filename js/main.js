@@ -816,7 +816,49 @@ $('#modal-orden .codigo-click').click(function(e){
 		//beforeSend: function(){//},
 		success:function(res) {
 			console.log(res);
+			
+			$('#numero_orden').val(res[0].id_orden);
 			$('#referencia').val(res[0].referencia);
+			
+			$('.form-orden #tipo_factura :selected').text();
+			$('#fecha').val(res[0].fecha);
+			
+			$('#cliente').val(res[0].cliente_rut_cliente);
+			$('.nombre-cliente').val(nombre);
+			
+			$('#booking').val(res[0].booking);
+			$('#aduana').val(res[0].aduana_codigo_aduana);
+			$('#nave').val(res[0].nave_codigo_nave);
+			
+			$('#tramo').val(res[0].tramo_codigo_tramo);
+			$('#valor_costo_tramo').val(res[0].valor_costo_tramo);valor_venta_tramo
+			$('#valor_venta_tramo').val(res[0].valor_venta_tramo);
+			
+			$('#carga').val(res[0].tipo_carga_codigo_carga);
+			$('#numero').val(res[0].numero);
+			$('#fecha_carga').val(res[0].fecha_carga);
+			
+			$('#peso').val(res[0].peso);
+			$('#set_point').val(res[0].set_point);
+			
+			$('#mercaderia').val(res[0].mercaderia);
+			
+			$('#fecha_presentacion').val(res[0].fecha_presentacion);
+			
+			$('#bodega').val(res[0].bodega_codigo_bodega);
+			$('#deposito').val(res[0].deposito_codigo_deposito);
+			
+			$('#destino').val(res[0].destino);
+			$('#puerto').val(res[0].puerto_codigo_puerto);
+			
+			$('#referencia2').val(res[0].referencia_2);
+			$('#rut').val(res[0].proveedor_rut_proveedor);
+			$('#observacion').val(res[0].observacion);
+			
+			$('#conductor').val(res[0].conductor_rut);
+			$('#patente').val(res[0].patente);
+			
+			
 		}, 
 		complete: function(){
 			$.ajax({
@@ -828,11 +870,12 @@ $('#modal-orden .codigo-click').click(function(e){
 					console.log(res2);
 					$.each(res2, function(index, element){
 						if ( index < ( res2.length - 1) ) {
-							$('.boton-repetir a').trigger('click');
-						}
-						
-						//Datos servicio
-						setServicioData(res2, index);
+							$('.campo-a-repetir:last').removeClass('original').find('#servicio').val(res2[index][0].codigo_servicio);
+							$('.campo-a-repetir:last').removeClass('original').find('#valor_costo_servicio').val(res2[index][0].valor_costo);
+							$('.campo-a-repetir:last').removeClass('original').find('#valor_venta_servicio').val(res2[index][0].valor_venta);
+							$('.campo-a-repetir:last').after($('.campo-a-repetir:last').clone());
+							document.setCloneEvent();
+						} 
 						//alert(res2[index][0].codigo_servicio);
 					});
 				}
@@ -841,8 +884,8 @@ $('#modal-orden .codigo-click').click(function(e){
 	});
 	
 	function setServicioData(res2, index){
-		//alert(res2[index][0].codigo_servicio);
-		$('#servicio').each(function(key, element){
+		alert(res2[index][0].codigo_servicio);
+		$('.campo-a-repetir #servicio').each(function(key, element){
 			$(element).eq(key).val(res2[index][0].codigo_servicio);
 		});
 	

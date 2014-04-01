@@ -17,7 +17,7 @@ Class Detalle extends CI_Model{
     }
     
     function detalle_orden($id_orden){
-		$this->db->select();
+		$this->db->select('*');
 		$this->db->where('orden_id_orden',$id_orden);
 		$result = $this->db->get('detalle');
 
@@ -41,7 +41,36 @@ Class Detalle extends CI_Model{
         
             return $result->result_array();
     }
-    
+
+    function eliminar_detalle($id_detalle){
+    	$this->db->where('id_detalle', $id_detalle);
+		if($this->db->delete('detalle')){
+			return true;
+		} 
+		else{
+			return false;
+		}
+
+
+    }
+
+    function existe_detalle($id_orden){
+    	$this->db->select ('id_detalle');
+        $this->db->from('detalle');
+        $this->db->where('orden_id_orden',$id_orden);
+                
+        $query = $this->db->get();
+        
+        if($query->num_rows() == 0){
+            
+            return true;
+        }
+        
+        else{
+            
+            return false;
+        }
+    }
 }
 
 ?>

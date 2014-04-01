@@ -140,7 +140,7 @@ class Tramos extends CI_Controller{
                 }
 
                 $this->Tramos_model->insertar($arreglo);
-                
+                $this->session->set_flashdata('mensaje','Tramo guardado con éxito');
                 redirect('mantencion/tramos','refresh');
               
             }
@@ -213,7 +213,7 @@ class Tramos extends CI_Controller{
 
                 $codigo_tramo = $this->input->post('codigo_tramo');
                 $this->Tramos_model->modificar($arreglo,$codigo_tramo);
-                
+                $this->session->set_flashdata('mensaje','Tramo editado con éxito');
                 redirect('mantencion/tramos','refresh');
               
             }

@@ -88,7 +88,7 @@ class Naves extends CI_Controller{
                 $codigo_nave = $this->input->post('codigo_nave');
                 
                 $this->Naves_model->modificar_nave($nave,$codigo_nave);
-               
+                $this->session->set_flashdata('mensaje','Nave editada con éxito');
                 redirect('mantencion/naves','refresh');
  
             }
@@ -136,6 +136,7 @@ class Naves extends CI_Controller{
                         'naviera_codigo_naviera' => $codigo_naviera[0]
                         );
                 $this->Naves_model->insertar_nave($nave);
+                $this->session->set_flashdata('mensaje','Nave guardada con éxito');
                 redirect('mantencion/naves','refresh');
                  
             }

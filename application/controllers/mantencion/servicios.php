@@ -101,7 +101,7 @@ class Servicios extends CI_Controller{
                                 
                 $codigo_servicio = $this->input->post('codigo');
                 $this->Servicios_model->modificar_servicio($servicio,$codigo_servicio);
-                
+                $this->session->set_flashdata('mensaje','Servicio modificado con éxito');
                 redirect('mantencion/servicios','refresh');
                
             }
@@ -161,6 +161,7 @@ class Servicios extends CI_Controller{
                 }
                                 
                 $this->Servicios_model->insertar_servicio($servicio);
+                $this->session->set_flashdata('mensaje','Servicio guardado con éxito');
                 
                 redirect('mantencion/servicios','refresh');
                

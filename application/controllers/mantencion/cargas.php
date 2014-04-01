@@ -71,6 +71,7 @@ class Cargas extends CI_Controller{
 
                 $codigo_carga = $this->input->post('codigo_carga');
                 $this->Cargas_model->modificar_carga($datos,$codigo_carga);
+                $this->session->set_flashdata('mensaje','Carga editada con éxito');
                 redirect('mantencion/cargas','refresh');
             }
             
@@ -113,6 +114,7 @@ class Cargas extends CI_Controller{
                         );
             
                 $this->Cargas_model->insertar_carga($datos);
+                $this->session->set_flashdata('mensaje','Carga editada con éxito');
                 redirect('mantencion/cargas','refresh');
             }
             

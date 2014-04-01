@@ -79,8 +79,9 @@ class Bodegas extends CI_Controller{
                             'telefono' => $this->input->post('telefono')
                                 );
                 $this->Bodegas_model->insertar_bodega($bodega);
+                $this->session->set_flashdata('mensaje','La Bodega se guardo con éxito');
                 redirect('mantencion/bodegas','refresh');
-                $this->load->view('prueba');
+                
             }
                   
         }
@@ -124,8 +125,9 @@ class Bodegas extends CI_Controller{
                 
                 $codigo_bodega = $this->input->post('codigo_bodega');
                 $this->Bodegas_model->modificar_bodega($bodega,$codigo_bodega);
+                $this->session->set_flashdata('mensaje','La Bodega se edito con éxito');
                 redirect('mantencion/bodegas','refresh');
-                $this->load->view('prueba');
+
             }
                   
         }

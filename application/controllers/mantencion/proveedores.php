@@ -121,7 +121,7 @@ class Proveedores extends CI_Controller{
                 
 
                 $this->Proveedores_model->insertar($arreglo);
-                
+                $this->session->set_flashdata('mensaje','Proveedor guardado con éxito');
                 redirect('mantencion/proveedores','refresh');
                 }
             }
@@ -170,7 +170,7 @@ class Proveedores extends CI_Controller{
                 $rut_proveedor = $this->input->post('rut');
                 
                 $this->Proveedores_model->modificar($arreglo,$rut_proveedor);
-                
+                $this->session->set_flashdata('mensaje','Proveedor editado con éxito');
                 redirect('mantencion/proveedores','refresh');
                 }
             }

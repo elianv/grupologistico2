@@ -83,6 +83,7 @@ class Agencias extends CI_Controller{
                             );
                             
                 $this->Agencias_model->insertar_agencia($agencia);
+                $this->session->set_flashdata('mensaje','Agencia guardada con éxito');
                 redirect('mantencion/agencias','refresh');
                 
             }
@@ -128,7 +129,8 @@ class Agencias extends CI_Controller{
                             
                 $codigo_agencia = $this->input->post('codigo_aduana');
             
-                $this->Agencias_model->modificar_agencia($agencia,$codigo_agencia);                
+                $this->Agencias_model->modificar_agencia($agencia,$codigo_agencia);
+                $this->session->set_flashdata('mensaje','Agencia modificada con éxito');              
                 redirect('mantencion/agencias','refresh');
                 
             }

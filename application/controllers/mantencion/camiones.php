@@ -57,6 +57,7 @@ class Camiones extends CI_Controller{
                             );
                 
                 $this->Camiones_model->insertar_camion($camion);
+                $this->session->set_flashdata('mensaje','Camión guardado con éxito');
                 redirect('mantencion/camiones','refresh');   
             }
             
@@ -87,6 +88,7 @@ class Camiones extends CI_Controller{
                             'celular' => $this->input->post('telefono')
                             );
                 $this->Camiones_model->modificar_camion($camion,$this->input->post('id_camion'));
+                $this->session->set_flashdata('mensaje','Camión editado con éxito');
                 redirect('mantencion/camiones','refresh');   
             }
             

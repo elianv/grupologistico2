@@ -128,7 +128,7 @@ class Clientes extends CI_Controller{
                 
 
                 $this->Clientes_model->insertar($arreglo);
-                
+                $this->session->set_flashdata('mensaje','Cliente guardado con exito');
                 redirect('mantencion/clientes','refresh');
               
             }
@@ -178,7 +178,7 @@ class Clientes extends CI_Controller{
                                 );
                 $rut_cliente = $this->input->post('rut');
                 $this->Clientes_model->modificar($arreglo,$rut_cliente);
-                
+                $this->session->set_flashdata('mensaje','Cliente guardado con éxito');
                 redirect('mantencion/clientes','refresh');
               
             }

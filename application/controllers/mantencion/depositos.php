@@ -70,6 +70,7 @@ class Depositos extends CI_Controller{
                         );
             
                 $this->Depositos_model->insertar_deposito($datos);
+                $this->session->set_flashdata('mensaje','Deposito guardado con éxito');
                 redirect('mantencion/depositos','refresh');
             }
             
@@ -112,6 +113,7 @@ class Depositos extends CI_Controller{
             
                 $codigo_deposito = $this->input->post('codigo_deposito');
                 $this->Depositos_model->modificar_deposito($datos,$codigo_deposito);
+                $this->session->set_flashdata('mensaje','Deposito editado con éxito');
                 redirect('mantencion/depositos','refresh');
             }
             

@@ -71,6 +71,7 @@ class Navieras extends CI_Controller{
                         );
             
                 $this->Navieras_model->insertar_naviera($datos);
+                $this->session->set_flashdata('mensaje','Naviera guardada con éxito');
                 redirect('mantencion/navieras','refresh');
             }
             
@@ -113,6 +114,7 @@ class Navieras extends CI_Controller{
                 $codigo_naviera = $this->input->post('codigo_naviera');
             
                 $this->Navieras_model->modificar_naviera($datos,$codigo_naviera);
+                $this->session->set_flashdata('mensaje','Naviera editada con éxito');
                 redirect('mantencion/navieras','refresh');
             }
             
