@@ -807,6 +807,7 @@ $('#modal-orden .codigo-click').click(function(e){
 	var nombre = $(this).parent().next('td').text();
 	var serv = [];
 	var code = $(this).data('codigo');
+	var id_viaje;
 	
 	$.ajax({
 		type:'post',
@@ -815,7 +816,6 @@ $('#modal-orden .codigo-click').click(function(e){
 		data:{id_orden:code},
 		//beforeSend: function(){//},
 		success:function(res) {
-			console.log(res);
 			
 			$('#numero_orden').val(res[0].id_orden);
 			$('#referencia').val(res[0].referencia);
@@ -855,9 +855,7 @@ $('#modal-orden .codigo-click').click(function(e){
 			$('#rut').val(res[0].proveedor_rut_proveedor);
 			$('#observacion').val(res[0].observacion);
 			
-			$('#conductor').val(res[0].conductor_rut);
-			$('#patente').val(res[0].patente);
-			
+			id_viaje = res[0].viaje_id_viaje;
 			
 		}, 
 		complete: function(){
@@ -867,7 +865,6 @@ $('#modal-orden .codigo-click').click(function(e){
 				dataType : 'json',
 				data     : { id_orden_detalle : code },
 				success : function(res2){
-					console.log(res2);
 					$.each(res2, function(index, element){
 						if ( index < ( res2.length - 1) ) {
 							$('.campo-a-repetir:last').removeClass('original').find('#servicio').val(res2[index][0].codigo_servicio);
@@ -877,6 +874,19 @@ $('#modal-orden .codigo-click').click(function(e){
 							document.setCloneEvent();
 						} 
 						//alert(res2[index][0].codigo_servicio);
+					});
+				},
+				complete : function(){
+					$.ajax({
+						type     : 'post',
+						url      : '../transacciones/orden',
+						dataType : 'json',
+						data     : { code_id_viaje : id_viaje },
+						success  : function(res3){
+							$('#conductor').val(res3[0].rut);
+							$('.nombre-conductor').val(res3[0].descripcion);
+							$('#patente').val(res3[1].patente);
+						}
 					});
 				}
 			});

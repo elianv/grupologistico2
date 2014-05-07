@@ -29,7 +29,7 @@ class Orden extends CI_Controller{
 	
 		$id_orden = isset($_POST['id_orden'])?$_POST['id_orden']:'';
 		$codigo_detalle = isset($_POST['id_orden_detalle'])?$_POST['id_orden_detalle']:'';
-		
+		$id_viaje       = isset($_POST['code_id_viaje'])?$_POST['code_id_viaje']:'';	
 		
 		if(isset($id_orden) && $id_orden != ''){
 			
@@ -43,7 +43,11 @@ class Orden extends CI_Controller{
 			$response = json_encode($this->datos_detalle($codigo_detalle));
 			
 			echo $response;
-		}  else{
+		} else if( isset( $id_viaje ) && $id_viaje != '' ) {
+			$response = json_encode($this->datosConductor($id_viaje));
+			
+			echo $response;
+		} else {
         
             if($this->session->userdata('logged_in')){
             
@@ -1202,6 +1206,8 @@ class Orden extends CI_Controller{
 		
 		$lastret = array_merge($ret,$ret3);
 		*/
+		
+		
 		return $ret;
         
     }
@@ -1212,6 +1218,23 @@ class Orden extends CI_Controller{
 			$servicio[] = $this->Servicios_model->datos_servicio($id_servicio['servicio_codigo_servicio']);
 		}
 		return $servicio;
+	}
+	
+	function datosConductor($id_viaje)
+	{
+		$ret = $this->Viaje->seleccionar_viaje($id_viaje);
+		//$ret[0]['conductor_rut'];
+		
+		// Patente 
+		
+		$ret3 = $this->Camiones_model->getCamion($ret[0]['camion_camion_id']);
+		
+		// Conductor
+		$ret2 = $this->Conductores_model->datos_conductor($ret[0]['conductor_rut']);
+		
+		$lastret = array_merge($ret2, $ret3);
+		
+		return $lastret;
 	}
 }
 ?>
