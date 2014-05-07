@@ -78,13 +78,7 @@
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-								  
-                                  //if($tabla['codigo_bodega'] < 10){
-                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_bodega'].">".$tabla['codigo_bodega']."</a></td>";
-                                  //}
-                                  //else{
-                                  //    echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_bodega'].">".$tabla['codigo_bodega']."</a></td>";
-                                  //}
+								                  echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_bodega'].">".$tabla['codigo_bodega']."</a></td>";
                                   echo "<td>".strtoupper($tabla['nombre'])."</td>";
                               }
                               ?>

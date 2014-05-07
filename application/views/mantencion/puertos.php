@@ -57,12 +57,7 @@
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  if($tabla['codigo_puerto'] <10){
-                                      echo '<td><a class="sorting_1 codigo-click" data-codigo='.$tabla['codigo_puerto'].'>0'.$tabla['codigo_puerto'].'</a></td>';
-                                  }
-                                  else{
-                                      echo '<td><a class="sorting_1 codigo-click" data-codigo='.$tabla['codigo_puerto'].'>'.$tabla['codigo_puerto'].'</a></td>';
-                                  }
+                                  echo '<td><a class="sorting_1 codigo-click" data-codigo='.$tabla['codigo_puerto'].'>'.$tabla['codigo_puerto'].'</a></td>';
                                   echo "<td class='nombre'>".strtoupper($tabla['nombre'])."</td>";
                               }
                               ?>

@@ -60,12 +60,7 @@
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  if($tabla['codigo_naviera'] <10){
-                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_naviera'].">0".$tabla['codigo_naviera']."</a></td>";
-                                  }
-                                  else{
-                                      echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_naviera'].">".$tabla['codigo_naviera']."</a></td>";
-                                  }
+                                  echo "<td><a class='codigo-click' data-codigo=".$tabla['codigo_naviera'].">".$tabla['codigo_naviera']."</a></td>";
                                   echo "<td class='nombre'>".strtoupper($tabla['nombre'])."</td>";
                               }
                               ?>
