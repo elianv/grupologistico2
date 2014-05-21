@@ -137,6 +137,7 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
                   $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
+				  $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean|callback_check_orden');
  
 
                   
@@ -400,9 +401,10 @@ class Orden extends CI_Controller{
                     	
 					$orden_bd = $this->Orden_model->get_orden($this->input->post('numero_orden'));
                     $id_viaje = $this->Viaje->seleccionar_viaje($orden_bd[0]['viaje_id_viaje']);
+					$camion = $this->Camiones_model->datos_camion($this->input->post('patente'));
                     
                     $viaje = array(
-                                'camion_camion_id' => $this->input->post('camion_camion_id'),
+                                'camion_camion_id' => $camion['0']['camion_id'],
                                 'conductor_rut' => $this->input->post('conductor_rut'),
                                 'id_viaje' => $orden_bd[0]['viaje_id_viaje']
                             );
@@ -429,14 +431,14 @@ class Orden extends CI_Controller{
                     $orden = array(
                         'id_orden' =>$this->input->post('numero_orden'),
                         'referencia' => $this->input->post('referencia'),
-                        'fecha' => $this->input->post('fecha'),
+                        'fecha' => $fecha,
                         'cliente_rut_cliente' => $this->input->post('cliente_rut_cliente'),
                         'booking' => $this->input->post('booking'),
                         'aduana_codigo_aduana' => $aduana[0],
                         'numero' => $this->input->post('numero'),
                         'peso' => $this->input->post('peso'),
                         'set_point' => $this->input->post('set_point'),
-                        'fecha_presentacion' => $this->input->post('fecha_prensentacion'),
+                        'fecha_presentacion' => $fecha_presentacion,
                         'bodega_codigo_bodega' => $bodega[0],
                         'destino' => $destino[0],
                         'puerto_codigo_puerto' => $puerto[0],
@@ -465,41 +467,32 @@ class Orden extends CI_Controller{
                     
 
                     //guarda viaje y la orden.
-                    //$this->Viaje->editar_viaje($viaje);
-		            //$this->Orden_model->editar_orden($orden);
+                    $this->Viaje->editar_viaje($orden_bd[0]['viaje_id_viaje'],$viaje);
+		            $this->Orden_model->editar_orden($orden,$this->input->post('numero_orden'));
+					$this->Detalle->eliminar_detalle($this->input->post('numero_orden'));
 
                     $i = 0;
                     $num_orden = $this->input->post('numero_orden');
                     $costo = $this->input->post('valor_costo_servicio');
                     $venta = $this->input->post('valor_venta_servicio');
-                    $detalle_orden = $this->Detalle->existe_detalle($this->input->post('numero_orden'));
-
+                    					
                     foreach ($this->input->post('codigo_servicio') as $servicio){
-                       /*    
-                       $detalle = array(
-                                    'id_detalle' => $id_detalle[$i],
-                                    'servicio_codigo_servicio' => $servicio,
-                                    'orden_id_orden'=> $num_orden,
-                                    'valor_costo'=> $costo[$i],
-                                    'valor_venta'=> $venta[$i]
-                       );
-                       */
-                        $i = $i + 1;
+						$id_detalle = $this->Detalle->ultimo_codigo();
+						$id_detalle[0]['id_detalle'] = $id_detalle[0]['id_detalle'] + 1;                    		
+                    	$servicio = explode(' - ', $servicio);
+	                    $detalle = array(
+	                    				'id_detalle' => $id_detalle[0]['id_detalle'],
+	                    				'servicio_codigo_servicio' => (int)$servicio,
+	                                    'orden_id_orden'=> $num_orden,
+	                                    'valor_costo'=> $costo[$i],
+	                                    'valor_venta'=> $venta[$i]
+	                    );
+	                    $i = $i + 1;
                        //guarda uno a uno los detalles.
-                       //$this->Detalle->editar_detalle($detalle);
+                       $this->Detalle->guardar_detalle($detalle);
                     }
-                    echo "<pre>";
-                    echo "ORDEN:";
-                    print_r($orden);
-                    echo "<br> DETALLE :";
-                    print_r($this->input->post('numero_orden'));
-                    echo "<br> VIAJE ";
-                    print_r($viaje);
-                    echo "<br> POST:";
-                    print_r($_POST);
-                    echo "</pre>";
-                    
-                //redirect('transacciones/orden','refresh');
+				$this->session->set_flashdata('sin_orden','La orden se edito con éxito');
+                redirect('transacciones/orden','refresh');
 
                 }
         }    
@@ -1183,7 +1176,7 @@ class Orden extends CI_Controller{
         
         if($result){
             
-            $this->form_validation->set_message('check_orden','La O.S. N° que ingresa no se encuentra en el sistema, intente con otro.');
+            $this->form_validation->set_message('check_orden','La O.S. que ingresa no se encuentra en el sistema, intente con otro.');
             return false;
         }
         else{
@@ -1192,6 +1185,8 @@ class Orden extends CI_Controller{
         }
             
     }
+
+
 
     function datos_ordensh($id_orden){
         
