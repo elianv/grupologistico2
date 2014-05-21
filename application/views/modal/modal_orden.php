@@ -18,13 +18,7 @@
                               <?php
                               foreach ($ordenes as $orden){
                                   echo "<tr>";
-                                  if($orden['id_orden']< 10){
-                                      echo "<td><a class='codigo-click' data-codigo=".$orden['id_orden'].">0".$orden['id_orden']."</a></td>";
-                                  }
-                                  else{
-                                      echo "<td><a class='codigo-click' data-codigo=".$orden['id_orden'].">".$orden['id_orden']."</a></td>";
-                                  }
-                                  
+                                  echo "<td><a class='codigo-click' data-codigo=".$orden['id_orden'].">".$orden['id_orden']."</a></td>";
                                   echo "<td>".strtoupper($orden['razon_social'])."</td>";
                                   echo "<td>".$orden['fecha']."</td>";
                               }

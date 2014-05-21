@@ -42,8 +42,8 @@ Class Detalle extends CI_Model{
             return $result->result_array();
     }
 
-    function eliminar_detalle($id_detalle){
-    	$this->db->where('id_detalle', $id_detalle);
+    function eliminar_detalle($id_orden){
+    	$this->db->where('orden_id_orden', $id_orden);
 		if($this->db->delete('detalle')){
 			return true;
 		} 

@@ -19,8 +19,8 @@ class Orden_model extends CI_Model{
         }
     }
     
-    function editar_orden($orden){
-        $this->db->where('id_orden', $orden['id_orden']);
+    function editar_orden($orden,$id_orden){
+        $this->db->where('id_orden', $id_orden);
         $this->db->update('orden', $orden); 
     }
     
