@@ -31,12 +31,7 @@
                 </div>
             </div>
             
-            <div class="control-group">
-                <label class="control-label" for="telefono"><strong>Descripción</strong></label>
-                <div class="controls">
-                 <input type="text" class="input-xlarge" name="telefono" id="telefono" placeholder="Opcional">
-                </div>
-            </div>
+
                
             <div class="form-actions">
                     <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/camiones/guardar_camion'" value="Guardar" />
@@ -50,7 +45,6 @@
                       <thead>
                         <tr>
                             <th>Patente</th>
-                            <th>Descripción</th>
 			</tr>
                       </thead>
                       <tbody>
@@ -58,7 +52,6 @@
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
                                   echo "<td><a class='codigo-click' data-codigo=".strtoupper($tabla['patente']).">".strtoupper($tabla['patente'])."</a></td>";
-                                  echo "<td class='celular'>".$tabla['celular']."</td>";
                               }
                               ?>
                        </tbody>

@@ -46,7 +46,7 @@
 								<li><a href="#">Libro de Ventas</a></li>
 								<li class="divider"></li>
 								<li class="nav-header">O.S.</li>
-								<li><a href="#">Facturadas</a></li>
+								<li><a href=<?php echo base_url();?>index.php/consultas/facturadas  >Facturadas</a></li>
 								<li><a href="#">Realizadas</a></li>
 								<li><a href="#">Clientes</a></li>
 								<li><a href="#">Proveedor</a></li>

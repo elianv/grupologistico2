@@ -111,9 +111,9 @@ class Orden extends CI_Controller{
 				$this->load->view('include/script');
 			}
           
-			else{
+            else{
 				redirect('home','refresh');
-			}
+            }
                 
         }
     }
