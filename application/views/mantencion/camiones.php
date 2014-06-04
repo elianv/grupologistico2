@@ -1,4 +1,5 @@
 <legend><h3><center>Mantención Camiones</center></h3></legend> 
+<div class="container">
         <?php
             $correcto = $this->session->flashdata('mensaje');
             if ($correcto){
@@ -15,6 +16,7 @@
                     echo "</div>";
                 } 
             ?>
+</div>
           <div class="row">
               <div class="span6 form-left-camiones">
                   <div style="margin-left: 10px"><?php echo validation_errors(); ?></div> 

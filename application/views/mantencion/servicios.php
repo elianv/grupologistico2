@@ -2,6 +2,7 @@
 <div class="row">
     <legend><h3><center>Mantención Servicios</center></h3></legend>
                 <?php
+                echo '<div class="container">';
             $correcto = $this->session->flashdata('mensaje');
             if ($correcto){
                 echo "<div class='alert alert-error' align=center>";
@@ -16,6 +17,7 @@
                     echo validation_errors();
                     echo "</div>";
                 } 
+            echo '</div>';    
             ?> 
     <div class="span6 form-left-servicios">
           
@@ -58,7 +60,7 @@
                        <select id="moneda" name="moneda">
                            <?php
                                   foreach ($monedas as $moneda){
-                                    echo "<option>".$moneda['moneda']."</option>";
+                                    echo "<option value='".$moneda['moneda']."'>".$moneda['moneda']."</option>";
                                   }
                            ?>
                        </select>

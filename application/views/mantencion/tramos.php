@@ -1,4 +1,5 @@
-    <legend><h3><center>Mantención de Tramos</center></h3></legend> 
+    <legend><h3><center>Mantención de Tramos</center></h3></legend>
+    <div class="container">
                 <?php
             $correcto = $this->session->flashdata('mensaje');
             if ($correcto){
@@ -14,7 +15,8 @@
                     echo validation_errors();
                     echo "</div>";
                 } 
-            ?> 
+            ?>
+    </div>
   <div class="row">
      <div class="span6 form-left-tramos">
          

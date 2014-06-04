@@ -4,6 +4,7 @@
         
 <legend><h3><center>Mantención Agencias Aduaneras</center></h3></legend> 
         <?php
+            echo '<div class="container">';
             $correcto = $this->session->flashdata('mensaje');
             if ($correcto){
                 echo "<div class='alert alert-error' align=center>";
@@ -19,6 +20,7 @@
                     echo validation_errors();
                     echo "</div>";
                 } 
+                echo '</div>';
             ?>
 
           <div class="row">

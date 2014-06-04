@@ -1,6 +1,7 @@
 
         
     <legend><h3><center>Mantención de Clientes</center></h3></legend> 
+    <div class="container">
                 <?php
             $correcto = $this->session->flashdata('mensaje');
             if ($correcto){
@@ -17,6 +18,7 @@
                     echo "</div>";
                 } 
             ?> 
+        </div>
   <div class="row">
      <div class="span6">
          

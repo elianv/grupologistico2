@@ -1,5 +1,6 @@
 <div class="row">
     <legend><h3><center>Mantención Puertos</center></h3></legend>
+    <div class="container">
                 <?php
             $correcto = $this->session->flashdata('mensaje');
             if ($correcto){
@@ -16,6 +17,7 @@
                     echo "</div>";
                 } 
             ?> 
+    </div>
     <div class="span6 form-left-puertos">
 
           <form class="form-horizontal" method="post" style="margin-left: 10px">

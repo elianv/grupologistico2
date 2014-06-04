@@ -1,5 +1,6 @@
 <legend><h3><center>Mantención Bodegas</center></h3></legend> 
         <?php
+            echo '<div class="container">';
             $correcto = $this->session->flashdata('mensaje');
             if ($correcto){
                 echo "<div class='alert alert-error' align=center>";
@@ -14,6 +15,7 @@
                     echo validation_errors();
                     echo "</div>";
                 } 
+                echo '</div>';
             ?>
 <div class="row">
     <div class="span6 form-left-bodegas">
