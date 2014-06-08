@@ -55,7 +55,7 @@ class Naves extends CI_Controller{
             
             $this->load->library('form_validation');
             $this->form_validation->set_rules('nombre', 'Nombre Nave','trim|required|xss_clean');
-            $this->form_validation->set_rules('codigo_naviera', 'Codigo Naviera','trim|xss_clean|required|callback_check_unique');
+            //$this->form_validation->set_rules('codigo_naviera', 'Codigo Naviera','trim|xss_clean|required|callback_check_unique');
            
             if($this->form_validation->run() == FALSE){
                 
@@ -83,7 +83,7 @@ class Naves extends CI_Controller{
                 $codigo_naviera = explode("-",$this->input->post('codigo_naviera'));               
                 $nave = array(
                         'nombre' => $this->input->post('nombre'),
-                        'naviera_codigo_naviera' => $codigo_naviera[0]
+                        'naviera_codigo_naviera' => '1'
                         );
                 $codigo_nave = $this->input->post('codigo_nave');
                 
@@ -105,7 +105,7 @@ class Naves extends CI_Controller{
             
             $this->load->library('form_validation');
             $this->form_validation->set_rules('nombre', 'Nombre Nave','trim|required|xss_clean');
-            $this->form_validation->set_rules('codigo_naviera', 'Codigo Naviera','trim|xss_clean|required|callback_check_unique');
+            //$this->form_validation->set_rules('codigo_naviera', 'Codigo Naviera','trim|xss_clean|required|callback_check_unique');
            
             if($this->form_validation->run() == FALSE){
                 
@@ -133,7 +133,7 @@ class Naves extends CI_Controller{
                 $codigo_naviera = explode("-",$this->input->post('codigo_naviera'));
                 $nave = array(
                         'nombre' => $this->input->post('nombre'),
-                        'naviera_codigo_naviera' => $codigo_naviera[0]
+                        'naviera_codigo_naviera' => '1'
                         );
                 $this->Naves_model->insertar_nave($nave);
                 $this->session->set_flashdata('mensaje','Nave guardada con éxito');

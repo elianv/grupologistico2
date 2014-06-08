@@ -80,6 +80,7 @@ class Orden extends CI_Controller{
             $data['naves'] = $this->Naves_model->listar_naves();
             //listar ordenes
             $data['ordenes'] = $this->Orden_model->listar_ordenes();
+            $data['navieras'] = $this->Navieras_model->listar_navieras();
             
             $codigo = $this->Orden_model->ultimo_codigo();
             
@@ -107,6 +108,7 @@ class Orden extends CI_Controller{
 				$this->load->view('modal/modal_carga',$data);
 				$this->load->view('modal/modal_deposito',$data);
 				$this->load->view('modal/modal_nave',$data);
+                                $this->load->view('modal/modal_naves',$data);
 				$this->load->view('modal/modal_orden',$data);
 				$this->load->view('include/script');
 			}
@@ -137,8 +139,8 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
                   $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
-				  $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean|callback_check_orden');
- 
+                  $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean');
+                  $this->form_validation->set_rules('naviera_codigo_naviera','Naviera','required|trim|xss_clean');
 
                   
                 if($this->form_validation->run() == FALSE){
@@ -169,6 +171,7 @@ class Orden extends CI_Controller{
                     $data['depositos'] = $this->Depositos_model->listar_depositos();
                     //listar Naves
                     $data['naves'] = $this->Naves_model->listar_naves();
+                    $data['navieras'] = $this->Navieras_model->listar_navieras();
                     
 
                     $codigo = $this->Orden_model->ultimo_codigo();
@@ -198,6 +201,7 @@ class Orden extends CI_Controller{
                     $this->load->view('modal/modal_carga',$data);
                     $this->load->view('modal/modal_deposito',$data);
                     $this->load->view('modal/modal_nave',$data);
+                    $this->load->view('modal/modal_naves',$data);
                     $this->load->view('include/script');
                 }
                 else{
@@ -261,7 +265,8 @@ class Orden extends CI_Controller{
                         'viaje_id_viaje' => $id_viaje,
                         'tramo_codigo_tramo' => $tramo[0],
                         'valor_costo_tramo' => $this->input->post('valor_costo_tramo'),
-                        'valor_venta_tramo' => $this->input->post('valor_venta_tramo')
+                        'valor_venta_tramo' => $this->input->post('valor_venta_tramo'),
+                        'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera')
                     );
                    
                     $tipo_ordenes = $this->Facturacion->tipo_orden();
@@ -334,6 +339,8 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
                   $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
+                  $this->form_validation->set_rules('naviera_codigo_naviera','Naviera','required|trim|xss_clean');
+                  $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean|callback_check_orden');
                   
                 if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
@@ -363,8 +370,8 @@ class Orden extends CI_Controller{
                     $data['depositos'] = $this->Depositos_model->listar_depositos();
                     //listar Naves
                     $data['naves'] = $this->Naves_model->listar_naves();
-					
-					$data['ordenes'] = $this->Orden_model->listar_ordenes();
+                    $data['navieras'] = $this->Navieras_model->listar_navieras();
+                    $data['ordenes'] = $this->Orden_model->listar_ordenes();
                     
 
                     $codigo = $this->Orden_model->ultimo_codigo();
@@ -394,14 +401,15 @@ class Orden extends CI_Controller{
                     $this->load->view('modal/modal_carga',$data);
                     $this->load->view('modal/modal_deposito',$data);
                     $this->load->view('modal/modal_nave',$data);
-					$this->load->view('modal/modal_orden',$data);
+                    $this->load->view('modal/modal_naves',$data);
+		    $this->load->view('modal/modal_orden',$data);
                     $this->load->view('include/script');
                 }
                 else{
                     	
-					$orden_bd = $this->Orden_model->get_orden($this->input->post('numero_orden'));
+                    $orden_bd = $this->Orden_model->get_orden($this->input->post('numero_orden'));
                     $id_viaje = $this->Viaje->seleccionar_viaje($orden_bd[0]['viaje_id_viaje']);
-					$camion = $this->Camiones_model->datos_camion($this->input->post('patente'));
+                    $camion = $this->Camiones_model->datos_camion($this->input->post('patente'));
                     
                     $viaje = array(
                                 'camion_camion_id' => $camion['0']['camion_id'],
@@ -454,7 +462,8 @@ class Orden extends CI_Controller{
                         'viaje_id_viaje' => $orden_bd[0]['viaje_id_viaje'],
                         'tramo_codigo_tramo' => $tramo[0],
                         'valor_costo_tramo' => $this->input->post('valor_costo_tramo'),
-                        'valor_venta_tramo' => $this->input->post('valor_venta_tramo')
+                        'valor_venta_tramo' => $this->input->post('valor_venta_tramo'),
+                        'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera')
                     );
                    
                     $tipo_ordenes = $this->Facturacion->tipo_orden();
@@ -541,7 +550,7 @@ class Orden extends CI_Controller{
             
 
             $orden[0]['nave'] = $nave[0];
-            $orden[0]['naviera'] = $this->Navieras_model->get_naviera($orden[0]['nave']['naviera_codigo_naviera']);
+            $orden[0]['naviera'] = $this->Navieras_model->get_naviera($orden[0]['naviera_codigo_naviera']);
             $orden[0]['cliente']['rut_cliente'] = $cliente[0]['rut_cliente'];
             $orden[0]['cliente']['razon_social'] = $cliente[0]['razon_social'];
             $orden[0]['tramo']['tramo'] = $tramo[0]['descripcion'];
@@ -948,11 +957,12 @@ class Orden extends CI_Controller{
 /*
             echo "<pre>";
             print_r($orden);
-            //print_r($servicio);
+            print_r($servicio);
             echo "</pre>"; 
  
  * 
  */
+
  
            $this->pdf->Output("Orden_de_Servicio_".$numero.".pdf", 'D');
 

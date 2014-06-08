@@ -103,9 +103,16 @@
             </div>
 
            <div class="control-group">
-                <label class="control-label" for="cliente"><strong>Nave</strong></label>
+                <label class="control-label" for="Nave"><strong>Nave</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="nave" name="nave_codigo_nave" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-nave"><i class="icon-search"></i></button></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="Naviera"><strong>Naviera</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="naviera" name="naviera_codigo_naviera" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-naviera"><i class="icon-search"></i></button></div>
                 </div>
             </div>
 
