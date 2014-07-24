@@ -94,7 +94,7 @@ class Orden extends CI_Controller{
               }
 				$tab['active'] = 'exportacion';
 				$this->load->view('include/head',$session_data);
-				$this->load->view('transaccion/orden',$data);
+				$this->load->view('transaccion/orden/crear_orden',$data);
 				$this->load->view('modal/modal_aduana', $data);
 				$this->load->view('modal/modal_cliente',$data);
 				$this->load->view('modal/modal_tramo',$data);
@@ -187,7 +187,7 @@ class Orden extends CI_Controller{
                     $tab['active'] = 'exportacion';
                     
                     $this->load->view('include/head',$session_data);
-                    $this->load->view('transaccion/orden',$data);
+                    $this->load->view('transaccion/orden/crear_orden',$data);
                     $this->load->view('modal/modal_aduana', $data);
                     $this->load->view('modal/modal_cliente',$data);
                     $this->load->view('modal/modal_tramo',$data);
@@ -310,7 +310,7 @@ class Orden extends CI_Controller{
                        $this->Detalle->guardar_detalle($detalle);
                     }
                     
-                $this->session->set_flashdata('sin_orden','La orden se guardo con éxito');
+                $this->session->set_flashdata('sin_orden','La orden se ha creado con éxito');
                 redirect('transacciones/orden','refresh');
                 }
             }
@@ -512,6 +512,57 @@ class Orden extends CI_Controller{
         }
         
     }
+    
+    function editar_orden($dato = null){
+        if($this->session->userdata('logged_in')){
+            
+            if(!$dato){
+                $session_data = $this->session->userdata('logged_in');    
+                $this->load->view('include/head',$session_data);
+                $this->load->view('transaccion/orden/tabla_editar_orden');
+                $this->load->view('include/script');
+            }
+            else{
+                $session_data = $this->session->userdata('logged_in');    
+                $this->load->view('include/head',$session_data);
+                
+                $this->load->view('include/script');
+            }
+        }
+        else{
+                redirect('home','refresh');
+            }
+        
+    }
+    
+    function eliminar_orden(){
+        if($this->session->userdata('logged_in')){
+        
+            $session_data = $this->session->userdata('logged_in');    
+            $this->load->view('include/head',$session_data);
+            $this->load->view('transaccion/orden/eliminar_orden');
+            $this->load->view('include/script');
+        
+        }
+        else{
+                redirect('home','refresh');
+            }
+    }
+    
+    function imprimir_orden(){
+        if($this->session->userdata('logged_in')){
+        
+            $session_data = $this->session->userdata('logged_in');    
+            $this->load->view('include/head',$session_data);
+            $this->load->view('transaccion/orden/imprimir_orden');
+            $this->load->view('include/script');
+        
+        }
+        else{
+                redirect('home','refresh');
+            }
+    }
+    
             
     function pdf(){
         

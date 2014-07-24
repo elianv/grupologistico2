@@ -30,7 +30,7 @@
 						
                                             <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
                                             <div class="controls">
-                                                <?php echo "<div class='input-append'><input type='text' class='span2' name='numero_orden' id='numero_orden' placeholder='Solo números' value=".$numero_orden."><button class='btn' type='button' data-toggle='modal' href='#modal-orden'><i class='icon-search'></i></button></div>"; ?>
+                                                <?php echo "<div class='input-append'><input type='text' disabled='disabled' class='span2' name='numero_orden' id='numero_orden' placeholder=".$numero_orden."></div>"; ?>
                                             </div>
 						
 					</div>
@@ -355,11 +355,11 @@
                     </div>
        </div>
           
-
+               
                <div class="form-actions" >
-                <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/guardar'" value="Guardar"/>
-                <input type="submit" class="btn btn-danger"  onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/editar'" value="Editar" />
-                <input type="submit" class="btn"             onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/pdf/'" value="PDF"/>
+                <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/guardar'" value="Crear"/>
+                <!-- <input type="submit" class="btn btn-danger"  onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/editar'" value="Editar" /> -->
+                <!-- <input type="submit" class="btn"             onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/pdf/'" value="PDF"/> -->
                </div>
            </fieldset>
           </form>

@@ -12,7 +12,7 @@
 			<div class="navbar-inner">
 				<div class="container" style="width: auto">
 					<a class="brand logo" href=<?php echo base_url();?>index.php/main>Grupo Logistico</a>
-					<ul class="nav">
+					<ul class="nav"><li class="divider"></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantención <b class="caret"></b></a>
 							<ul class="dropdown-menu">
@@ -34,7 +34,14 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Transacciones<b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href=<?php echo base_url();?>index.php/transacciones/orden>Orden de Servicio</a></li>
+                                                                
+								<li class="nav-header">Orden de Servicio</li>
+                                                                <li class="divider"></li>
+								<li><a href=<?php echo base_url();?>index.php/transacciones/orden>Crear O.S.</a></li>
+                                                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/editar_orden>Editar O.S.</a></li>
+                                                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/imprimir_orden>Imprimir O.S.</a></li>
+                                                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/eliminar_orden>Eliminar O.S.</a></li>
+                                                                <li class="divider"></li>
 								<li><a href=<?php echo base_url();?>index.php/transacciones/facturacion>Facturación</a></li>
 							</ul>
 						</li>    
@@ -65,7 +72,7 @@
 					<ul class="nav pull-right">
 						<li><a href=""><i class="icon-user"></i><?php echo $nombre; ?></a></li>
 						<li class="divider-vertical"></li>            
-						<li><a href="<?php echo base_url();?>/index.php/main/logout"><i class="icon-off"></i>Cerrar Sesión</a></li>
+						<li><a href="<?php echo base_url();?>index.php/main/logout"><i class="icon-off"></i>Cerrar Sesión</a></li>
 					</ul>
 				</div>
 			</div>
