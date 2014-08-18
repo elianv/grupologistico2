@@ -52,7 +52,7 @@ class Orden_model extends CI_Model{
          return $resultado->result_array();
      }
 	
-	function get_orden($id_orden){
+    function get_orden($id_orden){
 		
 		$this->db->select();
 		$this->db->from('orden');
@@ -63,7 +63,7 @@ class Orden_model extends CI_Model{
 		
 	}
 	
-	function getDetalleByOrdenId($id_orden){
+    function getDetalleByOrdenId($id_orden){
 		
 		$this->db->select();
 		$this->db->from('detalle');
@@ -73,5 +73,27 @@ class Orden_model extends CI_Model{
 		return $result->result_array();
 		
 	}
+        
+    function buscar_ordenes($tipo_orden=null,$desde=null,$hasta=null,$cliente=null){
+            $this->db->select();
+            $this->db->from('orden');
+            $this->db->join('cliente','orden.cliente_rut_cliente = cliente.rut_cliente','inner');
+            if($tipo_orden != 4){
+                $this->db->where('tipo_orden_id_tipo_orden',$tipo_orden);
+            }
+            if($desde){
+            
+            }
+            if($hasta){
+                
+            }
+            if($cliente){
+               $this->db->like('cliente.razon_social',$cliente); 
+            }
+            
+            $result = $this->db->get();
+            
+            return $result->result_array();
+        }
 }
 ?>

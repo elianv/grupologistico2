@@ -517,14 +517,29 @@ class Orden extends CI_Controller{
         if($this->session->userdata('logged_in')){
             
             if(!$dato){
-                $session_data = $this->session->userdata('logged_in');    
+                $session_data = $this->session->userdata('logged_in');  
                 $this->load->view('include/head',$session_data);
-                $this->load->view('transaccion/orden/tabla_editar_orden');
+                $this->load->view('transaccion/orden/editar_orden');
                 $this->load->view('include/script');
             }
             else{
-                $session_data = $this->session->userdata('logged_in');    
+                
+                $session_data = $this->session->userdata('logged_in');   
+                
+                if(isset($_POST['tipo_orden'])){
+                    $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],$_POST['cliente']);
+                    $data['ordenes'] = $query;
+                    //echo "<pre>";
+                    //print_r($query);
+                   //echo "</pre>";
+                }
                 $this->load->view('include/head',$session_data);
+                if(isset($_POST['tipo_orden'])){
+                    $this->load->view('transaccion/orden/editar_orden',$data);
+                }
+                else{
+                    $this->load->view('transaccion/orden/editar_orden');
+                }
                 
                 $this->load->view('include/script');
             }
@@ -563,6 +578,22 @@ class Orden extends CI_Controller{
             }
     }
     
+    function formulario_editar($id_orden = null){
+        if($this->session->userdata('logged_in')){
+            if($id_orden){
+                
+                $session_data = $this->session->userdata('logged_in'); 
+                $this->load->view('transaccion/orden/orden',$data);
+                $this->load->view('include/script');
+            }
+            else{
+                redirect('/transacciones/orden/editar_orden','refresh');
+            }
+        }
+        else{
+            
+        }
+    }
             
     function pdf(){
         
