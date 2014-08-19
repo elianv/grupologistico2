@@ -55,7 +55,7 @@
 
         <?php 
             if(isset($ordenes)){ 
-                        echo "<div class='span8 form-aduanas' style='margin-left: 50px'>";
+                        
                           echo "<table cellpadding='0' cellspacing='0' border='0' class='table table-striped table-bordered' id='example'>";
                               echo "<thead>";
                                 echo "<tr>";
@@ -76,7 +76,7 @@
 
                                echo "</tbody>";
                           echo "</table>";    
-                      echo "</div>";
+                      
             }
         ?>
 </div>

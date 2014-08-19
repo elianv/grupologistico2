@@ -39,8 +39,7 @@
                                                                 <li class="divider"></li>
 								<li><a href=<?php echo base_url();?>index.php/transacciones/orden>Crear O.S.</a></li>
                                                                 <li><a href=<?php echo base_url();?>index.php/transacciones/orden/editar_orden>Editar O.S.</a></li>
-                                                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/imprimir_orden>Imprimir O.S.</a></li>
-                                                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/eliminar_orden>Eliminar O.S.</a></li>
+                                                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/imprimir_orden>Imprimir, Eliminar O.S.</a></li>
                                                                 <li class="divider"></li>
 								<li><a href=<?php echo base_url();?>index.php/transacciones/facturacion>Facturación</a></li>
 							</ul>

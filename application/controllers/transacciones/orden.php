@@ -564,13 +564,36 @@ class Orden extends CI_Controller{
             }
     }
     
-    function imprimir_orden(){
+    function imprimir_orden($dato = null){
         if($this->session->userdata('logged_in')){
-        
-            $session_data = $this->session->userdata('logged_in');    
-            $this->load->view('include/head',$session_data);
-            $this->load->view('transaccion/orden/imprimir_orden');
-            $this->load->view('include/script');
+        	 if(!$dato){
+		            $session_data = $this->session->userdata('logged_in');    
+		            $this->load->view('include/head',$session_data);
+		            $this->load->view('transaccion/orden/imprimir_orden');
+		            $this->load->view('include/script');
+			 }
+            else{
+                
+                $session_data = $this->session->userdata('logged_in');   
+                
+                if(isset($_POST['tipo_orden'])){
+                    $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],$_POST['cliente']);
+                    $data['ordenes'] = $query;
+                    //echo "<pre>";
+                    //print_r($query);
+                   //echo "</pre>";
+                }
+                $this->load->view('include/head',$session_data);
+                if(isset($_POST['tipo_orden'])){
+                    $this->load->view('transaccion/orden/imprimir_orden',$data);
+                }
+                else{
+                    $this->load->view('transaccion/orden/imprimir_orden');
+                }
+                
+                $this->load->view('include/script');
+            }
+			 
         
         }
         else{
@@ -595,11 +618,13 @@ class Orden extends CI_Controller{
         }
     }
             
-    function pdf(){
+    function pdf($id = null){
+        //$orden = $this->Orden_model->get_orden($id);
+		echo "<pre>";
+		print_r($id);
+		echo "</pre>";
         
-        $orden = $this->Orden_model->get_orden($this->input->post('numero_orden'));
-        
-        if(count($orden) == 0){
+        /*if(count($orden) == 0){
             $this->session->set_flashdata('sin_orden','No existe la Orden de Servicio N° '.$_POST['numero_orden']);
             redirect('transacciones/orden','refresh');
             
@@ -1036,21 +1061,14 @@ class Orden extends CI_Controller{
 
             $numero = $this->input->post('numero_orden');	
             ob_end_clean();
-/*
-            echo "<pre>";
-            print_r($orden);
-            print_r($servicio);
-            echo "</pre>"; 
- 
- * 
- */
+
 
  
            $this->pdf->Output("Orden_de_Servicio_".$numero.".pdf", 'D');
 
         }
 
-	      
+	   */   
         
     }		
 			

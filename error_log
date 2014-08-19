@@ -1,0 +1,1 @@
+[18-Aug-2014 18:30:09 America/Santiago] PHP Fatal error:  Cannot use string offset as an array in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 657
