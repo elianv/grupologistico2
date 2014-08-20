@@ -4,6 +4,7 @@ class Facturacion extends CI_Controller{
     function __construct() {
         parent::__construct();
         $this->load->model('transacciones/Facturacion_model');
+        $this->load->model('transacciones/orden_model');
     }
     
     function index(){
@@ -12,6 +13,9 @@ class Facturacion extends CI_Controller{
             $session_data = $this->session->userdata('logged_in');
             $resultado = $this->Facturacion_model->ultimo_numero();
             $data['tablas'] = $this->Facturacion_model->listar_facturas();
+            //listado clientes
+            $data['ordenes'] = $this->orden_model->listar_ordenes();
+            
             
             if ($resultado[0]['numero_factura'] == ""){
                   $data['form']['numero_factura'] = 1;
@@ -25,7 +29,7 @@ class Facturacion extends CI_Controller{
             $this->load->view('include/head',$session_data);
             $this->load->view('transaccion/facturacion',$data);
             $this->load->view('include/script');
-            
+            $this->load->view('modal/modal_orden',$data);          
         }
         else{
             redirect('home','refresh');
