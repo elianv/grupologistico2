@@ -82,18 +82,29 @@ class Orden_model extends CI_Model{
                 $this->db->where('tipo_orden_id_tipo_orden',$tipo_orden);
             }
             if($desde){
-            
+                $this->db->where('fecha >=',$desde);
             }
             if($hasta){
-                
+                $this->db->where('fecha <=',$hasta);
             }
             if($cliente){
                $this->db->like('cliente.razon_social',$cliente); 
             }
             
             $result = $this->db->get();
+            var_dump($this->db->last_query());
             
             return $result->result_array();
-        }
+    }
+    
+    function eliminar_orden($id_orden){
+            	$this->db->where('id_orden', $id_orden);
+		if($this->db->delete('orden')){
+			return true;
+		} 
+		else{
+			return false;
+		}
+    }
 }
 ?>

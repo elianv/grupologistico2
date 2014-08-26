@@ -74,4 +74,3 @@ Class Detalle extends CI_Model{
 }
 
 ?>
-

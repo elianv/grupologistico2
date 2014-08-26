@@ -68,7 +68,17 @@
 
                                       foreach ($ordenes as $orden){
                                           echo "<tr>";
-                                          echo '<td><a href="'.base_url().'index.php/transacciones/orden/formulario_editar/'.$orden['id_orden'].'" target="_blank">'.$orden['id_orden'].'</a></td>';
+                                          if(isset($orden['estado'])){
+                                              if ($orden['estado'] == 2 ){
+                                                  echo '<td><a>'.$orden['id_orden'].'</a></td>';
+                                              }
+                                              else{
+                                                  echo '<td><a data-toggle="tooltip" data-placement="top" title="Editar Orden '.$orden['id_orden'].'" href="'.base_url().'index.php/transacciones/orden/formulario_editar/'.$orden['id_orden'].'" target="_blank">'.$orden['id_orden'].'</a></td>';
+                                              }
+                                          }
+                                          else{
+                                            echo '<td><a data-toggle="tooltip" data-placement="top" title="Editar la Orden '.$orden['id_orden'].'" href="'.base_url().'index.php/transacciones/orden/formulario_editar/'.$orden['id_orden'].'" target="_blank">'.$orden['id_orden'].'</a></td>';
+                                          }
                                           echo "<td>".strtoupper($orden['razon_social'])."</td>";
                                           echo "<td>".$orden['fecha']."</td>";
                                           echo "</tr>";

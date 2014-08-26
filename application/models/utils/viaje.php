@@ -41,4 +41,3 @@ class Viaje extends CI_Model{
 }
 
 ?>
-

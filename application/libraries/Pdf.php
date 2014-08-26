@@ -4,8 +4,9 @@
  
     //Extendemos la clase Pdf de la clase fpdf para que herede todas sus variables y funciones
     class Pdf extends FPDF {
-        public function __construct($dato) {
+        public function __construct($dato,$nombre) {
             $this->Numero = $dato;
+            $this->Nombre = $nombre;
             parent::__construct();
         }
 		
@@ -28,7 +29,7 @@
        public function Footer(){
            $this->SetY(-15);
            $this->SetFont('Arial','I',8);
-           $this->Cell(0,6,'SANDRA MIRANDA',0,1,'C');
+           $this->Cell(0,6,$this->Nombre,0,1,'C');
            $this->Cell(0,6,'Grupo Logistico GLC Chile y Cia Ltda.',0,0,'C');
       }
 	

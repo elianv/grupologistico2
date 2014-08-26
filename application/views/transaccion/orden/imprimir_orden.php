@@ -1,5 +1,16 @@
 <legend><h3><center>Imprimir, Eliminar Orden de Servicio</center></h3></legend>
 <div class="container">
+    
+        <?php
+            $correcto = $this->session->flashdata('sin_orden');
+            if ($correcto){
+                echo "<div class='alert alert-error'>";
+                echo "<a class='close' data-dismiss='alert'>×</a>";
+                echo "<span id='registroCorrecto'>".$correcto."</span>";
+                echo "</div>";
+            }
+        ?>
+    
 <form class="form-horizontal" method="post">
     <fieldset>
     <div class="row show-grid">
@@ -68,12 +79,23 @@
 
                                       foreach ($ordenes as $orden){
                                           echo "<tr>";
-                                          echo '<td><a href="'.base_url().'index.php/transacciones/orden/formulario_editar/'.$orden['id_orden'].'" target="_blank">'.$orden['id_orden'].'</a></td>';
+                                          echo '<td><a target="_blank">'.$orden['id_orden'].'</a></td>';
                                           echo "<td>".strtoupper($orden['razon_social'])."</td>";
                                           echo "<td>".$orden['fecha']."</td>";
 										  echo "<td>";
 										  	echo "<a class='btn btn-primary' href='".base_url()."index.php/transacciones/orden/pdf/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Imprimir</a>";
-											echo " <a class='btn btn-danger' href='#'><i class='icon-trash icon-white'></i>Eliminar</a></td>";
+                                                                                        
+                                                                                        if (isset($orden['estado']) ){
+                                                                                            
+                                                                                            if ($orden['estado'] == 2 ){
+                                                                                                echo " <a class='btn btn-danger' disabled='disabled' data-toggle='tooltip' data-placement='top' title='Orden Facturada, no se puede eliminar'><i class='icon-trash icon-white'></i>Eliminar</a></td>";
+                                                                                            }
+                                                                                            else{
+                                                                                                echo " <a class='btn btn-danger' href='".base_url()."index.php/transacciones/orden/eliminar_orden/".$orden['id_orden']."'><i class='icon-trash icon-white'></i>Eliminar</a></td>";
+                                                                                            }
+                                                                                        }
+                                                                                        else 
+                                                                                            echo " <a class='btn btn-danger' href='".base_url()."index.php/transacciones/orden/eliminar_orden/".$orden['id_orden']."'><i class='icon-trash icon-white'></i>Eliminar</a></td>";
                                           echo "</tr>";
                                       }
 

@@ -1,6 +1,10 @@
+
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+            body {padding-top: 40px;}
+        </style>
         <title>Grupo Log&iacute;stico GLC Chile</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href=<?php echo base_url().'bootstrap/css/bootstrap.css' ?> rel="stylesheet">
@@ -8,7 +12,7 @@
     </head>
 
     <body>
-		<div class="navbar ">
+		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container" style="width: auto">
 					<a class="brand logo" href=<?php echo base_url();?>index.php/main>Grupo Logistico</a>

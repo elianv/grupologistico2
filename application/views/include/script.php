@@ -20,6 +20,9 @@
 	<script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/jquery.Rut.min.js"></script>
         <script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/bootstrap-alert.js"></script>
+        <script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/bootstrap-popover.js"></script>
+        <script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/bootstrap-tooltip.js"></script>
+        
 	
     <script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/main.js"></script>
     </body>

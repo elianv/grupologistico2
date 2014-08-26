@@ -139,7 +139,7 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
                   $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
-                  $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean');
+                 // $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean');
                   $this->form_validation->set_rules('naviera_codigo_naviera','Naviera','required|trim|xss_clean');
 
                   
@@ -239,8 +239,10 @@ class Orden extends CI_Controller{
                     $fecha_presentacion = str_replace('/','-', $fecha_presentacion);
                     $fecha_presentacion = date("Y-m-d H:i",strtotime($fecha_presentacion));
                     
+                    $codigo = $this->Orden_model->ultimo_codigo();
                     
                     $orden = array(
+                        'id_orden' => $codigo[0]['id_orden'] + 1,
                         'referencia' => $this->input->post('referencia'),
                         'fecha' => $fecha ,
                         'cliente_rut_cliente' => $this->input->post('cliente_rut_cliente'),
@@ -283,7 +285,7 @@ class Orden extends CI_Controller{
 		            $this->Orden_model->insert_orden($orden);
                     $i = 0;
                                     
-                    $num_orden = $this->input->post('numero_orden');
+                    $num_orden = $codigo[0]['id_orden'] + 1;
                     $costo = $this->input->post('valor_costo_servicio');
                     $venta = $this->input->post('valor_venta_servicio');
                     
@@ -294,20 +296,26 @@ class Orden extends CI_Controller{
                         else{
                             $id_detalle = $cod_detalle[0]['id_detalle'] + 1;
                         }
-                                        
+                                      
+                    
                     foreach ($this->input->post('codigo_servicio') as $servicio){
+                       $cod_servicio = "";
+                        $cod_servicio = explode("-",$servicio);
                        $detalle = array(
                                     'id_detalle' => $id_detalle,
-                                    'servicio_codigo_servicio' => $servicio,
+                                    'servicio_codigo_servicio' => $servicio[0],
                                     'orden_id_orden'=> $num_orden,
                                     'valor_costo'=> $costo[$i],
                                     'valor_venta'=> $venta[$i]
                        );
                        $i = $i + 1;
                        $id_detalle = $id_detalle + 1;
-                       										
-                       //guarda uno a uno los detalles.
-                       $this->Detalle->guardar_detalle($detalle);
+                       //echo "<pre>";
+                       //print_r($this->input->post('codigo_servicio'));    
+                       //print_r($detalle);
+                       //echo "</pre>";
+                     //guarda uno a uno los detalles.
+                     $this->Detalle->guardar_detalle($detalle);
                     }
                     
                 $this->session->set_flashdata('sin_orden','La orden se ha creado con éxito');
@@ -527,7 +535,38 @@ class Orden extends CI_Controller{
                 $session_data = $this->session->userdata('logged_in');   
                 
                 if(isset($_POST['tipo_orden'])){
+                    
+                    if (!empty($_POST['desde'])){
+                        $desde = $_POST['desde'];
+                        $desde = str_replace('/','-', $desde);
+                        $desde = date("Y-m-d H:i",strtotime($desde));
+                        $_POST['desde'] = $desde; 
+                    }
+                    
+                    if (!empty($_POST['hasta'])){
+                        $hasta = $_POST['hasta'];
+                        $hasta = str_replace('/','-', $hasta);
+                        $hasta = date("Y-m-d H:i",strtotime($hasta));
+                        $_POST['hasta'] = $hasta;
+                    }
+                    
+                    //echo "<pre> POST :".print_r($_POST)." hasta:".$hasta." Desde:".$desde."</pre>";
                     $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],$_POST['cliente']);
+                    
+                    $i=0;
+                    foreach ($query as $orden){
+                        
+                        $estado_orden = $this->Facturacion->estado_orden_factura($orden['id_orden']);
+                        //print_r($estado_orden);
+                        if(isset($estado_orden[0])){
+                            if($estado_orden[0]['estado_factura_id_estado_factura'] == 2 ){
+                            $query[$i]['estado'] = "";
+                            $query[$i]['estado'] = 2;
+                            }
+                        }
+                    $i++;
+                    }
+                    
                     $data['ordenes'] = $query;
                     //echo "<pre>";
                     //print_r($query);
@@ -550,13 +589,23 @@ class Orden extends CI_Controller{
         
     }
     
-    function eliminar_orden(){
+    function eliminar_orden($id_orden = null){
         if($this->session->userdata('logged_in')){
-        
-            $session_data = $this->session->userdata('logged_in');    
-            $this->load->view('include/head',$session_data);
-            $this->load->view('transaccion/orden/eliminar_orden');
-            $this->load->view('include/script');
+            
+            if (!dato){
+                $session_data = $this->session->userdata('logged_in');  
+                $this->load->view('include/head',$session_data);
+                $this->load->view('transaccion/orden/imprimir_orden');
+                $this->load->view('include/script');
+            }
+            else{
+                $this->Detalle->eliminar_detalle($id_orden);
+                $this->Orden_model->eliminar_orden($id_orden);
+            
+                $this->session->set_flashdata('sin_orden','La orden se ha eliminado con éxito');
+                redirect('transacciones/orden/imprimir_orden');
+            }
+
         
         }
         else{
@@ -577,11 +626,38 @@ class Orden extends CI_Controller{
                 $session_data = $this->session->userdata('logged_in');   
                 
                 if(isset($_POST['tipo_orden'])){
+                    
+                    if (!empty($_POST['desde'])){
+                        $desde = $_POST['desde'];
+                        $desde = str_replace('/','-', $desde);
+                        $desde = date("Y-m-d H:i",strtotime($desde));
+                        $_POST['desde'] = $desde; 
+                    }
+                    
+                    if (!empty($_POST['hasta'])){
+                        $hasta = $_POST['hasta'];
+                        $hasta = str_replace('/','-', $hasta);
+                        $hasta = date("Y-m-d H:i",strtotime($hasta));
+                        $_POST['hasta'] = $hasta;
+                    }
+                    
                     $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],$_POST['cliente']);
+                    
+                    $i=0;
+                    foreach ($query as $orden){
+                        
+                        $estado_orden = $this->Facturacion->estado_orden_factura($orden['id_orden']);
+                        //print_r($estado_orden);
+                        if(isset($estado_orden[0])){
+                            if($estado_orden[0]['estado_factura_id_estado_factura'] == 2 ){
+                            $query[$i]['estado'] = "";
+                            $query[$i]['estado'] = 2;
+                            }
+                        }
+                    $i++;
+                    }
                     $data['ordenes'] = $query;
-                    //echo "<pre>";
-                    //print_r($query);
-                   //echo "</pre>";
+
                 }
                 $this->load->view('include/head',$session_data);
                 if(isset($_POST['tipo_orden'])){
@@ -605,7 +681,8 @@ class Orden extends CI_Controller{
         if($this->session->userdata('logged_in')){
             if($id_orden){
                 
-                $session_data = $this->session->userdata('logged_in'); 
+                $data = $this->session->userdata('logged_in'); 
+                $data['numero_orden'] = $id_orden;
                 $this->load->view('transaccion/orden/orden',$data);
                 $this->load->view('include/script');
             }
@@ -619,22 +696,21 @@ class Orden extends CI_Controller{
     }
             
     function pdf($id = null){
-        //$orden = $this->Orden_model->get_orden($id);
-		echo "<pre>";
-		print_r($id);
-		echo "</pre>";
+        $orden = $this->Orden_model->get_orden($id);
+
         
-        /*if(count($orden) == 0){
+        if(count($orden) == 0){
             $this->session->set_flashdata('sin_orden','No existe la Orden de Servicio N° '.$_POST['numero_orden']);
             redirect('transacciones/orden','refresh');
             
         }
         else{
             $this->load->library('pdf');
-            $this->pdf = new Pdf($this->input->post('numero_orden'));
-            $numero = $this->input->post('numero_orden');
+            $nombre = $this->session->userdata('logged_in');
+            $this->pdf = new Pdf($orden[0]['id_orden'],$nombre['nombre']);
+            $numero = $orden[0]['id_orden'];
 
-            $this->pdf->SetTitle($numero);
+            $this->pdf->SetTitle($id);
             $this->pdf->AddPage();
             $this->pdf->SetLeftMargin(15);
             $this->pdf->SetRightMargin(15);
@@ -1059,16 +1135,16 @@ class Orden extends CI_Controller{
                     $this->pdf->Ln(7);
             }
 
-            $numero = $this->input->post('numero_orden');	
+            $numero = $id;	
             ob_end_clean();
 
 
  
-           $this->pdf->Output("Orden_de_Servicio_".$numero.".pdf", 'D');
+           $this->pdf->Output("Orden_de_Servicio_".$id.".pdf", 'D');
 
         }
 
-	   */   
+	    
         
     }		
 			
@@ -1296,8 +1372,6 @@ class Orden extends CI_Controller{
             
     }
 
-
-
     function datos_ordensh($id_orden){
         
         //$this->Orden_model->get_orden($id_orden);
@@ -1325,7 +1399,7 @@ class Orden extends CI_Controller{
 		return $servicio;
 	}
 	
-	function datosConductor($id_viaje)
+    function datosConductor($id_viaje)
 	{
 		$ret = $this->Viaje->seleccionar_viaje($id_viaje);
 		//$ret[0]['conductor_rut'];
