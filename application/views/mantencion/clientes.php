@@ -117,8 +117,8 @@
              <div class="form-actions form-clientes" >
                  
                  
-                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/clientes/guardar_cliente'" value="Guardar" />
-                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/clientes/modificar_cliente'" value="Modificar" />
+                 <input data-toggle="tooltip" data-placement="top" title="Guardar Nuevo Cliente" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/clientes/guardar_cliente'" value="Nuevo" />
+                 <input data-toggle="tooltip" data-placement="top" title="Editar Cliente existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/clientes/modificar_cliente'" value="Modificar" />
  
              </div>
            </fieldset>

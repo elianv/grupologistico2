@@ -60,8 +60,8 @@
             </div>
 
             <div class="form-actions">
-                <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/bodegas/guardar_bodega'" value="Guardar" />
-                <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/bodegas/modificar_bodega'" value="Modificar" />
+                <input data-toggle="tooltip" data-placement="top" title="Guardar Nueva Bodega" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/bodegas/guardar_bodega'" value="Nueva" />
+                <input data-toggle="tooltip" data-placement="top" title="Editar Bodega existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/bodegas/modificar_bodega'" value="Modificar" />
 
              </div>
            </fieldset>

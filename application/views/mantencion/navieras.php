@@ -42,8 +42,8 @@
 
             <div class="form-actions">
                  
-                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/navieras/guarda_naviera'" value="Guardar" />
-                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/navieras/modificar_naviera'" value="Modificar" />
+                 <input data-toggle="tooltip" data-placement="top" title="Guardar Nueva Naviera" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/navieras/guarda_naviera'" value="Nueva" />
+                 <input data-toggle="tooltip" data-placement="top" title="Editar Naviera existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/navieras/modificar_naviera'" value="Modificar" />
  
              </div>
            </fieldset>

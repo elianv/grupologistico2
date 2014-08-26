@@ -41,8 +41,8 @@
 
             <div class="form-actions">
                  
-                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/cargas/guarda_carga'" value="Guardar" />
-                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/cargas/modificar_carga'" value="Modificar" />
+                 <input data-toggle="tooltip" data-placement="top" title="Guardar Nueva Carga" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/cargas/guarda_carga'" value="Nueva" />
+                 <input data-toggle="tooltip" data-placement="top" title="Editar Carga existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/cargas/modificar_carga'" value="Modificar" />
  
              </div>
            </fieldset>

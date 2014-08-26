@@ -83,8 +83,8 @@
                             <div class="form-actions">
                  
                  
-                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/proveedores/guardar_proveedor'" value="Guardar" />
-                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/proveedores/modificar_proveedor'" value="Modificar" />
+                 <input data-toggle="tooltip" data-placement="top" title="Guardar Nuevo Proveedor" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/proveedores/guardar_proveedor'" value="Nuevo" />
+                 <input data-toggle="tooltip" data-placement="top" title="Editar Proveedor existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/proveedores/modificar_proveedor'" value="Modificar" />
  
              </div>
            </fieldset>

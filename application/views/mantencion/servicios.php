@@ -69,8 +69,8 @@
  
 
             <div class="form-actions">
-                    <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/servicios/guardar_servicio'" value="Guardar" />
-                    <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/servicios/modificar_servicio'" value="Modificar" />
+                    <input data-toggle="tooltip" data-placement="top" title="Guardar Nuevo Servicio" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/servicios/guardar_servicio'" value="Nuevo" />
+                    <input data-toggle="tooltip" data-placement="top" title="Editar Servicio existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/servicios/modificar_servicio'" value="Modificar" />
              </div>
            </fieldset>
           </form>

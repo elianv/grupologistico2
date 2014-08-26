@@ -42,8 +42,8 @@
             <input type="hidden" id="codigo_naviera" name="codigo_vaviera" value="1 - dato">
             
             <div class="form-actions">
-                    <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/naves/guardar_nave'" value="Guardar" />
-                    <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/naves/modificar_nave'" value="Modificar" />
+                    <input data-toggle="tooltip" data-placement="top" title="Guardar Nueva Nave" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/naves/guardar_nave'" value="Nueva" />
+                    <input data-toggle="tooltip" data-placement="top" title="Editar Nave existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/naves/modificar_nave'" value="Modificar" />
              </div>
            </fieldset>
           </form>

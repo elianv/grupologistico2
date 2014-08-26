@@ -83,8 +83,8 @@
              <div class="form-actions">
                  
                  
-                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/tramos/guardar_tramo'" value="Guardar" />
-                 <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/tramos/modificar_tramo'" value="Modificar" />
+                 <input data-toggle="tooltip" data-placement="top" title="Guardar Nuevo Tramo" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/tramos/guardar_tramo'" value="Nuevo" />
+                 <input data-toggle="tooltip" data-placement="top" title="Modifica un Tramo existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/tramos/modificar_tramo'" value="Modificar" />
  
              </div>
            </fieldset>

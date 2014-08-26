@@ -58,8 +58,8 @@
             </div>
 
             <div class="form-actions">
-                <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/agencias/guardar_aduana'" value="Guardar" />
-                <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/agencias/modificar_aduana'" value="Modificar" />
+                <input data-toggle="tooltip" data-placement="top" title="Guardar Nueva Agencia" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/agencias/guardar_aduana'" value="Nueva" />
+                <input data-toggle="tooltip" data-placement="top" title="Editar Agencia existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/mantencion/agencias/modificar_aduana'" value="Modificar" />
              </div>
            </fieldset>
           </form>
