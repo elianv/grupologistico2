@@ -19,7 +19,10 @@
                 <div class="control-group">
                     <label class="control-label" for="numero_factura"><strong>Factura N°</strong></label>
                     <div class="controls">
-                        <div class="input-append"><input type="text" class="span2" name="numero_factura" id="numero_factura" placeholder="Solo números"><button class="btn" type="button" data-toggle="modal" href="#modal-factura"><i class="icon-search"></i></button></div>
+                    <div class="input-append">
+						<input type="text" class="span2" id="cliente" name="cliente_rut_cliente" placeholder="">
+						<button class="btn" type="button" data-toggle="modal" href="#modal-orden"><i class="icon-search"></i></button>
+					</div>
                     </div>
                 </div>
                 
@@ -67,8 +70,8 @@
         </div>
 
         <div class="form-actions" >
-            <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/guardar'" value="Guardar"/>
-            <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/editar'" value="Editar" />
+            <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/insertar_facturacion'" value="Guardar"/>
+            <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/modificar_facturacion'" value="Editar" />
         </div>    
         </fieldset>
     </form>
