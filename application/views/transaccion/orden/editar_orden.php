@@ -70,7 +70,7 @@
                                           echo "<tr>";
                                           if(isset($orden['estado'])){
                                               if ($orden['estado'] == 2 ){
-                                                  echo '<td><a>'.$orden['id_orden'].'</a></td>';
+                                                  echo '<td><a data-toggle="tooltip" data-placement="top" title="La orden '.$orden['id_orden'].' se encuentra facturada, no se puede editar" >'.$orden['id_orden'].'</a></td>';
                                               }
                                               else{
                                                   echo '<td><a data-toggle="tooltip" data-placement="top" title="Editar Orden '.$orden['id_orden'].'" href="'.base_url().'index.php/transacciones/orden/formulario_editar/'.$orden['id_orden'].'" target="_blank">'.$orden['id_orden'].'</a></td>';
