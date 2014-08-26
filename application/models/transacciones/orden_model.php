@@ -92,7 +92,7 @@ class Orden_model extends CI_Model{
             }
             
             $result = $this->db->get();
-            var_dump($this->db->last_query());
+            //var_dump($this->db->last_query());
             
             return $result->result_array();
     }
