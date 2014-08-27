@@ -508,7 +508,7 @@ class Orden extends CI_Controller{
                        //guarda uno a uno los detalles.
                        $this->Detalle->guardar_detalle($detalle);
                     }
-				$this->session->set_flashdata('sin_orden','La orden se edito con éxito');
+		$this->session->set_flashdata('sin_orden','La Orden de Servicio se edito con éxito');
                 redirect('transacciones/orden','refresh');
 
                 }
@@ -681,9 +681,37 @@ class Orden extends CI_Controller{
         if($this->session->userdata('logged_in')){
             if($id_orden){
                 
-                $data = $this->session->userdata('logged_in'); 
-                $data['numero_orden'] = $id_orden;
-                $this->load->view('transaccion/orden/orden',$data);
+                $datos = $this->session->userdata('logged_in'); 
+                $datos['numero_orden'] = $id_orden;
+                
+                $datos['orden'] = $this->Orden_model->get_orden($id_orden);
+                $datos['tfacturacion'] = $this->Facturacion->tipo_orden();
+                $datos['detalles'] = $this->Detalle->detalle_orden($id_orden);
+                $i=0;
+                foreach($datos['detalles'] as $detalle){
+                    
+                    $temporal = $this->Servicios_model->datos_servicio($datos['detalles'][$i]['servicio_codigo_servicio']);
+                    $datos['detalles'][$i]['descripcion'] = $temporal[0]['descripcion'];
+                    $i++;
+
+                }
+                $datos['cliente'] = $this->Clientes_model->datos_cliente($datos['orden'][0]['cliente_rut_cliente']);
+                $datos['aduana'] = $this->Agencias_model->datos_aduana($datos['orden'][0]['aduana_codigo_aduana']);
+                $datos['nave'] = $this->Naves_model->datos_nave($datos['orden'][0]['nave_codigo_nave']);
+                $datos['naviera'] = $this->Navieras_model->get_naviera($datos['orden'][0]['naviera_codigo_naviera']);
+                $datos['tramo'] = $this->Tramos_model->datos_tramo($datos['orden'][0]['tramo_codigo_tramo']);
+                $datos['carga'] = $this->Cargas_model->datos_carga($datos['orden'][0]['tipo_carga_codigo_carga']);
+                $datos['bodega'] = $this->Bodegas_model->datos_bodega($datos['orden'][0]['tipo_carga_codigo_carga']);
+                $datos['deposito'] = $this->Depositos_model->datos_deposito($datos['orden'][0]['deposito_codigo_deposito']);
+                $datos['destino'] = $this->Puertos_model->datos_puerto($datos['orden'][0]['destino']);
+                $datos['puerto_embarque'] = $this->Puertos_model->datos_puerto($datos['orden'][0]['puerto_codigo_puerto']);
+                $datos['proveedor'] = $this->Proveedores_model->datos_proveedor($datos['orden'][0]['proveedor_rut_proveedor']);
+                $datos['viaje'] = $this->Viaje->seleccionar_viaje($datos['orden'][0]['viaje_id_viaje']);
+                $datos['conductor'] = $this->Conductores_model->datos_conductor($datos['viaje'][0]['conductor_rut']);
+                $datos['camion'] = $this->Camiones_model->getCamion($datos['viaje'][0]['camion_camion_id']);
+                
+                $this->load->view('include/head',$datos);
+                $this->load->view('transaccion/orden/orden',$datos);
                 $this->load->view('include/script');
             }
             else{
