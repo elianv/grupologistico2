@@ -56,12 +56,6 @@
 							</select>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="fecha"><strong>Fecha</strong></label>
-						<div class="controls">
-							<input type="text" class="span2" name="fecha" id="fecha" placeholder="Seleccione">
-						</div>
-					</div> 
 				</div>
 			</div>
             
@@ -76,24 +70,17 @@
 						<input type="text" class="span2" id="cliente" name="cliente_rut_cliente" placeholder="">
 						<button class="btn" type="button" data-toggle="modal" href="#modal-cliente"><i class="icon-search"></i></button>
 						<input class="nombre-cliente" type="text" disabled="disabled" value="" placeholder="Nombre Cliente..."/>
-					</div>
+                    </div>
                 </div>
             </div>
 
-                <div class="row show-grid">
-                    <div class="span3">
-                        <div class="control-group booking">
-                            <label class="control-label" for="booking"><strong>Booking</strong></label>
-                            <div class="controls">
-                                <input type="text" class="input-xlarge" id="booking" name="booking" placeholder="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="control-group">
-                        </div>
-                    </div>
+
+            <div class="control-group booking">
+                <label class="control-label" for="booking"><strong>Booking</strong></label>
+                <div class="controls">
+                    <input type="text" class="input-xxlarge" id="booking" name="booking" placeholder="">
                 </div>
+            </div>
 
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Aduana</strong></label>
@@ -208,7 +195,7 @@
             <div class="control-group">
                 <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" placeholder="">
+                 <input type="text" class="input-xxlarge" id="fecha" name="fecha" placeholder="Seleccione una fecha">
                 </div>
             </div>
                

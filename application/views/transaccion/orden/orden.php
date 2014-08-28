@@ -37,7 +37,7 @@
 					<div class="control-group">
 						<label class="control-label" for="referencia"><strong>Referencia</strong></label>
 						<div class="controls">
-							<input type="text" name="referencia" id="referencia" value = "<?php echo $orden[0]['referencia']; ?>">
+							<input type="text" class="input-xxlarge" name="referencia" id="referencia" value = "<?php echo $orden[0]['referencia']; ?>">
 						</div>
 					</div>
 				</div>
@@ -61,12 +61,6 @@
 							</select>
 						</div>
 					</div>
-					<div class="control-group">
-						<label class="control-label" for="fecha"><strong>Fecha</strong></label>
-						<div class="controls">
-							<input type="text" class="span2" name="fecha" id="fecha" value="<?php echo $orden[0]['fecha']; ?>">
-						</div>
-					</div> 
 				</div>
 			</div>
             
@@ -90,7 +84,7 @@
                         <div class="control-group booking">
                             <label class="control-label" for="booking"><strong>Booking</strong></label>
                             <div class="controls">
-                                <input type="text" class="input-xlarge" id="booking" name="booking" value="<?php echo $orden[0]['booking']; ?>">
+                                <input type="text" class="input-xxlarge" id="booking" name="booking" value="<?php echo $orden[0]['booking']; ?>">
                             </div>
                         </div>
                     </div>
@@ -117,7 +111,7 @@
             <div class="control-group">
                 <label class="control-label" for="Naviera"><strong>Naviera</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="naviera" name="naviera_codigo_naviera" value="<?php echo $naviera[0]['codigo_naviera']." - ".$naviera[0]['nombre']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-naviera"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="naviera" name="naviera_codigo_naviera" value="<?php //echo $naviera[0]['codigo_naviera']." - ".$naviera[0]['nombre']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-naviera"><i class="icon-search"></i></button></div>
                 </div>
             </div>
 
@@ -151,58 +145,25 @@
 
 
 <!--   ##############################################################    -->  
-         <div class="row show-grid">
-             <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="fecha"><strong>Fecha Carga</strong></label>
+                <div class="controls">
+					<input type="text" class="input-large" name="fecha_carga" id="fecha_carga" placeholder="Seleccione Fecha">
+                </div>
+            </div> 
+ 
             <div class="control-group">
                 <label class="control-label" for="carga"><strong>Carga</strong></label>
                 <div class="controls">
                     <div class="input-append">
-						<input type="text" class="span2" id="carga" name="tipo_carga_codigo_carga" value="<?php echo $carga[0]['codigo_carga']." - ".$carga[0]['descripcion']; ?>">
-							<button class="btn" type="button" data-toggle="modal" href="#modal-carga">
-								<i class="icon-search"></i>
-							</button>
-						</div>
+                        <input type="text" class="input-xxlarge" id="carga" name="tipo_carga_codigo_carga" value="<?php echo $carga[0]['codigo_carga']." - ".$carga[0]['descripcion']; ?>">
+                        <button class="btn" type="button" data-toggle="modal" href="#modal-carga">
+                                <i class="icon-search"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="control-label" for="fecha"><strong>Fecha Carga</strong></label>
-                <div class="controls">
-					<input type="text" class="span2" name="fecha_carga" id="fecha_carga" placeholder="Seleccione">
-                </div>
-            </div> 
-
-             </div>
-             <div class="span5">
-            <div class="control-group">
-                <label class="control-label" for="numero"><strong>N°</strong></label>
-                <div class="controls">
-                    <input type="text" class="span2" id="numero" name="numero" value="<?php echo $orden[0]['numero']; ?>">
-                </div>
-            </div>
-             </div>
-         </div>
-               
-         <div class="row show-grid">
-             <div class="span5">
-            <div class="control-group">
-                <label class="control-label" for="peso"><strong>Peso</strong></label>
-                <div class="controls">
-                 <input type="text" class="input-xlarge" id="peso" name="peso" value="<?php echo $orden[0]['peso']; ?>">
-                </div>
-            </div>
-             </div>
-             <div class="span5">
-            <div class="control-group">
-                <label class="control-label" for="set_point"><strong>Set Point</strong></label>
-                <div class="controls">
-                 <input type="text" class="span2" id="set_point" name="set_point" value="<?php echo $orden[0]['set_point']; ?>">
-                </div>
-            </div>
-             </div>
-         </div>
-
-               
             <div class="control-group">
                 <label class="control-label" for="observacion"><strong>Mercaderia</strong></label>
                 <div class="controls">
@@ -211,9 +172,39 @@
             </div>
 
             <div class="control-group">
+                <label class="control-label" for="numero"><strong>N° Contenedor</strong></label>
+                <div class="controls">
+                    <input type="text" class="input-xxlarge" id="numero" name="numero" value="<?php echo $orden[0]['numero']; ?>">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="peso"><strong>Peso</strong></label>
+                <div class="controls">
+                 <input type="text" class="input-xxlarge" id="peso" name="peso" value="<?php echo $orden[0]['peso']; ?>">
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="set_point"><strong>Set Point</strong></label>
+                <div class="controls">
+                 <input type="text" class="input-xxlarge" id="set_point" name="set_point" value="<?php echo $orden[0]['set_point']; ?>">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="bodega"><strong>Depósito</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito_codigo_deposito" value="<?php echo $deposito[0]['codigo_deposito']." - ".$deposito[0]['descripcion']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-deposito"><i class="icon-search"></i></button></div>
+                </div>
+            </div>   
+
+               
+            <div class="control-group">
                 <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" placeholder="Seleccione">
+                 <input type="text" class="input-xxlarge" id="fecha" name="fecha" value="<?php echo $orden[0]['fecha']; ?>">
                 </div>
             </div>
                
@@ -225,35 +216,22 @@
             </div>
                
             <div class="control-group">
-                <label class="control-label" for="bodega"><strong>Depósito</strong></label>
+                <label class="control-label" for="puerto"><strong>Puerto Embarque</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito_codigo_deposito" value="<?php echo $deposito[0]['codigo_deposito']." - ".$deposito[0]['descripcion']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-deposito"><i class="icon-search"></i></button></div>
+                    <div class="input-append">
+                        <input type="text" class="input-xxlarge" id="puerto" name="puerto_codigo_puerto" value="<?php echo $puerto_embarque[0]['codigo_puerto']." - ".$puerto_embarque[0]['nombre']; ?>">
+                	<button class="btn" type="button" data-toggle="modal" href="#modal-puerto"><i class="icon-search"></i></button>
+                    </div>
                 </div>
-            </div>               
+            </div>           
 
-               <div class="row show-grid">
-                   <div class="span5">
-                        <div class="control-group destino">
-                            <label class="control-label" for="destino"><strong>Destino</strong></label>
-                            <div class="controls">
-                                <div class="input-append"><input type="text" class="input-span2" id="destino" name="destino" value="<?php echo $destino[0]['codigo_puerto']." - ".$destino[0]['nombre']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-destino"><i class="icon-search"></i></button></div>
-                              </div>
-                        </div>
-                   </div>
-                   
-                   <div class="">
-                        <div class="control-group">
-                        <label class="label-corto control-label" for="puerto"><strong>Puerto Embarque</strong></label>
-                        <div class="controls">
-                            <div class="input-append">
-                                <input type="text" class="span2" id="puerto" name="puerto_codigo_puerto" value="<?php echo $puerto_embarque[0]['codigo_puerto']." - ".$puerto_embarque[0]['nombre']; ?>">
-				<button class="btn" type="button" data-toggle="modal" href="#modal-puerto"><i class="icon-search"></i></button>
-                            </div>
-                        </div>
-                        </div>
-                   </div>
-                   
-               </div>
+            <div class="control-group destino">
+                <label class="control-label" for="destino"><strong>Puerto Destino</strong></label>
+                    <div class="controls">
+                        <div class="input-append"><input type="text" class="input-xxlarge" id="destino" name="destino" value="<?php echo $destino[0]['codigo_puerto']." - ".$destino[0]['nombre']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-destino"><i class="icon-search"></i></button></div>
+                    </div>
+            </div>
+
 <div class="row show-grid">
     
     <div class="span5">
