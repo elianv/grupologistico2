@@ -30,7 +30,8 @@
 						
                                             <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
                                             <div class="controls">
-                                                <?php echo "<div class='input-append'><input type='text' disabled='disabled' class='span2' name='numero_orden' id='numero_orden' placeholder=".$numero_orden."></div>"; ?>
+                                                <?php echo "<div class='input-append'><input type='text' disabled='disabled' class='span2' name='id_orden' id='id_orden' value=".$orden[0]['id_orden']."></div>"; ?>
+                                                <input type="hidden" name="numero_orden" id="numero_orden" value="<?php echo $orden[0]['id_orden']; ?>">
                                             </div>
 						
 					</div>
@@ -100,6 +101,20 @@
                     <div class="input-append"><input type="text" class="input-xlarge" id="aduana" name="aduana_codigo_aduana" value="<?php echo $aduana[0]['codigo_aduana']." - ".$aduana[0]['nombre']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-aduana"><i class="icon-search"></i></button></div>
                 </div>
             </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="aduana"><strong>Contacto Aduana</strong></label>
+                <div class="controls">
+                    <input type="text" class="input-xxlarge" id="contacto_aduana" disabled="disabled" name="contacto_aduana" value="<?php echo $aduana[0]['contacto'];?>">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="aduana"><strong>Fono Aduana</strong></label>
+                <div class="controls">
+                    <input type="text" class="input-xxlarge" id="fono_aduana" disabled="disabled" name="fono_aduana" value="<?php echo $aduana[0]['telefono'];?>">
+                </div>
+            </div>
 
            <div class="control-group">
                 <label class="control-label" for="Nave"><strong>Nave</strong></label>
@@ -111,7 +126,7 @@
             <div class="control-group">
                 <label class="control-label" for="Naviera"><strong>Naviera</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="naviera" name="naviera_codigo_naviera" value="<?php //echo $naviera[0]['codigo_naviera']." - ".$naviera[0]['nombre']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-naviera"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="naviera" name="naviera_codigo_naviera" value="<?php echo $naviera[0]['codigo_naviera']." - ".$naviera[0]['nombre']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-naviera"><i class="icon-search"></i></button></div>
                 </div>
             </div>
 
@@ -144,14 +159,14 @@
                </br>
 
 
-<!--   ##############################################################    -->  
+<!--   ##############################################################     -->
             <div class="control-group">
-                <label class="control-label" for="fecha"><strong>Fecha Carga</strong></label>
+                <label class="control-label" for="fecha"><strong>Fecha retiro</strong></label>
                 <div class="controls">
-					<input type="text" class="input-large" name="fecha_carga" id="fecha_carga" placeholder="Seleccione Fecha">
+					<input type="text" class="input-large" name="fecha" id="fecha" value="<?php echo $orden[0]['fecha']; ?>">
                 </div>
             </div> 
- 
+  
             <div class="control-group">
                 <label class="control-label" for="carga"><strong>Carga</strong></label>
                 <div class="controls">
@@ -204,7 +219,7 @@
             <div class="control-group">
                 <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="fecha" name="fecha" value="<?php echo $orden[0]['fecha']; ?>">
+                 <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" value="<?php echo $orden[0]['fecha_presentacion']; ?>">
                 </div>
             </div>
                
@@ -212,6 +227,27 @@
                 <label class="control-label" for="bodega"><strong>Bodega</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="bodega" name="bodega_codigo_bodega" value="<?php echo $bodega[0]['codigo_bodega']." - ".$bodega[0]['nombre']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-bodega"><i class="icon-search"></i></button></div>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="bodega"><strong>Direcci&oacute;n Bodega</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" value=" <?php echo $bodega[0]['direccion'];?>"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="bodega"><strong>Contacto Bodega</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" value=" <?php echo $bodega[0]['contacto'];?>"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="bodega"><strong>Tel&eacute;fono Bodega</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" value=" <?php echo $bodega[0]['telefono'];?>"></div>
                 </div>
             </div>
                
@@ -257,7 +293,7 @@
                         <div class="control-group">
                             <label class="control-label" for="observacion"><strong>Observación</strong></label>
                             <div class="controls">
-                             <textarea class="input-xxlarge" id="observacion" name="observacion" rows="3"><?php echo $orden[0]['observacion']; ?></textarea>
+                             <textarea class="input-xxlarge" id="observacion" name="observacion" rows="3"nombre><?php echo $orden[0]['observacion']; ?></textarea>
                             </div>
                         </div>
 						<?php foreach($detalles as $detalle){ ?>
@@ -311,34 +347,37 @@
                </br>
                
                <!--   #########################################################################    -->
-        <div class="row show-grid">
                     
-          <div class="span12">
-           <div class="control-group">
-                <label class="control-label" for="conductor"><strong>Conductor</strong></label>
-                <div class="controls">
-                    <div class="input-append">
-						<input type="text" class="span2" id="conductor" name="conductor_rut" value="<?php echo $conductor[0]['rut']; ?>">
-						<button class="btn" type="button" data-toggle="modal" href="#modal-conductor">
-							<i class="icon-search"></i>
-						</button>
-						<input class="nombre-conductor"  type="text" value="<?php echo $conductor[0]['descripcion']; ?>" disabled="disabled"/>
-					</div>
+       <div class="control-group">
+            <label class="control-label" for="conductor"><strong>RUT Conductor</strong></label>
+            <div class="controls">
+                <div class="input-append">
+                                            <input type="text" class="span2" id="conductor" name="conductor_rut" value="<?php echo $conductor[0]['rut']; ?>">
+                                            <button class="btn" type="button" data-toggle="modal" href="#modal-conductor">
+                                                    <i class="icon-search"></i>
+                                            </button>
+                                            <input class="nombre-conductor"  type="text" value=" <?php echo $conductor[0]['descripcion'];?>" placeholder="Nombre Conductor..." disabled="disabled"/>
                 </div>
-           </div>
-         </div>
-            
-                    <div class="span5">
-                        <div class="control-group">
-                            <label class="control-label" for="patente"><strong>Patente</strong></label>
-                            <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" value="<?php echo $camion[0]['patente']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-camion"><i class="icon-search"></i></button></div>
-                                <input type="hidden" name="camion_camion_id" id="camion_id" value="<?php echo $camion[0]['camion_id']; ?>">
-                                <input type="hidden" name="viaje_id" id="viaje_id" value="<?php echo $viaje[0]['id_viaje']; ?>">
-                            </div>
-                        </div>
-                    </div>
+            </div>
        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="rut"><strong>Tel&eacute;fono Conductor</strong></label>
+            <div class="controls">
+                <input class="nombre-conductor"  type="text" value="<?php echo $conductor[0]['telefono']; ?>" disabled="disabled"/>
+            </div>
+        </div>
+               
+       <div class="control-group">
+           <label class="control-label" for="patente"><strong>Patente Cami&oacute;n</strong></label>
+            <div class="controls">
+                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" value="<?php echo $camion[0]['patente']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-camion"><i class="icon-search"></i></button></div>
+                <input type="hidden" name="camion_camion_id" id="camion_id" value="<?php echo $camion[0]['camion_id']; ?>">
+                <input type="hidden" name="viaje_id" id="viaje_id" value="<?php echo $viaje[0]['id_viaje']; ?>">
+            </div>
+        </div>
+               
+               
           
                
                <div class="form-actions" >

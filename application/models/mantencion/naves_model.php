@@ -98,5 +98,3 @@ class Naves_model extends CI_Model{
     
 }
 ?>
-
-

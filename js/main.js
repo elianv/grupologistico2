@@ -588,9 +588,43 @@ $('#modal-carga .codigo-click').click(function(e){
 
 /*Modal Ordn - bodega */
 
+/*$('#modal-bodega .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	var nombre = $(this).parent().next('td').text();
+	
+	$('.form-orden #bodega').val($(this).data('codigo')+' - '+nombre);
+	
+	//$('#modal-bodega').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});*/
+
+/*New Version Bodega*/
 $('#modal-bodega .codigo-click').click(function(e){
 
 	e.preventDefault();
+	
+	$.ajax({
+		type:'post',
+		url:'../mantencion/bodegas',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('.form-orden #contacto_bodega').val(response[0].contacto);
+			$('.form-orden #direccion_bodega').val(response[0].direccion);
+			$('.form-orden #telefono_bodega').val(response[0].telefono);
+		}
+	});
 	
 	var nombre = $(this).parent().next('td').text();
 	
@@ -602,10 +636,10 @@ $('#modal-bodega .codigo-click').click(function(e){
 		
 		$('.modal-backdrop.fade.in').remove();
 	
-	
 	});
 
 });
+
 
 /*Modal Ordn - Deposito */
 
@@ -622,7 +656,6 @@ $('#modal-deposito .codigo-click').click(function(e){
 		$('body').removeClass('modal-open');
 		
 		$('.modal-backdrop.fade.in').remove();
-	
 	
 	});
 
@@ -641,14 +674,13 @@ $('#modal-proveedor .codigo-click').click(function(e){
 		$('body').removeClass('modal-open');
 		
 		$('.modal-backdrop.fade.in').remove();
-	
-	
+
 	});
 
 });
 
 /*Modal Ordn - conductor */
-
+/*
 $('#modal-conductor .codigo-click').click(function(e){
 
 	e.preventDefault();
@@ -664,8 +696,36 @@ $('#modal-conductor .codigo-click').click(function(e){
 		$('body').removeClass('modal-open');
 		
 		$('.modal-backdrop.fade.in').remove();
+		
+	});
+
+});
+*/
+/*New Version Conductores*/
+$('#modal-conductor .codigo-click').click(function(e){
+
+	e.preventDefault();
 	
+	$.ajax({
+		type:'post',
+		url:'/mantencion/conductores',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('#conductor').val(response[0].rut);
+			$('#nombre_conductor').val(response[0].descripcion);
+			$('#telefono_conductor').val(response[0].telefono);
+		}
+	});
 	
+	$('#modal-conductor').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+
 	});
 
 });

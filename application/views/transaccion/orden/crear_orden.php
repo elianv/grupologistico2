@@ -88,6 +88,20 @@
                     <div class="input-append"><input type="text" class="input-xxlarge" id="aduana" name="aduana_codigo_aduana" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-aduana"><i class="icon-search"></i></button></div>
                 </div>
             </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="aduana"><strong>Contacto Aduana</strong></label>
+                <div class="controls">
+                    <input type="text" class="input-xxlarge" id="contacto_aduana" disabled="disabled" name="contacto_aduana" placeholder="">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="aduana"><strong>Fono Aduana</strong></label>
+                <div class="controls">
+                    <input type="text" class="input-xxlarge" id="fono_aduana" disabled="disabled" name="fono_aduana" placeholder="">
+                </div>
+            </div>
 
            <div class="control-group">
                 <label class="control-label" for="Nave"><strong>Nave</strong></label>
@@ -132,14 +146,14 @@
                </br>
 
 
-<!--   ##############################################################    -->  
+<!--   ##############################################################    -->
             <div class="control-group">
-                <label class="control-label" for="fecha"><strong>Fecha Carga</strong></label>
+                <label class="control-label" for="fecha"><strong>Fecha Retiro</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-large" name="fecha_carga" id="fecha_carga" placeholder="Seleccione Fecha">
+                    <input type="text" class="input-large" name="fecha" id="fecha" placeholder="Seleccione Fecha">
                 </div>
             </div> 
-
+  
             <div class="control-group">
                 <label class="control-label" for="carga"><strong>Carga</strong></label>
                 <div class="controls">
@@ -190,7 +204,7 @@
             <div class="control-group">
                 <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="fecha" name="fecha" placeholder="Seleccione Fecha">
+                 <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" placeholder="Seleccione Fecha">
                 </div>
             </div>
                
@@ -198,6 +212,27 @@
                 <label class="control-label" for="bodega"><strong>Bodega</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="bodega" name="bodega_codigo_bodega" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-bodega"><i class="icon-search"></i></button></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="bodega"><strong>Direcci&oacute;n Bodega</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" ></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="bodega"><strong>Contacto Bodega</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="contacto_bodega" id="contacto_bodega"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="bodega"><strong>Tel&eacute;fono Bodega</strong></label>
+                <div class="controls">
+                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="telefono_bodega" id="telefono_bodega"></div>
                 </div>
             </div>
 
@@ -298,34 +333,35 @@
                </br>
                
                <!--   #########################################################################    -->
-        <div class="row show-grid">
-                    
-          <div class="span12">
-           <div class="control-group">
-                <label class="control-label" for="conductor"><strong>Conductor</strong></label>
-                <div class="controls">
-                    <div class="input-append">
-						<input type="text" class="span2" id="conductor" name="conductor_rut" placeholder="">
-						<button class="btn" type="button" data-toggle="modal" href="#modal-conductor">
-							<i class="icon-search"></i>
-						</button>
-						<input class="nombre-conductor"  type="text" value="" placeholder="Nombre Conductor..." disabled="disabled"/>
-					</div>
+              
+      <div class="control-group">
+            <label class="control-label" for="conductor"><strong>Conductor</strong></label>
+            <div class="controls">
+                <div class="input-append">
+                                            <input type="text" class="span2" id="conductor" name="conductor_rut">
+                                            <button class="btn" type="button" data-toggle="modal" href="#modal-conductor">
+                                                    <i class="icon-search"></i>
+                                            </button>
+                                            <input id="nombre_conductor" class="nombre-conductor"  type="text" value="" placeholder="Nombre Conductor..." disabled="disabled"/>
                 </div>
-           </div>
-         </div>
-            
-                    <div class="span5">
-                        <div class="control-group">
-                            <label class="control-label" for="patente"><strong>Patente</strong></label>
-                            <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" placeholder="AAAA11 ó 1111AA"><button class="btn" type="button" data-toggle="modal" href="#modal-camion"><i class="icon-search"></i></button></div>
-                                <input type="hidden" name="camion_camion_id" id="camion_id" value="">
-                                <input type="hidden" name="viaje_id" id="viaje_id" value"">
-                            </div>
-                        </div>
-                    </div>
+            </div>
        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="rut"><strong>Tel&eacute;fono Conductor</strong></label>
+            <div class="controls">
+                <input id="telefono_conductor" value="" type="text" disabled="disabled"/>
+            </div>
+        </div>
+               
+       <div class="control-group">
+           <label class="control-label" for="patente"><strong>Patente Cami&oacute;n</strong></label>
+            <div class="controls">
+                <div class="input-append"><input type="text" class="span2" id="patente" name="patente" ><button class="btn" type="button" data-toggle="modal" href="#modal-camion"><i class="icon-search"></i></button></div>
+                <input type="hidden" name="camion_camion_id" id="camion_id" >
+                <input type="hidden" name="viaje_id" id="viaje_id">
+            </div>
+        </div>
           
                
                <div class="form-actions" >

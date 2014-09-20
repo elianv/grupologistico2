@@ -1,6 +1,4 @@
-<?php
-
-class Orden extends CI_Controller{
+<?php class Orden extends CI_Controller{
     
     function __construct() {
         parent::__construct();
@@ -108,7 +106,7 @@ class Orden extends CI_Controller{
 				$this->load->view('modal/modal_carga',$data);
 				$this->load->view('modal/modal_deposito',$data);
 				$this->load->view('modal/modal_nave',$data);
-                                $this->load->view('modal/modal_naves',$data);
+                $this->load->view('modal/modal_naves',$data);
 				$this->load->view('modal/modal_orden',$data);
 				$this->load->view('include/script');
 			}
@@ -297,29 +295,26 @@ class Orden extends CI_Controller{
                             $id_detalle = $cod_detalle[0]['id_detalle'] + 1;
                         }
                                       
-                    
-                    foreach ($this->input->post('codigo_servicio') as $servicio){
-                       $cod_servicio = "";
-                        $cod_servicio = explode("-",$servicio);
-                       $detalle = array(
-                                    'id_detalle' => $id_detalle,
-                                    'servicio_codigo_servicio' => $servicio[0],
-                                    'orden_id_orden'=> $num_orden,
-                                    'valor_costo'=> $costo[$i],
-                                    'valor_venta'=> $venta[$i]
-                       );
-                       $i = $i + 1;
-                       $id_detalle = $id_detalle + 1;
-                       //echo "<pre>";
-                       //print_r($this->input->post('codigo_servicio'));    
-                       //print_r($detalle);
-                       //echo "</pre>";
-                     //guarda uno a uno los detalles.
-                     $this->Detalle->guardar_detalle($detalle);
+                    if($orden['tipo_orden_id_tipo_orden'] == 8){
+                            foreach ($this->input->post('codigo_servicio') as $servicio){
+                               $cod_servicio = "";
+                                $cod_servicio = explode("-",$servicio);
+                               $detalle = array(
+                                            'id_detalle' => $id_detalle,
+                                            'servicio_codigo_servicio' => $servicio[0],
+                                            'orden_id_orden'=> $num_orden,
+                                            'valor_costo'=> $costo[$i],
+                                            'valor_venta'=> $venta[$i]
+                               );
+                               $i = $i + 1;
+                               $id_detalle = $id_detalle + 1;
+                             //guarda uno a uno los detalles.
+                             $this->Detalle->guardar_detalle($detalle);
+                            }
                     }
                     
                 $this->session->set_flashdata('sin_orden','La orden se ha creado con éxito');
-                redirect('transacciones/orden','refresh');
+                redirect('transacciones/orden/index','refresh');
                 }
             }
             
@@ -351,6 +346,7 @@ class Orden extends CI_Controller{
                   $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean|callback_check_orden');
                   
                 if($this->form_validation->run() == FALSE){
+                    
                     $session_data = $this->session->userdata('logged_in');
                     //tipo facturacion
                     $data['tfacturacion'] = $this->Facturacion->tipo_orden();
@@ -414,6 +410,7 @@ class Orden extends CI_Controller{
                     $this->load->view('include/script');
                 }
                 else{
+                  
                     	
                     $orden_bd = $this->Orden_model->get_orden($this->input->post('numero_orden'));
                     $id_viaje = $this->Viaje->seleccionar_viaje($orden_bd[0]['viaje_id_viaje']);
@@ -492,26 +489,30 @@ class Orden extends CI_Controller{
                     $num_orden = $this->input->post('numero_orden');
                     $costo = $this->input->post('valor_costo_servicio');
                     $venta = $this->input->post('valor_venta_servicio');
+                    
+                    if(isset($_POST['codigo_servicio'])){
                     					
-                    foreach ($this->input->post('codigo_servicio') as $servicio){
-						$id_detalle = $this->Detalle->ultimo_codigo();
-						$id_detalle[0]['id_detalle'] = $id_detalle[0]['id_detalle'] + 1;                    		
-                    	$servicio = explode(' - ', $servicio);
-	                    $detalle = array(
-	                    				'id_detalle' => $id_detalle[0]['id_detalle'],
-	                    				'servicio_codigo_servicio' => (int)$servicio,
-	                                    'orden_id_orden'=> $num_orden,
-	                                    'valor_costo'=> $costo[$i],
-	                                    'valor_venta'=> $venta[$i]
-	                    );
-	                    $i = $i + 1;
-                       //guarda uno a uno los detalles.
-                       $this->Detalle->guardar_detalle($detalle);
+                            foreach ($this->input->post('codigo_servicio') as $servicio){
+                                                        $id_detalle = $this->Detalle->ultimo_codigo();
+                                                        $id_detalle[0]['id_detalle'] = $id_detalle[0]['id_detalle'] + 1;                    		
+                                $servicio = explode(' - ', $servicio);
+                                    $detalle = array(
+                                                                'id_detalle' => $id_detalle[0]['id_detalle'],
+                                                                'servicio_codigo_servicio' => (int)$servicio,
+                                                    'orden_id_orden'=> $num_orden,
+                                                    'valor_costo'=> $costo[$i],
+                                                    'valor_venta'=> $venta[$i]
+                                    );
+                                    $i = $i + 1;
+                               //guarda uno a uno los detalles.
+                               $this->Detalle->guardar_detalle($detalle);
+                            }
                     }
 		$this->session->set_flashdata('sin_orden','La Orden de Servicio se edito con éxito');
-                redirect('transacciones/orden','refresh');
+                redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
 
                 }
+                
         }    
                 
         
@@ -573,6 +574,7 @@ class Orden extends CI_Controller{
                    //echo "</pre>";
                 }
                 $this->load->view('include/head',$session_data);
+                
                 if(isset($_POST['tipo_orden'])){
                     $this->load->view('transaccion/orden/editar_orden',$data);
                 }
@@ -592,7 +594,7 @@ class Orden extends CI_Controller{
     function eliminar_orden($id_orden = null){
         if($this->session->userdata('logged_in')){
             
-            if (!dato){
+            if (!$id_orden){
                 $session_data = $this->session->userdata('logged_in');  
                 $this->load->view('include/head',$session_data);
                 $this->load->view('transaccion/orden/imprimir_orden');
@@ -710,8 +712,52 @@ class Orden extends CI_Controller{
                 $datos['conductor'] = $this->Conductores_model->datos_conductor($datos['viaje'][0]['conductor_rut']);
                 $datos['camion'] = $this->Camiones_model->getCamion($datos['viaje'][0]['camion_camion_id']);
                 
+                    $data['tfacturacion'] = $this->Facturacion->tipo_orden();
+                    //listado clientes
+                    $data['clientes'] = $this->Clientes_model->listar_clientes();
+                    //listado tramos
+                    $data['tramos'] = $this->Facturacion->listar_tramos();
+                    //listado aduanas
+                    $data['aduanas'] = $this->Agencias_model->listar_agencias();
+                    //listar bodegas
+                    $data['bodegas']= $this->Bodegas_model->listar_bodegas();
+                    //listar puertos
+                    $data['puertos'] = $this->Puertos_model->listar_puertos();
+                    //listar proveedores
+                    $data['proveedores'] = $this->Proveedores_model->listar_proveedores();
+                    //listar camiones
+                    $data['camiones'] = $this->Camiones_model->listar_camiones();
+                    //listar servicios
+                    $data['servicios'] = $this->Servicios_model->listar_servicios();
+                    //listar conductores
+                    $data['conductores'] = $this->Conductores_model->listar_conductores();
+                    //listar carga
+                    $data['cargas'] = $this->Cargas_model->listar_cargas();
+                    //listar depositos
+                    $data['depositos'] = $this->Depositos_model->listar_depositos();
+                    //listar Naves
+                    $data['naves'] = $this->Naves_model->listar_naves();
+                    $data['navieras'] = $this->Navieras_model->listar_navieras();
+
                 $this->load->view('include/head',$datos);
                 $this->load->view('transaccion/orden/orden',$datos);
+                
+              
+                    $this->load->view('modal/modal_aduana', $data);
+                    $this->load->view('modal/modal_cliente',$data);
+                    $this->load->view('modal/modal_tramo',$data);
+                    $this->load->view('modal/modal_bodega',$data);
+                    $this->load->view('modal/modal_puerto',$data);
+                    $this->load->view('modal/modal_destino',$data);
+                    $this->load->view('modal/modal_proveedor',$data);
+                    $this->load->view('modal/modal_camion',$data);
+                    $this->load->view('modal/modal_servicio',$data);
+                    $this->load->view('modal/modal_conductor',$data);
+                    $this->load->view('modal/modal_carga',$data);
+                    $this->load->view('modal/modal_deposito',$data);
+                    $this->load->view('modal/modal_nave',$data);
+                    $this->load->view('modal/modal_naves',$data);
+ 
                 $this->load->view('include/script');
             }
             else{
@@ -735,7 +781,8 @@ class Orden extends CI_Controller{
         else{
             $this->load->library('pdf');
             $nombre = $this->session->userdata('logged_in');
-            $this->pdf = new Pdf($orden[0]['id_orden'],$nombre['nombre']);
+            $this->pdf = new Pdf();
+            $this->pdf->setVar($nombre['nombre'],$orden[0]['id_orden']);
             $numero = $orden[0]['id_orden'];
 
             $this->pdf->SetTitle($id);
@@ -978,7 +1025,7 @@ class Orden extends CI_Controller{
             if ($orden[0]['tipo_orden_id_tipo_orden'] == 5){
                     $this->pdf->Ln(10); 
                     $this->pdf->SetFont('Arial', 'B', 12);
-                    $this->pdf->Cell(150,0,'Cierre de '.  utf8_decode(Exportación),0,0,'L','0');
+                    $this->pdf->Cell(150,0,'Cierre de Exportacion',0,0,'L','0');
                     $this->pdf->Cell(25,0,'Santiago, '.date("j/m/Y"),0,0,'R','0');
                     $this->pdf->Ln(5);
                     $this->pdf->SetFont('Arial', '', 10);
@@ -997,10 +1044,10 @@ class Orden extends CI_Controller{
                     $this->pdf->Cell(61,6,':   ','0',1,'L',0);
 
                     $this->pdf->Cell(60,6,'Booking','0',0,'L',0);
-                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['booking']),'0',1,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['booking'],'0',1,'L',0);
 
                     $this->pdf->Cell(60,6,'Naviera','0',0,'L',0);
-                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['naviera'][0]['nombre']),'0',1,'L',0);
+                    $this->pdf->Cell(61,6,':   '.$orden[0]['naviera'][0]['nombre'],'0',1,'L',0);
 
                     $this->pdf->Cell(60,6,'Cliente','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['cliente']['razon_social']),'0',1,'L',0);
@@ -1027,7 +1074,7 @@ class Orden extends CI_Controller{
                     $this->pdf->Ln(10);
                     $this->pdf->Cell(60,6,'Carga','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['carga']['descripcion']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,  utf8_decode(Mercadería),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Mercaderia','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['mercaderia']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Contenedor','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['numero']),'0',1,'L',0);
@@ -1038,11 +1085,11 @@ class Orden extends CI_Controller{
                     //RET Contenedor = deposito
                     $this->pdf->Cell(60,6,'Ret. Contenedor','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentación),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Fecha de Presentacion','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['nombre']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,  utf8_decode(Dirección).' Bodega','0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Direccion Bodega','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['direccion']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Contacto Bodega','0',0,'L',0);
                     $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['bodega']['contacto']),'0',0,'L',0);
@@ -1164,16 +1211,10 @@ class Orden extends CI_Controller{
             }
 
             $numero = $id;	
-            ob_end_clean();
-
-
+            //ob_end_clean();
  
-           $this->pdf->Output("Orden_de_Servicio_".$id.".pdf", 'D');
-
+            $this->pdf->Output("Orden_de_Servicio_".$id.".pdf", 'D');
         }
-
-	    
-        
     }		
 			
     function check_cliente($rut){

@@ -1,1 +1,18 @@
 [18-Aug-2014 18:30:09 America/Santiago] PHP Fatal error:  Cannot use string offset as an array in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 657
+[20-Sep-2014 00:38:25 America/Santiago] PHP Fatal error:  Function name must be a string in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 747
+[20-Sep-2014 04:03:52 UTC] PHP Parse error:  syntax error, unexpected 'naviera' (T_STRING) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 1049
+[20-Sep-2014 04:03:55 UTC] PHP Parse error:  syntax error, unexpected 'naviera' (T_STRING) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 1049
+[20-Sep-2014 04:03:58 UTC] PHP Parse error:  syntax error, unexpected 'naviera' (T_STRING) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 1049
+[20-Sep-2014 01:23:52 America/Santiago] PHP Fatal error:  Cannot access empty property in /home/itsecuri/public_html/gl/application/libraries/Pdf.php on line 13
+[20-Sep-2014 04:30:05 UTC] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 785
+[20-Sep-2014 04:30:08 UTC] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 785
+[20-Sep-2014 04:43:13 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 770
+[20-Sep-2014 04:43:41 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 771
+[20-Sep-2014 04:44:02 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 771
+[20-Sep-2014 04:44:25 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 771
+[20-Sep-2014 04:44:29 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 771
+[20-Sep-2014 04:44:42 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 771
+[20-Sep-2014 04:45:12 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 771
+[20-Sep-2014 04:45:33 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 771
+[20-Sep-2014 04:45:36 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 771
+[20-Sep-2014 04:45:39 UTC] PHP Parse error:  syntax error, unexpected 'otice' (T_STRING), expecting function (T_FUNCTION) in /home/itsecuri/public_html/gl/application/controllers/transacciones/orden.php on line 771

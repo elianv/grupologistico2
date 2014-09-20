@@ -4,10 +4,21 @@
  
     //Extendemos la clase Pdf de la clase fpdf para que herede todas sus variables y funciones
     class Pdf extends FPDF {
-        public function __construct($dato,$nombre) {
-            $this->Numero = $dato;
-            $this->Nombre = $nombre;
+        
+        public $Numero = "";
+        public $Nombre = "";
+        
+        //public function __construct($dato,$nombre) {
+        public function __construct() {
+        
+            //$this->Numero = $dato;
+            //$this->Nombre = $nombre;
             parent::__construct();
+        }
+        
+        public function setVar($nombre,$numero){
+            $this->Nombre = $nombre;
+            $this->Numero = $numero;
         }
 		
         // El encabezado del PDF
@@ -18,7 +29,7 @@
             $this->Image('img/logo.png',10,8,45);
             $this->SetFont('Arial','B',16);
             $this->Cell(30);
-            $this->Cell(120,10,'Orden de Servicio '.  utf8_decode(N°).''.$this->Numero,0,0,'C');
+            $this->Cell(120,10,'Orden de Servicio Numero '.$this->Numero,0,0,'C');
             $this->Ln('5');
             $this->SetFont('Arial','B',8);
             $this->Cell(30);
@@ -34,4 +45,4 @@
       }
 	
     }
-?>;
+?>
