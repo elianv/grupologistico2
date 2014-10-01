@@ -1,6 +1,6 @@
 <div class="container">
 
-	<legend><h3><center>Orden de Servicio</center></h3></legend>
+	<legend><h3><center>Nueva Orden de Servicio</center></h3></legend>
 	
 	<div style="margin-left: 10px">
             <?php 
@@ -46,11 +46,11 @@
 					<div class="control-group">
 						<label class="control-label" for="tipo_factura"><strong>Tipo</strong></label>
 						<div class="controls">
-						   <select id="tipo_factura" name="tipo_orden" class="span2">
+						   <select id="tipo_factura" name="tipo_orden" class="span2" onchange="cambioOrden(this)">
 								<?php
 									// print_r(tfacturacion[0]);
 									foreach ($tfacturacion as $tipo){
-										echo "<option>".$tipo['tipo_orden']."</option>";
+										echo "<option value='".$tipo['tipo_orden']."' >".$tipo['tipo_orden']."</option>";
 									}
 								?>
 							</select>
@@ -85,21 +85,21 @@
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Aduana</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="aduana" name="aduana_codigo_aduana" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-aduana"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="aduana" name="aduana_codigo_aduana"><button class="btn" type="button" data-toggle="modal" href="#modal-aduana"><i class="icon-search"></i></button></div>
                 </div>
             </div>
             
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Contacto Aduana</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-xxlarge" id="contacto_aduana" disabled="disabled" name="contacto_aduana" placeholder="">
+                    <input type="text" class="input-xxlarge" id="contacto" disabled="disabled" name="contacto_aduana">
                 </div>
             </div>
             
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Fono Aduana</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-xxlarge" id="fono_aduana" disabled="disabled" name="fono_aduana" placeholder="">
+                    <input type="text" class="input-xxlarge" id="telefono" disabled="disabled" name="fono_aduana">
                 </div>
             </div>
 
@@ -194,12 +194,19 @@
                 </div>
             </div>
                
-            <div class="control-group">
-                <label class="control-label" for="bodega"><strong>Depósito</strong></label>
+            <div class="control-group deposito" id="form_deposito" style="display:;">
+                <label class="control-label" for="bodega"><strong>Dep&oacute;sito</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito_codigo_deposito" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-deposito"><i class="icon-search"></i></button></div>
                 </div>
-            </div>               
+            </div>  
+            
+            <div class="control-group retiro" id="form_lugar_retiro" style="display:none;">
+                <label class="control-label" for="retiro"><strong>Lugar de Retiro</strong></label>
+                <div class="controls">
+                    <textarea class="input-xxlarge" id="lugar_retiro" name="lugar_retiro" placeholder=""></textarea>
+                </div>
+            </div>              
 
             <div class="control-group">
                 <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
@@ -236,7 +243,7 @@
                 </div>
             </div>
 
-            <div class="control-group">
+            <div class="control-group" id="form_puerto_embarque" style="display:;">
                 <label class="control-label" for="puerto"><strong>Puerto Embarque</strong></label>
                 <div class="controls">
                     <div class="input-append">

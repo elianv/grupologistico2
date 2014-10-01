@@ -123,7 +123,7 @@
             if($this->session->userdata('logged_in')){
                 
                 
-                $this->load->library('form_validation');
+                  $this->load->library('form_validation');
 
                   $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
                   $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
@@ -264,8 +264,8 @@
                         'num_servicios' => count($this->input->post('codigo_servicio')),
                         'viaje_id_viaje' => $id_viaje,
                         'tramo_codigo_tramo' => $tramo[0],
-                        'valor_costo_tramo' => $this->input->post('valor_costo_tramo'),
-                        'valor_venta_tramo' => $this->input->post('valor_venta_tramo'),
+                        'valor_costo_tramo' => str_replace(".", "",$this->input->post('valor_costo_tramo')),
+                        'valor_venta_tramo' => str_replace(".", "",$this->input->post('valor_venta_tramo')),
                         'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera')
                     );
                    
@@ -276,7 +276,6 @@
                              $orden['tipo_orden_id_tipo_orden'] = $tipo_orden['id_tipo_orden'];
                         }
                     }
-                    
 
                     //guarda viaje y la orden.
                     $this->Viaje->crear_viaje($viaje);
@@ -466,8 +465,8 @@
                         'num_servicios' => count($this->input->post('codigo_Servicio')),
                         'viaje_id_viaje' => $orden_bd[0]['viaje_id_viaje'],
                         'tramo_codigo_tramo' => $tramo[0],
-                        'valor_costo_tramo' => $this->input->post('valor_costo_tramo'),
-                        'valor_venta_tramo' => $this->input->post('valor_venta_tramo'),
+                        'valor_costo_tramo' => str_replace(".", "",$this->input->post('valor_costo_tramo')),
+                        'valor_venta_tramo' => str_replace(".", "",$this->input->post('valor_venta_tramo')),
                         'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera')
                     );
                    

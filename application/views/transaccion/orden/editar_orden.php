@@ -1,6 +1,6 @@
 <legend><h3><center>Editar Orden de Servicio</center></h3></legend>
 <div class="container">
-<form class="form-horizontal" method="post">
+<form class="form-horizontal form-orden" method="post">
     <fieldset>
     <div class="row show-grid">
         <div class="span6">
@@ -9,7 +9,7 @@
                         <div class="control-group">
                             <label class="control-label" for="tipo_orden"><strong>Tipo de Orden</strong></label>
                             <div class="controls">
-                                <select name="tipo_orden" id="tipo_orden">
+                                <select name="tipo_orden" id="tipo_factura">
                                     <option value="4">TODAS</option>
                                     <option value="5">EXPORTACI&Oacute;N</option>
                                     <option value="6">IMPORTACI&Oacute;N</option>

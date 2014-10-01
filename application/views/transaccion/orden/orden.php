@@ -47,15 +47,15 @@
 					<div class="control-group">
 						<label class="control-label" for="tipo_factura"><strong>Tipo</strong></label>
 						<div class="controls">
-						   <select id="tipo_factura" name="tipo_orden" class="span2">
+						   <select id="tipo_factura" name="tipo_orden" class="span2" onchange="cambioOrden(this)">
 								<?php
 									// print_r(tfacturacion[0]);
 									foreach ($tfacturacion as $tipo){
                                                                                 if($orden[0]['tipo_orden_id_tipo_orden'] == $tipo['id_tipo_orden']){
-                                                                                    echo "<option selected>".$tipo['tipo_orden']."</option>";
+                                                                                    echo "<option selected value='".$tipo['tipo_orden']."'>".$tipo['tipo_orden']."</option>";
                                                                                 }
                                                                                 else{
-                                                                                    echo "<option>".$tipo['tipo_orden']."</option>";
+                                                                                    echo "<option value='".$tipo['tipo_orden']."'>".$tipo['tipo_orden']."</option>";
                                                                                 }
 									}
 								?>
@@ -208,12 +208,19 @@
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="control-label" for="bodega"><strong>Depósito</strong></label>
+            <div class="control-group" id="form_deposito" style="display:;">
+                <label class="control-label" for="bodega"><strong>Dep&oacute;sito</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito_codigo_deposito" value="<?php echo $deposito[0]['codigo_deposito']." - ".$deposito[0]['descripcion']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-deposito"><i class="icon-search"></i></button></div>
                 </div>
             </div>   
+            
+            <div class="control-group retiro" id="form_lugar_retiro" style="display:none;">
+                <label class="control-label" for="retiro"><strong>Lugar de Retiro</strong></label>
+                <div class="controls">
+                    <textarea class="input-xxlarge" id="lugar_retiro" name="lugar_retiro" placeholder=""></textarea>
+                </div>
+            </div>  
 
                
             <div class="control-group">
@@ -251,7 +258,7 @@
                 </div>
             </div>
                
-            <div class="control-group">
+            <div class="control-group" id="form_puerto_embarque" style="display:;">
                 <label class="control-label" for="puerto"><strong>Puerto Embarque</strong></label>
                 <div class="controls">
                     <div class="input-append">
