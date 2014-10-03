@@ -208,17 +208,29 @@
                 </div>
             </div>
 
-            <div class="control-group" id="form_deposito" style="display:;">
+            <?php 
+                if($orden[0]['tipo_orden_id_tipo_orden'] == 6)
+                    echo '<div class="control-group" id="form_deposito" style="display:none;">';
+                else
+                    echo '<div class="control-group" id="form_deposito" style="display:;">';
+            ?>
+            
                 <label class="control-label" for="bodega"><strong>Dep&oacute;sito</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="deposito" name="deposito_codigo_deposito" value="<?php echo $deposito[0]['codigo_deposito']." - ".$deposito[0]['descripcion']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-deposito"><i class="icon-search"></i></button></div>
                 </div>
             </div>   
             
-            <div class="control-group retiro" id="form_lugar_retiro" style="display:none;">
+            <?php 
+                if($orden[0]['tipo_orden_id_tipo_orden'] == 6)
+                    echo '<div class="control-group retiro" id="form_lugar_retiro" style="display:;">';
+                else
+                    echo '<div class="control-group retiro" id="form_lugar_retiro" style="display:none;">';
+            ?>
+            
                 <label class="control-label" for="retiro"><strong>Lugar de Retiro</strong></label>
                 <div class="controls">
-                    <textarea class="input-xxlarge" id="lugar_retiro" name="lugar_retiro" placeholder=""></textarea>
+                    <textarea class="input-xxlarge" id="lugar_retiro" name="lugar_retiro" placeholder="" ><?php echo $orden[0]['lugar_retiro']; ?></textarea>
                 </div>
             </div>  
 
@@ -257,8 +269,14 @@
                     <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" value=" <?php echo $bodega[0]['telefono'];?>"></div>
                 </div>
             </div>
-               
-            <div class="control-group" id="form_puerto_embarque" style="display:;">
+            
+            <?php 
+                if($orden[0]['tipo_orden_id_tipo_orden'] == 5)
+                    echo '<div class="control-group" id="form_puerto_embarque" style="display:;">';
+                else
+                    echo '<div class="control-group" id="form_puerto_embarque" style="display:none;">';
+            ?>
+            
                 <label class="control-label" for="puerto"><strong>Puerto Embarque</strong></label>
                 <div class="controls">
                     <div class="input-append">

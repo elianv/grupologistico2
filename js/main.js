@@ -134,7 +134,7 @@ $('.form-orden #tipo_factura').change(function(){
 	if(filtro == 'IMPORTACION'){
 		$('.form-orden .ret label strong').text('Ret. Contenedor');
 		$('.form-orden .booking label strong').text('Tarjeton');
-		$('.form-orden .destino label strong').text('Entrega vacio');
+		$('.form-orden .destino label strong').text('DepÃ³sito entrega');
 		$('.form-orden .tramo label strong').text('Tramo');		
 	}
 	if(filtro == 'OTRO SERVICIO'){
@@ -161,21 +161,21 @@ $.datepicker.regional['es'] = {
 		prevText: '<Ant',
 		prevBigText: '<<',
 		prevStatus: 'Mostrar mes anterior',
-		prevBigStatus: 'Mostrar año anterior',
+		prevBigStatus: 'Mostrar aï¿½o anterior',
 		nextText: 'Sig>',
 		nextBigText: '>>',
 		nextStatus: 'Mostrar mes siguiente',
-		nextBigStatus: 'Mostrar año siguiente',
+		nextBigStatus: 'Mostrar aï¿½o siguiente',
 		currentText: 'Hoy',
 		currentStatus: 'Mostrar mes actual',
 		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
 		monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 		monthStatus: 'Seleccionar otro mes',
-		yearStatus: 'Seleccionar otro año',
+		yearStatus: 'Seleccionar otro aï¿½o',
 		weekHeader: 'Sm',
-		weekStatus: 'Semana del año',
-		dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado'],
-		dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sab'],
+		weekStatus: 'Semana del aï¿½o',
+		dayNames: ['Domingo', 'Lunes', 'Martes', 'Miï¿½rcoles', 'Jueves', 'Viernes', 'Sabado'],
+		dayNamesShort: ['Dom', 'Lun', 'Mar', 'Miï¿½', 'Jue', 'Vie', 'Sab'],
 		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
 		dayStatus: 'Set DD as first week day',
 		dateStatus: 'Select D, M d',
@@ -990,3 +990,29 @@ $('#modal-orden .codigo-click').click(function(e){
 	});
 
 });
+
+
+function cambioOrden(sel) {
+	  if (sel.value=="EXPORTACION"){
+		   divC = document.getElementById("form_deposito");
+		   divC.style.display = "";
+
+		   divT = document.getElementById("form_lugar_retiro");
+		   divT.style.display = "none";
+		   
+		   divP = document.getElementById("form_puerto_embarque");
+		   divP.style.display = "";
+
+	  }
+	  if(sel.value=="IMPORTACION"){
+
+		   divC = document.getElementById("form_deposito");
+		   divC.style.display="none";
+
+		   divT = document.getElementById("form_lugar_retiro");
+		   divT.style.display = "";
+		   
+		   divP = document.getElementById("form_puerto_embarque");
+		   divP.style.display = "none";
+	  }
+}

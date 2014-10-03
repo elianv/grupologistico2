@@ -201,6 +201,7 @@
                 </div>
             </div>  
             
+                
             <div class="control-group retiro" id="form_lugar_retiro" style="display:none;">
                 <label class="control-label" for="retiro"><strong>Lugar de Retiro</strong></label>
                 <div class="controls">

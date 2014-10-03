@@ -126,6 +126,7 @@
                   $this->load->library('form_validation');
 
                   $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
+                  
                   $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
                   $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
                   $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
@@ -137,7 +138,7 @@
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
                   $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
-                 // $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean');
+                  //$this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean');
                   $this->form_validation->set_rules('naviera_codigo_naviera','Naviera','required|trim|xss_clean');
 
                   
@@ -224,9 +225,26 @@
                     $nave = explode(' - ',  $this->input->post('nave_codigo_nave'));
                     $bodega = explode(' - ',  $this->input->post('bodega_codigo_bodega'));
                     $destino = explode(' - ',  $this->input->post('destino'));
-                    $puerto = explode(' - ', $this->input->post('puerto_codigo_puerto'));
+                    
                     $carga = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
-                    $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
+                    
+                    if($_POST['tipo_orden'] == "EXPORTACION"){
+                        $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
+                        $puerto = explode(' - ', $this->input->post('puerto_codigo_puerto'));
+                    }
+                    else{
+                        $deposito[0] = 1;
+                        $puerto[0] = 1;
+                    }
+                    if($_POST['tipo_orden'] == "IMPORTACION"){
+                        $lugar_retiro = $_POST['lugar_retiro'];
+                        
+                    }
+                    else{
+                        $lugar_retiro = "N/A";
+                    }
+                    
+                    
                     $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
                     $fecha = $this->input->post('fecha');
                     $fecha_presentacion = $this->input->post('fecha_presentacion');
@@ -266,7 +284,8 @@
                         'tramo_codigo_tramo' => $tramo[0],
                         'valor_costo_tramo' => str_replace(".", "",$this->input->post('valor_costo_tramo')),
                         'valor_venta_tramo' => str_replace(".", "",$this->input->post('valor_venta_tramo')),
-                        'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera')
+                        'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera'),
+                        'lugar_retiro' => $lugar_retiro
                     );
                    
                     $tipo_ordenes = $this->Facturacion->tipo_orden();
@@ -279,7 +298,7 @@
 
                     //guarda viaje y la orden.
                     $this->Viaje->crear_viaje($viaje);
-		            $this->Orden_model->insert_orden($orden);
+		    $this->Orden_model->insert_orden($orden);
                     $i = 0;
                                     
                     $num_orden = $codigo[0]['id_orden'] + 1;
@@ -311,7 +330,9 @@
                              $this->Detalle->guardar_detalle($detalle);
                             }
                     }
-                    
+                //echo "<pre>";
+                //print_r($_POST);
+                //echo "<pre />";
                 $this->session->set_flashdata('sin_orden','La orden se ha creado con éxito');
                 redirect('transacciones/orden/index','refresh');
                 }
@@ -425,9 +446,9 @@
                     $nave = explode(' - ',  $this->input->post('nave_codigo_nave'));
                     $bodega = explode(' - ',  $this->input->post('bodega_codigo_bodega'));
                     $destino = explode(' - ',  $this->input->post('destino'));
-                    $puerto = explode(' - ', $this->input->post('puerto_codigo_puerto'));
+                    
                     $carga = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
-                    $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
+                    
                     $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
                     $fecha = $this->input->post('fecha');
                     $fecha_presentacion = $this->input->post('fecha_presentacion');
@@ -437,6 +458,22 @@
                     
                     $fecha_presentacion = str_replace('/','-', $fecha_presentacion);
                     $fecha_presentacion = date("Y-m-d H:i",strtotime($fecha_presentacion));
+                    
+                    if($_POST['tipo_orden'] == "EXPORTACION"){
+                        $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
+                        $puerto = explode(' - ', $this->input->post('puerto_codigo_puerto'));
+                    }
+                    else{
+                        $deposito[0] = 1;
+                        $puerto[0] = 1;
+                    }
+                    if($_POST['tipo_orden'] == "IMPORTACION"){
+                        $lugar_retiro = $_POST['lugar_retiro'];
+                        
+                    }
+                    else{
+                        $lugar_retiro = "N/A";
+                    }
                     
 								
                     
@@ -467,7 +504,8 @@
                         'tramo_codigo_tramo' => $tramo[0],
                         'valor_costo_tramo' => str_replace(".", "",$this->input->post('valor_costo_tramo')),
                         'valor_venta_tramo' => str_replace(".", "",$this->input->post('valor_venta_tramo')),
-                        'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera')
+                        'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera'),
+                        'lugar_retiro' => $lugar_retiro
                     );
                    
                     $tipo_ordenes = $this->Facturacion->tipo_orden();
@@ -737,7 +775,9 @@
                     //listar Naves
                     $data['naves'] = $this->Naves_model->listar_naves();
                     $data['navieras'] = $this->Navieras_model->listar_navieras();
-
+                    //echo "<pre>";
+                    //print_r($datos);
+                    //echo "</pre>";
                 $this->load->view('include/head',$datos);
                 $this->load->view('transaccion/orden/orden',$datos);
                 
