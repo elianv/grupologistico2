@@ -491,7 +491,7 @@ $('#modal-naviera .codigo-click').click(function(e){
 });
 
 /*Modal Ordn - Aduanas */
-
+/*
 $('#modal-aduana .codigo-click').click(function(e){
 
 	e.preventDefault();
@@ -499,6 +499,37 @@ $('#modal-aduana .codigo-click').click(function(e){
 	var nombre = $(this).parent().next('td').text();
 	
 	$('.form-orden #aduana').val($(this).data('codigo')+' - '+nombre);
+	
+	$('#modal-aduana').fadeOut('fast',function(){
+	
+		$('body').removeClass('modal-open');
+		
+		$('.modal-backdrop.fade.in').remove();
+	
+	
+	});
+
+});
+
+*/
+
+$('#modal-aduana .codigo-click').click(function(e){
+
+	e.preventDefault();
+	
+	$.ajax({
+		type:'post',
+		url:'../../mantencion/agencias',
+		dataType: 'json',
+		data:{codigo:$(this).data('codigo')},
+		//beforeSend: function(){//},
+		success:function(response) {
+			console.log(response);
+			$('.form-orden #aduana').val(response[0].codigo_aduana+' - '+response[0].nombre);
+			$('.form-orden #contacto').val(response[0].contacto);
+			$('.form-orden #telefono').val(response[0].telefono);
+		}
+	});
 	
 	$('#modal-aduana').fadeOut('fast',function(){
 	
@@ -708,7 +739,7 @@ $('#modal-conductor .codigo-click').click(function(e){
 	
 	$.ajax({
 		type:'post',
-		url:'/mantencion/conductores',
+		url:'../mantencion/conductores',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
