@@ -22,17 +22,17 @@
             }
         ?>
         
-		<form class="form-horizontal form-orden" method="post">
+		<form class="form-horizontal form-orden editar_orden" method="post">
 			<fieldset>  
 			<div class="row show-grid">
 				<div class="span5">
 					<div class="control-group">
 						
-                                            <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
-                                            <div class="controls">
-                                                <?php echo "<div class='input-append'><input type='text' disabled='disabled' class='span2' name='id_orden' id='id_orden' value=".$orden[0]['id_orden']."></div>"; ?>
-                                                <input type="hidden" name="numero_orden" id="numero_orden" value="<?php echo $orden[0]['id_orden']; ?>">
-                                            </div>
+						<label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
+						<div class="controls">
+							<?php echo "<div class='input-append'><input type='text' disabled='disabled' class='span2' name='id_orden' id='id_orden' value=".$orden[0]['id_orden']."></div>"; ?>
+							<input type="hidden" name="numero_orden" id="numero_orden" value="<?php echo $orden[0]['id_orden']; ?>">
+						</div>
 						
 					</div>
 					<div class="control-group">
@@ -105,14 +105,14 @@
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Contacto Aduana</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-xxlarge" id="contacto_aduana" disabled="disabled" name="contacto_aduana" value="<?php echo $aduana[0]['contacto'];?>">
+                    <input type="text" class="input-xxlarge" id="contacto" disabled="disabled" name="contacto_aduana" value="<?php echo $aduana[0]['contacto'];?>">
                 </div>
             </div>
             
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Fono Aduana</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-xxlarge" id="fono_aduana" disabled="disabled" name="fono_aduana" value="<?php echo $aduana[0]['telefono'];?>">
+                    <input type="text" class="input-xxlarge" id="telefono" disabled="disabled" name="fono_aduana" value="<?php echo $aduana[0]['telefono'];?>">
                 </div>
             </div>
 

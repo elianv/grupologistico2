@@ -491,43 +491,34 @@ $('#modal-naviera .codigo-click').click(function(e){
 });
 
 /*Modal Ordn - Aduanas */
-/*
-$('#modal-aduana .codigo-click').click(function(e){
-
-	e.preventDefault();
-	
-	var nombre = $(this).parent().next('td').text();
-	
-	$('.form-orden #aduana').val($(this).data('codigo')+' - '+nombre);
-	
-	$('#modal-aduana').fadeOut('fast',function(){
-	
-		$('body').removeClass('modal-open');
-		
-		$('.modal-backdrop.fade.in').remove();
-	
-	
-	});
-
-});
-
-*/
 
 $('#modal-aduana .codigo-click').click(function(e){
+	
+	var url_controller = '';
+	
+	if($('form.form-orden').hasClass('editar_orden'))
+	{
+		url_controller = '../../../mantencion/agencias';
+		console.log('Editando');
+	}else{
+		url_controller = '../mantencion/agencias';
+		console.log('Creando');
+	}
 
 	e.preventDefault();
 	
 	$.ajax({
 		type:'post',
-		url:'../../mantencion/agencias',
+		//url:'../../../mantencion/agencias',
+		url:url_controller,
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
 		success:function(response) {
 			console.log(response);
-			$('.form-orden #aduana').val(response[0].codigo_aduana+' - '+response[0].nombre);
-			$('.form-orden #contacto').val(response[0].contacto);
-			$('.form-orden #telefono').val(response[0].telefono);
+			$('#aduana').val(response[0].codigo_aduana+' - '+response[0].nombre);
+			$('#contacto').val(response[0].contacto);
+			$('#telefono').val(response[0].telefono);
 		}
 	});
 	
@@ -643,9 +634,19 @@ $('#modal-bodega .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
+	if($('form.form-orden').hasClass('editar_orden'))
+	{
+		url_controller = '../../../mantencion/bodegas';
+		console.log('Editando');
+	}else{
+		url_controller = '../mantencion/bodegas';
+		console.log('Creando');
+	}
+	
 	$.ajax({
 		type:'post',
-		url:'../mantencion/bodegas',
+		//url:'../mantencion/bodegas',
+		url:url_controller,
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -1033,6 +1034,9 @@ function cambioOrden(sel) {
 		   
 		   divP = document.getElementById("form_puerto_embarque");
 		   divP.style.display = "";
+		   
+		   divB = document.getElementById("check_tramo");
+		   divB.style.display="none";
 
 	  }
 	  if(sel.value=="IMPORTACION"){
@@ -1045,5 +1049,18 @@ function cambioOrden(sel) {
 		   
 		   divP = document.getElementById("form_puerto_embarque");
 		   divP.style.display = "none";
+		   
+		   divB = document.getElementById("check_tramo");
+		   divB.style.display="none";
 	  }
+	  if(sel.value=="OTRO SERVICIO"){
+		  divC = document.getElementById("check_tramo");
+		  divC.style.display="";
+	  }
+	  if(sel.value=="NACIONAL"){
+		  divC = document.getElementById("check_tramo");
+		  divC.style.display="none";
+	  }
+	  
+	  
 }
