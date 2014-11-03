@@ -18,7 +18,7 @@
                               foreach ($tramos as $tramo){
                                   echo "<tr>";
                                   if($tramo['codigo_tramo']< 10){
-                                    echo "<td><a class='codigo-click' data-codigo=".$tramo['codigo_tramo'].">0".$tramo['codigo_tramo']."</td>";
+                                    echo "<td><a class='codigo-click' data-codigo=".$tramo['codigo_tramo'].">".$tramo['codigo_tramo']."</td>";
                                   }
                                   else{
                                       echo "<td><a class='codigo-click' data-codigo=".$tramo['codigo_tramo']."> ".$tramo['codigo_tramo']."</td>";

@@ -17,7 +17,7 @@
                               foreach ($servicios as $servicio){
                                   echo "<tr>";
                                   if($servicio['codigo_servicio']< 10){
-                                      echo "<td><a class='codigo-click' data-codigo=".$servicio['codigo_servicio'].">0".$servicio['codigo_servicio']."</a></td>";
+                                      echo "<td><a class='codigo-click' data-codigo=".$servicio['codigo_servicio'].">".$servicio['codigo_servicio']."</a></td>";
                                   }
                                   else{
                                       echo "<td><a class='codigo-click' data-codigo=".$servicio['codigo_servicio'].">".$servicio['codigo_servicio']."</a></td>";

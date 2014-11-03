@@ -122,12 +122,14 @@
         
             if($this->session->userdata('logged_in')){
                 
-                
-                  $this->load->library('form_validation');
+                 $this->load->library('form_validation');
 
-                  //$this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
-                  /*
-                  //$this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
+                  $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
+                  
+                  if(!isset($_POST['enable_tramo'])){
+                      $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
+                  }
+                  
                   $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
                   $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
                   $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
@@ -138,11 +140,12 @@
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
                   $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
                   $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
+                  
                   //$this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean');
                   $this->form_validation->set_rules('naviera_codigo_naviera','Naviera','required|trim|xss_clean');
-*/
+                
                   
-                if($this->form_validation->run() == FALSE){
+                  if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
                     //tipo facturacion
                     $data['tfacturacion'] = $this->Facturacion->tipo_orden();
@@ -244,7 +247,6 @@
                         $lugar_retiro = "N/A";
                     }
                     
-                    
                     $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
                     $fecha = $this->input->post('fecha');
                     $fecha_presentacion = $this->input->post('fecha_presentacion');
@@ -287,6 +289,10 @@
                         'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera'),
                         'lugar_retiro' => $lugar_retiro
                     );
+
+                    if(isset($_POST['enable_tramo'])){
+                       $orden['tramo_codigo_tramo'] = -1;
+                    }
                    
                     $tipo_ordenes = $this->Facturacion->tipo_orden();
                     foreach($tipo_ordenes as $tipo_orden){
@@ -297,8 +303,8 @@
                     }
 
     //##########################  guarda viaje y la orden. ########################## 
-                    //$this->Viaje->crear_viaje($viaje);
-		            //$this->Orden_model->insert_orden($orden);
+                    $this->Viaje->crear_viaje($viaje);
+		    $this->Orden_model->insert_orden($orden);
                     $i = 0;
                                     
                     $num_orden = $codigo[0]['id_orden'] + 1;
@@ -327,15 +333,13 @@
                                $i = $i + 1;
                                $id_detalle = $id_detalle + 1;
     //########################## guarda uno a uno los detalles. ########################## 
-                             //$this->Detalle->guardar_detalle($detalle);
+                               $this->Detalle->guardar_detalle($detalle);
                             }
                     }
-                echo "<pre>";
-                print_r($_POST);
-                echo "<pre />";
-                //$this->session->set_flashdata('sin_orden','La orden se ha creado con éxito');
-                //redirect('transacciones/orden/index','refresh');
-                $this->load->view('prueba')
+
+                $this->session->set_flashdata('sin_orden','La orden se ha creado con éxito');
+                redirect('transacciones/orden/index','refresh');
+                $this->load->view('prueba');
                 }
             }
             
