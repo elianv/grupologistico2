@@ -4,6 +4,7 @@
 	
 	<div style="margin-left: 10px">
             <?php 
+            
                 if(validation_errors()){
                     echo "<div class='alert alert-info '>";
                     echo "<a class='close' data-dismiss='alert'>×</a>";
@@ -125,7 +126,7 @@
                 </label>
             </div>
             
-            <div class="control-group tramo">
+            <div class="control-group tramo" >
                 <label class="control-label" for="tramo"><strong>Tramo</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="tramo" name="tramo_codigo_tramo" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-tramo"><i class="icon-search"></i></button></div>
@@ -262,7 +263,7 @@
                 </div>
             </div>
 
-            <div class="control-group destino">
+            <div class="control-group destino" style="display:;" id="destino">
                 <label class="control-label" for="destino"><strong>Puerto Destino</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="destino" name="destino" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-destino"><i class="icon-search"></i></button></div>

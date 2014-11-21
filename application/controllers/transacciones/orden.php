@@ -121,7 +121,7 @@
     function guardar(){
         
             if($this->session->userdata('logged_in')){
-                
+               
                  $this->load->library('form_validation');
 
                   $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
@@ -133,7 +133,11 @@
                   $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
                   $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
                   $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
-                  $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
+                  if($_POST['tipo_orden'] != "NACIONAL" &&  $_POST['tipo_orden'] != "OTRO SERVICIO"){
+                      $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
+                   
+                  }
+                  
                   $this->form_validation->set_rules('proveedor_rut_proveedor','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
                   $this->form_validation->set_rules('tipo_carga_codigo_carga','Carga','trim|xss_clean|required|callback_check_carga');
                   $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
@@ -247,6 +251,14 @@
                         $lugar_retiro = "N/A";
                     }
                     
+                    if($_POST['tipo_orden'] == "NACIONAL"){
+                         $destino[0] = -1;
+                        
+                    }   
+                    if($_POST['tipo_orden'] == "OTRO SERVICIO"){
+                        $destino[0] = -1 ;
+                    }
+                    
                     $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
                     $fecha = $this->input->post('fecha');
                     $fecha_presentacion = $this->input->post('fecha_presentacion');
@@ -338,8 +350,8 @@
                     }
 
                 $this->session->set_flashdata('sin_orden','La orden se ha creado con éxito');
-                redirect('transacciones/orden/index','refresh');
-                $this->load->view('prueba');
+                redirect('transacciones/orden/index');
+                //$this->load->view('prueba');
                 }
             }
             
