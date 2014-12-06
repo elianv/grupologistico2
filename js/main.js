@@ -403,9 +403,19 @@ $('#modal-servicio .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
+	if($('form.form-orden').hasClass('editar_orden'))
+	{
+		url_controller = '../../../mantencion/servicios';
+		console.log('Editando');
+	}else{
+		url_controller = '../mantencion/servicios';
+		console.log('Creando');
+	}
+	
 	$.ajax({
 		type:'post',
-		url:'../mantencion/servicios',
+		//url:'../mantencion/servicios',
+		url:url_controller,
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -562,15 +572,25 @@ $('#modal-tramo .codigo-click').click(function(e){
 	
 	var nombre = $(this).parent().next('td').text();
 	
+	if($('form.form-orden').hasClass('editar_orden'))
+	{
+		url_controller = '../../../mantencion/tramos';
+		console.log('Editando');
+	}else{
+		url_controller = '../mantencion/tramos';
+		console.log('Creando');
+	}
+	
 	$.ajax({
 		type:'post',
-		url:'../mantencion/tramos',
+		//url:'../mantencion/tramos',
+		url:url_controller,
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
 		success:function(response) {
 			console.log(response);
-			$('.form-orden #tramo').val(response[0].codigo_tramo);
+			$('.form-orden #tramo').val(response[0].codigo_tramo+' - '+response[0].descripcion);
 			$('.form-orden #valor_costo_tramo').val(response[0].valor_costo);
 			$('.form-orden #valor_venta_tramo').val(response[0].valor_venta);
 		}
@@ -738,17 +758,27 @@ $('#modal-conductor .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
+	if($('form.form-orden').hasClass('editar_orden'))
+	{
+		url_controller = '../../../mantencion/conductores';
+		console.log('Editando');
+	}else{
+		url_controller = '../mantencion/conductores';
+		console.log('Creando');
+	}
+	
 	$.ajax({
 		type:'post',
-		url:'../mantencion/conductores',
+		//url:'../mantencion/conductores',
+		url:url_controller,
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
 		success:function(response) {
 			console.log(response);
 			$('#conductor').val(response[0].rut);
-			$('#nombre_conductor').val(response[0].descripcion);
-			$('#telefono_conductor').val(response[0].telefono);
+			$('.nombre-conductor').val(response[0].descripcion);
+			$('.telefono-conductor').val(response[0].telefono);
 		}
 	});
 	
@@ -768,15 +798,25 @@ $('#modal-camion .codigo-click').click(function(e){
 
 	e.preventDefault();
 	
+	if($('form.form-orden').hasClass('editar_orden'))
+	{
+		url_controller = '../../../mantencion/camiones';
+		console.log('Editando');
+	}else{
+		url_controller = '../mantencion/camiones';
+		console.log('Creando');
+	}
+	
 	$.ajax({
 		type:'post',
-		url:'../mantencion/camiones',
+		//url:'../mantencion/camiones',
+		url:url_controller,
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
 		success:function(response) {
-			$('.form-orden #camion_id').val(response[0].camion_id);
-			$('.form-orden #patente').val(response[0].patente);
+			$('#camion_camion_id').val(response[0].camion_id);
+			$('#patente').val(response[0].patente);
 		}
 	});
 	

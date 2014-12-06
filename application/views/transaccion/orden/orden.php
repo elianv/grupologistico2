@@ -389,7 +389,7 @@
         <div class="control-group">
             <label class="control-label" for="rut"><strong>Tel&eacute;fono Conductor</strong></label>
             <div class="controls">
-                <input class="nombre-conductor"  type="text" value="<?php echo $conductor[0]['telefono']; ?>" disabled="disabled"/>
+                <input class="telefono-conductor"  type="text" value="<?php echo $conductor[0]['telefono']; ?>" disabled="disabled"/>
             </div>
         </div>
                
