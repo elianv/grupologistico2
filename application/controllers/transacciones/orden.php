@@ -617,7 +617,7 @@
                     }
                     
                     //echo "<pre> POST :".print_r($_POST)." hasta:".$hasta." Desde:".$desde."</pre>";
-                    $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],$_POST['cliente']);
+                    $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],  strtoupper($_POST['cliente']));
                     
                     $i=0;
                     foreach ($query as $orden){
