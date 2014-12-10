@@ -23,7 +23,7 @@
             }
         ?>
         
-		<form class="form-horizontal form-orden" method="post">
+		<form class="form-horizontal form-orden editar_orden" method="post">
 			<fieldset>  
 			<div class="row show-grid">
 				<div class="span5">
