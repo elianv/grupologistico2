@@ -20,9 +20,9 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="cliente"><strong>Raz&oacute;n Social Cliente</strong></label>
+                            <label class="control-label" for="cliente_razon"><strong>Raz&oacute;n Social Cliente</strong></label>
                                 <div class="controls">
-                                    <input type="text" class="large" name="cliente" id="cliente" placeholder="Nombre cliente">
+                                    <input type="text" class="large" name="cliente" id="cliente_razon" placeholder="Nombre cliente">
                                 </div>
                         </div> 
 
