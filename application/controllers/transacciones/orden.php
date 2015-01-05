@@ -824,7 +824,7 @@
                     $this->load->view('modal/modal_deposito',$data);
                     $this->load->view('modal/modal_nave',$data);
                     $this->load->view('modal/modal_naves',$data);
- 
+                $this->load->view('include/ready');
                 $this->load->view('include/script');
             }
             else{
