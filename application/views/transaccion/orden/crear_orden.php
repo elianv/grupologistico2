@@ -121,11 +121,12 @@
             <div class="control-group" id="check_tramo" style="display:none;">
                 <label class="control-label"></label>
                 <div class="checkbox">
-                        <input type="checkbox" name="enable_tramo" value="1">      En caso de usar un Tramo selecciones esta opci&oacute;n
+                        <input type="checkbox" name="enable_tramo" id="enable_tramo" value="1" onclick="check();"/>      En caso de usar un Tramo selecciones esta opci&oacute;n
                 </div>
                 </label>
             </div>
-            
+
+            <div style="display:none;" id="select_tramo">
             <div class="control-group tramo" >
                 <label class="control-label" for="tramo"><strong>Tramo</strong></label>
                 <div class="controls">
@@ -150,6 +151,7 @@
                 </div>
             </div>
              </div>
+         </div>
          </div>
 
                </br>

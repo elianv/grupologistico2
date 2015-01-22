@@ -1102,9 +1102,10 @@ function cambioOrden(sel) {
 	  if(sel.value=="OTRO SERVICIO"){
 		  divC = document.getElementById("check_tramo");
 		  divC.style.display="";
-                  
+
           divA = document.getElementById("destino");
           divA.style.display="none";
+
 	  }
 	  if(sel.value=="NACIONAL"){
 		  divC = document.getElementById("check_tramo");
@@ -1113,6 +1114,20 @@ function cambioOrden(sel) {
           divA = document.getElementById("destino");
           divA.style.display="none";
 	  }
-	  
-	  
+
+}
+
+function check(){
+
+	if(document.getElementById("enable_tramo").checked){
+		divChecked = document.getElementById("select_tramo");
+		divChecked.style.display = "";
+
+	}
+	else{
+		divChecked = document.getElementById("select_tramo");
+		divChecked.style.display = "none";
+
+	}
+
 }

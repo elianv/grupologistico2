@@ -133,12 +133,13 @@
             <div class="control-group" id="check_tramo" style="display:none;">
                 <label class="control-label"></label>
                 <div class="checkbox">
-                        <input type="checkbox" name="enable_tramo" value="1">      En caso de usar un Tramo selecciones esta opci&oacute;n
+                        <input type="checkbox" name="enable_tramo" id="enable_tramo" value="1" onclick="check();"/>      En caso de usar un Tramo selecciones esta opci&oacute;n
                 </div>
                 </label>
             </div>
 
-            <div class="control-group tramo">
+            <div style="display:none;" id="select_tramo">
+            <div class="control-group tramo" >
                 <label class="control-label" for="tramo"><strong>Tramo</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" class="input-xxlarge" id="tramo" name="tramo_codigo_tramo" value="<?php echo $tramo[0]['codigo_tramo']." - ".$tramo[0]['descripcion']; ?>"><button class="btn" type="button" data-toggle="modal" href="#modal-tramo"><i class="icon-search"></i></button></div>
@@ -162,6 +163,7 @@
                 </div>
             </div>
              </div>
+         </div>
          </div>
 
                </br>
