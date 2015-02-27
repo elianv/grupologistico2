@@ -1218,7 +1218,7 @@
                     $this->pdf->Cell(61,6,':   '.$orden[0]['cliente']['rut_cliente'],'0',1,'L',0);
                    
                     for($i = 0;$i < $orden[0]['num_servicios']; $i++ ){
-                        $this->pdf->Cell(60,6,  utf8_decode(Descripción),'0',0,'L',0);
+                        $this->pdf->Cell(60,6,  utf8_decode(Descripcion),'0',0,'L',0);
                         $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['detalle'][$i]['datos']['descripcion']),'0',1,'L',0);
                     }
                     
@@ -1239,7 +1239,7 @@
                     $this->pdf->Ln(10);
                     $this->pdf->Cell(60,6,'Carga','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['carga']['descripcion']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,  utf8_decode(Mercadería),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Mercaderia),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['mercaderia']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Contenedor','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['numero']),'0',1,'L',0);
@@ -1247,11 +1247,11 @@
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['peso']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Set Point','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentación),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentacion),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['fecha_presentacion']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['nombre']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,  utf8_decode(Dirección).' Bodega','0',0,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Direccion).' Bodega','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['direccion']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Contacto Bodega','0',0,'L',0);
                     $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['bodega']['contacto']),'0',0,'L',0);

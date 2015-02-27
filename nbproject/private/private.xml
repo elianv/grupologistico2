@@ -3,9 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/grupologistico2/application/views/transaccion/orden/orden.php</file>
-            <file>file:/var/www/html/grupologistico2/application/views/transaccion/orden/editar_orden.php</file>
-            <file>file:/var/www/html/grupologistico2/application/controllers/transacciones/orden.php</file>
+            <file>file:/var/www/grupologistico/grupologistico2/application/views/transaccion/orden/imprimir_orden.php</file>
         </group>
     </open-files>
 </project-private>
