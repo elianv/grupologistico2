@@ -1078,8 +1078,8 @@ function cambioOrden(sel) {
 		   divB = document.getElementById("check_tramo");
 		   divB.style.display="none";
                    
-                   divA = document.getElementById("destino");
-                   divA.style.display="";
+		   divA = document.getElementById("destino");
+           divA.style.display="";
 
 	  }
 	  if(sel.value=="IMPORTACION"){
@@ -1096,14 +1096,14 @@ function cambioOrden(sel) {
 		   divB = document.getElementById("check_tramo");
 		   divB.style.display="none";
                    
-           divA = document.getElementById("destino");
+           divA = document.getElementById("p_destino");
            divA.style.display="";
 	  }
 	  if(sel.value=="OTRO SERVICIO"){
 		  divC = document.getElementById("check_tramo");
 		  divC.style.display="";
 
-          divA = document.getElementById("destino");
+          divA = document.getElementById("p_destino");
           divA.style.display="none";
 
 	  }
@@ -1111,7 +1111,7 @@ function cambioOrden(sel) {
 		  divC = document.getElementById("check_tramo");
 		  divC.style.display="none";
                   
-          divA = document.getElementById("destino");
+          divA = document.getElementById("p_destino");
           divA.style.display="none";
 	  }
 
