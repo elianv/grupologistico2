@@ -405,7 +405,7 @@ $('#modal-servicio .codigo-click').click(function(e){
 	
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/servicios';
+		url_controller = '../../../../mantencion/servicios';
 		console.log('Editando');
 	}else{
 		url_controller = '../mantencion/servicios';
@@ -508,11 +508,11 @@ $('#modal-aduana .codigo-click').click(function(e){
 	
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/agencias';
 		console.log('Editando');
+		url_controller = '../../../../mantencion/agencias';
 	}else{
-		url_controller = '../mantencion/agencias';
 		console.log('Creando');
+		url_controller = '../mantencion/agencias';
 	}
 
 	e.preventDefault();
@@ -574,7 +574,7 @@ $('#modal-tramo .codigo-click').click(function(e){
 	
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/tramos';
+		url_controller = '../../../../mantencion/tramos';
 		console.log('Editando');
 	}else{
 		url_controller = '../mantencion/tramos';
@@ -656,7 +656,7 @@ $('#modal-bodega .codigo-click').click(function(e){
 	
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/bodegas';
+		url_controller = '../../../../mantencion/bodegas';
 		console.log('Editando');
 	}else{
 		url_controller = '../mantencion/bodegas';
@@ -760,7 +760,7 @@ $('#modal-conductor .codigo-click').click(function(e){
 	
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/conductores';
+		url_controller = '../../../../mantencion/conductores';
 		console.log('Editando');
 	}else{
 		url_controller = '../mantencion/conductores';
@@ -800,7 +800,7 @@ $('#modal-camion .codigo-click').click(function(e){
 	
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/camiones';
+		url_controller = '../../../../mantencion/camiones';
 		console.log('Editando');
 	}else{
 		url_controller = '../mantencion/camiones';

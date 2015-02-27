@@ -23,7 +23,7 @@
             }
         ?>
         
-		<form class="form-horizontal form-orden editar_orden" method="post">
+		<form class="form-horizontal form-orden" method="post">
 			<fieldset>  
 			<div class="row show-grid">
 				<div class="span5">
@@ -126,7 +126,7 @@
                 </label>
             </div>
 
-            <div style="display:none;" id="select_tramo">
+            <div style="display:...;" id="select_tramo">
             <div class="control-group tramo" >
                 <label class="control-label" for="tramo"><strong>Tramo</strong></label>
                 <div class="controls">
