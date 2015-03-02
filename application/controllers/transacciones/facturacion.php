@@ -3,7 +3,7 @@ class Facturacion extends CI_Controller{
     
     function __construct() {
         parent::__construct();
-        $this->load->model('transacciones/Facturacion_model');
+        $this->load->model('transacciones/facturacion_model');
         $this->load->model('transacciones/orden_model');
     }
     
@@ -11,8 +11,8 @@ class Facturacion extends CI_Controller{
         if($this->session->userdata('logged_in')){
             
             $session_data = $this->session->userdata('logged_in');
-            $resultado = $this->Facturacion_model->ultimo_numero();
-            $data['tablas'] = $this->Facturacion_model->listar_facturas();
+            $resultado = $this->facturacion_model->ultimo_numero();
+            $data['tablas'] = $this->facturacion_model->listar_facturas();
             //listado clientes
             $data['ordenes'] = $this->orden_model->listar_ordenes();
             
