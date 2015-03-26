@@ -6,18 +6,16 @@
         
         <div class="row show-grid">
             <div class="span5">
-
-                <div class="control-group">
-                    <label class="control-label" for="nula"><strong>¿Factura Nula?</strong></label>
-                    <div class="controls">
-                        <label class="checkbox inline">
-                            <input type="checkbox" id="nula" name="nula[]" value=1>Si</label>
-                        </label>
-                    </div>
-                </div>
               
                 <div class="control-group">
-                    <label class="control-label" for="numero_factura"><strong>Factura N°</strong></label>
+						<label class="control-label"><strong>Factura N°</strong></label>
+						<div class="controls">
+							<input type="text" class="input-large" name="guia_despacho[]" id="numero_factura" placeholder="Solo números">
+						</div>
+		</div>
+                
+                <div class="control-group">
+                    <label class="control-label" for="numero_factura"><strong>Orden Servicio</strong></label>
                     <div class="controls">
                     <div class="input-append">
 						<input type="text" class="span2" id="cliente" name="cliente_rut_cliente" placeholder="">
@@ -25,6 +23,22 @@
 					</div>
                     </div>
                 </div>
+                
+                <div class="control-group">
+                            <label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>
+                            <div class="controls">
+                            <div class="input-append">
+                                                <input type="text" class="span2" id="rut" name="proveedor_rut_proveedor" placeholder="">
+                                                <button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button></div>
+                            </div>
+                </div>
+                
+                <div class="control-group">
+						<label class="control-label"><strong>Valor</strong></label>
+						<div class="controls">
+							<input type="text" class="input-large" name="guia_despacho[]" id="numero_factura" placeholder="Solo números">
+						</div>
+					</div>
                 
                 <div class="repetir-guia">
 					<div class="control-group">
