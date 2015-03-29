@@ -262,21 +262,21 @@
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Direcci&oacute;n Bodega</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" value=" <?php echo $bodega[0]['direccion'];?>"></div>
+                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" id="direccion_bodega" value=" <?php echo $bodega[0]['direccion'];?>"></div>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Contacto Bodega</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" value=" <?php echo $bodega[0]['contacto'];?>"></div>
+                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" id="contacto_bodega" value=" <?php echo $bodega[0]['contacto'];?>"></div>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Tel&eacute;fono Bodega</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" value=" <?php echo $bodega[0]['telefono'];?>"></div>
+                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" id="telefono_bodega" value=" <?php echo $bodega[0]['telefono'];?>"></div>
                 </div>
             </div>
             
@@ -369,7 +369,7 @@
 							</div>
 						
 						</div>
-                                                <?php } ?>
+                        <?php } ?>
                                                 
                                                         <div class="boton-repetir">
                                                             <a href="#">Agregar otro Servicio <span>+</span></a>
@@ -399,7 +399,7 @@
         <div class="control-group">
             <label class="control-label" for="rut"><strong>Tel&eacute;fono Conductor</strong></label>
             <div class="controls">
-                <input class="telefono-conductor"  type="text" value="<?php echo $conductor[0]['telefono']; ?>" disabled="disabled"/>
+                <input class="telefono-conductor" id="telefono_conductor" type="text" value="<?php echo $conductor[0]['telefono']; ?>" disabled="disabled"/>
             </div>
         </div>
                

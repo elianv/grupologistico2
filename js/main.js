@@ -134,7 +134,7 @@ $('.form-orden #tipo_factura').change(function(){
 	if(filtro == 'IMPORTACION'){
 		$('.form-orden .ret label strong').text('Ret. Contenedor');
 		$('.form-orden .booking label strong').text('Tarjeton');
-		$('.form-orden .destino label strong').text('Depósito entrega');
+		$('.form-orden .destino label strong').text('Destino');
 		$('.form-orden .tramo label strong').text('Tramo');		
 	}
 	if(filtro == 'OTRO SERVICIO'){
@@ -407,7 +407,13 @@ $('#modal-servicio .codigo-click').click(function(e){
 	{
 		url_controller = '../../../../mantencion/servicios';
 		console.log('Editando');
-	}else{
+	}
+	else if($('.alert.alert-info'))
+	{
+		console.log('Con Error');
+		url_controller = '../../mantencion/servicios';
+	}
+	else{
 		url_controller = '../mantencion/servicios';
 		console.log('Creando');
 	}
@@ -454,7 +460,6 @@ $('#modal-cliente .codigo-click').click(function(e){
 		$('body').removeClass('modal-open');
 		
 		$('.modal-backdrop.fade.in').remove();
-	
 	
 	});
 
@@ -509,8 +514,14 @@ $('#modal-aduana .codigo-click').click(function(e){
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
 		console.log('Editando');
-		url_controller = '../../../../mantencion/agencias';
-	}else{
+		url_controller = '../../../mantencion/agencias';
+	}
+	else if($('.alert.alert-info'))
+	{
+		console.log('Con Error');
+		url_controller = '../../mantencion/agencias';
+	}
+	else{
 		console.log('Creando');
 		url_controller = '../mantencion/agencias';
 	}
@@ -576,7 +587,13 @@ $('#modal-tramo .codigo-click').click(function(e){
 	{
 		url_controller = '../../../../mantencion/tramos';
 		console.log('Editando');
-	}else{
+	}
+	else if($('.alert.alert-info'))
+	{
+		console.log('Con Error');
+		url_controller = '../../mantencion/tramos';
+	}
+	else{
 		url_controller = '../mantencion/tramos';
 		console.log('Creando');
 	}
@@ -656,9 +673,15 @@ $('#modal-bodega .codigo-click').click(function(e){
 	
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../../mantencion/bodegas';
+		url_controller = '../../../mantencion/bodegas';
 		console.log('Editando');
-	}else{
+	}
+	else if($('.alert.alert-info'))
+	{
+		console.log('Con Error');
+		url_controller = '../../mantencion/bodegas';
+	}
+	else{
 		url_controller = '../mantencion/bodegas';
 		console.log('Creando');
 	}
@@ -744,7 +767,7 @@ $('#modal-conductor .codigo-click').click(function(e){
 	$('.form-orden .nombre-conductor').val(nombre);
 	
 	$('#modal-conductor').fadeOut('fast',function(){
-	
+	ent
 		$('body').removeClass('modal-open');
 		
 		$('.modal-backdrop.fade.in').remove();
@@ -760,12 +783,18 @@ $('#modal-conductor .codigo-click').click(function(e){
 	
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../../mantencion/conductores';
+		url_controller = '../../../mantencion/conductores';
 		console.log('Editando');
+	}
+	else if($('.alert.alert-info'))
+	{
+		console.log('Con Error');
+		url_controller = '../../mantencion/conductores';
 	}else{
 		url_controller = '../mantencion/conductores';
 		console.log('Creando');
 	}
+	//Ejemplo con error
 	
 	$.ajax({
 		type:'post',
@@ -778,7 +807,7 @@ $('#modal-conductor .codigo-click').click(function(e){
 			console.log(response);
 			$('#conductor').val(response[0].rut);
 			$('.nombre-conductor').val(response[0].descripcion);
-			$('.telefono-conductor').val(response[0].telefono);
+			$('#telefono_conductor').val(response[0].telefono);
 		}
 	});
 	
@@ -802,7 +831,13 @@ $('#modal-camion .codigo-click').click(function(e){
 	{
 		url_controller = '../../../../mantencion/camiones';
 		console.log('Editando');
-	}else{
+	}
+	else if($('.alert.alert-info'))
+	{
+		console.log('Con Error');
+		url_controller = '../../mantencion/camiones';
+	}
+	else{
 		url_controller = '../mantencion/camiones';
 		console.log('Creando');
 	}
@@ -1085,7 +1120,7 @@ function cambioOrden(sel) {
 	  if(sel.value=="IMPORTACION"){
 
 		   divC = document.getElementById("form_deposito");
-		   divC.style.display="none";
+		   divC.style.display="";
 
 		   divT = document.getElementById("form_lugar_retiro");
 		   divT.style.display = "";

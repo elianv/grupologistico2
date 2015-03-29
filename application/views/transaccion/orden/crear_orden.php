@@ -79,7 +79,7 @@
             <div class="control-group booking">
                 <label class="control-label" for="booking"><strong>Booking</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-xxlarge" id="booking" name="booking" placeholder="">
+                    <input type="text" class="input-xxlarge" id="booking" name="booking" value="<?php echo set_value('booking'); ?>">
                 </div>
             </div>
 
@@ -93,7 +93,7 @@
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Contacto Aduana</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-xxlarge" id="contacto" disabled="disabled" name="contacto_aduana">
+                    <input type="text" class="input-xxlarge" id="contacto" disabled="disabled" name="contacto">
                 </div>
             </div>
             
@@ -268,7 +268,7 @@
             <div class="control-group destino" style="display:;" id="p_destino">
                 <label class="control-label" for="destino"><strong>Puerto Destino</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" name="destino" value="<?php echo set_value('destino'); ?>" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-destino"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" name="destino" id="destino" value="<?php echo set_value('destino'); ?>" placeholder=""><button class="btn" type="button" data-toggle="modal" href="#modal-destino"><i class="icon-search"></i></button></div>
                   </div>
             </div>
 
