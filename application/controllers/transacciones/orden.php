@@ -803,9 +803,9 @@
                     //listar Naves
                     $data['naves'] = $this->Naves_model->listar_naves();
                     $data['navieras'] = $this->Navieras_model->listar_navieras();
-                    echo "<pre>";
-                    print_r($datos);
-                    echo "</pre>";
+                    //echo "<pre>";
+                    //print_r($datos);
+                    //echo "</pre>";
                 $this->load->view('include/head',$datos);
                 $this->load->view('transaccion/orden/orden',$datos);
                 
