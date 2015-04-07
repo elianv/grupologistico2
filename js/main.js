@@ -585,7 +585,7 @@ $('#modal-tramo .codigo-click').click(function(e){
 	
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../../mantencion/tramos';
+		url_controller = '../../../mantencion/tramos';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
@@ -1140,6 +1140,9 @@ function cambioOrden(sel) {
 
           divA = document.getElementById("p_destino");
           divA.style.display="none";
+
+		  divB = document.getElementById("select_tramo");
+		  divB.style.display="none";
 
 	  }
 	  if(sel.value=="NACIONAL"){
