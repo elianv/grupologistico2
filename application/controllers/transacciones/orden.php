@@ -137,12 +137,17 @@
                       $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
                    
                   }
+
+                  if($_POST['tipo_orden'] != "IMPORTACION"){
+                    $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
+                  }
+
                   
                   $this->form_validation->set_rules('proveedor_rut_proveedor','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
                   $this->form_validation->set_rules('tipo_carga_codigo_carga','Carga','trim|xss_clean|required|callback_check_carga');
                   $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
                   $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
-                  $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
+
                   $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
                   
                   //$this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean');
@@ -220,44 +225,42 @@
                     else{
                         $id_viaje = $ultimo_viaje[0]['id_viaje'] + 1;
                     }
-                       
-                    
+
+                    $camion = $this->Camiones_model->datos_camion($this->input->post('patente'));
+
                     $viaje = array(
-                                'camion_camion_id' => $this->input->post('camion_camion_id'),
+                                'camion_camion_id' => $camion[0]['camion_id'],
                                 'conductor_rut' => $this->input->post('conductor_rut'),
                                 'id_viaje' => $id_viaje
                             );
-    
+
                     $aduana = explode(' - ', $this->input->post('aduana_codigo_aduana'));
                     $nave = explode(' - ',  $this->input->post('nave_codigo_nave'));
                     $bodega = explode(' - ',  $this->input->post('bodega_codigo_bodega'));
                     $destino = explode(' - ',  $this->input->post('destino'));
-                    
+                    $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
                     $carga = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
                     
                     if($_POST['tipo_orden'] == "EXPORTACION"){
-                        $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
                         $puerto = explode(' - ', $this->input->post('puerto_codigo_puerto'));
                     }
                     else{
-                        $deposito[0] = 1;
+
                         $puerto[0] = 1;
                     }
+
                     if($_POST['tipo_orden'] == "IMPORTACION"){
                         $lugar_retiro = $_POST['lugar_retiro'];
-                        
+                        $deposito[0] = -1;
                     }
                     else{
                         $lugar_retiro = "N/A";
                     }
                     
-                    if($_POST['tipo_orden'] == "NACIONAL"){
+                    if($_POST['tipo_orden'] == "NACIONAL" || $_POST['tipo_orden'] == "OTRO SERVICIO" ){
                          $destino[0] = -1;
-                        
-                    }   
-                    if($_POST['tipo_orden'] == "OTRO SERVICIO"){
-                        $destino[0] = -1 ;
                     }
+
                     
                     $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
                     $fecha = $this->input->post('fecha');
@@ -316,7 +319,7 @@
 
     //##########################  guarda viaje y la orden. ########################## 
                     $this->Viaje->crear_viaje($viaje);
-		    $this->Orden_model->insert_orden($orden);
+		            $this->Orden_model->insert_orden($orden);
                     $i = 0;
                                     
                     $num_orden = $codigo[0]['id_orden'] + 1;
@@ -334,7 +337,7 @@
                     if($orden['tipo_orden_id_tipo_orden'] == 8){
                             foreach ($this->input->post('codigo_servicio') as $servicio){
                                $cod_servicio = "";
-                                $cod_servicio = explode("-",$servicio);
+                               $cod_servicio = explode("-",$servicio);
                                $detalle = array(
                                             'id_detalle' => $id_detalle,
                                             'servicio_codigo_servicio' => $servicio[0],

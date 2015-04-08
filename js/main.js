@@ -1120,7 +1120,7 @@ function cambioOrden(sel) {
 	  if(sel.value=="IMPORTACION"){
 
 		   divC = document.getElementById("form_deposito");
-		   divC.style.display="";
+		   divC.style.display="none";
 
 		   divT = document.getElementById("form_lugar_retiro");
 		   divT.style.display = "";
@@ -1144,6 +1144,9 @@ function cambioOrden(sel) {
 		  divB = document.getElementById("select_tramo");
 		  divB.style.display="none";
 
+		  divD = document.getElementById("form_deposito");
+		  divD.style.display="";
+
 	  }
 	  if(sel.value=="NACIONAL"){
 		  divC = document.getElementById("check_tramo");
@@ -1151,6 +1154,9 @@ function cambioOrden(sel) {
                   
           divA = document.getElementById("p_destino");
           divA.style.display="none";
+
+		  divB = document.getElementById("form_deposito");
+		  divB.style.display="";
 	  }
 
 }
