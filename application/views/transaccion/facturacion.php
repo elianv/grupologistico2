@@ -18,7 +18,7 @@
                     <label class="control-label" for="numero_factura"><strong>Orden Servicio</strong></label>
                     <div class="controls">
                     <div class="input-append">
-						<input type="text" class="span2" id="orden" name="orden_servicio" placeholder="">
+						<input type="text" class="span2" id="orden" name="orden_id_orden" placeholder="">
 						<button class="btn" type="button" data-toggle="modal" href="#modal-orden"><i class="icon-search"></i></button>
 					</div>
                     </div>
@@ -27,7 +27,7 @@
                 <div class="control-group">
 						<label class="control-label"><strong>Valor</strong></label>
 						<div class="controls">
-							<input type="text" class="input-large" name="valor" id="valor_despacho" placeholder="Solo números">
+							<input type="text" class="input-large" name="valor" id="detalle_id_detalle" placeholder="Solo números">
 						</div>
 					</div>
                 
