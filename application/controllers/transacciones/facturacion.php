@@ -43,12 +43,12 @@ class Facturacion extends CI_Controller{
             
             $this->load->library('form_validation');
             $this->form_validation->set_rules('numero_factura', 'Numero Factura','trim|required|xss_clean|numeric');
-            $this->form_validation->set_rules('estado','Estado','trim|xss_clean|required|callback_check_database');
+            $this->form_validation->set_rules('orden_id_orden','Orden Id','trim|xss_clean|required|callback_check_database');
                     
             if($this->form_validation->run() == FALSE){
                 $session_data = $this->session->userdata('logged_in');
-                $resultado = $this->Facturacion_model->ultimo_numero();
-                $data['tablas'] = $this->Facturacion_model->listar_facturas();
+                $resultado = $this->facturacion_model->ultimo_numero();
+                $data['tablas'] = $this->facturacion_model->listar_facturas();
                 if ($resultado[0]['numero_factura'] == ""){
                     $data['form']['numero_factura'] = 1;
                           
@@ -63,9 +63,10 @@ class Facturacion extends CI_Controller{
             }
             else{
                 $factura = array(
-                            'estado' => $this->input->post('estado')
+                            'orden_id_orden' => $this->input->post('orden_id_orden'),
+                            'estado_factura_id_estado_factura' => 1
                         );
-                $this->Facturacion_model->insertar_facturacion($factura);
+                $this->facturacion_model->insertar_facturacion($factura);
                 $this->session->set_flashdata('mensaje','Facturación guardada con éxito');
                 redirect('transacciones/facturacion','refresh');
             }
@@ -105,7 +106,7 @@ class Facturacion extends CI_Controller{
                         );
                 $numero_factura = $this->input->post('numero_factura');
                 
-                $this->Facturacion_model->modificar_facturacion($factura,$numero_factura);
+                $this->facturacion_model->modificar_facturacion($factura,$numero_factura);
 				$this->session->set_flashdata('mensaje','Factura editada con éxito');
                 redirect('transacciones/facturacion','refresh');
             }
@@ -116,7 +117,7 @@ class Facturacion extends CI_Controller{
     }
     
     function check_database($numero_factura){
-        $result = $this->Facturacion_model->factura_repetida($numero_factura);
+        $result = $this->facturacion_model->factura_repetida($numero_factura);
         
         if($result){
             
