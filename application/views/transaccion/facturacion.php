@@ -7,49 +7,54 @@
         <div class="row show-grid">
             <div class="span5">
               
-                <div class="control-group">
-						<label class="control-label"><strong>Factura N°</strong></label>
-						<div class="controls">
-							<input type="text" class="input-large" name="factura_numero" id="numero_factura" placeholder="Solo números">
-						</div>
-		</div>
+          <div class="control-group">
+						  <label class="control-label"><strong>Factura N°</strong></label>
+						  <div class="controls">
+							   <input type="text" class="input-large" name="factura_numero" id="numero_factura" placeholder="Solo números">
+						  </div>
+		      </div>
                 
-                <div class="control-group">
+          <div class="control-group">
                     <label class="control-label" for="numero_factura"><strong>Orden Servicio</strong></label>
                     <div class="controls">
-                    <div class="input-append">
-						<input type="text" class="span2" id="orden" name="orden_id_orden" placeholder="">
-						<button class="btn" type="button" data-toggle="modal" href="#modal-orden"><i class="icon-search"></i></button>
-					</div>
+                        <div class="input-append">
+        						        <input type="text" class="span2" id="orden" name="orden_id_orden" readonly="">
+        						        <a class="btn" id="search_ordenes" onclick="ordenes_servicios();" data-target="#ordenServicio" data-toggle="modal"><i class="icon-search"></i></a>
+    					           </div>
                     </div>
-                </div>
+          </div>
+
+              <div class="control-group">
+                  <label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>
+                  <div class="controls">
+                      <input type="text" class="span2" id="rut" name="proveedor_rut_proveedor" readonly="">
+                  </div>
+              </div>      
+          
+          <div id="detalles_orden">
+            
+          </div> 
                 
-                <div class="control-group">
-						<label class="control-label"><strong>Valor</strong></label>
+          <div class="control-group">
+						<label class="control-label"><strong>Valor Total</strong></label>
 						<div class="controls">
-							<input type="text" class="input-large" name="valor" id="detalle_id_detalle" placeholder="Solo números">
+							<input type="text" class="input-large" name="valor" id="valor_total" readonly="">
 						</div>
 					</div>
                 
-                <div class="repetir-guia">
-					<div class="control-group">
-						<label class="control-label"><strong>Guía Despacho</strong></label>
-						<div class="controls">
-							<input type="text" class="input-large" name="guia_despacho[]" id="numero_factura" placeholder="Solo números">
-						</div>
-					</div>
-                                        <div class="control-group">
-                                                <label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>
-                                                <div class="controls">
-                                                <div class="input-append">
-                                                        <input type="text" class="span2" id="rut" name="proveedor_rut_proveedor" placeholder="">
-                                                        <button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button></div>
-                                                </div>
-                                        </div>
-				</div>
+          <div class="repetir-guia">
+    					<div class="control-group">
+    						<label class="control-label"><strong>Guía Despacho</strong></label>
+    						<div class="controls">
+    							<input type="text" class="input-large" name="guia_despacho[]" id="numero_factura" placeholder="Solo números">
+    						</div>
+					    </div>
+
+				  </div>
 				<div class="boton-clonar">
 					<a href="#">Agregar otra guía <span>+</span></a>
 				</div>
+
 				
             </div>         
             
@@ -89,3 +94,43 @@
         </fieldset>
     </form>
 </div>
+<!-- MODAL -->
+<div class="modal fade" id="ordenServicio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title">Ordenes de Servicio</h4>
+            </div>
+            <div class="modal-body" id="ordenes">
+            </div>
+            <div class="modal-body"><div class="te"></div></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+
+<script type="text/javascript">
+    function ordenes_servicios(){
+
+      $.ajax({
+        method:"POST",
+        url:"<?php echo base_url();?>index.php/transacciones/facturacion/ordenes_servicios_ajax",
+        success: function(response){
+            $('#ordenes').html(response);
+            $('#tabla_ordenes').dataTable();
+        }
+
+      })
+      
+    };
+
+   
+</script>

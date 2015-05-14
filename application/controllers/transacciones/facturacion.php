@@ -5,6 +5,8 @@ class Facturacion extends CI_Controller{
         parent::__construct();
         $this->load->model('transacciones/facturacion_model');
         $this->load->model('transacciones/orden_model');
+        $this->load->model('utils/detalle');
+        $this->load->model('mantencion/servicios_model');
     }
     
     function index(){
@@ -29,7 +31,7 @@ class Facturacion extends CI_Controller{
             $this->load->view('include/head',$session_data);
             $this->load->view('transaccion/facturacion',$data);
             $this->load->view('include/script');
-            $this->load->view('modal/modal_orden',$data);          
+           
         }
         else{
             redirect('home','refresh');
@@ -116,6 +118,60 @@ class Facturacion extends CI_Controller{
         }
     }
     
+    function ordenes_servicios_ajax(){
+
+        if($this->session->userdata('logged_in')){
+            $data['ordenes'] = $this->orden_model->listar_ordenes();
+        
+            $this->load->view('transaccion/ajax/modal_ordenes',$data);
+        }
+        else
+            redirect('home','refresh');
+    }
+
+    function orden_servicio_ajax(){
+        if($this->session->userdata('logged_in')){
+            
+            $orden    = $this->orden_model->get_orden($this->input->post('id_orden'));
+            $detalles = $this->detalle->detalle_orden($this->input->post('id_orden'));
+            $valor    = $orden[0]['valor_venta_tramo'];          
+            $html     = '<legend>Otros Servicios</legend>';
+
+            foreach ($detalles as $detalle) {
+
+
+                $otro_servicio = $this->servicios_model->datos_servicio($detalle['servicio_codigo_servicio']);
+                $valor = $valor + $otro_servicio[0]['valor_venta'];
+
+                $html .= '<div class="control-group">';
+                $html .=    '<label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>';
+                $html .=    '<div class="controls">';
+                $html .=        '<div class="input-append">';
+                $html .=            '<input type="text" class="span2" id="rut" name="rut_proveedor_otro_servicio[]" value="">';
+                $html .=            '<a class="btn" id="search_ordenes" onclick="ordenes_servicios();" data-target="#ordenServicio" data-toggle="modal"><i class="icon-search"></i></a>';
+                $html .=        '</div>';
+                $html .=    '</div>';
+                $html .= '</div>';
+                $html .= '<div class="control-group">';
+                $html .= '<label class="control-label" for="rut"><strong>Otro Servicio</strong></label>';
+                $html .= '<div class="controls">';
+                $html .= '<input type="text" class="span3" id="rut" name="otro_servicio[]" value="'.$otro_servicio[0]['descripcion'].'">';
+                $html .= '</div></div>'; 
+            }
+
+            $salida = array('html'        => $html,
+                            'orden'       => $orden,
+                            'valor_total' => $valor
+                    );
+
+            echo json_encode($salida);
+            
+            
+        }
+        else
+            redirect('home','refresh');        
+    }
+
     function check_database($numero_factura){
         $result = $this->facturacion_model->factura_repetida($numero_factura);
         

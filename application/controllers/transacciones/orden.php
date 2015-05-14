@@ -765,20 +765,22 @@
                     $i++;
 
                 }
-                $datos['cliente'] = $this->Clientes_model->datos_cliente($datos['orden'][0]['cliente_rut_cliente']);
-                $datos['aduana'] = $this->Agencias_model->datos_aduana($datos['orden'][0]['aduana_codigo_aduana']);
-                $datos['nave'] = $this->Naves_model->datos_nave($datos['orden'][0]['nave_codigo_nave']);
-                $datos['naviera'] = $this->Navieras_model->get_naviera($datos['orden'][0]['naviera_codigo_naviera']);
-                $datos['tramo'] = $this->Tramos_model->datos_tramo($datos['orden'][0]['tramo_codigo_tramo']);
-                $datos['carga'] = $this->Cargas_model->datos_carga($datos['orden'][0]['tipo_carga_codigo_carga']);
-                $datos['bodega'] = $this->Bodegas_model->datos_bodega($datos['orden'][0]['tipo_carga_codigo_carga']);
-                $datos['deposito'] = $this->Depositos_model->datos_deposito($datos['orden'][0]['deposito_codigo_deposito']);
-                $datos['destino'] = $this->Puertos_model->datos_puerto($datos['orden'][0]['destino']);
+                $datos['cliente']         = $this->Clientes_model->datos_cliente($datos['orden'][0]['cliente_rut_cliente']);
+                $datos['aduana']          = $this->Agencias_model->datos_aduana($datos['orden'][0]['aduana_codigo_aduana']);
+                $datos['nave']            = $this->Naves_model->datos_nave($datos['orden'][0]['nave_codigo_nave']);
+                $datos['naviera']         = $this->Navieras_model->get_naviera($datos['orden'][0]['naviera_codigo_naviera']);
+                $datos['tramo']           = $this->Tramos_model->datos_tramo($datos['orden'][0]['tramo_codigo_tramo']);
+                $datos['carga']           = $this->Cargas_model->datos_carga($datos['orden'][0]['tipo_carga_codigo_carga']);
+                $datos['bodega']          = $this->Bodegas_model->datos_bodega($datos['orden'][0]['tipo_carga_codigo_carga']);
+                $datos['deposito']        = $this->Depositos_model->datos_deposito($datos['orden'][0]['deposito_codigo_deposito']);
+                $datos['destino']         = $this->Puertos_model->datos_puerto($datos['orden'][0]['destino']);
                 $datos['puerto_embarque'] = $this->Puertos_model->datos_puerto($datos['orden'][0]['puerto_codigo_puerto']);
-                $datos['proveedor'] = $this->Proveedores_model->datos_proveedor($datos['orden'][0]['proveedor_rut_proveedor']);
-                $datos['viaje'] = $this->Viaje->seleccionar_viaje($datos['orden'][0]['viaje_id_viaje']);
-                $datos['conductor'] = $this->Conductores_model->datos_conductor($datos['viaje'][0]['conductor_rut']);
-                $datos['camion'] = $this->Camiones_model->getCamion($datos['viaje'][0]['camion_camion_id']);
+                $datos['proveedor']       = $this->Proveedores_model->datos_proveedor($datos['orden'][0]['proveedor_rut_proveedor']);
+                $datos['viaje']           = $this->Viaje->seleccionar_viaje($datos['orden'][0]['viaje_id_viaje']);
+                $datos['conductor']       = $this->Conductores_model->datos_conductor($datos['viaje'][0]['conductor_rut']);
+                $datos['camion']          = $this->Camiones_model->getCamion($datos['viaje'][0]['camion_camion_id']);
+                
+                
                 
                     $data['tfacturacion'] = $this->Facturacion->tipo_orden();
                     //listado clientes
