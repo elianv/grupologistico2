@@ -28,38 +28,20 @@
       <file leaf-file-name="orden.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/transacciones/orden.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.851852" vertical-offset="3298" max-vertical-offset="5688">
-              <caret line="826" column="42" selection-start-line="826" selection-start-column="42" selection-end-line="826" selection-end-column="42" />
+            <state vertical-scroll-proportion="-17.28" vertical-offset="2256" max-vertical-offset="23520">
+              <caret line="261" column="21" selection-start-line="261" selection-start-column="21" selection-end-line="261" selection-end-column="21" />
               <folding>
-                <element signature="n#guardar#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#editar#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#editar_orden#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#eliminar_orden#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#imprimir_orden#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#pdf#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_cliente#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_tramo#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_aduana#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_bodega#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_puerto#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_destino#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_proveedor#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_servicio#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_conductor#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_patente#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_carga#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_deposito#0;n#Orden#0;n#!!top" expanded="false" />
-                <element signature="n#check_nave#0;n#Orden#0;n#!!top" expanded="false" />
+                <element signature="n#index#0;n#Orden#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ready.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/include/ready.php">
+      <file leaf-file-name="camiones_model.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/models/mantencion/camiones_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="378">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="-20.2" vertical-offset="679" max-vertical-offset="1568">
+              <caret line="74" column="33" selection-start-line="74" selection-start-column="33" selection-end-line="74" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -68,30 +50,10 @@
       <file leaf-file-name="crear_orden.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/crear_orden.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32608697" vertical-offset="2037" max-vertical-offset="7182">
-              <caret line="129" column="14" selection-start-line="129" selection-start-column="14" selection-end-line="129" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.056603774" vertical-offset="5536" max-vertical-offset="6384">
+              <caret line="349" column="20" selection-start-line="349" selection-start-column="20" selection-end-line="349" selection-end-column="20" />
               <folding>
-                <element signature="n#style#0;n#div#8;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#9;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="orden.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/orden.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.666667" vertical-offset="2196" max-vertical-offset="7740">
-              <caret line="135" column="112" selection-start-line="135" selection-start-column="95" selection-end-line="135" selection-end-column="112" />
-              <folding>
-                <element signature="n#style#0;n#div#8;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#9;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-                <marker date="1421890550476" expanded="true" signature="11504:11517" placeholder="..." />
-                <marker date="1421890550476" expanded="true" signature="11622:11631" placeholder="..." />
-                <marker date="1421890550476" expanded="true" signature="12374:12383" placeholder="..." />
-                <marker date="1421890550476" expanded="true" signature="12499:12512" placeholder="..." />
-                <marker date="1421890550476" expanded="true" signature="15341:15350" placeholder="..." />
-                <marker date="1421890550476" expanded="true" signature="15462:15475" placeholder="..." />
+                <element signature="n#style#0;n#div#16;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -100,9 +62,26 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="19583" max-vertical-offset="20484">
-              <caret line="1126" column="9" selection-start-line="1126" selection-start-column="9" selection-end-line="1126" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="17867" max-vertical-offset="18912">
+              <caret line="1122" column="37" selection-start-line="1122" selection-start-column="37" selection-end-line="1122" selection-end-column="37" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orden.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/orden.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-5.6" vertical-offset="6068" max-vertical-offset="6944">
+              <caret line="388" column="20" selection-start-line="388" selection-start-column="20" selection-end-line="388" selection-end-column="20" />
+              <folding>
+                <marker date="1428370723325" expanded="true" signature="11740:11753" placeholder="..." />
+                <marker date="1428370723325" expanded="true" signature="11858:11867" placeholder="..." />
+                <marker date="1428370723325" expanded="true" signature="12619:12628" placeholder="..." />
+                <marker date="1428370723325" expanded="true" signature="12744:12757" placeholder="..." />
+                <marker date="1428370723325" expanded="true" signature="15521:15530" placeholder="..." />
+                <marker date="1428370723325" expanded="true" signature="15642:15655" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -114,6 +93,7 @@
       <list>
         <option value="$PROJECT_DIR$/application/views/transaccion/orden/orden.php" />
         <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/application/controllers/transacciones/orden.php" />
         <option value="$PROJECT_DIR$/application/views/transaccion/orden/crear_orden.php" />
       </list>
     </option>
@@ -166,6 +146,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -226,7 +207,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -244,37 +225,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="transaccion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grupologistico2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grupologistico2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="transaccion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="orden" />
+              <option name="myItemId" value="utils" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -292,11 +247,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="include" />
+              <option name="myItemId" value="mantencion" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -320,7 +275,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -328,11 +282,40 @@
     <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="FullScreen" value="false" />
   </component>
   <component name="RunManager">
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
+      <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
+      <method />
+    </configuration>
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="36649e4b-5f6a-46ef-b7b4-c4ce431d4d3d" name="Default" comment="" />
@@ -346,22 +329,22 @@
     <frame x="0" y="24" width="1920" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18210863" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -388,7 +371,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/application/controllers/transacciones/orden.php</url>
-          <line>1382</line>
+          <line>1385</line>
         </line-breakpoint>
       </breakpoints>
       <option name="time" value="1" />
@@ -396,56 +379,159 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/main.js">
+    <entry file="file://$PROJECT_DIR$/application/controllers/transacciones/orden.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="19583" max-vertical-offset="20484">
-          <caret line="1126" column="9" selection-start-line="1126" selection-start-column="9" selection-end-line="1126" selection-end-column="9" />
-          <folding />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1082" max-vertical-offset="3568">
+          <caret line="807" column="22" selection-start-line="807" selection-start-column="22" selection-end-line="807" selection-end-column="22" />
+          <folding>
+            <element signature="n#index#0;n#Orden#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/crear_orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6384">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#div#16;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/orden.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.666667" vertical-offset="2196" max-vertical-offset="7740">
-          <caret line="135" column="112" selection-start-line="135" selection-start-column="95" selection-end-line="135" selection-end-column="112" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="6068" max-vertical-offset="6944">
+          <caret line="415" column="18" selection-start-line="415" selection-start-column="18" selection-end-line="415" selection-end-column="18" />
           <folding>
-            <element signature="n#style#0;n#div#8;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#9;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-            <marker date="1421890550476" expanded="true" signature="11504:11517" placeholder="..." />
-            <marker date="1421890550476" expanded="true" signature="11622:11631" placeholder="..." />
-            <marker date="1421890550476" expanded="true" signature="12374:12383" placeholder="..." />
-            <marker date="1421890550476" expanded="true" signature="12499:12512" placeholder="..." />
-            <marker date="1421890550476" expanded="true" signature="15341:15350" placeholder="..." />
-            <marker date="1421890550476" expanded="true" signature="15462:15475" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="11740:11753" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="11858:11867" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12619:12628" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12744:12757" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15521:15530" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15642:15655" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17724" max-vertical-offset="18816">
+          <caret line="1144" column="36" selection-start-line="1144" selection-start-column="36" selection-end-line="1144" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/transacciones/orden.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.851852" vertical-offset="3298" max-vertical-offset="5688">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1082" max-vertical-offset="3568">
+          <caret line="807" column="22" selection-start-line="807" selection-start-column="22" selection-end-line="807" selection-end-column="22" />
+          <folding>
+            <element signature="n#index#0;n#Orden#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6068" max-vertical-offset="6944">
+          <caret line="415" column="18" selection-start-line="415" selection-start-column="18" selection-end-line="415" selection-end-column="18" />
+          <folding>
+            <marker date="1428370723325" expanded="true" signature="11740:11753" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="11858:11867" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12619:12628" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12744:12757" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15521:15530" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15642:15655" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="18816">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/transacciones/orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3568">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#index#0;n#Orden#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6068" max-vertical-offset="6944">
+          <caret line="415" column="18" selection-start-line="415" selection-start-column="18" selection-end-line="415" selection-end-column="18" />
+          <folding>
+            <marker date="1428370723325" expanded="true" signature="11740:11753" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="11858:11867" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12619:12628" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12744:12757" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15521:15530" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15642:15655" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17724" max-vertical-offset="18816">
+          <caret line="1144" column="36" selection-start-line="1144" selection-start-column="36" selection-end-line="1144" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/transacciones/orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3360" max-vertical-offset="5056">
           <caret line="826" column="42" selection-start-line="826" selection-start-column="42" selection-end-line="826" selection-end-column="42" />
           <folding>
-            <element signature="n#guardar#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#editar#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#editar_orden#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#eliminar_orden#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#imprimir_orden#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#pdf#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_cliente#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_tramo#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_aduana#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_bodega#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_puerto#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_destino#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_proveedor#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_servicio#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_conductor#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_patente#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_carga#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_deposito#0;n#Orden#0;n#!!top" expanded="false" />
-            <element signature="n#check_nave#0;n#Orden#0;n#!!top" expanded="false" />
+            <element signature="n#index#0;n#Orden#0;n#!!top" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/include/ready.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="336">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/crear_orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6384">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2160" max-vertical-offset="6880">
+          <caret line="135" column="112" selection-start-line="135" selection-start-column="95" selection-end-line="135" selection-end-column="112" />
+          <folding>
+            <marker date="1428370723325" expanded="true" signature="11740:11753" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="11858:11867" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12619:12628" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12744:12757" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15521:15530" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15642:15655" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="18016" max-vertical-offset="18208">
+          <caret line="1126" column="9" selection-start-line="1126" selection-start-column="9" selection-end-line="1126" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -453,17 +539,71 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="914">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/editar_orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.91780823" vertical-offset="804" max-vertical-offset="1680">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/utils/viaje.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="914">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.6" vertical-offset="6068" max-vertical-offset="6944">
+          <caret line="388" column="20" selection-start-line="388" selection-start-column="20" selection-end-line="388" selection-end-column="20" />
+          <folding>
+            <marker date="1428370723325" expanded="true" signature="11740:11753" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="11858:11867" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12619:12628" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="12744:12757" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15521:15530" placeholder="..." />
+            <marker date="1428370723325" expanded="true" signature="15642:15655" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/models/mantencion/camiones_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.2" vertical-offset="679" max-vertical-offset="1568">
+          <caret line="74" column="33" selection-start-line="74" selection-start-column="33" selection-end-line="74" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/controllers/transacciones/orden.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-17.28" vertical-offset="2256" max-vertical-offset="23520">
+          <caret line="261" column="21" selection-start-line="261" selection-start-column="21" selection-end-line="261" selection-end-column="21" />
+          <folding>
+            <element signature="n#index#0;n#Orden#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="17867" max-vertical-offset="18912">
+          <caret line="1122" column="37" selection-start-line="1122" selection-start-column="37" selection-end-line="1122" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/transaccion/orden/crear_orden.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32608697" vertical-offset="2037" max-vertical-offset="7182">
-          <caret line="129" column="14" selection-start-line="129" selection-start-column="14" selection-end-line="129" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.056603774" vertical-offset="5536" max-vertical-offset="6384">
+          <caret line="349" column="20" selection-start-line="349" selection-start-column="20" selection-end-line="349" selection-end-column="20" />
           <folding>
-            <element signature="n#style#0;n#div#8;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#9;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#16;n#fieldset#0;n#form#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
