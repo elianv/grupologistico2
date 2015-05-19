@@ -69,6 +69,10 @@
     width: 100%;
 }
 
+/*textarea*/
+
+textarea{resize:none;}
+
 /*boton-repetir*/
 
 .boton-repetir a,
@@ -122,7 +126,31 @@
 			text-align: center;
 			width: 20px;
 		}
-		
+
+.editar_orden .campo-a-repetir
+{
+    float: left;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+	.editar_orden .original .eliminar-campo
+	{
+		margin:10px 0;
+	}
+
+		.editar_orden .original .eliminar-campo a
+		{
+			display:block;
+		}
+
+.editar_orden .boton-repetir
+{
+	float: left;
+    margin-bottom: 30px;
+    width: 100%;
+}
+			
 /*03-02-2014*/
 
 .input-append .nombre-cliente
@@ -145,3 +173,17 @@
     width: auto;
 }
 
+/*Modal Custom Size*/
+
+.modal-large-custom
+{
+	margin-left: -350px;
+    width: 700px;
+}
+
+/*Detalle Orden*/
+
+#detalles_orden
+{
+	display: none;
+}

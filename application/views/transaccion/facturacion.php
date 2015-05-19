@@ -5,7 +5,7 @@
         <fieldset>
         
         <div class="row show-grid">
-            <div class="span5">
+            <div class="span6">
               
           <div class="control-group">
 						  <label class="control-label"><strong>Factura N°</strong></label>
@@ -58,7 +58,7 @@
 				
             </div>         
             
-              <div class="span6" style="margin-left: 50px">
+              <div class="span6">
                   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                       <thead>
                           <tr>
@@ -95,7 +95,7 @@
     </form>
 </div>
 <!-- MODAL -->
-<div class="modal fade" id="ordenServicio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-large-custom" id="ordenServicio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -131,6 +131,8 @@
       })
       
     };
+
+
 
    
 </script>

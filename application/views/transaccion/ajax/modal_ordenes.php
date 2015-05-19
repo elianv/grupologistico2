@@ -22,7 +22,8 @@
 <script type="text/javascript">
 	$('.tabla-ordenes .codigo-click').click(function(e){
   
-  e.preventDefault();
+  		e.preventDefault();
+  		$('#detalles_orden').hide();
   		console.log($(this).data('codigo'));
 		  	$.ajax({
 		    type:'post',
@@ -43,6 +44,8 @@
 	  	$('#ordenServicio').fadeOut('fast',function(){
 			$('body').removeClass('modal-open');
 			$('.modal-backdrop.fade.in').remove();
+
+			$('#detalles_orden').slideDown('slow');
 		
 		});
 

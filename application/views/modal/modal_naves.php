@@ -1,4 +1,4 @@
-<div id="modal-naviera" class="modal hide fade in modal-naves" style="display: none;" >
+<div id="modal-naviera" class="modal hide fade in" style="display: none;" >
 	<div class="modal-header">
 		<a data-dismiss="modal" class="close">×</a>
 		<h3><center>Seleccione una Naviera </center></h3>
