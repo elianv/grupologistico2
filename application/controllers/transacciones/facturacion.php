@@ -44,13 +44,13 @@ class Facturacion extends CI_Controller{
         if($this->session->userdata('logged_in')){
             
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('numero_factura', 'Numero Factura','trim|required|xss_clean|numeric');
+            $this->form_validation->set_rules('factura_numero', 'Numero Factura','trim|required|xss_clean|numeric');
             $this->form_validation->set_rules('orden_id_orden','Orden Id','trim|xss_clean|required|callback_check_database');
                     
             if($this->form_validation->run() == FALSE){
                 $session_data = $this->session->userdata('logged_in');
                 $resultado = $this->facturacion_model->ultimo_numero();
-                $data['tablas'] = $this->facturacion_model->listar_facturas();
+           //     $data['tablas'] = $this->facturacion_model->listar_facturas();
                 if ($resultado[0]['numero_factura'] == ""){
                     $data['form']['numero_factura'] = 1;
                           
@@ -64,10 +64,28 @@ class Facturacion extends CI_Controller{
                 $this->load->view('include/script');
             }
             else{
+                $session_data = $this->session->userdata('logged_in');
+                $resultado = $this->facturacion_model->ultimo_numero();
+           //     $data['tablas'] = $this->facturacion_model->listar_facturas();
+                if ($resultado[0]['numero_factura'] == ""){
+                    $data['form']['numero_factura'] = 1;
+                          
+                }
+                else{
+                    $data['form']['numero_factura'] = $resultado[0]['numero_factura'] + 1;
+                }
+                
                 $factura = array(
+                            'numero_factura' => $this->input->post('factura_numero'),
                             'orden_id_orden' => $this->input->post('orden_id_orden'),
-                            'estado_factura_id_estado_factura' => 1
+                            'estado_factura_id_estado_factura' => 1,
+                            'valor_total' => $this->input->post('valor'),
+                            'guia_despacho' => $this->input->post('guia_despacho')                    
                         );
+                $servicio_factura = array(
+                            'factura_numero_factura' => $this->input->post('factura_numero'),
+                            'proveedor_rut_proveedor' => $this->input->post('proveedor_rut_proveedor')           
+                        );         
                 $this->facturacion_model->insertar_facturacion($factura);
                 $this->session->set_flashdata('mensaje','Facturación guardada con éxito');
                 redirect('transacciones/facturacion','refresh');
