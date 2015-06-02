@@ -335,6 +335,7 @@
                              <textarea class="input-xxlarge" id="observacion" name="observacion" rows="3"nombre><?php echo $orden[0]['observacion']; ?></textarea>
                             </div>
                         </div>
+                        <?php if(count($detalles)){ ?>
 						<?php foreach($detalles as $detalle){ ?>
 						<div class="campo-a-repetir original">
 
@@ -367,18 +368,61 @@
 								</div>
 							 </div>
 							</div>
-							
+
 							<div class="eliminar-campo">
 								<a href="javascript:void(0);">Eliminar Servicio <span>-</span></a>
 							</div>
 						
 						</div>
-                        <?php } ?>
+                        
                                                 
-                                                        <div class="boton-repetir">
-                                                            <a href="#">Agregar otro Servicio <span>+</span></a>
-                                                        </div>
- 
+                        <div class="boton-repetir">
+                            <a href="#">Agregar otro Servicio <span>+</span></a>
+                        </div>
+                        <?php } } else {?>
+                        <div class="campo-a-repetir original">
+
+                            <div class="control-group">
+                                <label class="control-label" for="servicio"><strong>Otro Servicio</strong></label>
+                                <div class="controls">
+                                    <div class="input-append">
+                                        <input type="text" class="input-xxlarge" id="servicio" name="codigo_servicio[]" value="" readonly>
+                                                                                <input type="hidden" id="id_detalle" name="id_detalle[]" value="">
+                                        <button class="btn" type="button" data-toggle="modal" href="#modal-servicio"><i class="icon-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row show-grid">
+                                 <div class="span5">    
+                                    <div class="control-group">
+                                        <label class="control-label" for="valor_costo_servicio"><strong>Valor Costo</strong></label>
+                                        <div class="controls">
+                                        <input type="text" class="span2" id="valor_costo_servicio" name="valor_costo_servicio[]" value="">
+                                        </div>
+                                    </div>
+                                 </div>
+                            <div class="span5">
+                                <div class="control-group">
+                                    <label class="control-label" for="valor_venta_servicio"><strong>Valor Venta</strong></label>
+                                    <div class="controls">
+                                    <input type="text" class="span2" id="valor_venta_servicio" name="valor_venta_servicio[]" value="">
+                                    </div>
+                                </div>
+                             </div>
+                            </div>
+
+                            <div class="eliminar-campo">
+                                <a href="javascript:void(0);">Eliminar Servicio <span>-</span></a>
+                            </div>
+                        
+                        </div>
+                        
+                                                
+                        <div class="boton-repetir">
+                            <a href="#">Agregar otro Servicio <span>+</span></a>
+                        </div>
+                        <?php } ?>
 						
 						
                </br>
@@ -426,3 +470,4 @@
            </fieldset>
           </form>
 </div>
+

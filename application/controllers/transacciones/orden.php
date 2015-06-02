@@ -561,23 +561,23 @@
                     if(isset($_POST['codigo_servicio'])){
                     					
                             foreach ($this->input->post('codigo_servicio') as $servicio){
-                                                        $id_detalle = $this->Detalle->ultimo_codigo();
-                                                        $id_detalle[0]['id_detalle'] = $id_detalle[0]['id_detalle'] + 1;                    		
+                                $id_detalle = $this->Detalle->ultimo_codigo();
+                                $id_detalle[0]['id_detalle'] = $id_detalle[0]['id_detalle'] + 1;                    		
                                 $servicio = explode(' - ', $servicio);
-                                    $detalle = array(
-                                                                'id_detalle' => $id_detalle[0]['id_detalle'],
-                                                                'servicio_codigo_servicio' => (int)$servicio,
-                                                    'orden_id_orden'=> $num_orden,
-                                                    'valor_costo'=> $costo[$i],
-                                                    'valor_venta'=> $venta[$i]
-                                    );
-                                    $i = $i + 1;
+                                $detalle = array(
+                                    'id_detalle'               => $id_detalle[0]['id_detalle'],
+                                    'servicio_codigo_servicio' => (int)$servicio,
+                                    'orden_id_orden'           => $num_orden,
+                                    'valor_costo'              => $costo[$i],
+                                    'valor_venta'              => $venta[$i]
+                                );
+                                $i = $i + 1;
                                //guarda uno a uno los detalles.
                                $this->Detalle->guardar_detalle($detalle);
                             }
                     }
-		$this->session->set_flashdata('sin_orden','La Orden de Servicio se edito con éxito');
-                redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
+		            $this->session->set_flashdata('sin_orden','La Orden de Servicio se edito con éxito');
+                    redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
 
                 }
                 
