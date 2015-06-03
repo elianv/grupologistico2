@@ -87,6 +87,7 @@ class Facturacion extends CI_Controller{
                             'proveedor_rut_proveedor' => $this->input->post('proveedor_rut_proveedor')           
                         );         
                 $this->facturacion_model->insertar_facturacion($factura);
+                $this->facturacion_model->insertar_servicio_facturacion($servicio_factura);
                 $this->session->set_flashdata('mensaje','Facturación guardada con éxito');
                 redirect('transacciones/facturacion','refresh');
             }
