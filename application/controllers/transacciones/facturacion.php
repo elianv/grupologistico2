@@ -75,12 +75,13 @@ class Facturacion extends CI_Controller{
                     $data['form']['numero_factura'] = $resultado[0]['numero_factura'] + 1;
                 }
                 
+                $arreglo = implode(",",'guia_despacho');
                 $factura = array(
                             'numero_factura' => $this->input->post('factura_numero'),
                             'orden_id_orden' => $this->input->post('orden_id_orden'),
                             'estado_factura_id_estado_factura' => 1,
                             'valor_total' => $this->input->post('valor'),
-                            'guia_despacho' => $this->input->post('guia_despacho')                    
+                            'guia_despacho' => $arreglo                    
                         );
                 $servicio_factura = array(
                             'factura_numero_factura' => $this->input->post('factura_numero'),
