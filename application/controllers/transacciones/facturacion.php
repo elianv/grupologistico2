@@ -5,7 +5,7 @@ class Facturacion extends CI_Controller{
         parent::__construct();
         $this->load->model('transacciones/facturacion_model');
         $this->load->model('transacciones/orden_model');
-        $this->load->model('utils/detalle');
+        $this->load->model('utils/Detalle');
         $this->load->model('mantencion/servicios_model');
     }
     
@@ -29,7 +29,7 @@ class Facturacion extends CI_Controller{
               }
             
             $this->load->view('include/head',$session_data);
-            $this->load->view('transaccion/facturacion',$data);
+            $this->load->view('transaccion/facturacion/home',$data);
             $this->load->view('include/script');
            
         }
@@ -151,22 +151,22 @@ class Facturacion extends CI_Controller{
         if($this->session->userdata('logged_in')){
             
             $orden    = $this->orden_model->get_orden($this->input->post('id_orden'));
-            $detalles = $this->detalle->detalle_orden($this->input->post('id_orden'));
-            $valor    = $orden[0]['valor_venta_tramo'];          
+            $detalles = $this->Detalle->detalle_orden($this->input->post('id_orden'));
+            $valor   = $orden[0]['valor_venta_tramo'];          
             $html     = '<legend>Otros Servicios</legend>';
-
+            
             foreach ($detalles as $detalle) {
 
 
                 $otro_servicio = $this->servicios_model->datos_servicio($detalle['servicio_codigo_servicio']);
-                $valor = $valor + $otro_servicio[0]['valor_venta'];
-
+                $valor = $detalle['valor_venta'] + $valor;
+            
                 $html .= '<div class="control-group">';
                 $html .=    '<label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>';
                 $html .=    '<div class="controls">';
                 $html .=        '<div class="input-append">';
                 $html .=            '<input type="text" class="span2" id="rut" name="rut_proveedor_otro_servicio[]" value="">';
-                $html .=            '<a class="btn" id="search_ordenes" onclick="ordenes_servicios();" data-target="#ordenServicio" data-toggle="modal"><i class="icon-search"></i></a>';
+                $html .=            '<a class="btn" id="search_ordenes" onclick="proveedores();" data-target="#RutProveedores" data-toggle="modal"><i class="icon-search"></i></a>';
                 $html .=        '</div>';
                 $html .=    '</div>';
                 $html .= '</div>';

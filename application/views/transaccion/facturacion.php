@@ -94,7 +94,7 @@
         </fieldset>
     </form>
 </div>
-<!-- MODAL -->
+<!-- MODAL ORDENES-->
 <div class="modal fade modal-large-custom" id="ordenServicio" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -115,6 +115,26 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<!-- MODAL PROVEEDORES -->
+<div class="modal fade modal-large-custom" id="RutProveedores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title">Proveedores</h4>
+            </div>
+            <div class="modal-body" id="proveedores">
+            </div>
+            <div class="modal-body"><div class="te"></div></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 
 <script type="text/javascript">
@@ -131,6 +151,18 @@
       })
       
     };
+
+    function proveedores(){
+      $.ajax({
+        method:"POST",
+        url:"<?php echo base_url();?>index.php/transacciones/facturacion/proveedores_ajax",
+        success: function(response){
+            $('#proveedores').html(response);
+            $('#tabla_proveedores').dataTable();
+        }
+
+      })      
+    }
 
 
 

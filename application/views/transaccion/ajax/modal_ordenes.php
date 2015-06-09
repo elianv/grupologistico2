@@ -3,6 +3,7 @@
 	<thead>
 		<tr>
 			<th>N° Orden</th>
+			<th>Seleccionar</th>
 			<th>Cliente</th>
 			<th>Fecha</th>	
 		</tr>
@@ -11,6 +12,7 @@
 		<?php foreach ($ordenes as $orden) { ?>
 			<tr>
 				<td><a class="codigo-click" data-codigo="<?php echo $orden['id_orden']; ?>" ><?php echo $orden['id_orden']; ?></a></td>
+				<td align="center"><input type="checkbox" value="<?php echo $orden['id_orden']; ?>" name"ordenes[]"></td>
 				<td><?php echo $orden['razon_social']; ?></td>
 				<td><?php echo $orden['fecha']; ?></td>
 			</tr>
@@ -50,4 +52,12 @@
 		});
 
 	});
+	$("#seleccionar").click(function(){
+        console.log("boton seleccion");
+        var list = new Array();
+		var checkedValues = $('input:checkbox:checked').map(function() {
+		    return this.value;
+		}).get();
+		console.log(checkedValues);
+    });
 </script>

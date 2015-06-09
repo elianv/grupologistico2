@@ -132,7 +132,7 @@
                   
                   $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
                   $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
-                  $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
+                  
                   if($_POST['tipo_orden'] != "NACIONAL" &&  $_POST['tipo_orden'] != "OTRO SERVICIO"){
                       $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
                    
@@ -140,6 +140,7 @@
 
                   if($_POST['tipo_orden'] != "IMPORTACION"){
                     $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
+                    $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
                   }
 
                   
@@ -251,7 +252,7 @@
 
                     if($_POST['tipo_orden'] == "IMPORTACION"){
                         $lugar_retiro = $_POST['lugar_retiro'];
-                        $deposito[0] = -1;
+                        $deposito[0] = '-1';
                     }
                     else{
                         $lugar_retiro = "N/A";
