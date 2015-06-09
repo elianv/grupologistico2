@@ -24,6 +24,15 @@ class Facturacion_model extends CI_Model{
         }
     }
     
+    function insertar_servicio_facturacion($servicio_factura){
+        if($this->db->insert('servicio_factura',$servicio_factura)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
     function modificar_facturacion($factura,$numero_factura){
         $this->db->where('numero_factura', $numero_factura);   
         if($this->db->update('factura', $factura)){
