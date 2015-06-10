@@ -17,10 +17,10 @@
     		      </div>
                     
               <div class="control-group">
-                        <label class="control-label" for="numero_factura"><strong>Orden Servicio</strong></label>
+                        <label class="control-label" for="numero_factura"><strong>Ordenes de Servicio</strong></label>
                         <div class="controls">
                             <div class="input-append">
-            						        <input type="text" class="span2" id="orden" name="orden_id_orden" readonly="">
+            						        
             						        <a class="btn" id="search_ordenes" onclick="ordenes_servicios();" data-target="#ordenServicio" data-toggle="modal"><i class="icon-search"></i></a>
         					           </div>
                         </div>

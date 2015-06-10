@@ -8,6 +8,7 @@ class Facturacion extends CI_Controller{
         $this->load->model('utils/Detalle');
         $this->load->model('mantencion/servicios_model');
         $this->load->model('mantencion/tramos_model');
+        $this->load->model('mantencion/proveedores_model');
     }
     
     function index(){
@@ -159,14 +160,23 @@ class Facturacion extends CI_Controller{
             $detalle['total_venta']  = 0;
             $detalle['total_compra'] = 0;
             foreach ($ordenes_ as $orden) {
-                $detalle['ordenes'][$i]              = $this->orden_model->get_orden($orden);
-                $tramo                               = $this->tramos_model->datos_tramo($detalle['ordenes'][$i][0]['tramo_codigo_tramo']);
-                $detalle['ordenes'][$i]['tramo']     = $tramo[0];
-                $detalle['ordenes'][$i]['detalle']   = $this->Detalle->detalle_orden($orden);
-                $detalle['total_venta']             += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
-                $detalle['total_compra']            += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
 
-                $servicios                           = $detalle['ordenes'][$i]['detalle'];
+                $detalle['ordenes'][$i]                  = $this->orden_model->get_orden($orden);
+                $detalle['ordenes'][$i]['total_compra']  = 0;
+                $detalle['ordenes'][$i]['total_venta']   = 0;
+
+                $tramo                                   = $this->tramos_model->datos_tramo($detalle['ordenes'][$i][0]['tramo_codigo_tramo']);
+                
+                $detalle['ordenes'][$i]['tramo']         = $tramo[0];
+                $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden);
+                $detalle['total_venta']                 += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
+                $detalle['total_compra']                += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
+                
+                $detalle['ordenes'][$i]['total_compra'] += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
+                $detalle['ordenes'][$i]['total_venta']  += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
+
+                $detalle['ordenes'][$i]['proveedor']     = $this->proveedores_model->datos_proveedor($detalle['ordenes'][$i][0]['proveedor_rut_proveedor']);
+                $servicios                               = $detalle['ordenes'][$i]['detalle'];
 
                 $j = 0;
                 foreach ( $servicios as $servicio) {
@@ -175,17 +185,22 @@ class Facturacion extends CI_Controller{
                     $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
                     $detalle['total_venta']                              += $servicio['valor_venta'];
                     $detalle['total_compra']                             += $servicio['valor_costo'];
+                    $detalle['ordenes'][$i]['total_compra']              += $servicio['valor_costo'];
+                    $detalle['ordenes'][$i]['total_venta']               += $servicio['valor_venta'];
                     
                     $j ++;
                 }
 
                 $i ++;
             }
-            //print_r($detalle);
+            
+            
+            $detalle['total_compra'] = number_format($detalle['total_compra'],0,'','.');
+            $detalle['total_venta']  = number_format($detalle['total_venta'],0,'','.');
 
-            $theHTMLResponse['html'] = $this->load->view('transaccion/ajax/detalles_ordenes',$detalle,true); 
+            $theHTMLResponse['html']         = $this->load->view('transaccion/ajax/detalles_ordenes',$detalle,true); 
             $theHTMLResponse['total_compra'] = $detalle['total_compra'];
-            $theHTMLResponse['total_venta'] = $detalle['total_venta'];
+            $theHTMLResponse['total_venta']  = $detalle['total_venta'];
 
             $this->output->set_content_type('application/json');
             $this->output->set_output(json_encode($theHTMLResponse));
