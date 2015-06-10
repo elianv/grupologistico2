@@ -46,24 +46,24 @@
                   <div class="control-group">
                     <label class="control-label"><strong>Valor Total Costo</strong></label>
                     <div class="controls">
-                      <input type="text" class="input-large" name="valor" id="valor_total" readonly="">
+                      <input type="text" class="input-large" name="total_costo" id="total_costo" readonly="">
                     </div>
                   </div> 
                   <div class="control-group">
                     <label class="control-label"><strong>Valor Total Venta</strong></label>
                     <div class="controls">
-                      <input type="text" class="input-large" name="valor" id="valor_total" readonly="">
+                      <input type="text" class="input-large" name="total_venta" id="total_venta" readonly="">
                     </div>
                   </div>
               </div>
         </div>
         <br>
         <div class="row show-grid">
-            <div class="span12">
+            
               <legend>Detalles Ordenes</legend>
               <div id="detalles_orden">
               </div>  
-            </div>
+            
         </div>
         
         
@@ -146,9 +146,7 @@
       })      
     };
 
-    $("#seleccionar").click(function(){
-        console.log("boton seleccion");
-    });
+
 
 
 

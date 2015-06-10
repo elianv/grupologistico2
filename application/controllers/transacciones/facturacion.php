@@ -7,6 +7,7 @@ class Facturacion extends CI_Controller{
         $this->load->model('transacciones/orden_model');
         $this->load->model('utils/Detalle');
         $this->load->model('mantencion/servicios_model');
+        $this->load->model('mantencion/tramos_model');
     }
     
     function index(){
@@ -149,44 +150,45 @@ class Facturacion extends CI_Controller{
             redirect('home','refresh');
     }
 
-    function orden_servicio_ajax(){
+    function detalles_ordenes_ajax(){
         if($this->session->userdata('logged_in')){
             
-            $orden    = $this->orden_model->get_orden($this->input->post('id_orden'));
-            $detalles = $this->Detalle->detalle_orden($this->input->post('id_orden'));
-            $valor   = $orden[0]['valor_venta_tramo'];          
-            $html     = '<legend>Otros Servicios</legend>';
-            
-            foreach ($detalles as $detalle) {
+            $ordenes_ = $this->input->post('ordenes');
+            $i        = 0;
 
+            $detalle['total_venta']  = 0;
+            $detalle['total_compra'] = 0;
+            foreach ($ordenes_ as $orden) {
+                $detalle['ordenes'][$i]              = $this->orden_model->get_orden($orden);
+                $tramo                               = $this->tramos_model->datos_tramo($detalle['ordenes'][$i][0]['tramo_codigo_tramo']);
+                $detalle['ordenes'][$i]['tramo']     = $tramo[0];
+                $detalle['ordenes'][$i]['detalle']   = $this->Detalle->detalle_orden($orden);
+                $detalle['total_venta']             += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
+                $detalle['total_compra']            += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
 
-                $otro_servicio = $this->servicios_model->datos_servicio($detalle['servicio_codigo_servicio']);
-                $valor = $detalle['valor_venta'] + $valor;
-            
-                $html .= '<div class="control-group">';
-                $html .=    '<label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>';
-                $html .=    '<div class="controls">';
-                $html .=        '<div class="input-append">';
-                $html .=            '<input type="text" class="span2" id="rut" name="rut_proveedor_otro_servicio[]" value="">';
-                $html .=            '<a class="btn" id="search_ordenes" onclick="proveedores();" data-target="#RutProveedores" data-toggle="modal"><i class="icon-search"></i></a>';
-                $html .=        '</div>';
-                $html .=    '</div>';
-                $html .= '</div>';
-                $html .= '<div class="control-group">';
-                $html .= '<label class="control-label" for="rut"><strong>Otro Servicio</strong></label>';
-                $html .= '<div class="controls">';
-                $html .= '<input type="text" class="span3" id="rut" name="otro_servicio[]" value="'.$otro_servicio[0]['descripcion'].'">';
-                $html .= '</div></div>'; 
+                $servicios                           = $detalle['ordenes'][$i]['detalle'];
+
+                $j = 0;
+                foreach ( $servicios as $servicio) {
+
+                    $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
+                    $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
+                    $detalle['total_venta']                              += $servicio['valor_venta'];
+                    $detalle['total_compra']                             += $servicio['valor_costo'];
+                    
+                    $j ++;
+                }
+
+                $i ++;
             }
+            //print_r($detalle);
 
-            $salida = array('html'        => $html,
-                            'orden'       => $orden,
-                            'valor_total' => $valor
-                    );
+            $theHTMLResponse['html'] = $this->load->view('transaccion/ajax/detalles_ordenes',$detalle,true); 
+            $theHTMLResponse['total_compra'] = $detalle['total_compra'];
+            $theHTMLResponse['total_venta'] = $detalle['total_venta'];
 
-            echo json_encode($salida);
-            
-            
+            $this->output->set_content_type('application/json');
+            $this->output->set_output(json_encode($theHTMLResponse));
         }
         else
             redirect('home','refresh');        
