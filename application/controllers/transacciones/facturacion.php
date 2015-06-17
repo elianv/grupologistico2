@@ -210,12 +210,12 @@ class Facturacion extends CI_Controller{
     }
 
     function proveedores(){
-        //if($this->session->userdata('logged_in')){
+        if($this->session->userdata('logged_in')){
             $data['proveedores'] = $this->proveedores_model->listar_proveedores();
             $this->load->view('transaccion/ajax/proveedores',$data);
-        //}
-        //else
-        //    redirect('home','refresh');
+        }
+        else
+            redirect('home','refresh');
 
     }
 
