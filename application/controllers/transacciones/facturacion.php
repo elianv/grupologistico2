@@ -209,6 +209,16 @@ class Facturacion extends CI_Controller{
             redirect('home','refresh');        
     }
 
+    function proveedores(){
+        //if($this->session->userdata('logged_in')){
+            $data['proveedores'] = $this->proveedores_model->listar_proveedores();
+            $this->load->view('transaccion/ajax/proveedores',$data);
+        //}
+        //else
+        //    redirect('home','refresh');
+
+    }
+
     function check_database($numero_factura){
         $result = $this->facturacion_model->factura_repetida($numero_factura);
         

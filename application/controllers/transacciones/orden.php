@@ -569,8 +569,8 @@
                                     'id_detalle'               => $id_detalle[0]['id_detalle'],
                                     'servicio_codigo_servicio' => (int)$servicio,
                                     'orden_id_orden'           => $num_orden,
-                                    'valor_costo'              => $costo[$i],
-                                    'valor_venta'              => $venta[$i]
+                                    'valor_costo'              => str_replace(".", "", $costo[$i]),
+                                    'valor_venta'              => str_replace(".", "", $venta[$i])
                                 );
                                 $i = $i + 1;
                                //guarda uno a uno los detalles.
