@@ -154,7 +154,7 @@
                     $('#search_proveedores').click(function(){
                       $.ajax({
                         method:"POST",
-                        url:"<?php echo base_url();?>index.php/transacciones/facturacion/proveedores",
+                        url:"<?php echo base_url();?>index.php/transacciones/facturacion/proveedores_ajax",
                         success: function(response){
                             $('#proveedores').html(response);
                             $('#tabla_proveedores').dataTable();
