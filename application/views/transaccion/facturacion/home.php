@@ -11,7 +11,7 @@
     						  <div class="controls">
                       <div class="input-append">
         							   <input type="text" class="span2" name="factura_numero" id="numero_factura" placeholder="Solo números">
-                         <a class="btn" id="search_ordenes" onclick="facturas();" data-target="#ordenServicio" data-toggle="modal"><i class="icon-search"></i></a>
+                         <a class="btn" id="search_facturas" onclick="search_facturas();" data-target="#Facturas" data-toggle="modal"><i class="icon-search"></i></a>
                       </div>
     						  </div>
     		      </div>
@@ -98,14 +98,14 @@
 </div>
 <!-- /.modal -->
 <!-- MODAL PROVEEDORES -->
-<div class="modal fade modal-large-custom" id="RutProveedores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-large-custom" id="Facturas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                 <h4 class="modal-title">Proveedores</h4>
+                 <h4 class="modal-title">Facturas</h4>
             </div>
-            <div class="modal-body" id="proveedores">
+            <div class="modal-body" id="tabla_Facturas">
             </div>
             <div class="modal-body"><div class="te"></div></div>
             <div class="modal-footer">
@@ -131,24 +131,10 @@
             $('#tabla_ordenes').dataTable();
         }
 
-      })
+      });
     };
-
-    function proveedores(){
-      $.ajax({
-        method:"POST",
-        url:"<?php echo base_url();?>index.php/transacciones/facturacion/proveedores_ajax",
-        success: function(response){
-            $('#proveedores').html(response);
-            $('#tabla_proveedores').dataTable();
-        }
-
-      })      
+    
+    function search_facturas(){
+        console.log("hola");
     };
-
-
-
-
-
-   
 </script>

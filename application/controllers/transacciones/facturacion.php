@@ -209,7 +209,7 @@ class Facturacion extends CI_Controller{
             redirect('home','refresh');        
     }
 
-    function proveedores(){
+    function proveedores_ajax(){
         if($this->session->userdata('logged_in')){
             $data['proveedores'] = $this->proveedores_model->listar_proveedores();
             $this->load->view('transaccion/ajax/proveedores',$data);

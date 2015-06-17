@@ -5,20 +5,20 @@
                       <div class="control-group">
                         <label class="control-label"><strong>Factura Proveedor</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large" name="factura_tramo[]" id="factura_tramo" >
+                          <input type="text" class="input-large" name="factura_tramo" id="factura_tramo" >
                         </div>
                       </div>  
                       <div class="control-group">
                         <label class="control-label"><strong>Fecha Factura</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large calendario" name="fecha_factura[]" id="fecha_factura">
+                          <input type="text" class="input-large calendario" name="fecha_factura_tramo">
                         </div>
                       </div>                       
 
                       <div class="control-group">
                         <label class="control-label"><strong>Tramo</strong></label>
                         <div class="controls">
-                          <input type="text" class="span5" name="Tramo[]" id="Tramo[]" value="<?php echo $orden['tramo']['descripcion']; ?>" readonly="">
+                          <input type="text" class="span5" name="Tramo[]" id="Tramo" value="<?php echo $orden['tramo']['descripcion']; ?>" readonly="">
                         </div>
                       </div>
                       <div class="control-group">
@@ -63,33 +63,33 @@
                           <div class="control-group">
                             <label class="control-label"><strong>Factura Proveedor</strong></label>
                             <div class="controls">
-                              <input type="text" class="input-large" name="factura_otros_servicios[]" id="factura_otros_servicios" >
+                              <input type="text" class="input-large" name="factura_otros_servicios[]">
                             </div>
                           </div>    
                           <div class="control-group">
                             <label class="control-label"><strong>Fecha Factura</strong></label>
                             <div class="controls">
-                              <input type="text" class="input-large calendario" name="fecha_otros_servicios[]" id="fecha_otros_servicios" >
+                              <input type="text" class="input-large calendario" name="fecha_otros_servicios[]">
                             </div>
                           </div>  
                           <div class="control-group">
                             <label class="control-label"><strong>Descripcion</strong></label>
                             <div class="controls">
-                              <input type="text" class="span5" name="descripcion_otros_servicios[]" value="<?php echo $detalle['descripcion']; ?>" id="factura_otros_servicios" readonly>
+                              <input type="text" class="span5" name="descripcion_otros_servicios[]" value="<?php echo $detalle['descripcion']; ?>" readonly>
                             </div>
                           </div>
 
                           <div class="control-group">
                             <label class="control-label"><strong>Costo </strong></label>
                             <div class="controls">
-                              <input type="text" class="input-large" name="total_costo_otros_servicios[]" id="total_costo" value="<?php echo number_format($detalle['valor_costo'],0,'','.'); ?>" readonly="">
+                              <input type="text" class="input-large" name="total_costo_otros_servicios[]" value="<?php echo number_format($detalle['valor_costo'],0,'','.'); ?>" readonly="">
                             </div>
                           </div> 
 
                           <div class="control-group">
                             <label class="control-label"><strong>Venta </strong></label>
                             <div class="controls">
-                              <input type="text" class="input-large" name="total_venta_otros_servicios[]" id="total_venta" value="<?php echo number_format($detalle['valor_venta'],0,'','.'); ?>"  readonly="">
+                              <input type="text" class="input-large" name="total_venta_otros_servicios[]" value="<?php echo number_format($detalle['valor_venta'],0,'','.'); ?>"  readonly="">
                             </div>
                           </div>        
                           <hr>
@@ -100,14 +100,14 @@
                       <div class="control-group">
                         <label class="control-label"><strong>Total Costo</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large" name="total_costo_factura" value="<?php echo number_format($orden['total_compra'],0,'','.'); ?>" id="total_costo" readonly="">
+                          <input type="text" class="input-large" name="total_costo_factura" value="<?php echo number_format($orden['total_compra'],0,'','.'); ?>" readonly="">
                         </div>
                       </div> 
 
                       <div class="control-group">
                         <label class="control-label"><strong>Total Venta</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large" name="total_venta_factura" value="<?php echo number_format($orden['total_venta'],0,'','.'); ?>" id="total_venta" readonly="">
+                          <input type="text" class="input-large" name="total_venta_factura" value="<?php echo number_format($orden['total_venta'],0,'','.'); ?>" readonly="">
                         </div>
                       </div>                         
     </div>
