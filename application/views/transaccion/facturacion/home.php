@@ -1,7 +1,7 @@
 <div class="container">
     <legend><h3><center>Facturación</center></h3></legend> 
     <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
-    <form class="form-horizontal" method="post">
+    <form class="form-horizontal" method="post" id="target">
         <fieldset>
         
         <div class="row show-grid">
@@ -19,7 +19,7 @@
               <div class="control-group">
                         <label class="control-label" for="numero_factura"><strong>Ordenes de Servicio</strong></label>
                         <div class="controls">
-                            <div class="input-append">
+                            <div class="">
             						        
             						        <a class="btn" id="search_ordenes" onclick="ordenes_servicios();" data-target="#ordenServicio" data-toggle="modal"><i class="icon-search"></i></a>
         					           </div>
@@ -43,6 +43,13 @@
             </div>         
             
               <div class="span6">
+                  <div class="control-group">
+                    <label class="control-label"><strong>Factura Nula?</strong></label>
+                    <div class="controls">
+                      <input type="checkbox" id="nula" name="nula" value="1">
+                    </div>
+                  </div>                   
+
                   <div class="control-group">
                     <label class="control-label"><strong>Valor Total Costo</strong></label>
                     <div class="controls">
@@ -122,7 +129,7 @@
 
 <script type="text/javascript">
     function ordenes_servicios(){
-
+      $("#detalles_orden").html("");
       $.ajax({
         method:"POST",
         url:"<?php echo base_url();?>index.php/transacciones/facturacion/ordenes_servicios_ajax",
@@ -133,8 +140,17 @@
 
       });
     };
-    
+
     function search_facturas(){
-        console.log("hola");
+      $.ajax({
+        method:"POST",
+        url:"<?php echo base_url();?>index.php/transacciones/facturacion/facturas_ajax",
+        success: function(response){
+            $('#tabla_Facturas').html(response);
+            $('#tabla-facturas').dataTable();
+        }
+
+      });        
     };
+
 </script>

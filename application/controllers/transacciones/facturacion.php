@@ -219,6 +219,15 @@ class Facturacion extends CI_Controller{
 
     }
 
+    function facturas_ajax(){
+        if($this->session->userdata('logged_in')){
+            $data['facturas'] = $this->facturacion_model->listar_facturas();
+            $this->load->view('transaccion/ajax/modal_facturas',$data);
+        }
+        else
+            redirect('home','refresh');        
+    }
+
     function check_database($numero_factura){
         $result = $this->facturacion_model->factura_repetida($numero_factura);
         

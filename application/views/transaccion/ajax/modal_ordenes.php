@@ -11,7 +11,7 @@
 	<tbody>
 		<?php foreach ($ordenes as $orden) { ?>
 			<tr>
-				<td align="center"><a class="codigo-click" data-codigo="<?php echo $orden['id_orden']; ?>" ><?php echo $orden['id_orden']; ?></a></td>
+				<td><?php echo $orden['id_orden']; ?></td>
 				<td align="center"><input type="checkbox" value="<?php echo $orden['id_orden']; ?>" name"ordenes[]"></td>
 				<td><?php echo $orden['razon_social']; ?></td>
 				<td><?php echo $orden['fecha']; ?></td>
@@ -22,34 +22,10 @@
 </table>
 </div>
 <script type="text/javascript">
-/*
-	$('.tabla-ordenes .codigo-click').click(function(e){
-  
-  		e.preventDefault();
-  		$('#detalles_orden').hide();
-  		console.log($(this).data('codigo'));
-		  	$.ajax({
-		    type:'post',
-		    url:'<?php echo base_url();?>index.php/transacciones/facturacion/orden_servicio_ajax',
-		    dataType: 'json',
-		    data:{id_orden:$(this).data('codigo')},
-		    beforeSend: function(){
-		    	$('#detalles_orden').html('');
-		    },
-		    success:function(response) {
-		    	console.log(response.html);
-		      $('#orden').val(response.orden[0].id_orden);
-		      $('#rut').val(response.orden[0].proveedor_rut_proveedor);
-		      $('#valor_total').val(response.valor_total);
-		      $('#detalles_orden').html(response.html);
-		    }
-	  	});
 
-
-	});
-*/
 	$("#seleccionar").click(function(){
-        console.log("boton seleccion");
+        //console.log("boton seleccion");
+        
         var list = new Array();
 		var checkedValues = $('input:checkbox:checked').map(function() {
 		    return this.value;
@@ -64,10 +40,11 @@
 					$('#detalles_orden').html();
 				},
 				success: function(response){
-					console.log(response.total_compra);
+					//console.log(response.total_compra);
 					$('#total_costo').val(response.total_compra);
 					$('#total_venta').val(response.total_venta);
 					$('#detalles_orden').html(response.html);
+					valida = 1;
 
 				}
 		});

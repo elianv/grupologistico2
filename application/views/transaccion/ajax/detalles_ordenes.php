@@ -54,9 +54,12 @@
                           <div class="control-group">
                             <label class="control-label"><strong>Proveedor</strong></label>
                             <div class="controls">
-                              <div class="input-append">
-                                  <input type="text" class="span8" name="proveedor_servicio[]" id="proveedor_tramo" value="<?php echo $orden[0]['proveedor_rut_proveedor']." - ".$orden['proveedor'][0]['razon_social']; ?>" readonly="">
-                                  <a class="btn" id="search_proveedores" data-target="#Proveedores" data-toggle="modal"><i class="icon-search"></i></a>
+                              <div>
+                                <div class="proveedor_otros_servicios">
+                                  <input type="text" class="span8" name="proveedor_servicio[]" id="proveedor_servicio" readonly="" value="">
+                                  <a class="btn search_proveedores" data-target="#Proveedores" data-toggle="modal"><i class="icon-search"></i></a>
+                                </div>
+                                  
                               </div>
                             </div>
                           </div>                          
@@ -151,15 +154,17 @@
                     });
                   });
                     
-                    $('#search_proveedores').click(function(){
-                      $.ajax({
-                        method:"POST",
-                        url:"<?php echo base_url();?>index.php/transacciones/facturacion/proveedores_ajax",
-                        success: function(response){
-                            $('#proveedores').html(response);
-                            $('#tabla_proveedores').dataTable();
-                        }
+    
+                    $('.search_proveedores').click(function(){
+                        $(this).parent().addClass('activo');
+                        $.ajax({
+                          method:"POST",
+                          url:"<?php echo base_url();?>index.php/transacciones/facturacion/proveedores_ajax",
+                          success: function(response){
+                              $('#proveedores').html(response);
+                              $('#tabla_proveedores').dataTable();
+                          }
 
-                      })
-                    });                      
+                      });                        
+                    });       
               </script>
