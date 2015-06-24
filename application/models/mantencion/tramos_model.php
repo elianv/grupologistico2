@@ -37,6 +37,7 @@ class Tramos_model extends CI_Model{
     function listar_tramos(){
         
         $this->db->select('codigo_tramo,descripcion');
+        $this->db->where('codigo_tramo > 0');
         $resultado = $this->db->get('tramo');
         
         return $resultado->result_array();
