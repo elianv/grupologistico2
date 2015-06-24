@@ -55,6 +55,7 @@ class Puertos_model extends CI_Model{
     
     function listar_puertos(){
         $this->db->select('codigo_puerto,nombre');
+        $this->db->where('codigo_puerto > 0');
         $resultado = $this->db->get('puerto');
         
         return $resultado->result_array();
