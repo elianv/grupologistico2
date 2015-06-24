@@ -96,6 +96,19 @@ class Facturacion_model extends CI_Model{
 			return $resultado->result_array();
         
     }
+
+    function cant_clientes_orden($clientes){
+        $this->db->select('cliente_rut_cliente');
+        $this->db->from('orden');
+        foreach ($clientes as $cliente) {
+            $this->db->or_where('id_orden',$cliente);    
+        }
+        $this->db->group_by("cliente_rut_cliente"); 
+        $resultado = $this->db->get();
+
+        return $resultado->num_rows();
+        
+    }
     
 }
 

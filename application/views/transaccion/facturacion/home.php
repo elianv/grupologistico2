@@ -25,6 +25,21 @@
         					           </div>
                         </div>
               </div>
+
+                  <div class="control-group">
+                    <label class="control-label"><strong>Cliente</strong></label>
+                    <div class="controls">
+                      <input type="text" class="input-large" name="cliente_factura" id="cliente_factura_" readonly="">
+                    </div>
+                  </div>              
+
+                      <div class="control-group">
+                        <label class="control-label"><strong>Fecha Factura</strong></label>
+                        <div class="controls">
+                          <input type="text" class="input-large calendario" name="fecha_factura" id="fecha_factura">
+                        </div>
+                      </div> 
+
  
               <div class="repetir-guia">
         					<div class="control-group">
@@ -75,7 +90,7 @@
         
         
 
-        <div class="form-actions" >
+        <div class="form-actions" id="botones" >
             <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/insertar_facturacion'" value="Guardar"/>
             <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/modificar_facturacion'" value="Editar" />
         </div>    
@@ -128,6 +143,7 @@
 
 
 <script type="text/javascript">
+
     function ordenes_servicios(){
       $("#detalles_orden").html("");
       $.ajax({

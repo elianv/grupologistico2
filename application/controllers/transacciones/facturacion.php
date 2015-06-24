@@ -9,6 +9,7 @@ class Facturacion extends CI_Controller{
         $this->load->model('mantencion/servicios_model');
         $this->load->model('mantencion/tramos_model');
         $this->load->model('mantencion/proveedores_model');
+        $this->load->model('mantencion/clientes_model');
     }
     
     function index(){
@@ -155,55 +156,71 @@ class Facturacion extends CI_Controller{
         if($this->session->userdata('logged_in')){
             
             $ordenes_ = $this->input->post('ordenes');
-            $i        = 0;
+            $cant = $this->facturacion_model->cant_clientes_orden($ordenes_);
 
-            $detalle['total_venta']  = 0;
-            $detalle['total_compra'] = 0;
-            foreach ($ordenes_ as $orden) {
+            if($cant == 1){
+                    $i = 0;
 
-                $detalle['ordenes'][$i]                  = $this->orden_model->get_orden($orden);
-                $detalle['ordenes'][$i]['total_compra']  = 0;
-                $detalle['ordenes'][$i]['total_venta']   = 0;
+                    $detalle['total_venta']  = 0;
+                    $detalle['total_compra'] = 0;
+                    foreach ($ordenes_ as $orden) {
 
-                $tramo                                   = $this->tramos_model->datos_tramo($detalle['ordenes'][$i][0]['tramo_codigo_tramo']);
-                
-                $detalle['ordenes'][$i]['tramo']         = $tramo[0];
-                $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden);
-                $detalle['total_venta']                 += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
-                $detalle['total_compra']                += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
-                
-                $detalle['ordenes'][$i]['total_compra'] += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
-                $detalle['ordenes'][$i]['total_venta']  += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
+                        $detalle['ordenes'][$i]                  = $this->orden_model->get_orden($orden);
+                        $detalle['ordenes'][$i]['total_compra']  = 0;
+                        $detalle['ordenes'][$i]['total_venta']   = 0;
+                        $rut_cliente                             = $detalle['ordenes'][$i][0]['cliente_rut_cliente'];
+                        $tramo                                   = $this->tramos_model->datos_tramo($detalle['ordenes'][$i][0]['tramo_codigo_tramo']);
+                        
+                        $detalle['ordenes'][$i]['tramo']         = $tramo[0];
+                        $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden);
+                        $detalle['total_venta']                 += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
+                        $detalle['total_compra']                += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
+                        
+                        $detalle['ordenes'][$i]['total_compra'] += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
+                        $detalle['ordenes'][$i]['total_venta']  += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
 
-                $detalle['ordenes'][$i]['proveedor']     = $this->proveedores_model->datos_proveedor($detalle['ordenes'][$i][0]['proveedor_rut_proveedor']);
-                $servicios                               = $detalle['ordenes'][$i]['detalle'];
+                        $detalle['ordenes'][$i]['proveedor']     = $this->proveedores_model->datos_proveedor($detalle['ordenes'][$i][0]['proveedor_rut_proveedor']);
+                        $servicios                               = $detalle['ordenes'][$i]['detalle'];
 
-                $j = 0;
-                foreach ( $servicios as $servicio) {
+                        $j = 0;
+                        foreach ( $servicios as $servicio) {
 
-                    $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
-                    $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
-                    $detalle['total_venta']                              += $servicio['valor_venta'];
-                    $detalle['total_compra']                             += $servicio['valor_costo'];
-                    $detalle['ordenes'][$i]['total_compra']              += $servicio['valor_costo'];
-                    $detalle['ordenes'][$i]['total_venta']               += $servicio['valor_venta'];
+                            $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
+                            $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
+                            $detalle['total_venta']                              += $servicio['valor_venta'];
+                            $detalle['total_compra']                             += $servicio['valor_costo'];
+                            $detalle['ordenes'][$i]['total_compra']              += $servicio['valor_costo'];
+                            $detalle['ordenes'][$i]['total_venta']               += $servicio['valor_venta'];
+                            
+                            $j ++;
+                        }
+
+                        $i ++;
+                    }
                     
-                    $j ++;
-                }
+                    $detalle['total_compra'] = number_format($detalle['total_compra'],0,'','.');
+                    $detalle['total_venta']  = number_format($detalle['total_venta'],0,'','.');
+                    $nombre_cliente          = $this->clientes_model->datos_cliente($rut_cliente);
 
-                $i ++;
+                    $theHTMLResponse['clientes']     = 1;
+                    $theHTMLResponse['html']         = $this->load->view('transaccion/ajax/detalles_ordenes',$detalle,true); 
+                    $theHTMLResponse['total_compra'] = $detalle['total_compra'];
+                    $theHTMLResponse['total_venta']  = $detalle['total_venta'];
+                    $theHTMLResponse['cliente']      = $rut_cliente." - ".$nombre_cliente[0]['razon_social'];
+
+                    $this->output->set_content_type('application/json');
+                    $this->output->set_output(json_encode($theHTMLResponse));
             }
-            
-            
-            $detalle['total_compra'] = number_format($detalle['total_compra'],0,'','.');
-            $detalle['total_venta']  = number_format($detalle['total_venta'],0,'','.');
+            else{
+                    $theHTMLResponse['clientes']     = 0;
+                    $theHTMLResponse['html']         = '<div class="alert alert-warning alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Debe seleccionar ordenes con el mismo cliente</strong> </div>'; 
+                    $theHTMLResponse['total_compra'] = "--";
+                    $theHTMLResponse['total_venta']  = "--";
 
-            $theHTMLResponse['html']         = $this->load->view('transaccion/ajax/detalles_ordenes',$detalle,true); 
-            $theHTMLResponse['total_compra'] = $detalle['total_compra'];
-            $theHTMLResponse['total_venta']  = $detalle['total_venta'];
+                    $this->output->set_content_type('application/json');
+                    $this->output->set_output(json_encode($theHTMLResponse));
+            }
 
-            $this->output->set_content_type('application/json');
-            $this->output->set_output(json_encode($theHTMLResponse));
         }
         else
             redirect('home','refresh');        

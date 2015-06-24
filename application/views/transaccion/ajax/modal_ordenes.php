@@ -40,11 +40,20 @@
 					$('#detalles_orden').html();
 				},
 				success: function(response){
+					if(response.clientes){
+						$('#cliente_factura_').val(response.cliente);
+						$('#botones').show();
+					}
+					else{
+						$('#cliente_factura_').val("--");
+						$('#botones').hide();
+					}
 					//console.log(response.total_compra);
+					$('#detalles_orden').html(response.html);
 					$('#total_costo').val(response.total_compra);
 					$('#total_venta').val(response.total_venta);
-					$('#detalles_orden').html(response.html);
-					valida = 1;
+		
+					
 
 				}
 		});
