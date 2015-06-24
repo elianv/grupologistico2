@@ -33,6 +33,7 @@ class Depositos_model extends CI_Model{
     
     function listar_depositos(){
         $this->db->select('codigo_deposito,descripcion');
+        $this->db->where('codigo_deposito > 0');
         $resultado = $this->db->get('deposito');
         
         return $resultado->result_array();
