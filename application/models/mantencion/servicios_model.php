@@ -39,6 +39,7 @@ class Servicios_model extends CI_Model{
      function listar_servicios(){
          
          $this->db->select('codigo_servicio,descripcion');
+         $this->db->where('codigo_servicio > 0');
          $resultado = $this->db->get('servicio');
          
          return $resultado->result_array();
