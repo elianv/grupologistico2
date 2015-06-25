@@ -213,7 +213,7 @@ class Facturacion extends CI_Controller{
             }
             else{
                     $theHTMLResponse['clientes']     = 0;
-                    $theHTMLResponse['html']         = '<div class="alert alert-warning alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Debe seleccionar ordenes con el mismo cliente</strong> </div>'; 
+                    $theHTMLResponse['html']         = '<div class="alert alert-danger alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Debe seleccionar ordenes con el mismo cliente</strong> </div>'; 
                     $theHTMLResponse['total_compra'] = "--";
                     $theHTMLResponse['total_venta']  = "--";
 
