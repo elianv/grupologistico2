@@ -1,8 +1,9 @@
+
 <div class="tabla-facturas">
 <table id="tabla-facturas" class="table table-bordered table-striped dataTable">
 	<thead>
 		<tr>
-			<th>N° Factura</th>
+			<th>Factura </th>
 			<th>Cliente</th>
 			<th>Fecha</th>	
 			<th>Estado</th>
@@ -12,7 +13,7 @@
 		<?php foreach ($facturas as $factura) { ?>
 			<tr>
 				<td><a class="codigo-click" data-codigo="<?php echo $factura['numero_factura']; ?>" ><?php echo $factura['numero_factura']; ?></a></td>
-				<td><?php //echo $orden['razon_social']; ?></td>
+				<td><?php echo $factura['cliente']; ?></td>
 				<td><?php echo $factura['fecha']; ?></td>
 				<?php if($factura['estado_factura_id_estado_factura'] == 3) {?>
 					<td>Factura Nula</td>

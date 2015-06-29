@@ -35,8 +35,8 @@ class Facturacion extends CI_Controller{
             $this->form_validation->set_rules('fecha_factura', 'Fecha de la Factura','trim|required|xss_clean');
             
             if(!isset($_POST['nula'])){
-                $this->form_validation->set_rules('total_venta', 'Venta Total Factura','trim|required|xss_clean');
-                $this->form_validation->set_rules('total_costo', 'Costo Total Factura','trim|required|xss_clean');
+                $this->form_validation->set_rules('total_venta', 'Valor Total Venta','trim|required|xss_clean');
+                $this->form_validation->set_rules('total_costo', 'Valor Total Costo','trim|required|xss_clean');
                 $this->form_validation->set_rules('cliente_factura', 'Cliente','trim|required|xss_clean');                                
             }
 
@@ -242,8 +242,8 @@ class Facturacion extends CI_Controller{
             $this->form_validation->set_rules('fecha_factura', 'Fecha de la Factura','trim|required|xss_clean');
             
             if(!isset($_POST['nula'])){
-                $this->form_validation->set_rules('total_venta', 'Venta Total Factura','trim|required|xss_clean');
-                $this->form_validation->set_rules('total_costo', 'Costo Total Factura','trim|required|xss_clean');
+                $this->form_validation->set_rules('total_venta', 'Valor Total Venta','trim|required|xss_clean');
+                $this->form_validation->set_rules('total_costo', 'Valor Total Costo','trim|required|xss_clean');
                 $this->form_validation->set_rules('cliente_factura', 'Cliente','trim|required|xss_clean');                                
             }
 
@@ -329,7 +329,7 @@ class Facturacion extends CI_Controller{
                             $id_detalle              = $this->input->post('id_detalle');
 
                             $j = 0;
-                            if(isset($ordenes_detalle)){
+                            if(isset($ordenes_detalle[0])){
                                     foreach ($ordenes_detalle as $orden_detalle) {
                                         if($orden == $orden_detalle ){
                                             $fecha_otros_servicios[$j] = str_replace('/','-', $fecha_otros_servicios[$j]);
@@ -459,7 +459,24 @@ class Facturacion extends CI_Controller{
 
     function facturas_ajax(){
         if($this->session->userdata('logged_in')){
-            $data['facturas'] = $this->facturacion_model->listar_facturas();
+            $facturas = $this->facturacion_model->listar_facturas();
+            $i = 0;
+            foreach ($facturas as $factura) {
+                if($factura['estado_factura_id_estado_factura'] != 3){
+                        
+                        $ordenes = $this->facturacion_model->getOrdenes($factura['id']);
+                        $orden   = $this->orden_model->get_orden($ordenes[0]['id_orden']);
+                        $cliente = $this->clientes_model->datos_cliente($orden[0]['cliente_rut_cliente']);
+                        $facturas[$i]['cliente'] = $cliente[0]['rut_cliente']." - ".$cliente[0]['razon_social'];
+                                         
+                }
+                else{
+                    $facturas[$i]['cliente'] = "--";
+                }
+                $i++;   
+            }
+
+            $data['facturas'] = $facturas;
             $this->load->view('transaccion/ajax/modal_facturas',$data);
         }
         else
