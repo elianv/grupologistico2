@@ -2,17 +2,19 @@
   <?php foreach ($ordenes as $orden) { ?>
     <h3><b>N° Orden :<?php echo $orden[0]['id_orden'];?></b></h3>
     <div>
+
                       <input type="hidden" name="id_orden[]" value="<?php echo $orden[0]['id_orden'];?>">
                       <div class="control-group">
                         <label class="control-label"><strong>Factura Proveedor</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large" name="factura_tramo[]" id="factura_tramo" required>
+                          <input type="text" class="input-large" name="factura_tramo[]" id="factura_tramo" value="<?php echo $orden['factura_tramo'];?>" required>
                         </div>
                       </div>  
                       <div class="control-group">
                         <label class="control-label"><strong>Fecha Factura</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large calendario" name="fecha_factura_tramo[]" required>
+                        <?php $date = date_create($orden['fecha_factura']); ?>
+                          <input type="text" class="input-large calendario" name="fecha_factura_tramo[]" value="<?php echo date_format($date, 'd-m-Y'); ?>" required>
                         </div>
                       </div>                       
 
@@ -51,6 +53,7 @@
                       <?php $detalles = $orden['detalle']; ?>
                       
                       <?php foreach ($detalles as $detalle) { ?>
+
                           <input type="hidden" name="id_detalle[]" value="<?php echo $detalle['id_detalle']; ?>">
                           <input type="hidden" name="id_orden_detalle[]" value="<?php echo $orden[0]['id_orden'];?>">
                           <br />
@@ -59,7 +62,7 @@
                             <div class="controls">
                               <div>
                                 <div class="proveedor_otros_servicios">
-                                  <input type="text" class="span8" name="proveedor_servicio[]" id="proveedor_servicio" readonly="" value="" required>
+                                  <input type="text" class="span8" name="proveedor_servicio[]" id="proveedor_servicio" readonly="" value="<?php echo $detalle['proveedor']; ?>" required>
                                   <a class="btn search_proveedores" data-target="#Proveedores" data-toggle="modal"><i class="icon-search"></i></a>
                                 </div>
                                   
@@ -69,13 +72,14 @@
                           <div class="control-group">
                             <label class="control-label"><strong>Factura Proveedor</strong></label>
                             <div class="controls">
-                              <input type="text" class="input-large" name="factura_otros_servicios[]" required>
+                              <input type="text" class="input-large" name="factura_otros_servicios[]" value="<?php echo $detalle['factura']; ?>" required>
                             </div>
                           </div>    
                           <div class="control-group">
                             <label class="control-label"><strong>Fecha Factura</strong></label>
                             <div class="controls">
-                              <input type="text" class="input-large calendario" name="fecha_otros_servicios[]" required>
+                              <?php $date = date_create($detalle['fecha']); ?>
+                              <input type="text" class="input-large calendario" name="fecha_otros_servicios[]" value="<?php echo date_format($date, 'd-m-Y'); ?>" required>
                             </div>
                           </div>  
                           <div class="control-group">

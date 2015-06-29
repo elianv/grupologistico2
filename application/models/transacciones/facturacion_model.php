@@ -8,29 +8,39 @@ class Facturacion_model extends CI_Model{
     
     function ultimo_numero(){
         
-        $this->db->select_max('numero_factura');
+        $this->db->select_max('id');
         $result = $this->db->get('factura');
         
         return $result->result_array();
+    }
+
+    function ultimo_id_orden_facturacion(){
+        $this->db->select_max('id');
+        $result = $this->db->get('ordenes_facturas');
         
+        return $result->result_array();
     }
     
     function insertar_facturacion($factura){
-        if($this->db->insert('factura', $factura)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        
+        $this->db->trans_start();
+        $this->db->insert('factura', $factura);
+        $this->db->trans_complete();
+        return $this->db->insert_id();
     }
     
-    function insertar_servicio_facturacion($servicio_factura){
-        if($this->db->insert('servicio_factura',$servicio_factura)){
-            return true;
-        }
-        else{
-            return false;
-        }
+    function insertar_orden_facturacion($orden){
+        $this->db->trans_start();
+        $this->db->insert('ordenes_facturas', $orden);
+        $this->db->trans_complete();
+        return $this->db->insert_id();
+    }
+
+    function insertar_servicios_orden_factura($data){
+        $this->db->trans_start();
+        $this->db->insert('servicios_orden_factura', $data);
+        $this->db->trans_complete();
+        return $this->db->insert_id();        
     }
     
     function modificar_facturacion($factura,$numero_factura){
@@ -63,7 +73,7 @@ class Facturacion_model extends CI_Model{
     }
     
     function listar_facturas(){
-        $this->db->select('numero_factura,estado_factura_id_estado_factura');
+        $this->db->select('*');
         $resultado = $this->db->get('factura');
         
         return $resultado->result_array();
@@ -88,13 +98,12 @@ class Facturacion_model extends CI_Model{
     }
     
     function datos_factura($numero_factura) {
-			$this->db->select ();
+			$this->db->select('*');
 			$this->db->from('factura');
 			$this->db->where('numero_factura',$numero_factura);
 			$resultado = $this->db->get();
 			
 			return $resultado->result_array();
-        
     }
 
     function cant_clientes_orden($clientes){
@@ -107,9 +116,56 @@ class Facturacion_model extends CI_Model{
         $resultado = $this->db->get();
 
         return $resultado->num_rows();
-        
     }
-    
+
+    function tiene_detalle($id_orden){
+        $this->db->select('*');
+        $this->db->from('detalle');
+        $this->db->where('orden_id_orden',$id_orden);
+
+        $result = $this->db->get();
+
+        return $result->num_rows();
+    }
+
+    function getOrdenes($id_factura){
+        $this->db->select('*');
+        $this->db->from('ordenes_facturas');
+        $this->db->where('id_factura',$id_factura);
+        $resultado = $this->db->get();
+            
+        return $resultado->result_array();
+
+    }
+
+    function getServicioOrdenFactura($id){
+        $this->db->select('*');
+        $this->db->from('servicios_orden_factura');
+        $this->db->where('id_ordenes_facturas',$id);
+        $resultado = $this->db->get();
+        
+        return $resultado->result_array();        
+    }
+
+    function eliminarFactura($id){
+
+        $this->db->where('id', $id);
+        $this->db->delete('factura'); 
+
+    }
+
+    function eliminarOrdenesFactura($id){
+        $this->db->where('id_factura', $id);
+        $this->db->delete('ordenes_facturas'); 
+    }
+
+    function eliminarServiciosOrdeneFactura($id){
+        $this->db->where('id_ordenes_facturas', $id);
+        $this->db->delete('servicios_orden_factura'); 
+    }    
+
+
+
 }
 
 ?>

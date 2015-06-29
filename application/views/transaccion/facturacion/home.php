@@ -1,6 +1,27 @@
 <div class="container">
     <legend><h3><center>Facturación</center></h3></legend> 
-    <div style="margin-left: 10px"><?php echo validation_errors(); ?></div>
+      <div style="margin-left: 10px">
+            <?php 
+            
+                if(validation_errors()){
+                    echo "<div class='alert alert-info '>";
+                    echo "<a class='close' data-dismiss='alert'>×</a>";
+                    echo validation_errors();
+                    echo "</div>";
+                } 
+            ?>
+      </div>
+            <?php
+                $correcto = $this->session->flashdata('mensaje');
+                if ($correcto){
+                    echo "<div class='alert alert-error'>";
+                    echo "<a class='close' data-dismiss='alert'>×</a>";
+                    echo "<span id='registroCorrecto'>".$correcto."</span>";
+                    echo "</div>";
+                }
+            ?>
+    
+
     <form class="form-horizontal" method="post" id="target">
         <fieldset>
         
@@ -10,7 +31,7 @@
     						  <label class="control-label"><strong>Factura N°</strong></label>
     						  <div class="controls">
                       <div class="input-append">
-        							   <input type="text" class="span2" name="factura_numero" id="numero_factura" placeholder="Solo números">
+        							   <input type="text" class="span2" name="factura_numero" id="numero_factura" placeholder="Solo números" value="<?php echo set_value('factura_numero'); ?>">
                          <a class="btn" id="search_facturas" onclick="search_facturas();" data-target="#Facturas" data-toggle="modal"><i class="icon-search"></i></a>
                       </div>
     						  </div>
@@ -29,27 +50,29 @@
                   <div class="control-group">
                     <label class="control-label"><strong>Cliente</strong></label>
                     <div class="controls">
-                      <input type="text" class="input-large" name="cliente_factura" id="cliente_factura_" readonly="">
+                      <input type="text" class="input-large" name="cliente_factura" id="cliente_factura_" value="<?php echo set_value('cliente_factura'); ?>" readonly="" required>
                     </div>
                   </div>              
 
                       <div class="control-group">
                         <label class="control-label"><strong>Fecha Factura</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large calendario" name="fecha_factura" id="fecha_factura">
+                          <input type="text" class="input-large calendario" name="fecha_factura" value="<?php echo set_value('fecha_factura'); ?>" id="fecha_factura" onclick="calendario();" required>
                         </div>
                       </div> 
 
- 
-              <div class="repetir-guia">
-        					<div class="control-group">
-        						<label class="control-label"><strong>Guía Despacho</strong></label>
-        						<div class="controls">
-        							<input type="text" class="input-large" name="guia_despacho[]" id="numero_factura" placeholder="Solo números">
-        						</div>
-    					    </div>
+              <div id="guia_despacho">
+                  <div class="repetir-guia" >
+                      <div class="control-group">
+                        <label class="control-label"><strong>Guía Despacho</strong></label>
+                        <div class="controls">
+                          <input type="text" class="input-large" name="guia_despacho[]" id="numero_factura" placeholder="Solo números">
+                        </div>
+                      </div>
 
-    				  </div>
+                  </div>                
+              </div>
+
       				<div class="boton-clonar">
       					<a href="#">Agregar otra guía <span>+</span></a>
       				</div>
@@ -68,13 +91,13 @@
                   <div class="control-group">
                     <label class="control-label"><strong>Valor Total Costo</strong></label>
                     <div class="controls">
-                      <input type="text" class="input-large" name="total_costo" id="total_costo" readonly="">
+                      <input type="text" class="input-large" name="total_costo" id="total_costo" value="<?php echo set_value('total_costo'); ?>" readonly="">
                     </div>
                   </div> 
                   <div class="control-group">
                     <label class="control-label"><strong>Valor Total Venta</strong></label>
                     <div class="controls">
-                      <input type="text" class="input-large" name="total_venta" id="total_venta" readonly="">
+                      <input type="text" class="input-large" name="total_venta" id="total_venta" value="<?php echo set_value('total_venta'); ?>" readonly="">
                     </div>
                   </div>
               </div>
@@ -143,6 +166,18 @@
 
 
 <script type="text/javascript">
+
+            function calendario(){
+                    $('.calendario').datetimepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showHour:false,                      
+                        showMinute:false,
+                        showTime: false,
+                        dateFormat: 'dd-mm-yy'
+                  });              
+            };
+
 
     function ordenes_servicios(){
       $("#detalles_orden").html("");

@@ -11,10 +11,16 @@
 	<tbody>
 		<?php foreach ($facturas as $factura) { ?>
 			<tr>
-				<td><a class="codigo-click" data-codigo="?php echo $factura['numero_factura']; ?>" ><?php echo $factura['numero_factura']; ?></a></td>
+				<td><a class="codigo-click" data-codigo="<?php echo $factura['numero_factura']; ?>" ><?php echo $factura['numero_factura']; ?></a></td>
 				<td><?php //echo $orden['razon_social']; ?></td>
-				<td><?php //echo $orden['fecha']; ?></td>
-				<td><?php echo $factura['estado_factura_id_estado_factura']; ?></td>
+				<td><?php echo $factura['fecha']; ?></td>
+				<?php if($factura['estado_factura_id_estado_factura'] == 3) {?>
+					<td>Factura Nula</td>
+				<?php } elseif($factura['estado_factura_id_estado_factura'] == 2){ ?>
+					<td>Facturada</td>
+				<?php } elseif($factura['estado_factura_id_estado_factura'] == 1){ ?>
+					<td>Por Facturar</td>
+				<?php } ?>
 			</tr>
 		<?php }?>
 	</tbody>
@@ -22,4 +28,51 @@
 </table>
 </div>
 <script type="text/javascript">
+	$('.tabla-facturas .codigo-click').click(function(e){
+		e.preventDefault();
+		var codigo = $(this).attr('data-codigo');
+		$.ajax({
+				type:'post',
+				url:'<?php echo base_url();?>index.php/transacciones/facturacion/cargar_facturas',
+				dataType: 'json',
+				data: { num_factura : codigo},
+				beforeSend: function(){
+					$('#detalles_orden').html();
+				},
+				success: function(response){
+					if(response.clientes){
+						$('#cliente_factura_').val(response.cliente);
+						$('#botones').show();
+											}
+					else{
+						$('#cliente_factura_').val("--");
+						$('#botones').hide();
+					}
+					//console.log(response.total_compra);
+					$('#detalles_orden').html(response.html);
+					$("#numero_factura").val(response.factura.numero_factura);
+					$("#fecha_factura").val(response.factura.fecha);
+					$('#total_costo').val(response.total_compra);
+					$('#total_venta').val(response.total_venta);
+					if(response.factura.estado_factura_id_estado_factura == 3){
+						$("#nula").prop('checked', true);
+					}
+					else
+						$("#nula").prop('checked', false);
+					$('#guia_despacho').html(response.guia);
+
+		
+					
+
+				}
+		});
+		$('#Facturas').fadeOut('fast',function(){
+			$('body').removeClass('modal-open');
+			$('.modal-backdrop.fade.in').remove();
+			$('#detalles_orden').slideDown('slow');
+		
+		});
+		
+		console.log(codigo);
+	});
 </script>
