@@ -14,7 +14,8 @@
 			<tr>
 				<td><a class="codigo-click" data-codigo="<?php echo $factura['numero_factura']; ?>" ><?php echo $factura['numero_factura']; ?></a></td>
 				<td><?php echo $factura['cliente']; ?></td>
-				<td><?php echo $factura['fecha']; ?></td>
+				 <?php $date = date_create($factura['fecha']); ?>
+				<td><?php echo date_format($date, 'd-m-Y'); ?></td>
 				<?php if($factura['estado_factura_id_estado_factura'] == 3) {?>
 					<td>Factura Nula</td>
 				<?php } elseif($factura['estado_factura_id_estado_factura'] == 2){ ?>
