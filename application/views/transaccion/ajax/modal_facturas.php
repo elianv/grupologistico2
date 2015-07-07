@@ -58,9 +58,13 @@
 					$('#total_venta').val(response.total_venta);
 					if(response.factura.estado_factura_id_estado_factura == 3){
 						$("#nula").prop('checked', true);
+
 					}
-					else
+					else{
 						$("#nula").prop('checked', false);
+						$('#imprimir').show();
+					}
+
 					$('#guia_despacho').html(response.guia);
 
 		

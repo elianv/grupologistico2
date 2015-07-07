@@ -84,7 +84,7 @@
                   <div class="control-group">
                     <label class="control-label"><strong>Factura Nula?</strong></label>
                     <div class="controls">
-                      <input type="checkbox" id="nula" name="nula" value="1">
+                      <input type="checkbox" id="nula" name="nula" value="">
                     </div>
                   </div>                   
 
@@ -116,6 +116,7 @@
         <div class="form-actions" id="botones" >
             <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/insertar_facturacion'" value="Guardar"/>
             <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/modificar_facturacion'" value="Editar" />
+            <a type="button" class="btn btn-info" id="imprimir" style="display: none;" ><i class="icon-print icon-white"></i>Imprimir</a>
         </div>    
         </fieldset>
     </form>
@@ -168,7 +169,7 @@
 <script type="text/javascript">
 
             function calendario(){
-                    $('.calendario').datetimepicker({
+                    $('#fecha_factura').datetimepicker({
                         changeMonth: true,
                         changeYear: true,
                         showHour:false,                      

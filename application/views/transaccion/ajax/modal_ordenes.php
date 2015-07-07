@@ -30,14 +30,15 @@
 		var checkedValues = $('input:checkbox:checked').map(function() {
 		    return this.value;
 		}).get();
-		console.log(checkedValues);
+		//console.log(checkedValues);
 		$.ajax({
 				type:'post',
 				url:'<?php echo base_url();?>index.php/transacciones/facturacion/detalles_ordenes_ajax',
 				dataType: 'json',
 				data: { ordenes : checkedValues},
 				beforeSend: function(){
-					$('#detalles_orden').html();
+					$('#detalles_orden').html("");
+					console.log(ordenes);
 				},
 				success: function(response){
 					if(response.clientes){

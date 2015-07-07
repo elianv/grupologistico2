@@ -31,9 +31,10 @@ class Facturacion extends CI_Model{
     
     function estado_orden_factura($id_orden){
         
-        $this->db->select('estado_factura_id_estado_factura,orden_id_orden');
-        $this->db->from('factura');
-        $this->db->where('orden_id_orden',$id_orden);
+        $this->db->select('factura.estado_factura_id_estado_factura, ordenes_facturas.id_orden');
+        $this->db->from('factura, ordenes_facturas');
+        $this->db->where('ordenes_facturas.id_factura = factura.id');
+        $this->db->where('ordenes_facturas.id_orden',$id_orden);
         $query = $this->db->get();
         
         return $query->result_array();

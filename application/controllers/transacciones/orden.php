@@ -318,7 +318,7 @@
                         }
                     }
 
-    //##########################  guarda viaje y la orden. ########################## 
+            //##########################  guarda viaje y la orden. ########################## 
                     $this->Viaje->crear_viaje($viaje);
 		            $this->Orden_model->insert_orden($orden);
                     $i = 0;
@@ -348,7 +348,7 @@
                                );
                                $i = $i + 1;
                                $id_detalle = $id_detalle + 1;
-    //########################## guarda uno a uno los detalles. ########################## 
+            //########################## guarda uno a uno los detalles. ########################## 
                                $this->Detalle->guardar_detalle($detalle);
                             }
                     }
@@ -362,7 +362,6 @@
             else{
                 redirect('home','refresh');
             }
-            
     }
     
     function editar(){
@@ -588,7 +587,6 @@
         else{
             redirect('home','refresh');
         }
-        
     }
     
     function editar_orden($dato = null){
@@ -630,8 +628,8 @@
                         //print_r($estado_orden);
                         if(isset($estado_orden[0])){
                             if($estado_orden[0]['estado_factura_id_estado_factura'] == 2 ){
-                            $query[$i]['estado'] = "";
-                            $query[$i]['estado'] = 2;
+                                $query[$i]['estado'] = "";
+                                $query[$i]['estado'] = 2;
                             }
                         }
                     $i++;

@@ -378,6 +378,14 @@ class Facturacion extends CI_Controller{
         if($this->session->userdata('logged_in')){
             
             $ordenes_ = $this->input->post('ordenes');
+            $i = 0;
+            foreach ($ordenes_ as $ordenes) {
+                if($ordenes == ""){
+                    unset($ordenes_[$i]);
+                }
+                $i++;
+            }
+
             $cant = $this->facturacion_model->cant_clientes_orden($ordenes_);
 
             if($cant == 1){
@@ -386,6 +394,7 @@ class Facturacion extends CI_Controller{
                     $detalle['total_venta']  = 0;
                     $detalle['total_compra'] = 0;
                     foreach ($ordenes_ as $orden) {
+
 
                         $detalle['ordenes'][$i]                  = $this->orden_model->get_orden($orden);
                         $detalle['ordenes'][$i]['total_compra']  = 0;
