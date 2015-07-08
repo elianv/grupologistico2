@@ -909,12 +909,12 @@
                     $this->pdf->Cell(25,0,'Santiago, '.date("j/m/Y"),0,0,'R','0');
                     $this->pdf->Ln(10);
                     $this->pdf->SetFont('Arial', '', 10);
-                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACIÓN"),'B',0,'L',0);
+                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACION"),'B',0,'L',0);
                     $this->pdf->Ln(10);
                     $this->pdf->Cell(60,6,'Ref. Cliente','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia']),'0',1,'L',0);
 
-                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportación"),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportacion"),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia_2']),'0',1,'L',0);
 
                     $this->pdf->Cell(60,6,'Nave','0',0,'L',0);
@@ -954,7 +954,7 @@
                     $this->pdf->Ln(10);
                     $this->pdf->Cell(60,6,'Carga','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['carga']['descripcion']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,  utf8_decode(Mercadería),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode("Mercadería"),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['mercaderia']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'N'.utf8_decode('°').' Contenedor','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.$orden[0]['numero'],'0',1,'L',0);
@@ -964,11 +964,11 @@
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Origen','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentación),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode("Presentacion"),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['nombre']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,  utf8_decode(Dirección).' Bodega','0',0,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode("Direccion").' Bodega','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['direccion']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Contacto Bodega','0',0,'L',0);
                     $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['bodega']['contacto']),'0',0,'L',0);
@@ -1000,16 +1000,16 @@
             if ($orden[0]['tipo_orden_id_tipo_orden'] == 6){
                     $this->pdf->Ln(10); 
                     $this->pdf->SetFont('Arial', 'B', 12);
-                    $this->pdf->Cell(150,0,'Cierre de '.  utf8_decode(Importación),0,0,'L','0');
+                    $this->pdf->Cell(150,0,'Cierre de '.  utf8_decode("Importacion"),0,0,'L','0');
                     $this->pdf->Cell(25,0,'Santiago, '.date("j/m/Y"),0,0,'R','0');
                     $this->pdf->Ln(10);
                     $this->pdf->SetFont('Arial', '', 10);
-                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACIÓN"),'B',0,'L',0);
+                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACION"),'B',0,'L',0);
                     $this->pdf->Ln(10);
                     $this->pdf->Cell(60,6,'Ref. Cliente','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia']),'0',1,'L',0);
 
-                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportación"),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportacion"),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia_2']),'0',1,'L',0);
 
                     $this->pdf->Cell(60,6,'Nave','0',0,'L',0);
@@ -1060,11 +1060,11 @@
                     //RET Contenedor = deposito
                     $this->pdf->Cell(60,6,'Ret. Contenedor','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentación),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Fecha '.utf8_decode(Presentacion),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['nombre']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,  utf8_decode(Dirección).' Bodega','0',0,'L',0);
+                    $this->pdf->Cell(60,6,  utf8_decode(Direccion).' Bodega','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['bodega']['direccion']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Contacto Bodega','0',0,'L',0);
                     $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['bodega']['contacto']),'0',0,'L',0);
@@ -1100,12 +1100,12 @@
                     $this->pdf->Cell(25,0,'Santiago, '.date("j/m/Y"),0,0,'R','0');
                     $this->pdf->Ln(5);
                     $this->pdf->SetFont('Arial', '', 10);
-                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACIÓN"),'B',0,'L',0);
+                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACION"),'B',0,'L',0);
                     $this->pdf->Ln(10);
                     $this->pdf->Cell(60,6,'Ref. Cliente','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia']),'0',1,'L',0);
 
-                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportación"),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportacion"),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia_2']),'0',1,'L',0);
 
                     $this->pdf->Cell(60,6,'Nave','0',0,'L',0);
@@ -1198,12 +1198,12 @@
                     $this->pdf->Cell(25,0,'Santiago, '.date("j/m/Y"),0,0,'R','0');
                     $this->pdf->Ln(5);
                     $this->pdf->SetFont('Arial', '', 10);
-                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACIÓN"),'B',0,'L',0);
+                    $this->pdf->Cell(180,7,"  ".utf8_decode("IDENTIFICACION"),'B',0,'L',0);
                     $this->pdf->Ln(10);
                     $this->pdf->Cell(60,6,'Ref. Cliente','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia']),'0',1,'L',0);
 
-                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportación"),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Ref. '.utf8_decode("Exportacion"),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['referencia_2']),'0',1,'L',0);
 
                     $this->pdf->Cell(60,6,'Nave','0',0,'L',0);
@@ -1438,7 +1438,7 @@
         
         if($result){
             
-            $this->form_validation->set_message('check_patente','La Patente del Camión que ingresa no se encuentra en el sistema, intente con otro.');
+            $this->form_validation->set_message('check_patente','La Patente del Camion que ingresa no se encuentra en el sistema, intente con otro.');
             return false;
         }
         else{
@@ -1470,7 +1470,7 @@
         
         if($result){
             
-            $this->form_validation->set_message('check_deposito','El Depósito que ingresa no se encuentra en el sistema, intente con otro.');
+            $this->form_validation->set_message('check_deposito','El Deposito que ingresa no se encuentra en el sistema, intente con otro.');
             return false;
         }
         else{

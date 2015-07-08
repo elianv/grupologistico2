@@ -114,9 +114,11 @@
         
 
         <div class="form-actions" id="botones" >
+        
             <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/insertar_facturacion'" value="Guardar"/>
             <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/modificar_facturacion'" value="Editar" />
-            <a type="button" class="btn btn-info" id="imprimir" style="display: none;" ><i class="icon-print icon-white"></i>Imprimir</a>
+            <div id="imprimir"></div>
+        
         </div>    
         </fieldset>
     </form>

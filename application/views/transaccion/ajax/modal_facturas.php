@@ -58,11 +58,12 @@
 					$('#total_venta').val(response.total_venta);
 					if(response.factura.estado_factura_id_estado_factura == 3){
 						$("#nula").prop('checked', true);
+						$("#imprimir").html("");
 
 					}
 					else{
 						$("#nula").prop('checked', false);
-						$('#imprimir').show();
+						$('#imprimir').html('<a type="button" class="btn btn-info" id="imprimir" href="<?php echo base_url();?>index.php/transacciones/facturacion/imprimir/'+response.factura.numero_factura+'" target="_blank"><i class="icon-print icon-white"></i>Imprimir</a>');
 					}
 
 					$('#guia_despacho').html(response.guia);

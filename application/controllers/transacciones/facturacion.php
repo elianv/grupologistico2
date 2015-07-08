@@ -362,6 +362,23 @@ class Facturacion extends CI_Controller{
             redirect('home','refresh');
         }
     }
+
+    function imprimir($numero = null){
+        if($this->session->userdata('logged_in')){
+            
+            $data['numero'] = $numero;
+
+            $session_data   = $this->session->userdata('logged_in');
+            
+            $this->load->view('transaccion/facturacion/factura',$data);
+            
+            
+           
+        }
+        else{
+            redirect('home','refresh');
+        }        
+    }
     
     function ordenes_servicios_ajax(){
 
