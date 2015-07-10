@@ -366,55 +366,66 @@ class Facturacion extends CI_Controller{
     function imprimir($numero = null){
         if($this->session->userdata('logged_in')){
             
-            
-            $factura  = $this->facturacion_model->datos_factura($numero);
-            $ordenes  = $this->facturacion_model->getOrdenes($factura[0]['id']);
+            if($numero && $this->facturacion_model->existe_factura($numero)){
+                $fact = $this->facturacion_model->factura_nula($numero);
+                
+                if( $fact[0]['estado_factura_id_estado_factura'] == 3 ){
 
-            $i = 0;
+                    $this->session->set_flashdata('mensaje','Las Facturas Nulas no generan impresión.');
+                    redirect('transacciones/facturacion','refresh');
+                }
+                else{
+                    $factura  = $this->facturacion_model->datos_factura($numero);
+                    $ordenes  = $this->facturacion_model->getOrdenes($factura[0]['id']);
 
-                    foreach ($ordenes as $orden) {
-                                 
-                                $orden_temp                              = $this->orden_model->get_orden($orden['id_orden']);
-                                $detalle['ordenes'][$i]                  = $orden_temp[0];
-                                $rut_cliente                             = $detalle['ordenes'][$i]['cliente_rut_cliente'];
-                                $tramo                                   = $this->tramos_model->datos_tramo($detalle['ordenes'][$i]['tramo_codigo_tramo']);
-                                
-                                $detalle['ordenes'][$i]['tramo']         = $tramo[0];
-                                $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden['id_orden']);
-                                
-                                $detalle['ordenes'][$i]['factura_tramo'] = $orden['factura_tramo'];                           
-                                $detalle['ordenes'][$i]['fecha_factura'] = $orden['fecha_factura'];
+                    $i = 0;
+
+                            foreach ($ordenes as $orden) {
+                                         
+                                        $orden_temp                              = $this->orden_model->get_orden($orden['id_orden']);
+                                        $detalle['ordenes'][$i]                  = $orden_temp[0];
+                                        $rut_cliente                             = $detalle['ordenes'][$i]['cliente_rut_cliente'];
+                                        $tramo                                   = $this->tramos_model->datos_tramo($detalle['ordenes'][$i]['tramo_codigo_tramo']);
+                                        
+                                        $detalle['ordenes'][$i]['tramo']         = $tramo[0];
+                                        $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden['id_orden']);
+                                        
+                                        $detalle['ordenes'][$i]['factura_tramo'] = $orden['factura_tramo'];                           
+                                        $detalle['ordenes'][$i]['fecha_factura'] = $orden['fecha_factura'];
 
 
-                                $servicios                               = $detalle['ordenes'][$i]['detalle'];
+                                        $servicios                               = $detalle['ordenes'][$i]['detalle'];
 
-                                $j = 0;
-                                foreach ( $servicios as $servicio) {
+                                        $j = 0;
+                                        foreach ( $servicios as $servicio) {
 
-                                    $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
-                                    $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
-                                    $serv_odn_factura                                     = $this->facturacion_model->getServicioOrdenFactura($orden['id']);
-                                    $detalle['ordenes'][$i]['detalle'][$j]['factura']     = $serv_odn_factura[0]['factura_numero_factura'];
-                                    $detalle['ordenes'][$i]['detalle'][$j]['fecha']       = $serv_odn_factura[0]['fecha_factura_servicio'];
-                                    
-                                    
-                                    $j ++;
-                                }
+                                            $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
+                                            $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
+                                            $serv_odn_factura                                     = $this->facturacion_model->getServicioOrdenFactura($orden['id']);
+                                            $detalle['ordenes'][$i]['detalle'][$j]['factura']     = $serv_odn_factura[0]['factura_numero_factura'];
+                                            $detalle['ordenes'][$i]['detalle'][$j]['fecha']       = $serv_odn_factura[0]['fecha_factura_servicio'];
+                                            
+                                            
+                                            $j ++;
+                                        }
 
-                                $i ++;
-                    }
-            $nombre_cliente      = $this->clientes_model->datos_cliente($rut_cliente);     
+                                        $i ++;
+                            }
+                    $nombre_cliente      = $this->clientes_model->datos_cliente($rut_cliente);     
 
-            $data['cliente']     = $nombre_cliente[0];       
-            $data['detalle']     = $detalle;        
-            $data['numero']      = $numero;
-            $data['factura']     = $factura;           
-            $session_data        = $this->session->userdata('logged_in');
-            
-            $this->load->view('transaccion/facturacion/factura',$data);
-            
-            
-           
+                    $data['cliente']     = $nombre_cliente[0];       
+                    $data['detalle']     = $detalle;        
+                    $data['numero']      = $numero;
+                    $data['factura']     = $factura;           
+                    $session_data        = $this->session->userdata('logged_in');
+                    
+                    $this->load->view('transaccion/facturacion/factura',$data);                
+                }
+            }
+            else{
+                    $this->session->set_flashdata('mensaje','Intente con otra factura.');
+                    redirect('transacciones/facturacion','refresh');
+            }
         }
         else{
             redirect('home','refresh');

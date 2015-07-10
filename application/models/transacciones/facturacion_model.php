@@ -88,12 +88,12 @@ class Facturacion_model extends CI_Model{
         
         if($query->num_rows() == 0){
             
-            return true;
+            return $query->num_rows();
         }
         
         else{
             
-            return false;
+            return $query->num_rows();
         }
     }
     
@@ -163,6 +163,16 @@ class Facturacion_model extends CI_Model{
         $this->db->where('id_ordenes_facturas', $id);
         $this->db->delete('servicios_orden_factura'); 
     }    
+
+    function factura_nula($numero_factura){
+            $this->db->select('estado_factura_id_estado_factura');
+            $this->db->from('factura');
+            $this->db->where('numero_factura',$numero_factura);
+            
+            $resultado = $this->db->get();
+            
+            return $resultado->result_array();        
+    }
 
 
 
