@@ -44,7 +44,7 @@ class Orden_model extends CI_Model{
     
     function listar_ordenes(){
          
-         $this->db->select('orden.id_orden,orden.fecha,cliente.razon_social');
+         $this->db->select('orden.id_orden,orden.fecha,cliente.razon_social,orden.id_estado_orden');
          $this->db->from('orden');
          $this->db->join('cliente','orden.cliente_rut_cliente = cliente.rut_cliente','inner');
          $resultado = $this->db->get();
@@ -90,7 +90,7 @@ class Orden_model extends CI_Model{
             if($cliente){
                $this->db->like('cliente.razon_social',$cliente); 
             }
-            
+            $this->db->join('estado_orden','orden.id_estado_orden = estado_orden.id', 'inner');
             $result = $this->db->get();
             //var_dump($this->db->last_query());
             

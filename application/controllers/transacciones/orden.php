@@ -618,7 +618,6 @@
                         $_POST['hasta'] = $hasta;
                     }
                     
-                    //echo "<pre> POST :".print_r($_POST)." hasta:".$hasta." Desde:".$desde."</pre>";
                     $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],  strtoupper($_POST['cliente']));
                     
                     $i=0;
@@ -636,9 +635,7 @@
                     }
                     
                     $data['ordenes'] = $query;
-                    //echo "<pre>";
-                    //print_r($query);
-                   //echo "</pre>";
+
                 }
                 $this->load->view('include/head',$session_data);
                 
@@ -1070,7 +1067,7 @@
                     $this->pdf->Cell(70,6,':   '.utf8_decode($orden[0]['bodega']['contacto']),'0',0,'L',0);
                     $this->pdf->Cell(20,6,'FONO','0',0,'L',0);
                     $this->pdf->Cell(30,6,':   '.$orden[0]['bodega']['telefono'],'0',1,'L',0);
-                    $this->pdf->Cell(60,6,'Entrega '. utf8_decode(Vacio),'0',0,'L',0);
+                    $this->pdf->Cell(60,6,'Entrega '. utf8_decode("Vacio"),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['puerto_destino']['nombre']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Observaciones','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['observacion']),'0',1,'L',0);

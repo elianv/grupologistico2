@@ -10,12 +10,14 @@
 	</thead>
 	<tbody>
 		<?php foreach ($ordenes as $orden) { ?>
-			<tr>
-				<td><?php echo $orden['id_orden']; ?></td>
-				<td align="center"><input type="checkbox" value="<?php echo $orden['id_orden']; ?>" name"ordenes[]"></td>
-				<td><?php echo $orden['razon_social']; ?></td>
-				<td><?php echo $orden['fecha']; ?></td>
-			</tr>
+			<?php if($orden['id_estado_orden'] == 1){ ?>
+				<tr>
+					<td><?php echo $orden['id_orden']; ?></td>
+					<td align="center"><input type="checkbox" value="<?php echo $orden['id_orden']; ?>" name"ordenes[]"></td>
+					<td><?php echo $orden['razon_social']; ?></td>
+					<td><?php echo $orden['fecha']; ?></td>
+				</tr>
+			<?php } ?>
 		<?php }?>
 	</tbody>
 

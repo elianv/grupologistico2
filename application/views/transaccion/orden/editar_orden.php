@@ -59,8 +59,10 @@
                           echo "<table cellpadding='0' cellspacing='0' border='0' class='table table-striped table-bordered' id='example'>";
                               echo "<thead>";
                                 echo "<tr>";
-                                    echo "<th>N° Orden</th>";
+                                    echo "<th>N°</th>";
                                     echo "<th>Cliente</th>";
+                                    echo "<th>Estado</th>";
+                                    echo "<th>Acci&oacute;n</th>";
                                     echo "<th>Fecha</th>";
                                     echo "</tr>";
                               echo "</thead>";
@@ -68,19 +70,23 @@
 
                                       foreach ($ordenes as $orden){
                                           echo "<tr>";
-                                          if(isset($orden['estado'])){
-                                              if ($orden['estado'] == 2 ){
+                                          if ($orden['id_estado_orden'] == 3 ){
                                                   echo '<td><a data-toggle="tooltip" data-placement="top" title="La orden '.$orden['id_orden'].' se encuentra facturada, no se puede editar" >'.$orden['id_orden'].'</a></td>';
-                                              }
-                                              else{
-                                                  echo '<td><a data-toggle="tooltip" data-placement="top" title="Editar Orden '.$orden['id_orden'].'" href="'.base_url().'index.php/transacciones/orden/formulario_editar/'.$orden['id_orden'].'" target="_blank">'.$orden['id_orden'].'</a></td>';
-                                              }
                                           }
                                           else{
-                                            echo '<td><a data-toggle="tooltip" data-placement="top" title="Editar la Orden '.$orden['id_orden'].'" href="'.base_url().'index.php/transacciones/orden/formulario_editar/'.$orden['id_orden'].'" target="_blank">'.$orden['id_orden'].'</a></td>';
+                                                  echo '<td><a data-toggle="tooltip" data-placement="top" title="Editar Orden '.$orden['id_orden'].'" >'.$orden['id_orden'].'</a></td>';
                                           }
                                           echo "<td>".strtoupper($orden['razon_social'])."</td>";
-                                          echo "<td>".$orden['fecha']."</td>";
+                                          echo "<td>".$orden['estado']."</td>";
+                                          echo "<td>";
+                                          echo "<a class='btn btn-primary' href='".base_url()."index.php/transacciones/orden/pdf/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Imprimir</a>";
+                                          echo " ";
+                                          if ($orden['id_estado_orden'] != 3 )
+                                          {
+                                                  echo "<a class='btn btn-success' href='".base_url()."index.php/transacciones/orden/pdf/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Editar</a>";
+                                          }
+                                          echo "</td>";
+                                          echo "<td>".$orden['fecha']."</td>";                                                                                          
                                           echo "</tr>";
                                       }
 

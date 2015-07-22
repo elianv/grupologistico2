@@ -104,6 +104,8 @@ class Facturacion extends CI_Controller{
                             $i++;
                             
                             $this->facturacion_model->insertar_orden_facturacion($orden_factura);
+                            $dato = array('id_estado_orden' => 2);
+                            $this->orden_model->editar_orden($dato, $orden);
                             $id_orden_faturacion     = $this->facturacion_model->ultimo_id_orden_facturacion();
                             $fecha_otros_servicios   = $this->input->post('fecha_otros_servicios');
                             $factura_otros_servicios = $this->input->post('factura_otros_servicios');
@@ -132,7 +134,6 @@ class Facturacion extends CI_Controller{
 
                                     }                        
                             }
-
                         }
                         
                         $this->session->set_flashdata('mensaje','Facturación guardada con éxito');
@@ -260,6 +261,9 @@ class Facturacion extends CI_Controller{
                 foreach($ordenes_facts as $orden_fact){
                     if(isset($orden_fact['id'])){
                         $this->facturacion_model->eliminarServiciosOrdeneFactura($orden_fact['id']);
+                        $dato = array('id_estado_orden' => 1);
+                        $this->orden_model->editar_orden($dato, $orden_fact['id_orden']);                        
+
                     }
                 }
                 
@@ -301,7 +305,6 @@ class Facturacion extends CI_Controller{
 
                         $this->facturacion_model->insertar_facturacion($factura);
                         $catch_factura        = $this->facturacion_model->ultimo_numero();
-
                         $ordenes              = $this->input->post('id_orden');
                         $factura_tramo        = $this->input->post('factura_tramo');
                         $fecha_factura_tramo  = $this->input->post('fecha_factura_tramo');
@@ -322,6 +325,10 @@ class Facturacion extends CI_Controller{
                             $i++;
                             
                             $this->facturacion_model->insertar_orden_facturacion($orden_factura);
+                            
+                            $dato = array('id_estado_orden' => 2);
+                            $this->orden_model->editar_orden($dato, $orden);                            
+                            
                             $id_orden_faturacion     = $this->facturacion_model->ultimo_id_orden_facturacion();
                             $fecha_otros_servicios   = $this->input->post('fecha_otros_servicios');
                             $factura_otros_servicios = $this->input->post('factura_otros_servicios');
