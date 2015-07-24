@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+    	<script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/jquery.js"></script>
         <style>
             body {padding-top: 40px;}
         </style>
@@ -38,16 +39,21 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Transacciones<b class="caret"></b></a>
 							<ul class="dropdown-menu">
-                                                                
 								<li class="nav-header">Orden de Servicio</li>
-                                                                <li class="divider"></li>
+								<li class="divider"></li>
 								<li><a href=<?php echo base_url();?>index.php/transacciones/orden>Crear O.S.</a></li>
-                                                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/editar_orden>Editar O.S.</a></li>
-                                                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/imprimir_orden>Imprimir, Eliminar O.S.</a></li>
-                                                                <li class="divider"></li>
-								<li><a href=<?php echo base_url();?>index.php/transacciones/facturacion>Facturaci&oacute;n</a></li>
+                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/editar_orden>Editar, Imprimir O.S.</a></li>
 							</ul>
-						</li>    
+						</li> 
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Facturaci&oacute;n<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li class="nav-header">Facturaci&oacute;n</li>
+								<li class="divider"></li>							
+								<li><a href='<?php echo base_url("index.php/transacciones/facturacion"); ?>' >Crear Factura</a></li>
+                                <li><a href='<?php echo base_url("index.php/transacciones/orden/editar_orden");?>' >Editar, Imprimir Factura</a></li>
+							</ul>
+						</li>  						   
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Consultas<b class="caret"></b></a>
 							<ul class="dropdown-menu">
@@ -69,6 +75,7 @@
 								<li><a href="#">Fecha del d&iacute;a</a></li>
 								<li><a href="#">Claves de Acceso</a></li>
 								<li><a href="#">Par&aacute;metros</a></li>
+								<li><a href="<?php echo base_url('index.php/especificos/especificos/codigos_sistema');?>">C&oacute;digos Sistema</a></li>
 							</ul>
 						</li>
 					</ul>
