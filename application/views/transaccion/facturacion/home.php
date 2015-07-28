@@ -1,5 +1,5 @@
 <div class="container">
-    <legend><h3><center>Facturación</center></h3></legend> 
+    <legend><h3><center>Crear Factura</center></h3></legend> 
       <div style="margin-left: 10px">
             <?php 
             
@@ -26,14 +26,21 @@
         <fieldset>
         
         <div class="row show-grid">
+            <div class="span8">
+                  <div class="control-group">
+                    <label class="control-label"><strong>Factura en Papel:</label>
+                    <div class="controls">
+                        <input type="checkbox" id="factura_papel" name="factura_papel" value="1">
+                    </div>
+                  </div>                 
+            </div>
+        </div>
+        <div class="row show-grid">
             <div class="span6">
               <div class="control-group">
     						  <label class="control-label"><strong>Factura N°</strong></label>
     						  <div class="controls">
-                      <div class="input-append">
-        							   <input type="text" class="span2" name="factura_numero" id="numero_factura" placeholder="Solo números" value="<?php echo set_value('factura_numero'); ?>">
-                         <a class="btn" id="search_facturas" onclick="search_facturas();" data-target="#Facturas" data-toggle="modal"><i class="icon-search"></i></a>
-                      </div>
+        							  <input type="text" class="span2" name="factura_numero" id="numero_factura" placeholder="Solo números" value="<?php echo set_value('factura_numero'); ?>">
     						  </div>
     		      </div>
                     
@@ -116,8 +123,6 @@
         <div class="form-actions" id="botones" >
         
             <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/insertar_facturacion'" value="Guardar"/>
-            <input type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/modificar_facturacion'" value="Editar" />
-            <div id="imprimir"></div>
         
         </div>    
         </fieldset>
@@ -170,7 +175,7 @@
 
 <script type="text/javascript">
 
-            function calendario(){
+    function calendario(){
                     $('#fecha_factura').datetimepicker({
                         changeMonth: true,
                         changeYear: true,
@@ -179,7 +184,7 @@
                         showTime: false,
                         dateFormat: 'dd-mm-yy'
                   });              
-            };
+    };
 
 
     function ordenes_servicios(){
@@ -194,17 +199,4 @@
 
       });
     };
-
-    function search_facturas(){
-      $.ajax({
-        method:"POST",
-        url:"<?php echo base_url();?>index.php/transacciones/facturacion/facturas_ajax",
-        success: function(response){
-            $('#tabla_Facturas').html(response);
-            $('#tabla-facturas').dataTable();
-        }
-
-      });        
-    };
-
 </script>

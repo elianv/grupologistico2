@@ -18,7 +18,7 @@
             ?>
     </div>
   <div class="row">
-     <div class="span6 form-left-tramos">
+    <div class="span6 form-left-tramos">
          
          
          <form class="form-horizontal" method="post" style="margin-left: 10px">
@@ -32,30 +32,31 @@
                     ?>
                 </div>
             </div>
-
-            
+            <div class="control-group">
+                <label class="control-label"><strong>C&oacute;digo Sistema</strong></label>
+                <div class="controls">
+                 <input type="text" class="span3" value="1001 - Transporte y Fletes " readonly="">
+                </div>
+            </div>              
             <div class="control-group">
                 <label class="control-label"><strong>Descripción</strong></label>
                 <div class="controls">
                     <textarea type="text" class="input-xlarge" rows="3" name="descripcion" id="descripcion" placeholder=""></textarea>
                 </div>
             </div>
-               
             <div class="control-group">
                 <label class="control-label"><strong>Valor Costo</strong></label>
                 <div class="controls">
                  <input type="text" class="span3" id="valor_costo" name="valor_costo" placeholder="" >
                 </div>
             </div>
-               
             <div class="control-group">
                 <label class="control-label"><strong>Valor Venta</strong></label>
                 <div class="controls">
                  <input type="text" class="span3" id="valor_venta" name="valor_venta" placeholder="" >
                 </div>
             </div>             
-              
-               <div class="row show-grid">
+    <div class="row show-grid">
 
                 <div class="span6">
                  <div class="control-group">
@@ -76,7 +77,7 @@
                     </div>
                 </div>
                 </div>
-               </div>
+    </div>
                
 
                

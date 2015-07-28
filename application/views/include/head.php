@@ -51,7 +51,7 @@
 								<li class="nav-header">Facturaci&oacute;n</li>
 								<li class="divider"></li>							
 								<li><a href='<?php echo base_url("index.php/transacciones/facturacion"); ?>' >Crear Factura</a></li>
-                                <li><a href='<?php echo base_url("index.php/transacciones/orden/editar_orden");?>' >Editar, Imprimir Factura</a></li>
+                                <li><a href='<?php echo base_url("index.php/transacciones/facturacion/editar");?>' >Editar, Imprimir Factura</a></li>
 							</ul>
 						</li>  						   
 						<li class="dropdown">
@@ -59,11 +59,10 @@
 							<ul class="dropdown-menu">
 								<li><a href="#">Generar Datos</a></li>
 								<li class="divider"></li>
-								<li><a href="#">Libro de Ventas</a></li>
+								<li class="nav-header">O.S. por estado</li>
+								<li><a href=<?php echo base_url();?>index.php/consultas/facturadas  >Ordenes</a></li>
 								<li class="divider"></li>
-								<li class="nav-header">O.S.</li>
-								<li><a href=<?php echo base_url();?>index.php/consultas/facturadas  >Facturadas</a></li>
-								<li><a href="#">Realizadas</a></li>
+								<li class="nav-header">O.S por Otros</li>
 								<li><a href="#">Clientes</a></li>
 								<li><a href="#">Proveedor</a></li>
 								<li><a href="#">Cami&oacute;n</a></li>

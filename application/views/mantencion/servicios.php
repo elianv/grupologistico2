@@ -52,6 +52,20 @@
                  <input type="text" class="input-xlarge" id="vventa" name="vventa" placeholder="">
                 </div>
             </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="moneda"><strong>C&oacute;digo Sistema</strong></label>
+                <div class="controls">
+                    <select id="cod_sistem_serv" name="cod_sistema">
+                        <?php 
+                            foreach ($cod_sistemas as $sistema){
+                                echo "<option value='".$sistema['id']."'>".$sistema['codigo_sistema']." - ".$sistema['item']."</option>";
+                            }
+                       ?>
+                    </select>
+                </div>
+            </div>            
                
 
                  <div class="control-group">

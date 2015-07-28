@@ -83,7 +83,7 @@
                                           echo " ";
                                           if ($orden['id_estado_orden'] != 3 )
                                           {
-                                                  echo "<a class='btn btn-success' href='".base_url()."index.php/transacciones/orden/pdf/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Editar</a>";
+                                                  echo "<a class='btn btn-success' target='_blank' href='".base_url()."index.php/transacciones/orden/formulario_editar/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Editar</a>";
                                           }
                                           echo "</td>";
                                           echo "<td>".$orden['fecha']."</td>";                                                                                          
