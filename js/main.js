@@ -312,7 +312,7 @@ $('.form-bodegas .codigo-click').click(function(e){
 /*Servicios*/
 
 $('.form-servicios .codigo-click').click(function(e){
-
+	
 	e.preventDefault();
 	
 	$.ajax({
@@ -328,6 +328,7 @@ $('.form-servicios .codigo-click').click(function(e){
 			$('#vcosto').val(response[0].valor_costo);
 			$('#vventa').val(response[0].valor_venta);
 			$('#moneda').val(response[0].moneda_id_moneda);
+			$('#cod_sistem_serv option[value="'+response[0].id_codigo_sistema+'"]').prop("selected", true);
 		}
 	});
 
