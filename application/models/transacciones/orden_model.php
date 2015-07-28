@@ -106,5 +106,15 @@ class Orden_model extends CI_Model{
 			return false;
 		}
     }
+
+    function estados_orden()
+    {
+        $this->db->select('*');
+        $this->db->from('estado_orden');
+
+        $result = $this->db->get();
+        
+        return $result->result_array();
+    }
 }
 ?>

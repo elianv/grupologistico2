@@ -1,3 +1,8 @@
+<style type="text/css">
+    .thead{
+        background: green;
+    }
+</style>
 <legend><h3><center>Ordenes de Trabajo Facturadas</center></h3></legend> 
 
 <div class="container-fluid">
@@ -52,6 +57,8 @@
         </form>
         <div id="tabla">
         <?php if($salida == 1) { ?>
+        <hr />
+        <br>
                 <table id="tabla_ordenes" class="table table-hover table-condensed" cellspacing="0" width="100%">
                         <thead  class="thead">
                             <tr>
@@ -86,7 +93,7 @@
                         <tbody>
                             <?php foreach ($ordenes as $orden) { ?>
                                 <tr>
-                                    <td><font size="1"><?php echo $orden['id_orden']; ?></td></font>
+                                    <td><font size="1"><a href="<?php echo base_url('index.php/transacciones/orden/pdf/11')?>" title="Para ver la Orden haga click"><?php echo $orden['id_orden']; ?></a></td></font>
                                     <td><font size="1"><?php echo $orden['tipo_orden']; ?></td></font>
                                     <?php $fecha = new DateTime($orden['fecha']); ?>
                                     <td><font size="1"><?php echo $fecha->format('d-m-Y'); ?></td></font>
@@ -137,6 +144,9 @@
         $("#porFechas").prop("checked", true);
         $('#fechas').show();
     });
+    $(document).ready(function(){
+        $('#tabla_ordenes').DataTable();
+    })
         
 
 </script>

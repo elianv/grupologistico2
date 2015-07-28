@@ -5,6 +5,7 @@ class Servicios extends CI_Controller{
     function __construct() {
         parent::__construct();
         $this->load->model('mantencion/Servicios_model');
+        $this->load->model('especificos/especificos_model');
         $this->load->model('utils/Moneda');
     }
     
@@ -24,9 +25,10 @@ class Servicios extends CI_Controller{
         
 			if($this->session->userdata('logged_in')){
 						
-					 $session_data = $this->session->userdata('logged_in');
-					 $resultado = $this->Servicios_model->ultimo_codigo();
-					 $data['monedas'] = $this->Moneda->GetTipo();
+					 $session_data         = $this->session->userdata('logged_in');
+					 $resultado            = $this->Servicios_model->ultimo_codigo();
+					 $data['monedas']      = $this->Moneda->GetTipo();
+                     $data['cod_sistemas'] = $this->especificos_model->codigos_sistema();
 					 
 					 
 					 if ($resultado[0]['codigo_servicio'] == ""){
@@ -85,10 +87,11 @@ class Servicios extends CI_Controller{
             else{
                 
                 $servicio = array(
-                                'descripcion' => $this->input->post('descripcion'),
-                                'valor_costo' => $this->input->post('vcosto'),
-                                'valor_venta' => $this->input->post('vventa'),
-                                'moneda_id_moneda' => ""
+                                'descripcion'       => $this->input->post('descripcion'),
+                                'valor_costo'       => str_replace(".", "", $this->input->post('vcosto') ),
+                                'valor_venta'       => str_replace(".", "", $this->input->post('vventa') ),
+                                'moneda_id_moneda'  => "",
+                                'id_codigo_sistema' => $this->input->post('cod_sistema')
                                 
                             );
                 $monedas = $this->Moneda->GetTipo();
@@ -148,10 +151,11 @@ class Servicios extends CI_Controller{
             else{
                 
                 $servicio = array(
-                                'descripcion' => $this->input->post('descripcion'),
-                                'valor_costo' => $this->input->post('vcosto'),
-                                'valor_venta' => $this->input->post('vventa'),
-                                'moneda_id_moneda' => ""
+                                'descripcion'       => $this->input->post('descripcion'),
+                                'valor_costo'       => str_replace(".", "", $this->input->post('vcosto') ),
+                                'valor_venta'       => str_replace(".", "", $this->input->post('vventa') ),
+                                'moneda_id_moneda'  => "",
+                                'id_codigo_sistema' => $this->input->post('cod_sistema')
                                 
                             );
                 $monedas = $this->Moneda->GetTipo();
@@ -162,7 +166,7 @@ class Servicios extends CI_Controller{
                          $servicio['moneda_id_moneda'] = $moneda['id_moneda'];
                     }
                 }
-                                
+                
                 $this->Servicios_model->insertar_servicio($servicio);
                 $this->session->set_flashdata('mensaje','Servicio guardado con éxito');
                 

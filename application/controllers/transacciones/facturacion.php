@@ -361,13 +361,28 @@ class Facturacion extends CI_Controller{
                         }
                         
                         $this->session->set_flashdata('mensaje','Factura editada con éxito');
-                        redirect('transacciones/facturacion','refresh');
+                        redirect('transacciones/facturacion/editar','refresh');
                 }
             }
         }
         else{
             redirect('home','refresh');
         }
+    }
+
+    function editar()
+    {
+        if($this->session->userdata('logged_in')){
+            
+            $session_data = $this->session->userdata('logged_in');
+            $this->load->view('include/head',$session_data);
+            $this->load->view('transaccion/facturacion/editar_factura');
+            $this->load->view('include/script');
+           
+        }
+        else{
+            redirect('home','refresh');
+        }        
     }
 
     function imprimir($numero = null){
