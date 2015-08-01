@@ -28,7 +28,7 @@ class Servicios extends CI_Controller{
 					 $session_data         = $this->session->userdata('logged_in');
 					 $resultado            = $this->Servicios_model->ultimo_codigo();
 					 $data['monedas']      = $this->Moneda->GetTipo();
-                     $data['cod_sistemas'] = $this->especificos_model->codigos_sistema();
+                     $data['cod_sistemas'] = $this->especificos_model->codigos_sistema_otros();
 					 
 					 
 					 if ($resultado[0]['codigo_servicio'] == ""){

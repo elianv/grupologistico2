@@ -5,7 +5,7 @@
      </div>
     
      <div class="modal-body">
-        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example-nave">
+        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable" id="example-nave">
                       <thead>
                         <tr>
                             <th>Código</th>

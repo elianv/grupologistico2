@@ -1,13 +1,13 @@
 
 
-    <script src=<?php echo base_url().'js/jquery.min.js' ?> type="text/javascript"></script> 
-    <script src=<?php echo base_url().'bootstrap/js/bootstrap-dropdown.js' ?> type="text/javascript"></script> 
-    <script src=<?php echo base_url().'js/jquery.js'?> type="text/javascript"></script>
-    <script src=<?php echo base_url().'bootstrap/js/bootstrap-modal.js'?> type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/DT_bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/anexos.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/jquery-ui.css">
+    <script src="<?php echo base_url('js/jquery.min.js'); ?>" type="text/javascript"></script> 
+    <script src="<?php echo base_url('bootstrap/js/bootstrap-dropdown.js'); ?>" type="text/javascript"></script> 
+    <script src="<?php echo base_url('js/jquery.js')?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('bootstrap/js/bootstrap-modal.js'); ?>" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('bootstrap/css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/DT_bootstrap.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/anexos.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/jquery-ui.css'); ?>">
 	
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 	

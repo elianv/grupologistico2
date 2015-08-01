@@ -307,28 +307,32 @@
                     </div>
             </div>
 
-<div class="row show-grid">
-    
-    <div class="span5">
-                        <div class="control-group">
-                        <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
-                        <div class="controls">
-                            <input type="text" class="input-large" id="referencia2" name="referencia2" value="<?php echo $orden[0]['referencia']; ?>">
-                        </div>
-                        </div>        
-    </div>
-    <div class="span5">
+            <div class="row show-grid">
+                
+                <div class="span5">
+                                    <div class="control-group">
+                                    <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
+                                    <div class="controls">
+                                        <input type="text" class="input-large" id="referencia2" name="referencia2" value="<?php echo $orden[0]['referencia']; ?>">
+                                    </div>
+                                    </div>        
+                </div>
+                <div class="span5">
+                </div>
+                
+            </div>
+
                         <div class="control-group">
                             <label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="rut" name="proveedor_rut_proveedor" value="<?php echo $proveedor[0]['rut_proveedor']; ?>" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button></div>
+                                <div class="input-append">
+                                    <input readonly type="text" class="span2" id="rut" name="proveedor_rut_proveedor" value="<?php echo $proveedor[0]['rut_proveedor']; ?>" >
+                                    <button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button>
+                                    <input  class="span4" id="rsocial" type="text" disabled="disabled" value="<?php echo $proveedor[0]['razon_social']; ?>" placeholder="Nombre Proveedor..." style="margin-left: 40px;" readonly>
+                                </div>
                             </div>
                         </div>
-    </div>
-    
-</div>
 
-               
                         <div class="control-group">
                             <label class="control-label" for="observacion"><strong>Observación</strong></label>
                             <div class="controls">

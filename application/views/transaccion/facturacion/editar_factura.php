@@ -110,15 +110,7 @@
               </div>  
             
         </div>
-        
-        
-
-        <div class="form-actions" id="botones" >
-        
-            
-            
-        
-        </div>    
+        <div class="form-actions" id="botones" ></div>    
         </fieldset>
     </form>
 </div>
@@ -188,7 +180,7 @@
         url:"<?php echo base_url();?>index.php/transacciones/facturacion/ordenes_servicios_ajax",
         success: function(response){
             $('#ordenes').html(response);
-            $('#tabla_ordenes').dataTable();
+            $('#tabla_ordenes').DataTable();
         }
 
       });
@@ -200,7 +192,7 @@
         url:"<?php echo base_url();?>index.php/transacciones/facturacion/facturas_ajax",
         success: function(response){
             $('#tabla_Facturas').html(response);
-            $('#tabla-facturas').dataTable();
+            $('#tabla-facturas').DataTable();
         }
 
       });        

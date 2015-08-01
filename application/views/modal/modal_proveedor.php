@@ -16,7 +16,7 @@
                               <?php
                               foreach ($proveedores as $proveedor){
                                   echo "<tr>";
-                                  echo "<td><a class='codigo-click' data-codigo=".$proveedor['rut_proveedor'].">".$proveedor['rut_proveedor']."</a></td>";
+                                  echo "<td><a class='codigo-click' data-rs='".strtoupper($proveedor['razon_social'])."' data-codigo=".$proveedor['rut_proveedor'].">".$proveedor['rut_proveedor']."</a></td>";
                                   echo "<td>".strtoupper($proveedor['razon_social'])."</td>";
                               }
                               ?>

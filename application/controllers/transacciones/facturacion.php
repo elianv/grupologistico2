@@ -282,7 +282,7 @@ class Facturacion extends CI_Controller{
 
                         $this->facturacion_model->insertar_facturacion($factura);
                         $this->session->set_flashdata('mensaje','La Factura se ha anulado con éxito');
-                        redirect('transacciones/facturacion','refresh');                                            
+                        redirect('transacciones/facturacion/editar','refresh');                                            
                 }
                 else{
                         $session_data = $this->session->userdata('logged_in');

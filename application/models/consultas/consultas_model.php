@@ -69,13 +69,39 @@ Class consultas_model extends CI_Model{
 		$this->db->where('orden.id_estado_orden',$estado);
 
 		if($todas == null){
-			$this->db->where('orden.fecha_presentacion >=',$desde);
-			$this->db->where('orden.fecha_presentacion <=',$hasta);
+			$this->db->where('orden.fecha >=',$desde);
+			$this->db->where('orden.fecha <=',$hasta);
 		}
 
 		$result = $this->db->get();
 		//var_dump($this->db->last_query());
 		return $result->result_array();
+	}
+
+	public function ordenes_conductor(){
+
+	}
+
+	public function ordenes_cliente(){
+
+	}
+
+	public function ordenes_proveedor($proveedor, $desde = null, $hasta = null, $todas = null){
+
+		$this->db->select('orden.id_orden, tipo_orden.tipo_orden, estado_orden.estado, orden.fecha');
+		$this->db->from(' orden, tipo_orden, estado_orden');
+		$this->db->where('orden.id_estado_orden = estado_orden.id');
+		$this->db->where('orden.tipo_orden_id_tipo_orden = tipo_orden.id_tipo_orden');
+		$this->db->where('orden.proveedor_rut_proveedor',$proveedor);
+
+		if($todas == null){
+			$this->db->where('orden.fecha >=',$desde);
+			$this->db->where('orden.fecha <=',$hasta);
+		}
+
+		$result = $this->db->get();
+		//var_dump($this->db->last_query());
+		return $result->result_array();		
 	}
 
 

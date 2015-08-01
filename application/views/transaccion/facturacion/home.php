@@ -194,7 +194,7 @@
         url:"<?php echo base_url();?>index.php/transacciones/facturacion/ordenes_servicios_ajax",
         success: function(response){
             $('#ordenes').html(response);
-            $('#tabla_ordenes').dataTable();
+            $('#tabla_ordenes').DataTable();
         }
 
       });

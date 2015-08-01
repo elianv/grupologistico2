@@ -275,27 +275,32 @@
 
                    
 
-<div class="row show-grid">
-    
-    <div class="span5">
-                        <div class="control-group">
-                        <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
-                        <div class="controls">
-                            <input type="text" class="input-large" id="referencia2" name="referencia2" placeholder="">
-                        </div>
-                        </div>        
-    </div>
-    <div class="span5">
+            <div class="row show-grid">
+                
+                <div class="span5">
+                                    <div class="control-group">
+                                    <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
+                                    <div class="controls">
+                                        <input type="text" class="input-large" id="referencia2" name="referencia2" placeholder="">
+                                    </div>
+                                    </div>        
+                </div>
+                <div class="span5">
+
+                </div>
+                
+            </div>
+
                         <div class="control-group">
                             <label class="control-label" for="rut"><strong>R.U.T Proveedor</strong></label>
                             <div class="controls">
-                                <div class="input-append"><input type="text" class="span2" id="rut" value="<?php echo set_value('proveedor_rut_proveedor'); ?>" name="proveedor_rut_proveedor" placeholder="sin puntos, ni guion"><button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button></div>
+                                <div class="input-append">
+                                    <input type="text" class="span2" id="rut" value="<?php echo set_value('proveedor_rut_proveedor'); ?>" name="proveedor_rut_proveedor" placeholder="sin puntos, ni guion" readonly>
+                                    <button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button>
+                                    <input type="text" class="span4" id="rsocial" disabled="disabled" placeholder="Nombre Proveedor..." style="margin-left: 40px;">
+                                </div>
                             </div>
-                        </div>
-    </div>
-    
-</div>
-
+                        </div>            
                
                         <div class="control-group">
                             <label class="control-label" for="observacion"><strong>Observación</strong></label>

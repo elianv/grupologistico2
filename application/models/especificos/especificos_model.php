@@ -14,6 +14,15 @@ class Especificos_model extends CI_Model{
 
     	return $result->result_array();
     }
+    public function codigos_sistema_otros(){
+        $this->db->select('*');
+        $this->db->from('codigos_sistema');
+        $this->db->where('id != 1');
+
+        $result = $this->db->get();
+
+        return $result->result_array();
+    }    
 
     public function guardar_codigo_sistema($codigo)
     {

@@ -1,5 +1,5 @@
 <div class="tabla-ordenes">
-<table id="tabla_ordenes" class="table table-bordered table-striped dataTable">
+<table id="tabla_ordenes" class="table table-condensed table-bordered">
 	<thead>
 		<tr>
 			<th>N° Orden</th>

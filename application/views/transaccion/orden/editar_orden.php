@@ -1,8 +1,9 @@
 <legend><h3><center>Editar Orden de Servicio</center></h3></legend>
-<div class="container">
+
 <form class="form-horizontal form-orden" method="post">
     <fieldset>
-    <div class="row show-grid">
+<div class="container">
+    <div class="row">
         <div class="span6">
 
 
@@ -25,11 +26,7 @@
                                     <input type="text" class="large" name="cliente" id="cliente_razon" placeholder="Nombre cliente">
                                 </div>
                         </div> 
-
-
-
         </div>
-
         <div class="span6">
                         <div class="control-group">
                             <label class="control-label" for="desde"><strong>Desde</strong></label>
@@ -45,18 +42,21 @@
                                 </div>
                         </div> 
         </div>
+
     </div>
     <div class="form-actions" >
         <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/editar_orden/1'" value="Buscar"/>
     </div>
     </fieldset>
 </form>
-
-
-        <?php 
+</div>
+<div class="container">
+    <?php 
+    
             if(isset($ordenes)){ 
-                        
-                          echo "<table cellpadding='0' cellspacing='0' border='0' class='table table-striped table-bordered' id='example'>";
+                          echo "<legend>Ordenes de Servicios </legend>";    
+                          echo "<br>";                
+                          echo "<table cellpadding='0' class='table table-hover table-condensed' id='tabla-ordenes'>";
                               echo "<thead>";
                                 echo "<tr>";
                                     echo "<th>N°</th>";
@@ -70,7 +70,7 @@
 
                                       foreach ($ordenes as $orden){
                                           echo "<tr>";
-                                          if ($orden['id_estado_orden'] == 3 ){
+                                          if ($orden['id_estado_orden'] != 1 ){
                                                   echo '<td><a data-toggle="tooltip" data-placement="top" title="La orden '.$orden['id_orden'].' se encuentra facturada, no se puede editar" >'.$orden['id_orden'].'</a></td>';
                                           }
                                           else{
@@ -81,7 +81,7 @@
                                           echo "<td>";
                                           echo "<a class='btn btn-primary' href='".base_url()."index.php/transacciones/orden/pdf/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Imprimir</a>";
                                           echo " ";
-                                          if ($orden['id_estado_orden'] != 3 )
+                                          if ($orden['id_estado_orden'] == 1 )
                                           {
                                                   echo "<a class='btn btn-success' target='_blank' href='".base_url()."index.php/transacciones/orden/formulario_editar/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Editar</a>";
                                           }
@@ -92,12 +92,18 @@
 
                                echo "</tbody>";
                           echo "</table>";    
-                      
-            }
-        ?>
-</div>
-<br>
 
+
+        } ?>
+</div>
+
+
+<br>
+              <script type="text/javascript">
+              $(document).ready(function(){
+                  $('#tabla-ordenes').DataTable();
+                });
+              </script>   
 
 
 

@@ -16,7 +16,7 @@
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container" style="width: auto">
-					<a class="brand logo" href=<?php echo base_url();?>index.php/main>Grupo Logistico</a>
+					<a style="margin-left: 0px" class="brand logo" href=<?php echo base_url();?>index.php/main>Grupo Logistico</a>
 					<ul class="nav"><li class="divider"></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantenci&oacute;n <b class="caret"></b></a>
@@ -57,15 +57,15 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Consultas<b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="#">Generar Datos</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/master');?>">Generar Datos</a></li>
 								<li class="divider"></li>
 								<li class="nav-header">O.S. por estado</li>
-								<li><a href=<?php echo base_url();?>index.php/consultas/facturadas  >Ordenes</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_estado');?>" >Ordenes</a></li>
 								<li class="divider"></li>
 								<li class="nav-header">O.S por Otros</li>
-								<li><a href="#">Clientes</a></li>
-								<li><a href="#">Proveedor</a></li>
-								<li><a href="#">Cami&oacute;n</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_cliente');?>">Clientes</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_proveedor');?>">Proveedor</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_conductor');?>">Conductor</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">

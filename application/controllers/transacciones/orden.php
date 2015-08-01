@@ -55,7 +55,7 @@
             //listado clientes
             $data['clientes'] = $this->Clientes_model->listar_clientes();
             //listado tramos
-            $data['tramos'] = $this->Facturacion->listar_tramos();
+            $data['tramos'] = $this->Tramos_model->listar_tramos();
             //listado aduanas
             $data['aduanas'] = $this->Agencias_model->listar_agencias();
             //listar bodegas
@@ -108,6 +108,7 @@
 				$this->load->view('modal/modal_nave',$data);
                 $this->load->view('modal/modal_naves',$data);
 				$this->load->view('modal/modal_orden',$data);
+                $this->load->view('include/tables');    
 				$this->load->view('include/script');
 			}
           
@@ -825,8 +826,9 @@
                     $this->load->view('modal/modal_deposito',$data);
                     $this->load->view('modal/modal_nave',$data);
                     $this->load->view('modal/modal_naves',$data);
-                $this->load->view('include/ready');
-                $this->load->view('include/script');
+                    $this->load->view('include/tables');   
+                    $this->load->view('include/ready');
+                    $this->load->view('include/script');
             }
             else{
                 redirect('/transacciones/orden/editar_orden','refresh');
