@@ -742,9 +742,9 @@ $('#modal-deposito .codigo-click').click(function(e){
 $('#modal-proveedor .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+	console.log("fghjk");
 	$('.form-orden #rut').attr('value', $(this).data('codigo'));
-	
+	$('.form-orden #rsocial').attr('value', $(this).data('rs'));
 	$('#modal-proveedor').fadeOut('fast',function(){
 	
 		$('body').removeClass('modal-open');
