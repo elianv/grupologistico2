@@ -139,7 +139,7 @@
                 url:"<?php echo base_url('index.php/consultas/facturadas/generar_ordenes_por_proveedor');?>",
                 data: datos,
                 success: function(response){
-	                $('#ordenes-proveedores').html(response);
+	                $('#ordenes-proveedores').html(response.html);
 	                $('#tabla-ordenes-proveedores').DataTable();
                 }
             });    		  

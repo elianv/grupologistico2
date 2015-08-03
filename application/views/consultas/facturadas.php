@@ -82,7 +82,7 @@
                                 <tbody>
                                     <?php foreach ($ordenes as $orden) { ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/11')?>" title="Para ver la Orden haga click"><?php echo $orden['id_orden']; ?></a></td>
+                                            <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$orden['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $orden['id_orden']; ?></a></td>
                                             <td><?php echo $orden['tipo_orden']; ?></td>
                                             <?php $fecha = new DateTime($orden['fecha']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>

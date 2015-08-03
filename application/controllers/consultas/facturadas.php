@@ -181,9 +181,6 @@
         }
 
         function generar_ordenes_por_proveedor(){
-            //tipo 1 Por conductor
-            //tipo 2 Por cliente
-            //tipo 3 por proveedor
             if($this->session->userdata('logged_in')){
                 if( isset($_POST['id']) ){
                     $session_data = $this->session->userdata('logged_in');
@@ -194,17 +191,6 @@
                     $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
                     $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
                     $this->form_validation->set_rules('id', 'Proveedor','trim|xss_clean|required|callback_check_proveedor');
-                    /*
-                    if($tipo == 1){
-                        $this->form_validation->set_rules('id', 'Conductor','trim|xss_clean|required|callback_check_conductor');
-                    }
-                    if($tipo == 2){
-                        $this->form_validation->set_rules('id', 'Cliente','trim|xss_clean|required|callback_check_cliente');
-                    }
-                    if($tipo == 1){
-                        
-                    }  
-                    */                                      
 
                     if($time == 'fechas'){
                         $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
@@ -220,23 +206,73 @@
                     }
                     else{
                         $id        = $this->input->post('id');
-                        $conductor = $this->input->post('conductor');
                         $salida    = $this->input->post('salida');
-                        echo "<pre>";
-                        print_r($_POST);
 
                         if ($time == 'fechas'){
                             $desde = $this->input->post('desde');
                             $hasta = $this->input->post('hasta');
 
-                            $proveedores = $this->consultas_model->ordenes_proveedor($id, $desde, $hasta, '');
+                            $proveedores['proveedores'] = $this->consultas_model->ordenes_proveedor($id, $desde, $hasta, '');
                         }
                         else{
-                            $proveedores = $this->consultas_model->ordenes_proveedor($id, '' , '' ,1);
+                            $proveedores['proveedores'] = $this->consultas_model->ordenes_proveedor($id, '' , '' ,1);
                         }
-                        echo "provedores <br>";
-                        print_r($proveedores);
+                        
+                        $theHTMLResponse['html'] = $this->load->view('consultas/ajax/ordenes_proveedor_pantalla',$proveedores, true);
+                        $this->output->set_content_type('application/json');
+                        $this->output->set_output(json_encode($theHTMLResponse));                         
+                        
+                    }
+                }
+                else
+                    redirect('main','refresh');
 
+            }
+            else
+                redirec('home','refresh');
+        }
+
+        function generar_ordenes_por_cliente(){
+            if($this->session->userdata('logged_in')){
+                if( isset($_POST['id']) ){
+                    $session_data = $this->session->userdata('logged_in');
+
+                    $time   = $this->input->post('time');
+
+                    $this->load->library('form_validation');
+                    $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
+                    $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
+                    $this->form_validation->set_rules('id', 'Cliente','trim|xss_clean|required|callback_check_proveedor');
+
+                    if($time == 'fechas'){
+                        $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
+                        $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
+                    }
+
+                    if($this->form_validation->run() == FALSE){      
+                            $this->load->model('mantencion/Clientes_model');
+                            $data['proveedores'] = $this->Clientes_model->listar_clientes();
+                            $this->load->view('include/head',$session_data);
+                            $this->load->view('consultas/por_cliente',$data);
+                            $this->load->view('include/script');
+                    }
+                    else{
+                        $id        = $this->input->post('id');
+                        $salida    = $this->input->post('salida');
+
+                        if ($time == 'fechas'){
+                            $desde = $this->input->post('desde');
+                            $hasta = $this->input->post('hasta');
+
+                            $proveedores['proveedores'] = $this->consultas_model->ordenes_proveedor($id, $desde, $hasta, '');
+                        }
+                        else{
+                            $proveedores['proveedores'] = $this->consultas_model->ordenes_proveedor($id, '' , '' ,1);
+                        }
+                        
+                        $theHTMLResponse['html'] = $this->load->view('consultas/ajax/ordenes_proveedor_pantalla',$proveedores, true);
+                        $this->output->set_content_type('application/json');
+                        $this->output->set_output(json_encode($theHTMLResponse));                         
                         
                     }
                 }
