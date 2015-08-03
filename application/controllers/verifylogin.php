@@ -33,7 +33,7 @@ class VerifyLogin extends CI_Controller{
         $username = $this->input->post('username');
         
         //consulta a la bd
-        $result = $this->user->login($username,$password);
+        $result = $this->user->login($username,md5($password));
         
         if($result){
             

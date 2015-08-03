@@ -6,6 +6,7 @@
         $this->load->model('utils/Facturacion');
         $this->load->model('utils/Viaje');
         $this->load->model('utils/Detalle');
+        $this->load->model('utils/log');
         $this->load->model('mantencion/Clientes_model');
         $this->load->model('mantencion/Agencias_model');
         $this->load->model('mantencion/Bodegas_model');
@@ -124,7 +125,7 @@
             if($this->session->userdata('logged_in')){
                
                  $this->load->library('form_validation');
-
+                 $session_data = $this->session->userdata('logged_in');
                   $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
                   
                   if(!isset($_POST['enable_tramo'])){
@@ -354,6 +355,17 @@
                             }
                     }
 
+            //########################## Log de creado. ##########################                     
+
+                $log = array(   'nombre_usuario' => $session_data['nombre'],
+                                'rut_usuario' => $session_data['rut_usuario'],
+                                'accion' => 'CREAR ORDEN',
+                                'orden_id' => $num_orden,
+                                'ip' => $_SERVER['REMOTE_ADDR']
+                            );  
+
+                $this->log->insertar_log($log);
+
                 $this->session->set_flashdata('sin_orden','La orden se ha creado con éxito');
                 redirect('transacciones/orden/index');
                 //$this->load->view('prueba');
@@ -577,6 +589,16 @@
                                $this->Detalle->guardar_detalle($detalle);
                             }
                     }
+
+                    $log = array(   'nombre_usuario' => $session_data['nombre'],
+                                    'rut_usuario' => $session_data['rut_usuario'],
+                                    'accion' => 'EDITAR ORDEN',
+                                    'orden_id' => $num_orden,
+                                    'ip' => $_SERVER['REMOTE_ADDR']
+                                );  
+
+                    $this->log_model->insertar_log($log);  
+                                      
 		            $this->session->set_flashdata('sin_orden','La Orden de Servicio se edito con éxito');
                     redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
 
