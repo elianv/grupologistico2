@@ -21,7 +21,6 @@
         $this->load->model('mantencion/Naves_model');
         $this->load->model('mantencion/Navieras_model');
         date_default_timezone_set('America/Santiago');
-        
     }
             
     function index(){
@@ -51,66 +50,60 @@
             if($this->session->userdata('logged_in')){
             
             $session_data = $this->session->userdata('logged_in');
-            //tipo facturacion
-            $data['tfacturacion'] = $this->Facturacion->tipo_orden();
-            //listado clientes
-            $data['clientes'] = $this->Clientes_model->listar_clientes();
-            //listado tramos
-            $data['tramos'] = $this->Tramos_model->listar_tramos();
-            //listado aduanas
-            $data['aduanas'] = $this->Agencias_model->listar_agencias();
-            //listar bodegas
-            $data['bodegas']= $this->Bodegas_model->listar_bodegas();
-            //listar puertos
-            $data['puertos'] = $this->Puertos_model->listar_puertos();
-            //listar proveedores
-            $data['proveedores'] = $this->Proveedores_model->listar_proveedores();
-            //listar camiones
-            $data['camiones'] = $this->Camiones_model->listar_camiones();
-            //listar servicios
-            $data['servicios'] = $this->Servicios_model->listar_servicios();
-            //listar conductores
-            $data['conductores'] = $this->Conductores_model->listar_conductores();
-            //listar carga
-            $data['cargas'] = $this->Cargas_model->listar_cargas();
-            //listar depositos
-            $data['depositos'] = $this->Depositos_model->listar_depositos();
-            //listar naves
-            $data['naves'] = $this->Naves_model->listar_naves();
-            //listar ordenes
-            $data['ordenes'] = $this->Orden_model->listar_ordenes();
-            $data['navieras'] = $this->Navieras_model->listar_navieras();
+
+            $data['tfacturacion']   = $this->Facturacion->tipo_orden();
+            $data['clientes']       = $this->Clientes_model->listar_clientes();
+            $data['tramos']         = $this->Tramos_model->listar_tramos();
+            $data['aduanas']        = $this->Agencias_model->listar_agencias();
+            $data['bodegas']        = $this->Bodegas_model->listar_bodegas();
+            $data['puertos']        = $this->Puertos_model->listar_puertos();
+            $data['proveedores']    = $this->Proveedores_model->listar_proveedores();
+            $data['camiones']       = $this->Camiones_model->listar_camiones();
+            $data['servicios']      = $this->Servicios_model->listar_servicios();
+            $data['conductores']    = $this->Conductores_model->listar_conductores();
+            $data['cargas']         = $this->Cargas_model->listar_cargas();
+            $data['depositos']      = $this->Depositos_model->listar_depositos();
+            $data['naves']          = $this->Naves_model->listar_naves();
+            $data['ordenes']        = $this->Orden_model->listar_ordenes();
+            $data['navieras']       = $this->Navieras_model->listar_navieras();
             
             $codigo = $this->Orden_model->ultimo_codigo();
             
+            $this->load->model('especificos/especificos_model');
+            $correlativo = $this->especificos_model->correlativo_os();
+            
             if ($codigo[0]['id_orden'] == ""){
-                  $data['numero_orden'] = 1;
-                          
-              }
-              else{
-                  $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
-                  
-              }
-				$tab['active'] = 'exportacion';
-				$this->load->view('include/head',$session_data);
-				$this->load->view('transaccion/orden/crear_orden',$data);
-				$this->load->view('modal/modal_aduana', $data);
-				$this->load->view('modal/modal_cliente',$data);
-				$this->load->view('modal/modal_tramo',$data);
-				$this->load->view('modal/modal_bodega',$data);
-				$this->load->view('modal/modal_puerto',$data);
-				$this->load->view('modal/modal_destino',$data);
-				$this->load->view('modal/modal_proveedor',$data);
-				$this->load->view('modal/modal_camion',$data);
-				$this->load->view('modal/modal_servicio',$data);
-				$this->load->view('modal/modal_conductor',$data);
-				$this->load->view('modal/modal_carga',$data);
-				$this->load->view('modal/modal_deposito',$data);
-				$this->load->view('modal/modal_nave',$data);
-                $this->load->view('modal/modal_naves',$data);
-				$this->load->view('modal/modal_orden',$data);
-                $this->load->view('include/tables');    
-				$this->load->view('include/script');
+                $data['numero_orden'] = $correlativo[0]['valor'] + 1;
+
+            }
+            else{
+
+                if($codigo[0]['id_orden'] == $correlativo[0]['valor'] + 1)
+                    $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
+                else
+                   $data['numero_orden'] = $correlativo[0]['valor'] + 1;
+            }
+
+			$tab['active'] = 'exportacion';
+			$this->load->view('include/head',$session_data);
+			$this->load->view('transaccion/orden/crear_orden',$data);
+			$this->load->view('modal/modal_aduana', $data);
+			$this->load->view('modal/modal_cliente',$data);
+			$this->load->view('modal/modal_tramo',$data);
+			$this->load->view('modal/modal_bodega',$data);
+			$this->load->view('modal/modal_puerto',$data);
+			$this->load->view('modal/modal_destino',$data);
+			$this->load->view('modal/modal_proveedor',$data);
+			$this->load->view('modal/modal_camion',$data);
+			$this->load->view('modal/modal_servicio',$data);
+			$this->load->view('modal/modal_conductor',$data);
+			$this->load->view('modal/modal_carga',$data);
+			$this->load->view('modal/modal_deposito',$data);
+			$this->load->view('modal/modal_nave',$data);
+            $this->load->view('modal/modal_naves',$data);
+			$this->load->view('modal/modal_orden',$data);
+            $this->load->view('include/tables');    
+			$this->load->view('include/script');
 			}
           
             else{
@@ -145,7 +138,7 @@
                     $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
                   }
 
-                  
+                  $this->form_validation->set_rules('numero_orden', 'Número de Orden','trim|xss_clean|required|numeric');
                   $this->form_validation->set_rules('proveedor_rut_proveedor','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
                   $this->form_validation->set_rules('tipo_carga_codigo_carga','Carga','trim|xss_clean|required|callback_check_carga');
                   $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
@@ -189,14 +182,20 @@
                     
 
                     $codigo = $this->Orden_model->ultimo_codigo();
-
+                    
+                    $this->load->model('especificos/especificos_model');
+                    $correlativo = $this->especificos_model->correlativo_os();
+                    
                     if ($codigo[0]['id_orden'] == ""){
-                          $data['numero_orden'] = 1;
+                        $data['numero_orden'] = $correlativo[0]['valor'] + 1;
 
                     }
                     else{
-                          $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
 
+                        if($codigo[0]['id_orden'] == $correlativo[0]['valor'] + 1)
+                            $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
+                        else
+                           $data['numero_orden'] = $correlativo[0]['valor'] + 1;
                     }
                     $tab['active'] = 'exportacion';
                     
@@ -275,7 +274,7 @@
                     $fecha_presentacion = str_replace('/','-', $fecha_presentacion);
                     $fecha_presentacion = date("Y-m-d H:i",strtotime($fecha_presentacion));
                     
-                    $codigo = $this->Orden_model->ultimo_codigo();
+                    $codigo[0]['id_orden'] = $this->input->post('numero_orden') - 1;
                     
                     $orden = array(
                         'id_orden' => $codigo[0]['id_orden'] + 1,
@@ -380,76 +379,77 @@
     function editar(){
         if($this->session->userdata('logged_in')){
                             
-                
+                $session_data = $this->session->userdata('logged_in');
+
                 $this->load->library('form_validation');
-                 
-                  $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
-                  if(!isset($_POST['enable_tramo'])){
+
+                $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
+                $this->form_validation->set_rules('proveedor_rut_proveedor','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
+                $this->form_validation->set_rules('tipo_carga_codigo_carga','Carga','trim|xss_clean|required|callback_check_carga');
+                $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
+                $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
+                $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
+                $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
+                $this->form_validation->set_rules('naviera_codigo_naviera','Naviera','required|trim|xss_clean');
+                $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean|callback_check_orden');                
+                $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
+                $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
+                $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');                  
+                
+                if(!isset($_POST['enable_tramo'])){
                       $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
-                  }
-                  $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
-                  $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
-                  $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
+                }
                 if($_POST['tipo_orden'] != "NACIONAL" &&  $_POST['tipo_orden'] != "OTRO SERVICIO"){
                       $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
                    
-                  }
-                  $this->form_validation->set_rules('proveedor_rut_proveedor','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
-                  $this->form_validation->set_rules('tipo_carga_codigo_carga','Carga','trim|xss_clean|required|callback_check_carga');
-                  $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
-                  $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
-                  $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
-                  $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
-                  $this->form_validation->set_rules('naviera_codigo_naviera','Naviera','required|trim|xss_clean');
-                  $this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean|callback_check_orden');
-                  
+                }
                 if($this->form_validation->run() == FALSE){
                     
-                    $session_data = $this->session->userdata('logged_in');
-                    //tipo facturacion
+                    $id_orden               = $this->input->post('numero_orden');
+                    $datos['numero_orden']  = $id_orden;
+                    $datos['orden']         = $this->Orden_model->get_orden($id_orden);
+                    $datos['tfacturacion']  = $this->Facturacion->tipo_orden();
+                    $datos['detalles']      = $this->Detalle->detalle_orden($id_orden);
+                    $i=0;
+                    foreach($datos['detalles'] as $detalle){
+                        
+                        $temporal                               = $this->Servicios_model->datos_servicio($datos['detalles'][$i]['servicio_codigo_servicio']);
+                        $datos['detalles'][$i]['descripcion']   = $temporal[0]['descripcion'];
+                        $i++;
+
+                    }
+                    $datos['cliente']         = $this->Clientes_model->datos_cliente($datos['orden'][0]['cliente_rut_cliente']);
+                    $datos['aduana']          = $this->Agencias_model->datos_aduana($datos['orden'][0]['aduana_codigo_aduana']);
+                    $datos['nave']            = $this->Naves_model->datos_nave($datos['orden'][0]['nave_codigo_nave']);
+                    $datos['naviera']         = $this->Navieras_model->get_naviera($datos['orden'][0]['naviera_codigo_naviera']);
+                    $datos['tramo']           = $this->Tramos_model->datos_tramo($datos['orden'][0]['tramo_codigo_tramo']);
+                    $datos['carga']           = $this->Cargas_model->datos_carga($datos['orden'][0]['tipo_carga_codigo_carga']);
+                    $datos['bodega']          = $this->Bodegas_model->datos_bodega($datos['orden'][0]['tipo_carga_codigo_carga']);
+                    $datos['deposito']        = $this->Depositos_model->datos_deposito($datos['orden'][0]['deposito_codigo_deposito']);
+                    $datos['destino']         = $this->Puertos_model->datos_puerto($datos['orden'][0]['destino']);
+                    $datos['puerto_embarque'] = $this->Puertos_model->datos_puerto($datos['orden'][0]['puerto_codigo_puerto']);
+                    $datos['proveedor']       = $this->Proveedores_model->datos_proveedor($datos['orden'][0]['proveedor_rut_proveedor']);
+                    $datos['viaje']           = $this->Viaje->seleccionar_viaje($datos['orden'][0]['viaje_id_viaje']);
+                    $datos['conductor']       = $this->Conductores_model->datos_conductor($datos['viaje'][0]['conductor_rut']);
+                    $datos['camion']          = $this->Camiones_model->getCamion($datos['viaje'][0]['camion_camion_id']);
+                   
                     $data['tfacturacion'] = $this->Facturacion->tipo_orden();
-                    //listado clientes
-                    $data['clientes'] = $this->Clientes_model->listar_clientes();
-                    //listado tramos
-                    $data['tramos'] = $this->Facturacion->listar_tramos();
-                    //listado aduanas
-                    $data['aduanas'] = $this->Agencias_model->listar_agencias();
-                    //listar bodegas
-                    $data['bodegas']= $this->Bodegas_model->listar_bodegas();
-                    //listar puertos
-                    $data['puertos'] = $this->Puertos_model->listar_puertos();
-                    //listar proveedores
-                    $data['proveedores'] = $this->Proveedores_model->listar_proveedores();
-                    //listar camiones
-                    $data['camiones'] = $this->Camiones_model->listar_camiones();
-                    //listar servicios
-                    $data['servicios'] = $this->Servicios_model->listar_servicios();
-                    //listar conductores
-                    $data['conductores'] = $this->Conductores_model->listar_conductores();
-                    //listar carga
-                    $data['cargas'] = $this->Cargas_model->listar_cargas();
-                    //listar depositos
-                    $data['depositos'] = $this->Depositos_model->listar_depositos();
-                    //listar Naves
-                    $data['naves'] = $this->Naves_model->listar_naves();
-                    $data['navieras'] = $this->Navieras_model->listar_navieras();
-                    $data['ordenes'] = $this->Orden_model->listar_ordenes();
-                    
+                    $data['clientes']     = $this->Clientes_model->listar_clientes();
+                    $data['tramos']       = $this->Facturacion->listar_tramos();
+                    $data['aduanas']      = $this->Agencias_model->listar_agencias();
+                    $data['bodegas']      = $this->Bodegas_model->listar_bodegas();
+                    $data['puertos']      = $this->Puertos_model->listar_puertos();
+                    $data['proveedores']  = $this->Proveedores_model->listar_proveedores();
+                    $data['camiones']     = $this->Camiones_model->listar_camiones();
+                    $data['servicios']    = $this->Servicios_model->listar_servicios();
+                    $data['conductores']  = $this->Conductores_model->listar_conductores();
+                    $data['cargas']       = $this->Cargas_model->listar_cargas();
+                    $data['depositos']    = $this->Depositos_model->listar_depositos();
+                    $data['naves']        = $this->Naves_model->listar_naves();
+                    $data['navieras']     = $this->Navieras_model->listar_navieras();
 
-                    $codigo = $this->Orden_model->ultimo_codigo();
-
-                    if ($codigo[0]['id_orden'] == ""){
-                          $data['numero_orden'] = 1;
-
-                    }
-                    else{
-                          $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
-
-                    }
-                    $tab['active'] = 'exportacion';
-                    
                     $this->load->view('include/head',$session_data);
-                    $this->load->view('transaccion/orden',$data);
+                    $this->load->view('transaccion/orden/orden',$datos);
                     $this->load->view('modal/modal_aduana', $data);
                     $this->load->view('modal/modal_cliente',$data);
                     $this->load->view('modal/modal_tramo',$data);
@@ -464,8 +464,10 @@
                     $this->load->view('modal/modal_deposito',$data);
                     $this->load->view('modal/modal_nave',$data);
                     $this->load->view('modal/modal_naves',$data);
-		    $this->load->view('modal/modal_orden',$data);
-                    $this->load->view('include/script');
+                    $this->load->view('include/tables');   
+                    $this->load->view('include/ready');
+                    $this->load->view('include/script');                    
+
                 }
                 else{
                   
@@ -475,25 +477,21 @@
                     $camion = $this->Camiones_model->datos_camion($this->input->post('patente'));
                     
                     $viaje = array(
-                                'camion_camion_id' => $camion['0']['camion_id'],
-                                'conductor_rut' => $this->input->post('conductor_rut'),
-                                'id_viaje' => $orden_bd[0]['viaje_id_viaje']
+                                'camion_camion_id'  => $camion['0']['camion_id'],
+                                'conductor_rut'     => $this->input->post('conductor_rut'),
+                                'id_viaje'          => $orden_bd[0]['viaje_id_viaje']
                             );
     
-                    $aduana = explode(' - ', $this->input->post('aduana_codigo_aduana'));
-                    $nave = explode(' - ',  $this->input->post('nave_codigo_nave'));
-                    $bodega = explode(' - ',  $this->input->post('bodega_codigo_bodega'));
-                    $destino = explode(' - ',  $this->input->post('destino'));
-                    
-                    $carga = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
-                    
-                    $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
-                    $fecha = $this->input->post('fecha');
+                    $aduana             = explode(' - ', $this->input->post('aduana_codigo_aduana'));
+                    $nave               = explode(' - ',  $this->input->post('nave_codigo_nave'));
+                    $bodega             = explode(' - ',  $this->input->post('bodega_codigo_bodega'));
+                    $destino            = explode(' - ',  $this->input->post('destino'));
+                    $carga              = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
+                    $tramo              = explode(' - ', $this->input->post('tramo_codigo_tramo'));
+                    $fecha              = $this->input->post('fecha');
                     $fecha_presentacion = $this->input->post('fecha_presentacion');
-                    
-                    $fecha = str_replace('/','-', $fecha);
-                    $fecha = date("Y-m-d H:i",strtotime($fecha));
-                    
+                    $fecha              = str_replace('/','-', $fecha);
+                    $fecha              = date("Y-m-d H:i",strtotime($fecha));
                     $fecha_presentacion = str_replace('/','-', $fecha_presentacion);
                     $fecha_presentacion = date("Y-m-d H:i",strtotime($fecha_presentacion));
                     
@@ -518,35 +516,35 @@
                     }						
                     
                     $orden = array(
-                        'id_orden' =>$this->input->post('numero_orden'),
-                        'referencia' => $this->input->post('referencia'),
-                        'fecha' => $fecha,
-                        'cliente_rut_cliente' => $this->input->post('cliente_rut_cliente'),
-                        'booking' => $this->input->post('booking'),
-                        'aduana_codigo_aduana' => $aduana[0],
-                        'numero' => $this->input->post('numero'),
-                        'peso' => $this->input->post('peso'),
-                        'set_point' => $this->input->post('set_point'),
-                        'fecha_presentacion' => $fecha_presentacion,
-                        'bodega_codigo_bodega' => $bodega[0],
-                        'destino' => $destino[0],
-                        'puerto_codigo_puerto' => $puerto[0],
-                        'proveedor_rut_proveedor' => $this->input->post('proveedor_rut_proveedor'),
-                        'observacion' => $this->input->post('observacion'),
-                        'referencia_2' => $this->input->post('referencia2'),
-                        'tipo_carga_codigo_carga'=> $carga[0],
-                        'tipo_orden_id_tipo_orden' => '',
-                        'deposito_codigo_deposito' => $deposito[0],
-                        'nave_codigo_nave' => $nave[0],
-                        'mercaderia' =>  $this->input->post('mercaderia'),
-                        'num_servicios' => count($this->input->post('codigo_Servicio')),
-                        'viaje_id_viaje' => $orden_bd[0]['viaje_id_viaje'],
-                        'tramo_codigo_tramo' => $tramo[0],
-                        'valor_costo_tramo' => str_replace(".", "",$this->input->post('valor_costo_tramo')),
-                        'valor_venta_tramo' => str_replace(".", "",$this->input->post('valor_venta_tramo')),
-                        'naviera_codigo_naviera' => $this->input->post('naviera_codigo_naviera'),
-                        'lugar_retiro' => $lugar_retiro
-                    );
+                                    'id_orden'                  =>$this->input->post('numero_orden'),
+                                    'referencia'                => $this->input->post('referencia'),
+                                    'fecha'                     => $fecha,
+                                    'cliente_rut_cliente'       => $this->input->post('cliente_rut_cliente'),
+                                    'booking'                   => $this->input->post('booking'),
+                                    'aduana_codigo_aduana'      => $aduana[0],
+                                    'numero'                    => $this->input->post('numero'),
+                                    'peso'                      => $this->input->post('peso'),
+                                    'set_point'                 => $this->input->post('set_point'),
+                                    'fecha_presentacion'        => $fecha_presentacion,
+                                    'bodega_codigo_bodega'      => $bodega[0],
+                                    'destino'                   => $destino[0],
+                                    'puerto_codigo_puerto'      => $puerto[0],
+                                    'proveedor_rut_proveedor'   => $this->input->post('proveedor_rut_proveedor'),
+                                    'observacion'               => $this->input->post('observacion'),
+                                    'referencia_2'              => $this->input->post('referencia2'),
+                                    'tipo_carga_codigo_carga'   => $carga[0],
+                                    'tipo_orden_id_tipo_orden'  => '',
+                                    'deposito_codigo_deposito'  => $deposito[0],
+                                    'nave_codigo_nave'          => $nave[0],
+                                    'mercaderia'                =>  $this->input->post('mercaderia'),
+                                    'num_servicios'             => count($this->input->post('codigo_Servicio')),
+                                    'viaje_id_viaje'            => $orden_bd[0]['viaje_id_viaje'],
+                                    'tramo_codigo_tramo'        => $tramo[0],
+                                    'valor_costo_tramo'         => str_replace(".", "",$this->input->post('valor_costo_tramo')),
+                                    'valor_venta_tramo'         => str_replace(".", "",$this->input->post('valor_venta_tramo')),
+                                    'naviera_codigo_naviera'    => $this->input->post('naviera_codigo_naviera'),
+                                    'lugar_retiro'              => $lugar_retiro
+                                );
                     
                     if(isset($_POST['enable_tramo'])){
                        $orden['tramo_codigo_tramo'] = -1;
@@ -675,7 +673,6 @@
         else{
                 redirect('home','refresh');
             }
-        
     }
     
     function eliminar_orden($id_orden = null){
@@ -798,59 +795,41 @@
                 $datos['viaje']           = $this->Viaje->seleccionar_viaje($datos['orden'][0]['viaje_id_viaje']);
                 $datos['conductor']       = $this->Conductores_model->datos_conductor($datos['viaje'][0]['conductor_rut']);
                 $datos['camion']          = $this->Camiones_model->getCamion($datos['viaje'][0]['camion_camion_id']);
-                
-                
-                
-                    $data['tfacturacion'] = $this->Facturacion->tipo_orden();
-                    //listado clientes
-                    $data['clientes'] = $this->Clientes_model->listar_clientes();
-                    //listado tramos
-                    $data['tramos'] = $this->Facturacion->listar_tramos();
-                    //listado aduanas
-                    $data['aduanas'] = $this->Agencias_model->listar_agencias();
-                    //listar bodegas
-                    $data['bodegas']= $this->Bodegas_model->listar_bodegas();
-                    //listar puertos
-                    $data['puertos'] = $this->Puertos_model->listar_puertos();
-                    //listar proveedores
-                    $data['proveedores'] = $this->Proveedores_model->listar_proveedores();
-                    //listar camiones
-                    $data['camiones'] = $this->Camiones_model->listar_camiones();
-                    //listar servicios
-                    $data['servicios'] = $this->Servicios_model->listar_servicios();
-                    //listar conductores
-                    $data['conductores'] = $this->Conductores_model->listar_conductores();
-                    //listar carga
-                    $data['cargas'] = $this->Cargas_model->listar_cargas();
-                    //listar depositos
-                    $data['depositos'] = $this->Depositos_model->listar_depositos();
-                    //listar Naves
-                    $data['naves'] = $this->Naves_model->listar_naves();
-                    $data['navieras'] = $this->Navieras_model->listar_navieras();
-                    //echo "<pre>";
-                    //print_r($datos);
-                    //echo "</pre>";
+               
+                $data['tfacturacion'] = $this->Facturacion->tipo_orden();
+                $data['clientes']     = $this->Clientes_model->listar_clientes();
+                $data['tramos']       = $this->Facturacion->listar_tramos();
+                $data['aduanas']      = $this->Agencias_model->listar_agencias();
+                $data['bodegas']      = $this->Bodegas_model->listar_bodegas();
+                $data['puertos']      = $this->Puertos_model->listar_puertos();
+                $data['proveedores']  = $this->Proveedores_model->listar_proveedores();
+                $data['camiones']     = $this->Camiones_model->listar_camiones();
+                $data['servicios']    = $this->Servicios_model->listar_servicios();
+                $data['conductores']  = $this->Conductores_model->listar_conductores();
+                $data['cargas']       = $this->Cargas_model->listar_cargas();
+                $data['depositos']    = $this->Depositos_model->listar_depositos();
+                $data['naves']        = $this->Naves_model->listar_naves();
+                $data['navieras']     = $this->Navieras_model->listar_navieras();
+
                 $this->load->view('include/head',$datos);
                 $this->load->view('transaccion/orden/orden',$datos);
-                
-              
-                    $this->load->view('modal/modal_aduana', $data);
-                    $this->load->view('modal/modal_cliente',$data);
-                    $this->load->view('modal/modal_tramo',$data);
-                    $this->load->view('modal/modal_bodega',$data);
-                    $this->load->view('modal/modal_puerto',$data);
-                    $this->load->view('modal/modal_destino',$data);
-                    $this->load->view('modal/modal_proveedor',$data);
-                    $this->load->view('modal/modal_camion',$data);
-                    $this->load->view('modal/modal_servicio',$data);
-                    $this->load->view('modal/modal_conductor',$data);
-                    $this->load->view('modal/modal_carga',$data);
-                    $this->load->view('modal/modal_deposito',$data);
-                    $this->load->view('modal/modal_nave',$data);
-                    $this->load->view('modal/modal_naves',$data);
-                    $this->load->view('include/tables');   
-                    $this->load->view('include/ready');
-                    $this->load->view('include/script');
+                $this->load->view('modal/modal_aduana', $data);
+                $this->load->view('modal/modal_cliente',$data);
+                $this->load->view('modal/modal_tramo',$data);
+                $this->load->view('modal/modal_bodega',$data);
+                $this->load->view('modal/modal_puerto',$data);
+                $this->load->view('modal/modal_destino',$data);
+                $this->load->view('modal/modal_proveedor',$data);
+                $this->load->view('modal/modal_camion',$data);
+                $this->load->view('modal/modal_servicio',$data);
+                $this->load->view('modal/modal_conductor',$data);
+                $this->load->view('modal/modal_carga',$data);
+                $this->load->view('modal/modal_deposito',$data);
+                $this->load->view('modal/modal_nave',$data);
+                $this->load->view('modal/modal_naves',$data);
+                $this->load->view('include/tables');   
+                $this->load->view('include/ready');
+                $this->load->view('include/script');
             }
             else{
                 redirect('/transacciones/orden/editar_orden','refresh');
@@ -1370,7 +1349,6 @@
             
             return true;
         }
-    
     }
     
     function check_puerto($puerto){
@@ -1386,7 +1364,6 @@
             
             return true;
         }
-    
     }
 
     function check_destino($puerto){
@@ -1402,7 +1379,6 @@
             
             return true;
         }
-    
     }
          
     function check_proveedor($proveedor){
@@ -1418,7 +1394,6 @@
             
             return true;
         }
-    
     }
     
     function check_servicio($servicio){
@@ -1434,7 +1409,6 @@
             
             return true;
         }
-    
     }
     
     function check_conductor($rut){
@@ -1450,7 +1424,6 @@
             
             return true;
         }
-    
     }
     
     function check_patente($patente){
@@ -1466,7 +1439,6 @@
             
             return true;
         }
-    
     }
         
     function check_carga($carga){
@@ -1482,7 +1454,6 @@
             
             return true;
         }
-    
     }
             
     function check_deposito($deposito){
@@ -1498,7 +1469,6 @@
             
             return true;
         }
-    
     }
                 
     function check_nave($nave){
@@ -1514,7 +1484,6 @@
             
             return true;
         }
-    
     }
     
     function check_orden($orden){
@@ -1530,7 +1499,6 @@
             
             return true;
         }
-            
     }
 
     function datos_ordensh($id_orden){
@@ -1549,7 +1517,6 @@
 		
 		
 		return $ret;
-        
     }
 	
     function datos_detalle($id_orden_detalle) {

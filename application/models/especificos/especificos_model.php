@@ -68,7 +68,21 @@ class Especificos_model extends CI_Model{
     	$result = $this->db->get();
 
     	return $result->num_rows();    	
-    }      
+    }  
+
+    public function correlativo_os(){
+        $this->db->select('*');
+        $this->db->from('parametros');
+        $this->db->where('parametro = "CORRELATIVO"');
+
+        $result = $this->db->get();
+
+        return $result->result_array();
+    }   
+
+    public function guardar_correlativo_os($data){
+        $this->db->insert('parametros', $data);
+    }
 
 }
 

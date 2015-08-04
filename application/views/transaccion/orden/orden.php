@@ -73,7 +73,7 @@
                 <label class="control-label" for="cliente"><strong>RUT Cliente</strong></label>
                 <div class="controls">
                     <div class="input-append">
-						<input type="text" class="span2" id="cliente" name="cliente_rut_cliente" value="<?php echo $orden[0]['cliente_rut_cliente']; ?>">
+						<input type="text" class="span2" id="cliente" name="cliente_rut_cliente" value="<?php echo $orden[0]['cliente_rut_cliente']; ?>" readonly>
 						<button class="btn" type="button" data-toggle="modal" href="#modal-cliente"><i class="icon-search"></i></button>
 						<input  class="nombre-cliente" type="text" disabled="disabled" value="<?php echo $cliente[0]['razon_social']; ?>" placeholder="Nombre Cliente..." readonly>
 					</div>

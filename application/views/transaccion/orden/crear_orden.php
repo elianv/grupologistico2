@@ -31,7 +31,7 @@
 						
                                             <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
                                             <div class="controls">
-                                                <?php echo "<div class='input-append'><input type='text' disabled='disabled' class='span2' name='numero_orden' id='numero_orden' placeholder=".$numero_orden."></div>"; ?>
+                                                <?php echo "<div class='input-append'><input type='text' readonly class='span2' name='numero_orden' id='numero_orden' placeholder=".$numero_orden."></div>"; ?>
                                             </div>
 						
 					</div>

@@ -106,6 +106,49 @@ class Especificos extends CI_Controller{
         	redirect('home','refresh');
 	}	
 
+    public function parametros(){
+        if($this->session->userdata('logged_in'))
+        {
+        
+            $session_data = $this->session->userdata('logged_in');
+            $data['correlativo'] = $this->especificos_model->correlativo_os();
+            $this->load->view('include/head',$session_data);
+            $this->load->view('especificos/parametros',$data);
+            $this->load->view('include/script');    
+        }   
+        else
+            redirect('home','refresh');        
+    }
+
+    public function guardar_parametro(){
+        if($this->session->userdata('logged_in'))
+        {
+        
+            $session_data = $this->session->userdata('logged_in');
+            $this->load->library('form_validation');
+            $this->form_validation->set_rules('correlativo_os', 'Correlativo ','trim|xss_clean|numeric|required');
+            if($this->form_validation->run() == FALSE)
+            {
+                $data['correlativo'] = $this->especificos_model->correlativo_os();
+                $this->load->view('include/head',$session_data);
+                $this->load->view('especificos/parametros',$data);
+                $this->load->view('include/script');                    
+            }            
+            else{
+                $data = array(  'parametro' => 'CORRELATIVO', 
+                                'valor' => $this->input->post('correlativo_os')
+                            );
+                $this->especificos_model->guardar_correlativo_os($data);
+                $this->session->set_flashdata('mensaje','Correlativo creado con exito');
+                redirect('especificos/especificos/parametros','refresh');  
+
+            }                        
+ 
+        }   
+        else
+            redirect('home','refresh');           
+    }
+
 	public function check_id($id)
 	{
     
@@ -120,8 +163,7 @@ class Especificos extends CI_Controller{
             return false;
             
         }
-
-	}
+    }
 
 	public function check_codigo_guardar($codigo)
 	{

@@ -75,7 +75,7 @@
 								<li><a href="#">Fecha del d&iacute;a</a></li>
 								<li><a href=<?php echo base_url('index.php/especificos/especificos/usuarios');?>">Usuarios</a></li>
 								<li><a href="#">Claves de Acceso</a></li>
-								<li><a href="#">Par&aacute;metros</a></li>
+								<li><a href="<?php echo base_url('index.php/especificos/especificos/parametros');?>">Par&aacute;metros</a></li>
 								<li><a href=<?php echo base_url('index.php/especificos/especificos/codigos_sistema');?>">C&oacute;digos Sistema</a></li>
 							</ul>
 						</li>
