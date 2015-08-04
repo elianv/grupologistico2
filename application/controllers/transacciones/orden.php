@@ -77,11 +77,16 @@
 
             }
             else{
-
-                if($codigo[0]['id_orden'] == $correlativo[0]['valor'] + 1)
+                if(isset($correlativo[0]['valor'])){
+                    if($codigo[0]['id_orden'] == $correlativo[0]['valor'] + 1)
+                        $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
+                    else
+                       $data['numero_orden'] = $correlativo[0]['valor'] + 1;                    
+                }
+                else{
                     $data['numero_orden'] = $codigo[0]['id_orden'] + 1;
-                else
-                   $data['numero_orden'] = $correlativo[0]['valor'] + 1;
+                }
+
             }
 
 			$tab['active'] = 'exportacion';
