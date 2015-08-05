@@ -5,7 +5,7 @@ class Usuarios extends CI_Controller{
     function __construct() {
         parent::__construct();
         $this->load->model('utils/Usuario');
-        $this->load->model('mantencion/Usuarios_model');
+        $this->load->model('especificos/Usuarios_model');
         
         
     }
@@ -31,7 +31,7 @@ class Usuarios extends CI_Controller{
 				$data['tusuario'] = $this->Usuario->GetTipo();
 				$data['tablas'] = ($this->Usuarios_model->listar_usuarios());
 				$this->load->view('include/head',$session_data);
-				$this->load->view('mantencion/usuarios',$data);
+				$this->load->view('especificos/usuarios',$data);
 				$this->load->view('include/script');
 				 
 			}
@@ -88,7 +88,7 @@ class Usuarios extends CI_Controller{
             $this->form_validation->set_rules('nombre', 'Nombre','trim|required|xss_clean');
             $this->form_validation->set_rules('clave', 'Clave','trim|required|xss_clean');
 			$this->form_validation->set_rules('rut_usuario', 'rut_usuario','trim|required|xss_clean');
-			$this->form_validation->set_rules('id_tipo_usuario', 'id_tipo_usuario','trim|required|xss_clean');
+			$this->form_validation->set_rules('tipo_usuario', 'tipo_usuario','trim|required|xss_clean');
 
             // si validacion incorrecta
             if($this->form_validation->run() == FALSE){
@@ -114,7 +114,7 @@ class Usuarios extends CI_Controller{
 
                 foreach($tusuario as $dato){
                     if($dato['id'] == $this->input->post('tusuario')){
-                        $arreglo['id_tipo_usuario'] = $dato['id'];
+                        $arreglo['tipo_usuario'] = $dato['id'];
                     }
                 }
 
