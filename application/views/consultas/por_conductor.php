@@ -10,7 +10,7 @@
                 } 
                 echo '</div>';
             ?>
-<form class="form-horizontal" id="formulario" action="<?php echo base_url('index.php/consultas/facturadas/generar_ordenes_por/1');?>" method="post">
+<form class="form-horizontal" id="formulario" method="post">
 	<fieldset>
 		<div class="row">
 				<div class="span1"></div>
@@ -84,6 +84,18 @@
 		</div>
 	</fieldset	>
 </form> 
+<hr />
+<center><h2><span></span></h2></center>
+<div class="row">
+	<div class="span2"></div>
+	<div class="span1"></div>
+	<div class="span12" id="ordenes-conductor">
+		
+	</div>
+	<div class="span2"></div>
+	
+</div>
+<br>
 <script type="text/javascript">
     $(document).ready(function(){
         $('#tabla-conductores').DataTable();
@@ -106,7 +118,22 @@
 			$('#conductor').val(codigo+" - "+nombre);
 			$('#id').val(codigo);
 
-		});	           
+		});	   
+		$( "#formulario" ).submit(function( event ) {
+			event.preventDefault();
+		  	datos = $( this ).serializeArray();
+          	$.ajax({
+                method:"POST",
+                url:"<?php echo base_url('index.php/consultas/facturadas/generar_ordenes_por_conductor');?>",
+                data: datos,
+                success: function(response){
+	                $('h2 span').text($('#conductor').val());
+	                $('#ordenes-conductor').html(response.html);
+	                $('#tabla-ordenes-conductor').DataTable();
+                }
+            });    		  
+
+		});			        
     });
         
 

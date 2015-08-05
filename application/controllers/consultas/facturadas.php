@@ -218,9 +218,64 @@
                             $proveedores['proveedores'] = $this->consultas_model->ordenes_proveedor($id, '' , '' ,1);
                         }
                         
-                        $theHTMLResponse['html'] = $this->load->view('consultas/ajax/ordenes_proveedor_pantalla',$proveedores, true);
-                        $this->output->set_content_type('application/json');
-                        $this->output->set_output(json_encode($theHTMLResponse));                         
+                        if($salida == 'pantalla'){
+                            $theHTMLResponse['html'] = $this->load->view('consultas/ajax/ordenes_proveedor_pantalla',$proveedores, true);
+                            $theHTMLResponse['tipo'] = 1;
+                            $this->output->set_content_type('application/json');
+                            $this->output->set_output(json_encode($theHTMLResponse));                         
+                        }
+                        if($salida == 'excel'){
+                                $this->load->library('excel');
+                                $this->excel->setActiveSheetIndex(0);
+                                $this->excel->getActiveSheet()->setTitle('Ordenes por Proveedor');
+
+                                $this->excel->getActiveSheet()->setCellValue('A1', 'Proveedor');
+                                $this->excel->getActiveSheet()->setCellValue('B1', $this->input->post('proveedor'));
+
+                                $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
+                                $this->excel->getActiveSheet()->setCellValue('B2', 'Tipo Orden');
+                                $this->excel->getActiveSheet()->setCellValue('C2', 'Estado');
+                                $this->excel->getActiveSheet()->setCellValue('D2', 'Fecha');
+
+                                $this->excel->getActiveSheet()->getStyle('A1:C1')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+
+                                $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('B1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);                        
+                                $this->excel->getActiveSheet()->getStyle('C1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
+
+                                foreach(range('A','C') as $columnID) {
+                                    $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                                        ->setAutoSize(true);
+                                }                           
+
+                                $i = 2;                        
+                                foreach ($proveedores['proveedores'] as $orden) {
+
+                                            $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
+                                            $this->excel->getActiveSheet()->setCellValue('B'.$i,$orden['tipo_orden']);
+                                            $this->excel->getActiveSheet()->setCellValue('B'.$i,$orden['estado']);
+                                            $fecha = new DateTime($orden['fecha']);
+                                            $this->excel->getActiveSheet()->setCellValue('C'.$i,$fecha->format('d-m-Y'));
+                                            $i++;
+                                 
+                                }
+
+                                $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_BOTTOM);
+                                $filename='ordenes_proveedor.xlsx'; //save our workbook as this file name
+                                header('Content-Type: application/vnd.ms-excel'); //mime type
+                                header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                                header('Cache-Control: max-age=0'); //no cache
+                                            
+                                //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                                //if you want to save it as .XLSX Excel 2007 format
+                                $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');  
+                                //force user to download the Excel file without writing it to server's HD
+                                $objWriter->save('php://output');
+                        }
+                        
                         
                     }
                 }
@@ -251,7 +306,7 @@
 
                     if($this->form_validation->run() == FALSE){      
                             $this->load->model('mantencion/Clientes_model');
-                            $data['proveedores'] = $this->Clientes_model->listar_clientes();
+                            $data['clientes'] = $this->Clientes_model->listar_clientes();
                             $this->load->view('include/head',$session_data);
                             $this->load->view('consultas/por_cliente',$data);
                             $this->load->view('include/script');
@@ -264,13 +319,13 @@
                             $desde = $this->input->post('desde');
                             $hasta = $this->input->post('hasta');
 
-                            $proveedores['proveedores'] = $this->consultas_model->ordenes_proveedor($id, $desde, $hasta, '');
+                            $data['clientes'] = $this->consultas_model->ordenes_clientes($id, $desde, $hasta, '');
                         }
                         else{
-                            $proveedores['proveedores'] = $this->consultas_model->ordenes_proveedor($id, '' , '' ,1);
+                            $data['clientes'] = $this->consultas_model->ordenes_clientes($id, '' , '' ,1);
                         }
                         
-                        $theHTMLResponse['html'] = $this->load->view('consultas/ajax/ordenes_proveedor_pantalla',$proveedores, true);
+                        $theHTMLResponse['html'] = $this->load->view('consultas/ajax/ordenes_clientes_pantalla',$data, true);
                         $this->output->set_content_type('application/json');
                         $this->output->set_output(json_encode($theHTMLResponse));                         
                         
@@ -282,8 +337,59 @@
             }
             else
                 redirec('home','refresh');
-
         }
+
+        function generar_ordenes_por_conductor(){
+            if($this->session->userdata('logged_in')){
+                if( isset($_POST['id']) ){
+                    $session_data = $this->session->userdata('logged_in');
+
+                    $time   = $this->input->post('time');
+
+                    $this->load->library('form_validation');
+                    $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
+                    $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
+                    $this->form_validation->set_rules('id', 'Conductor','trim|xss_clean|required|callback_check_proveedor');
+
+                    if($time == 'fechas'){
+                        $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
+                        $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
+                    }
+
+                    if($this->form_validation->run() == FALSE){      
+                            $this->load->model('mantencion/Conductores_model');
+                            $data['conductores'] = $this->Conductores_model->listar_conductores();
+                            $this->load->view('include/head',$session_data);
+                            $this->load->view('consultas/por_cliente',$data);
+                            $this->load->view('include/script');
+                    }
+                    else{
+                        $id        = $this->input->post('id');
+                        $salida    = $this->input->post('salida');
+
+                        if ($time == 'fechas'){
+                            $desde = $this->input->post('desde');
+                            $hasta = $this->input->post('hasta');
+
+                            $data['conductores'] = $this->consultas_model->ordenes_conductor($id, $desde, $hasta, '');
+                        }
+                        else{
+                            $data['conductores'] = $this->consultas_model->ordenes_conductor($id, '' , '' ,1);
+                        }
+                        
+                        $theHTMLResponse['html'] = $this->load->view('consultas/ajax/ordenes_conductor_pantalla',$data, true);
+                        $this->output->set_content_type('application/json');
+                        $this->output->set_output(json_encode($theHTMLResponse));                         
+                        
+                    }
+                }
+                else
+                    redirect('main','refresh');
+
+            }
+            else
+                redirec('home','refresh');
+        }        
         
     }
 
