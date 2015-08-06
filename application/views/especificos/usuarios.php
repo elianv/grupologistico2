@@ -49,7 +49,6 @@
                     <div class="controls">
                        <select id="tusuario" name="tusuario">
                            <?php
-                                  // print_r(tfacturacion[0]);
                                    foreach ($tusuario as  $index => $tipo){
                                        $num = range(3,100);
                                        echo "<option value='".$num[$index]."'>".$tipo['tipo_usuario']."</option>";

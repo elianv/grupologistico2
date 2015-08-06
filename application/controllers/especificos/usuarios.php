@@ -88,7 +88,6 @@ class Usuarios extends CI_Controller{
             $this->form_validation->set_rules('nombre', 'Nombre','trim|required|xss_clean');
             $this->form_validation->set_rules('clave', 'Clave','trim|required|xss_clean');
 			$this->form_validation->set_rules('rut_usuario', 'rut_usuario','trim|required|xss_clean');
-			$this->form_validation->set_rules('tipo_usuario', 'tipo_usuario','trim|required|xss_clean');
 
             // si validacion incorrecta
             if($this->form_validation->run() == FALSE){
@@ -120,7 +119,7 @@ class Usuarios extends CI_Controller{
 
                 $this->Usuarios_model->insertar($arreglo);
                 $this->session->set_flashdata('mensaje','Usuario guardado con éxito');
-                redirect('mantencion/tramos','refresh');
+                redirect('especificos/usuarios','refresh');
               
             }
             
