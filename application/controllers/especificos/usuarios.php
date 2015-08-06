@@ -97,7 +97,7 @@ class Usuarios extends CI_Controller{
                 
                 $data['tablas'] = $this->Usuarios_model->listar_usuarios();               
                 $this->load->view('include/head',$session_data);
-                $this->load->view('mantencion/usuarios',$data);
+                $this->load->view('especificos/usuarios',$data);
                 $this->load->view('include/script');
             }
             
