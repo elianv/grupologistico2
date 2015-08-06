@@ -69,8 +69,9 @@ Class consultas_model extends CI_Model{
 		$this->db->where('orden.id_estado_orden',$estado);
 
 		if($todas == null){
-			$this->db->where('orden.fecha >=',$desde);
-			$this->db->where('orden.fecha <=',$hasta);
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$this->db->where('orden.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
 		}
 
 		$result = $this->db->get();
@@ -87,8 +88,9 @@ Class consultas_model extends CI_Model{
 		$this->db->where('orden.proveedor_rut_proveedor',$proveedor);
 
 		if($todas == null){
-			$this->db->where('orden.fecha >=',$desde);
-			$this->db->where('orden.fecha <=',$hasta);
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$this->db->where('orden.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
 		}
 
 		$result = $this->db->get();
@@ -105,8 +107,9 @@ Class consultas_model extends CI_Model{
 		$this->db->where('orden.cliente_rut_cliente',$cliente);
 
 		if($todas == null){
-			$this->db->where('orden.fecha >=',$desde);
-			$this->db->where('orden.fecha <=',$hasta);
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$this->db->where('orden.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
 		}
 
 		$result = $this->db->get();
@@ -124,8 +127,9 @@ Class consultas_model extends CI_Model{
 		$this->db->where('viaje.conductor_rut',$conductor);
 
 		if($todas == null){
-			$this->db->where('orden.fecha >=',$desde);
-			$this->db->where('orden.fecha <=',$hasta);
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$this->db->where('orden.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
 		}
 
 		$result = $this->db->get();

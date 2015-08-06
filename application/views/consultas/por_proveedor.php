@@ -1,3 +1,6 @@
+<style type="text/css">
+	
+</style>
 <legend><h3><center>Ordenes de Trabajo Por Proveedor</center></h3></legend> 
 
             <?php 
@@ -10,11 +13,10 @@
                 } 
                 echo '</div>';
             ?>
-<form class="form-horizontal" id="formulario">
+<form class="form-horizontal" id="formulario" action=" <?php echo base_url('index.php/consultas/facturadas/por_proveedor') ?> " method="post" >
 	<fieldset>
 		<div class="row">
-				<div class="span1"></div>
-			    <div class="span6">
+			    <div class="span6 offset4" >
 			                <div class="control-group">
 			                    <label class="control-label"><strong>Proveedor</strong></label>
 			                    <div class="controls">
@@ -52,7 +54,7 @@
 			                    </div>
 			                </div>
 			    </div>
-			    <div class="span9" style="margin-left: 50px">
+			    <div class="span8" style="margin-left: 50px">
 			                    <table id="tabla-proveedor" class="table table-hover table-condensed" cellspacing="0" width="100%">
 			                                <thead>
 			                                    <tr>
@@ -71,27 +73,41 @@
 			                                </tbody>
 			                    </table>                    
 			    </div>
-			    <div class="span1"></div>
 		</div>
-		<div class="row">
-			<div class="span6"></div>
-			<div class="span1">
-				<div class="form-actions">
-			    	<input type="submit" class="btn btn-success" value="Generar"/>
-			    </div>		
-			</div>
-			<div class="span6"></div>
-		</div>
+		<div class="form-actions ">
+		    	<input type="submit" class="btn btn-success offset4" value="Generar"/>
+	    </div>		
 	</fieldset	>
 </form> 
-<center><h2><span></span></h2></center>
-<div class="row">
-	<div class="span2"></div>
-	<div class="span1"></div>
-	<div class="span12" id="ordenes-proveedores"></div>
-	<div class="span2"></div>
-	
-</div>
+		<?php if($tipo == 1){ ?>
+		<hr />
+		<br />
+			<center><h2><?php echo $titulo; ?></h2></center>
+			<div class="container">
+                    <table id="tabla-ordenes-proveedores" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Tipo Orden</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($proveedores_ as $proveedor) { ?>
+                                        <tr>
+                                            <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$proveedor['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $proveedor['id_orden']; ?></a></td>
+                                            <td><?php echo $proveedor['tipo_orden']; ?></td>
+                                            <td><?php echo $proveedor['estado']; ?></td>
+                                            <?php $fecha = new DateTime($proveedor['fecha']); ?>
+                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
+
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                    </table> 
+			</div>
+		<?php } ?>
 <br>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -131,29 +147,6 @@
 			$('#proveedor').val(codigo+" - "+rs);
 			$('#id').val(codigo);
 		});
-		$( "#formulario" ).submit(function( event ) {
-			event.preventDefault();
-		  	datos = $( this ).serializeArray();
-		  	$('#ordenes-proveedores').html("");
-		  	$('h2 span').text('');
-		  	
-		  	if(datos[2].value == 'excel'){
-		  		console.log('excel');
-		  	}
-		  	else{
-	          	$.ajax({
-	                method:"POST",
-	                url:"<?php echo base_url('index.php/consultas/facturadas/generar_ordenes_por_proveedor');?>",
-	                data: datos,
-	                success: function(response){
-	                		$('h2 span').text($('#proveedor').val());
-			                $('#ordenes-proveedores').html(response.html);
-			                $('#tabla-ordenes-proveedores').DataTable();
-	                }
-	            });  
-		  	}
-		});			           
+		$('#tabla-ordenes-proveedores').DataTable();
     });
-        
-
 </script>

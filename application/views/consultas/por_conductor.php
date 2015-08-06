@@ -13,8 +13,7 @@
 <form class="form-horizontal" id="formulario" method="post">
 	<fieldset>
 		<div class="row">
-				<div class="span1"></div>
-			    <div class="span6">
+			    <div class="span6 offset4">
 			                <div class="control-group">
 			                    <label class="control-label"><strong>Conductor</strong></label>
 			                    <div class="controls">
@@ -71,33 +70,61 @@
 			                                </tbody>
 			                    </table>                    
 			    </div>
-			    <div class="span1"></div>
 		</div>
-		<div class="row">
-			<div class="span6"></div>
-			<div class="span1">
-				<div class="form-actions">
-			    	<input type="submit" class="btn btn-success" value="Generar"/>
-			    </div>		
-			</div>
-			<div class="span6"></div>
-		</div>
-	</fieldset	>
+		<div class="form-actions">
+		    	<input type="submit" class="btn btn-success offset4" value="Generar"/>
+	    </div>		
+	</fieldset>
 </form> 
-<hr />
-<center><h2><span></span></h2></center>
-<div class="row">
-	<div class="span2"></div>
-	<div class="span1"></div>
-	<div class="span12" id="ordenes-conductor">
-		
-	</div>
-	<div class="span2"></div>
-	
-</div>
+
+	<?php if($tipo){ ?>
+					<hr />
+					<center><h2><?php echo $titulo; ?></h2></center>
+					<div class="container">
+                    <table id="tabla-ordenes-conductor" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Tipo Orden</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($conductores_ as $conductor) { ?>
+                                        <tr>
+                                            <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$conductor['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $conductor['id_orden']; ?></a></td>
+                                            <td><?php echo $conductor['tipo_orden']; ?></td>
+                                            <td><?php echo $conductor['estado']; ?></td>
+                                            <?php $fecha = new DateTime($conductor['fecha']); ?>
+                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
+
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                    </table> 
+                    </div>
+    <?php } ?>
+
 <br>
 <script type="text/javascript">
     $(document).ready(function(){
+    	$('#datepicker').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showHour:false,                      
+                        showMinute:false,
+                        showTime: false,
+                        dateFormat: 'dd-mm-yy'
+        });
+    	$('#datepicker2').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showHour:false,                      
+                        showMinute:false,
+                        showTime: false,
+                        dateFormat: 'dd-mm-yy'
+        });     	
         $('#tabla-conductores').DataTable();
         $('#fechas').hide();
 	    $('#Todas').click(function(){
@@ -117,23 +144,9 @@
 			var nombre = $(this).attr('data-nombre');
 			$('#conductor').val(codigo+" - "+nombre);
 			$('#id').val(codigo);
+		});
+		$('#tabla-ordenes-conductor').DataTable();
 
-		});	   
-		$( "#formulario" ).submit(function( event ) {
-			event.preventDefault();
-		  	datos = $( this ).serializeArray();
-          	$.ajax({
-                method:"POST",
-                url:"<?php echo base_url('index.php/consultas/facturadas/generar_ordenes_por_conductor');?>",
-                data: datos,
-                success: function(response){
-	                $('h2 span').text($('#conductor').val());
-	                $('#ordenes-conductor').html(response.html);
-	                $('#tabla-ordenes-conductor').DataTable();
-                }
-            });    		  
-
-		});			        
     });
         
 
