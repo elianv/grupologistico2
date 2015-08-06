@@ -161,7 +161,7 @@
             <div class="control-group">
                 <label class="control-label" for="fecha"><strong>Fecha Retiro</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-large" name="fecha" id="fecha" placeholder="Seleccione Fecha">
+                    <input type="text" class="input-large" name="fecha" id="fecha_" placeholder="Seleccione Fecha">
                 </div>
             </div> 
   
@@ -223,7 +223,7 @@
             <div class="control-group">
                 <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" placeholder="Seleccione Fecha">
+                 <input type="text" class="input-xxlarge" id="fecha_presentacion_" name="fecha_presentacion" placeholder="Seleccione Fecha">
                 </div>
             </div>
                
@@ -396,3 +396,24 @@
            </fieldset>
           </form>
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+        $('#fecha_').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showHour:false,                      
+                        showMinute:false,
+                        showTime: false,
+                        dateFormat: 'dd-mm-yy'
+        });
+        $('#fecha_presentacion_').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showHour:false,                      
+                        showMinute:false,
+                        showTime: false,
+                        dateFormat: 'dd-mm-yy'
+        });
+})
+
+</script>

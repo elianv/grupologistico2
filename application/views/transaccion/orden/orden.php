@@ -172,12 +172,12 @@
 
                </br>
 
-
+sadfghjkl
 <!--   ##############################################################     -->
             <div class="control-group">
                 <label class="control-label" for="fecha"><strong>Fecha retiro</strong></label>
                 <div class="controls">
-					<input type="text" class="input-large" name="fecha" id="fecha" value="<?php echo $orden[0]['fecha']; ?>">
+					<input type="text" class="input-large" name="fecha" id="fecha_1" value="<?php echo $orden[0]['fecha']; ?>">
                 </div>
             </div> 
   
@@ -474,4 +474,14 @@
            </fieldset>
           </form>
 </div>
+<script type="text/javascript">
+    $('#fecha_1').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showHour:false,                      
+                        showMinute:false,
+                        showTime: false,
+                        dateFormat: 'dd-mm-yy'
+        });
+</script>
 

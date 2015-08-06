@@ -113,6 +113,22 @@
     $(document).ready(function(){
         $('#tabla_ordenes').DataTable();
         $('#fechas').hide();
+        $('#datepicker').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showHour:false,                      
+                        showMinute:false,
+                        showTime: false,
+                        dateFormat: 'dd-mm-yy'
+        });
+        $('#datepicker2').datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        showHour:false,                      
+                        showMinute:false,
+                        showTime: false,
+                        dateFormat: 'dd-mm-yy'
+        });         
     })
         
 
