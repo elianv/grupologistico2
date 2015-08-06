@@ -78,18 +78,10 @@ Class consultas_model extends CI_Model{
 		return $result->result_array();
 	}
 
-	public function ordenes_conductor(){
-
-	}
-
-	public function ordenes_cliente(){
-
-	}
-
 	public function ordenes_proveedor($proveedor, $desde = null, $hasta = null, $todas = null){
 
 		$this->db->select('orden.id_orden, tipo_orden.tipo_orden, estado_orden.estado, orden.fecha');
-		$this->db->from(' orden, tipo_orden, estado_orden');
+		$this->db->from('orden, tipo_orden, estado_orden');
 		$this->db->where('orden.id_estado_orden = estado_orden.id');
 		$this->db->where('orden.tipo_orden_id_tipo_orden = tipo_orden.id_tipo_orden');
 		$this->db->where('orden.proveedor_rut_proveedor',$proveedor);
@@ -104,6 +96,42 @@ Class consultas_model extends CI_Model{
 		return $result->result_array();		
 	}
 
+	public function ordenes_clientes($cliente, $desde = null, $hasta = null, $todas = null){
+
+		$this->db->select('orden.id_orden, tipo_orden.tipo_orden, estado_orden.estado, orden.fecha');
+		$this->db->from(' orden, tipo_orden, estado_orden');
+		$this->db->where('orden.id_estado_orden = estado_orden.id');
+		$this->db->where('orden.tipo_orden_id_tipo_orden = tipo_orden.id_tipo_orden');
+		$this->db->where('orden.cliente_rut_cliente',$cliente);
+
+		if($todas == null){
+			$this->db->where('orden.fecha >=',$desde);
+			$this->db->where('orden.fecha <=',$hasta);
+		}
+
+		$result = $this->db->get();
+		
+		return $result->result_array();		
+	}	
+
+	public function ordenes_conductor($conductor, $desde = null, $hasta = null, $todas = null){
+
+		$this->db->select('orden.id_orden, tipo_orden.tipo_orden, estado_orden.estado, orden.fecha, viaje.conductor_rut');
+		$this->db->from('orden, tipo_orden, estado_orden, viaje');
+		$this->db->where('orden.id_estado_orden = estado_orden.id');
+		$this->db->where('orden.tipo_orden_id_tipo_orden = tipo_orden.id_tipo_orden');
+		$this->db->where('orden.viaje_id_viaje = viaje.id_viaje');
+		$this->db->where('viaje.conductor_rut',$conductor);
+
+		if($todas == null){
+			$this->db->where('orden.fecha >=',$desde);
+			$this->db->where('orden.fecha <=',$hasta);
+		}
+
+		$result = $this->db->get();
+		
+		return $result->result_array();		
+	}
 
 }
 

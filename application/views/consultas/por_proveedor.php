@@ -18,7 +18,7 @@
 			                <div class="control-group">
 			                    <label class="control-label"><strong>Proveedor</strong></label>
 			                    <div class="controls">
-			                        <input type="text" name="cliente" id="cliente" readonly="">
+			                        <input type="text" name="proveedor" id="proveedor" readonly="">
 			                        <input type="hidden" name="id" id="id">
 			                    </div>                    
 			                </div>
@@ -84,12 +84,15 @@
 		</div>
 	</fieldset	>
 </form> 
+<center><h2><span></span></h2></center>
 <div class="row">
 	<div class="span2"></div>
+	<div class="span1"></div>
 	<div class="span12" id="ordenes-proveedores"></div>
 	<div class="span2"></div>
 	
 </div>
+<br>
 <script type="text/javascript">
     $(document).ready(function(){
     	$('#datepicker').datepicker({
@@ -99,8 +102,7 @@
                         showMinute:false,
                         showTime: false,
                         dateFormat: 'dd-mm-yy'
-                       
-                    });
+        });
     	$('#datepicker2').datepicker({
                         changeMonth: true,
                         changeYear: true,
@@ -108,8 +110,7 @@
                         showMinute:false,
                         showTime: false,
                         dateFormat: 'dd-mm-yy'
-                       
-                    });
+        });
         $('#tabla-proveedor').DataTable();
         $('#fechas').hide();
 	    $('#Todas').click(function(){
@@ -127,23 +128,30 @@
 			e.preventDefault();
 			var codigo = $(this).attr('data-codigo');
 			var rs = $(this).attr('data-rs');
-			$('#cliente').val(codigo+" - "+rs);
+			$('#proveedor').val(codigo+" - "+rs);
 			$('#id').val(codigo);
-
 		});
 		$( "#formulario" ).submit(function( event ) {
 			event.preventDefault();
 		  	datos = $( this ).serializeArray();
-          	$.ajax({
-                method:"POST",
-                url:"<?php echo base_url('index.php/consultas/facturadas/generar_ordenes_por_proveedor');?>",
-                data: datos,
-                success: function(response){
-	                $('#ordenes-proveedores').html(response.html);
-	                $('#tabla-ordenes-proveedores').DataTable();
-                }
-            });    		  
-
+		  	$('#ordenes-proveedores').html("");
+		  	$('h2 span').text('');
+		  	
+		  	if(datos[2].value == 'excel'){
+		  		console.log('excel');
+		  	}
+		  	else{
+	          	$.ajax({
+	                method:"POST",
+	                url:"<?php echo base_url('index.php/consultas/facturadas/generar_ordenes_por_proveedor');?>",
+	                data: datos,
+	                success: function(response){
+	                		$('h2 span').text($('#proveedor').val());
+			                $('#ordenes-proveedores').html(response.html);
+			                $('#tabla-ordenes-proveedores').DataTable();
+	                }
+	            });  
+		  	}
 		});			           
     });
         

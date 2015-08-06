@@ -1306,7 +1306,6 @@
             
             return true;
         }
-            
     }
     
     function check_tramo($tramo){
@@ -1322,7 +1321,6 @@
             
             return true;
         }
-            
     }
     
     function check_aduana($aduana){
@@ -1338,7 +1336,6 @@
             
             return true;
         }
-            
     }
     
     function check_bodega($bodega){
