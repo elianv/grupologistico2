@@ -172,7 +172,7 @@
 
                </br>
 
-sadfghjkl
+
 <!--   ##############################################################     -->
             <div class="control-group">
                 <label class="control-label" for="fecha"><strong>Fecha retiro</strong></label>

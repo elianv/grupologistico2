@@ -429,13 +429,14 @@
                         $i++;
 
                     }
+                    
                     $datos['cliente']         = $this->Clientes_model->datos_cliente($datos['orden'][0]['cliente_rut_cliente']);
                     $datos['aduana']          = $this->Agencias_model->datos_aduana($datos['orden'][0]['aduana_codigo_aduana']);
                     $datos['nave']            = $this->Naves_model->datos_nave($datos['orden'][0]['nave_codigo_nave']);
                     $datos['naviera']         = $this->Navieras_model->get_naviera($datos['orden'][0]['naviera_codigo_naviera']);
                     $datos['tramo']           = $this->Tramos_model->datos_tramo($datos['orden'][0]['tramo_codigo_tramo']);
                     $datos['carga']           = $this->Cargas_model->datos_carga($datos['orden'][0]['tipo_carga_codigo_carga']);
-                    $datos['bodega']          = $this->Bodegas_model->datos_bodega($datos['orden'][0]['tipo_carga_codigo_carga']);
+                    $datos['bodega']          = $this->Bodegas_model->datos_bodega($datos['orden'][0]['bodega_codigo_bodega']);
                     $datos['deposito']        = $this->Depositos_model->datos_deposito($datos['orden'][0]['deposito_codigo_deposito']);
                     $datos['destino']         = $this->Puertos_model->datos_puerto($datos['orden'][0]['destino']);
                     $datos['puerto_embarque'] = $this->Puertos_model->datos_puerto($datos['orden'][0]['puerto_codigo_puerto']);
@@ -606,7 +607,7 @@
                                     'ip' => $_SERVER['REMOTE_ADDR']
                                 );  
 
-                    $this->log_model->insertar_log($log);  
+                    $this->log->insertar_log($log);  
                                       
 		            $this->session->set_flashdata('sin_orden','La Orden de Servicio se edito con éxito');
                     redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
@@ -798,7 +799,7 @@
                 $datos['naviera']         = $this->Navieras_model->get_naviera($datos['orden'][0]['naviera_codigo_naviera']);
                 $datos['tramo']           = $this->Tramos_model->datos_tramo($datos['orden'][0]['tramo_codigo_tramo']);
                 $datos['carga']           = $this->Cargas_model->datos_carga($datos['orden'][0]['tipo_carga_codigo_carga']);
-                $datos['bodega']          = $this->Bodegas_model->datos_bodega($datos['orden'][0]['tipo_carga_codigo_carga']);
+                $datos['bodega']          = $this->Bodegas_model->datos_bodega($datos['orden'][0]['bodega_codigo_bodega']);
                 $datos['deposito']        = $this->Depositos_model->datos_deposito($datos['orden'][0]['deposito_codigo_deposito']);
                 $datos['destino']         = $this->Puertos_model->datos_puerto($datos['orden'][0]['destino']);
                 $datos['puerto_embarque'] = $this->Puertos_model->datos_puerto($datos['orden'][0]['puerto_codigo_puerto']);
