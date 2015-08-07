@@ -31,7 +31,7 @@
 						
                                             <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
                                             <div class="controls">
-                                                <?php echo "<div class='input-append'><input type='text' readonly class='span2' name='numero_orden' id='numero_orden' placeholder=".$numero_orden."></div>"; ?>
+                                                <?php echo "<div class='input-append'><input type='text' readonly class='span2' name='numero_orden' id='numero_orden' value=".$numero_orden."></div>"; ?>
                                             </div>
 						
 					</div>
@@ -70,7 +70,7 @@
                     <div class="input-append">
 						<input type="text" class="span2" id="cliente" name="cliente_rut_cliente" value="<?php echo set_value('cliente_rut_cliente'); ?>" readonly>
 						<button class="btn" type="button" data-toggle="modal" href="#modal-cliente"><i class="icon-search"></i></button>
-						<input class="nombre-cliente" type="text" disabled="disabled" placeholder="Nombre Cliente..."/>
+						<input class="nombre-cliente" type="text" readonly="" name="nombre_cliente" value="<?php echo set_value('nombre_cliente'); ?>" placeholder="Nombre Cliente..."/>
 					</div>
                 </div>
             </div>
@@ -93,28 +93,28 @@
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Contacto Aduana</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-xxlarge" id="contacto" disabled="disabled" name="contacto">
+                    <input type="text" class="input-xxlarge" id="contacto" readonly="" name="contacto" value="<?php echo set_value('contacto'); ?>">
                 </div>
             </div>
             
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Fono Aduana</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-xxlarge" id="telefono" disabled="disabled" name="fono_aduana">
+                    <input type="text" class="input-xxlarge" id="telefono" name="fono_aduana" value="<?php echo set_value('fono_aduana'); ?>" readonly >
                 </div>
             </div>
 
            <div class="control-group">
                 <label class="control-label" for="Nave"><strong>Nave</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="nave" name="nave_codigo_nave" placeholder="" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-nave"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="nave" name="nave_codigo_nave" value="<?php echo set_value('nave_codigo_nave'); ?>" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-nave"><i class="icon-search"></i></button></div>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="Naviera"><strong>Naviera</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" class="input-xxlarge" id="naviera" name="naviera_codigo_naviera" placeholder="" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-naviera"><i class="icon-search"></i></button></div>
+                    <div class="input-append"><input type="text" class="input-xxlarge" id="naviera" name="naviera_codigo_naviera" value="<?php echo set_value('naviera_codigo_naviera'); ?>" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-naviera"><i class="icon-search"></i></button></div>
                 </div>
             </div>
             
@@ -161,7 +161,7 @@
             <div class="control-group">
                 <label class="control-label" for="fecha"><strong>Fecha Retiro</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-large" name="fecha" id="fecha_" placeholder="Seleccione Fecha">
+                    <input type="text" class="input-large" name="fecha" id="fecha_" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha'); ?>">
                 </div>
             </div> 
   
@@ -180,28 +180,28 @@
             <div class="control-group">
                 <label class="control-label" for="observacion"><strong>Mercader&iacute;a</strong></label>
                 <div class="controls">
-                     <textarea class="input-xxlarge" id="mercaderia" name="mercaderia" rows="3"></textarea>
+                     <textarea class="input-xxlarge" id="mercaderia" name="mercaderia" rows="3"><?php echo set_value('mercaderia'); ?></textarea>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="numero"><strong>N° Contenedor</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-xxlarge" id="numero" name="numero" placeholder="">
+                    <input type="text" class="input-xxlarge" id="numero" name="numero" value="<?php echo set_value('numero'); ?>">
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="peso"><strong>Peso</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="peso" name="peso" placeholder="">
+                 <input type="text" class="input-xxlarge" id="peso" name="peso" value="<?php echo set_value('peso'); ?>">
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="set_point"><strong>Set Point</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="set_point" name="set_point" placeholder="">
+                 <input type="text" class="input-xxlarge" id="set_point" name="set_point" value="<?php echo set_value('set_point'); ?>">
                 </div>
             </div>
                
@@ -216,14 +216,14 @@
             <div class="control-group retiro" id="form_lugar_retiro" style="display:none;">
                 <label class="control-label" for="retiro"><strong>Lugar de Retiro</strong></label>
                 <div class="controls">
-                    <textarea class="input-xxlarge" id="lugar_retiro" name="lugar_retiro" placeholder=""></textarea>
+                    <textarea class="input-xxlarge" id="lugar_retiro" name="lugar_retiro" value="<?php echo set_value('lugar_retiro'); ?>"></textarea>
                 </div>
             </div>              
 
             <div class="control-group">
                 <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="fecha_presentacion_" name="fecha_presentacion" placeholder="Seleccione Fecha">
+                 <input type="text" class="input-xxlarge" id="fecha_presentacion_" name="fecha_presentacion" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha_presentacion'); ?>">
                 </div>
             </div>
                
@@ -237,21 +237,21 @@
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Direcci&oacute;n Bodega</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" ></div>
+                    <div class="input-append"><input type="text" readonly="" class="input-xxlarge" name="direccion_bodega" id="direccion_bodega" value="<?php echo set_value('direccion_bodega'); ?>"></div>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Contacto Bodega</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="contacto_bodega" id="contacto_bodega"></div>
+                    <div class="input-append"><input type="text" readonly="" class="input-xxlarge" name="contacto_bodega" id="contacto_bodega" value="<?php echo set_value('contacto_bodega'); ?>"></div>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Tel&eacute;fono Bodega</strong></label>
                 <div class="controls">
-                    <div class="input-append"><input type="text" disabled="disabled" class="input-xxlarge" name="telefono_bodega" id="telefono_bodega"></div>
+                    <div class="input-append"><input type="text" readonly="" class="input-xxlarge" name="telefono_bodega" id="telefono_bodega" value="<?php echo set_value('telefono_bodega'); ?>" ></div>
                 </div>
             </div>
 
@@ -281,7 +281,7 @@
                                     <div class="control-group">
                                     <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
                                     <div class="controls">
-                                        <input type="text" class="input-large" id="referencia2" name="referencia2" placeholder="">
+                                        <input type="text" class="input-large" id="referencia2" name="referencia2" placeholder="" value="<?php echo set_value('referencia2'); ?>">
                                     </div>
                                     </div>        
                 </div>
@@ -297,7 +297,7 @@
                                 <div class="input-append">
                                     <input type="text" class="span2" id="rut" value="<?php echo set_value('proveedor_rut_proveedor'); ?>" name="proveedor_rut_proveedor" placeholder="sin puntos, ni guion" readonly>
                                     <button class="btn" type="button" data-toggle="modal" href="#modal-proveedor"><i class="icon-search"></i></button>
-                                    <input type="text" class="span4" id="rsocial" disabled="disabled" placeholder="Nombre Proveedor..." style="margin-left: 40px;">
+                                    <input type="text" class="span4" id="rsocial" name="nombre_proveedor" readonly="" placeholder="Nombre Proveedor..." style="margin-left: 40px;" value="<?php echo set_value('nombre_proveedor'); ?>">
                                 </div>
                             </div>
                         </div>            
@@ -305,7 +305,7 @@
                         <div class="control-group">
                             <label class="control-label" for="observacion"><strong>Observación</strong></label>
                             <div class="controls">
-                             <textarea class="input-xxlarge" id="observacion" name="observacion" rows="3"></textarea>
+                             <textarea class="input-xxlarge" id="observacion" name="observacion" rows="3"><?php echo set_value('observacion'); ?></textarea>
                             </div>
                         </div>
 						
@@ -362,11 +362,11 @@
             <label class="control-label" for="conductor"><strong>Conductor</strong></label>
             <div class="controls">
                 <div class="input-append">
-                                            <input type="text" class="span2" id="conductor" value="<?php echo set_value('conductor_rut'); ?>" name="conductor_rut" readonly>
-                                            <button class="btn" type="button" data-toggle="modal" href="#modal-conductor">
-                                                    <i class="icon-search"></i>
-                                            </button>
-                                            <input id="nombre_conductor" class="nombre-conductor"  type="text" value="" placeholder="Nombre Conductor..." disabled="disabled"/>
+                        <input type="text" class="span2" id="conductor" value="<?php echo set_value('conductor_rut'); ?>" name="conductor_rut" readonly>
+                        <button class="btn" type="button" data-toggle="modal" href="#modal-conductor">
+                            <i class="icon-search"></i>
+                        </button>
+                        <input id="nombre_conductor" name="nombre_conductor" class="nombre-conductor"  type="text" placeholder="Nombre Conductor..." readonly="" value="<?php echo set_value('nombre_conductor'); ?>" />
                 </div>
             </div>
        </div>
@@ -374,7 +374,7 @@
         <div class="control-group">
             <label class="control-label" for="rut"><strong>Tel&eacute;fono Conductor</strong></label>
             <div class="controls">
-                <input id="telefono_conductor" value="" type="text" disabled="disabled"/>
+                <input id="telefono_conductor" name="telefono_conductor" type="text" readonly="" value="<?php echo set_value('telefono_conductor'); ?>"/>
             </div>
         </div>
                
@@ -388,32 +388,9 @@
         </div>
           
                
-               <div class="form-actions" >
+            <div class="form-actions" >
                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/guardar'" value="Crear"/>
-                <!-- <input type="submit" class="btn btn-danger"  onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/editar'" value="Editar" /> -->
-                <!-- <input type="submit" class="btn"             onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/pdf/'" value="PDF"/> -->
-               </div>
+            </div>
            </fieldset>
           </form>
 </div>
-<script type="text/javascript">
-$(document).ready(function(){
-        $('#fecha_').datepicker({
-                        changeMonth: true,
-                        changeYear: true,
-                        showHour:false,                      
-                        showMinute:false,
-                        showTime: false,
-                        dateFormat: 'dd-mm-yy'
-        });
-        $('#fecha_presentacion_').datepicker({
-                        changeMonth: true,
-                        changeYear: true,
-                        showHour:false,                      
-                        showMinute:false,
-                        showTime: false,
-                        dateFormat: 'dd-mm-yy'
-        });
-})
-
-</script>

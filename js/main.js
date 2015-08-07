@@ -466,26 +466,6 @@ $('#modal-cliente .codigo-click').click(function(e){
 
 });
 
-/*Pasar de modal Navieras*/
-
-$('#modal-servicio .codigo-click').click(function(e){
-
-	e.preventDefault();
-	
-	var nombre = $(this).parent().next('td').text();
-	
-	$('#codigo_naviera').attr('value', $(this).data('codigo')+'-'+nombre);
-	
-	$('.modal-naves').fadeOut('fast',function(){
-	
-		$('body').removeClass('modal-open');
-		
-		$('.modal-backdrop.fade.in').remove();
-
-	});
-
-});
-
 /*Modal Navieras v.2*/
 
 $('#modal-naviera .codigo-click').click(function(e){
@@ -496,7 +476,7 @@ $('#modal-naviera .codigo-click').click(function(e){
 	
 	$('.form-orden #naviera').val($(this).data('codigo')+'-'+nombre);
 	
-	$('.modal-naves').fadeOut('fast',function(){
+	$('#modal-naviera').fadeOut('fast',function(){
 	
 		$('body').removeClass('modal-open');
 		

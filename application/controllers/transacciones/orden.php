@@ -122,66 +122,71 @@
         
             if($this->session->userdata('logged_in')){
                
-                 $this->load->library('form_validation');
-                 $session_data = $this->session->userdata('logged_in');
-                  $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
+                $this->load->library('form_validation');
+                $session_data = $this->session->userdata('logged_in');
+                $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
                   
-                  if(!isset($_POST['enable_tramo'])){
+                if(!isset($_POST['enable_tramo'])){
                       $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
-                  }
+                }
                   
-                  $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
-                  $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
+                $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
+                $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
                   
-                  if($_POST['tipo_orden'] != "NACIONAL" &&  $_POST['tipo_orden'] != "OTRO SERVICIO"){
+                if($_POST['tipo_orden'] != "NACIONAL" &&  $_POST['tipo_orden'] != "OTRO SERVICIO"){
                       $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
                    
-                  }
+                }
 
-                  if($_POST['tipo_orden'] != "IMPORTACION"){
+                if($_POST['tipo_orden'] != "IMPORTACION"){
                     $this->form_validation->set_rules('deposito_codigo_deposito', 'Deposito','trim|xss_clean|required|callback_check_deposito');
                     $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
-                  }
+                }
 
-                  $this->form_validation->set_rules('numero_orden', 'Número de Orden','trim|xss_clean|required|numeric');
-                  $this->form_validation->set_rules('proveedor_rut_proveedor','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
-                  $this->form_validation->set_rules('tipo_carga_codigo_carga','Carga','trim|xss_clean|required|callback_check_carga');
-                  $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
-                  $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
+                $this->form_validation->set_rules('numero_orden', 'Número de Orden','trim|xss_clean|required|numeric');
+                $this->form_validation->set_rules('proveedor_rut_proveedor','Rut Proveedor','trim|xss_clean|min_length[7]|required|callback_check_proveedor');
+                $this->form_validation->set_rules('tipo_carga_codigo_carga','Carga','trim|xss_clean|required|callback_check_carga');
+                $this->form_validation->set_rules('conductor_rut','Conductor','trim|xss_clean|required|min_length[7]|callback_check_conductor');
+                $this->form_validation->set_rules('patente','Patente','trim|xss_clean|required|exact_length[6]|callback_check_patente');
+                $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
+                $this->form_validation->set_rules('naviera_codigo_naviera','Naviera','required|trim|xss_clean');
 
-                  $this->form_validation->set_rules('nave_codigo_nave','Nave','required|trim|xss_clean|callback_check_nave');
-                  
-                  //$this->form_validation->set_rules('numero_orden','O.S N°','required|trim|xss_clean');
-                  $this->form_validation->set_rules('naviera_codigo_naviera','Naviera','required|trim|xss_clean');
+                $this->form_validation->set_rules('booking','Booking','trim|xss_clean');
+                $this->form_validation->set_rules('referencia','Referncia','trim|xss_clean');
+                $this->form_validation->set_rules('fono_aduana','Telefono Aduana','trim|xss_clean');
+                $this->form_validation->set_rules('contacto','Contacto Aduana','trim|xss_clean');
+                $this->form_validation->set_rules('fecha','Fecha de Retiro','trim|xss_clean');
+                $this->form_validation->set_rules('mercaderia','Mercaderia','trim|xss_clean');
+                $this->form_validation->set_rules('numero','Número Contenedor','trim|xss_clean');
+                $this->form_validation->set_rules('peso','Peso','trim|xss_clean');
+                $this->form_validation->set_rules('set_point','Set Point','trim|xss_clean');
+                $this->form_validation->set_rules('direccion_bodega','Dirección Bogeda','trim|xss_clean');
+                $this->form_validation->set_rules('contacto_bodega','Contacto Bodega','trim|xss_clean');
+                $this->form_validation->set_rules('telefono_bodega','Telefono Bodega','trim|xss_clean');
+                $this->form_validation->set_rules('fecha_presentacion','Fecha de Presentación','trim|xss_clean');
+                $this->form_validation->set_rules('referencia2','referencia 2','trim|xss_clean');
+                $this->form_validation->set_rules('observacion','Observacion','trim|xss_clean');
+                $this->form_validation->set_rules('telefono_conductor','Telefono Conductor','trim|xss_clean');
+                $this->form_validation->set_rules('nombre_conductor','Nombre Conductor','trim|xss_clean');
+                $this->form_validation->set_rules('nombre_proveedor','Nombre Proveedor','trim|xss_clean');
+                $this->form_validation->set_rules('nombre_cliente','Nombre Cliente','trim|xss_clean');
+
                 
                   
-                  if($this->form_validation->run() == FALSE){
+                if($this->form_validation->run() == FALSE){
                     $session_data = $this->session->userdata('logged_in');
-                    //tipo facturacion
                     $data['tfacturacion'] = $this->Facturacion->tipo_orden();
-                    //listado clientes
                     $data['clientes'] = $this->Clientes_model->listar_clientes();
-                    //listado tramos
                     $data['tramos'] = $this->Facturacion->listar_tramos();
-                    //listado aduanas
                     $data['aduanas'] = $this->Agencias_model->listar_agencias();
-                    //listar bodegas
                     $data['bodegas']= $this->Bodegas_model->listar_bodegas();
-                    //listar puertos
                     $data['puertos'] = $this->Puertos_model->listar_puertos();
-                    //listar proveedores
                     $data['proveedores'] = $this->Proveedores_model->listar_proveedores();
-                    //listar camiones
                     $data['camiones'] = $this->Camiones_model->listar_camiones();
-                    //listar servicios
                     $data['servicios'] = $this->Servicios_model->listar_servicios();
-                    //listar conductores
                     $data['conductores'] = $this->Conductores_model->listar_conductores();
-                    //listar carga
                     $data['cargas'] = $this->Cargas_model->listar_cargas();
-                    //listar depositos
                     $data['depositos'] = $this->Depositos_model->listar_depositos();
-                    //listar Naves
                     $data['naves'] = $this->Naves_model->listar_naves();
                     $data['navieras'] = $this->Navieras_model->listar_navieras();
                     
@@ -220,6 +225,7 @@
                     $this->load->view('modal/modal_deposito',$data);
                     $this->load->view('modal/modal_nave',$data);
                     $this->load->view('modal/modal_naves',$data);
+                    $this->load->view('include/tables');    
                     $this->load->view('include/script');
                 }
                 else{
