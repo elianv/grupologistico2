@@ -474,14 +474,5 @@
            </fieldset>
           </form>
 </div>
-<script type="text/javascript">
-    $('#fecha_1').datepicker({
-                        changeMonth: true,
-                        changeYear: true,
-                        showHour:false,                      
-                        showMinute:false,
-                        showTime: false,
-                        dateFormat: 'dd-mm-yy'
-        });
-</script>
+
 

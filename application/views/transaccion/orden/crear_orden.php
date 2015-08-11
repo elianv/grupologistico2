@@ -161,7 +161,7 @@
             <div class="control-group">
                 <label class="control-label" for="fecha"><strong>Fecha Retiro</strong></label>
                 <div class="controls">
-                    <input type="text" class="input-large" name="fecha" id="fecha_" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha'); ?>">
+                    <input type="text" class="input-large" name="fecha" id="fecha" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha'); ?>">
                 </div>
             </div> 
   
@@ -223,7 +223,7 @@
             <div class="control-group">
                 <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
                 <div class="controls">
-                 <input type="text" class="input-xxlarge" id="fecha_presentacion_" name="fecha_presentacion" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha_presentacion'); ?>">
+                 <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha_presentacion'); ?>">
                 </div>
             </div>
                

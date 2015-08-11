@@ -16,13 +16,7 @@
                               <?php
                               foreach ($naves as $nave){
                                   echo "<tr>";
-                                  if($nave['codigo_nave'] < 10){
-                                      echo "<td><a class='codigo-click' data-codigo=".$nave['codigo_nave'].">0".$nave['codigo_nave']."</a></td>";
-                                  }
-                                  else{
-                                      echo "<td><a class='codigo-click' data-codigo='codigo_nave'>".$nave['codigo_nave']."</a></td>";
-                                  }
-                                  
+                                  echo "<td><a class='codigo-click' data-codigo='".$nave['codigo_nave']."'>".$nave['codigo_nave']."</a></td>";
                                   echo "<td>".strtoupper($nave['nombre'])."</td>";
                                   echo "</tr>";
                               }

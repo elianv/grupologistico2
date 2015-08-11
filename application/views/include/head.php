@@ -58,7 +58,9 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Consultas<b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="<?php echo base_url('index.php/consultas/facturadas/master');?>">Generar Datos</a></li>
+								<li class="nav-header">Generar Datos</li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/master');?>">Master</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/resumen');?>">Resumen</a></li>
 								<li class="divider"></li>
 								<li class="nav-header">O.S. por estado</li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_estado');?>" >Ordenes</a></li>
@@ -76,7 +78,7 @@
 								<li><a href=<?php echo base_url('index.php/especificos/usuarios');?>>Usuarios</a></li>
 								<li><a href="#">Claves de Acceso</a></li>
 								<li><a href="<?php echo base_url('index.php/especificos/especificos/parametros');?>">Par&aacute;metros</a></li>
-								<li><a href=<?php echo base_url('index.php/especificos/especificos/codigos_sistema');?>">C&oacute;digos Sistema</a></li>
+								<li><a href="<?php echo base_url('index.php/especificos/especificos/codigos_sistema');?>">C&oacute;digos Sistema</a></li>
 							</ul>
 						</li>
 					</ul>

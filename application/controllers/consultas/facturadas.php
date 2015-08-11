@@ -403,11 +403,23 @@
         }  
 
         function master(){
-                $session_data = $this->session->userdata('logged_in');
+            $session_data = $this->session->userdata('logged_in');
 
+            if($this->session->userdata('logged_in')){
+                $data['tipo'] = 0;
                 $this->load->view('include/head',$session_data);
-                $this->load->view('consultas/master');
+                $this->load->view('consultas/master',$data);
                 $this->load->view('include/script');
+            }
+            else{
+                redirec('home','refresh');
+            }
+        }
+
+        function generar_master(){
+
+            echo "<pre>";
+            print_r($_POST);
         }
         
         function generar_ordenes(){
@@ -515,58 +527,50 @@
             }
         }
 
-        function generar_ordenes_por_conductor(){
+        function tabla_ordenes_ajax(){
             if($this->session->userdata('logged_in')){
-                if( isset($_POST['id']) ){
-                    $session_data = $this->session->userdata('logged_in');
-
-                    $time   = $this->input->post('time');
-
-                    $this->load->library('form_validation');
-                    $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
-                    $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
-                    $this->form_validation->set_rules('id', 'Conductor','trim|xss_clean|required|callback_check_proveedor');
-
-                    if($time == 'fechas'){
-                        $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
-                        $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
-                    }
-
-                    if($this->form_validation->run() == FALSE){      
-                            $this->load->model('mantencion/Conductores_model');
-                            $data['conductores'] = $this->Conductores_model->listar_conductores();
-                            $this->load->view('include/head',$session_data);
-                            $this->load->view('consultas/por_cliente',$data);
-                            $this->load->view('include/script');
-                    }
-                    else{
-                        $id        = $this->input->post('id');
-                        $salida    = $this->input->post('salida');
-
-                        if ($time == 'fechas'){
-                            $desde = $this->input->post('desde');
-                            $hasta = $this->input->post('hasta');
-
-                            $data['conductores'] = $this->consultas_model->ordenes_conductor($id, $desde, $hasta, '');
-                        }
-                        else{
-                            $data['conductores'] = $this->consultas_model->ordenes_conductor($id, '' , '' ,1);
-                        }
-                        
-                        $theHTMLResponse['html'] = $this->load->view('consultas/ajax/ordenes_conductor_pantalla',$data, true);
-                        $this->output->set_content_type('application/json');
-                        $this->output->set_output(json_encode($theHTMLResponse));                         
-                        
-                    }
-                }
-                else
-                    redirect('main','refresh');
-
+                $this->load->model('transacciones/orden_model');
+                $data['ordenes'] = $this->orden_model->listar_ordenes();
+            
+                $this->load->view('consultas/ajax/modal_ordenes',$data);
             }
             else
-                redirec('home','refresh');
-        }        
-        
+                redirect('home','refresh');            
+        }
+
+        function tabla_clientes_ajax(){
+            if($this->session->userdata('logged_in')){
+                $this->load->model('mantencion/Clientes_model');
+                $data['clientes']       = $this->Clientes_model->listar_clientes();
+            
+                $this->load->view('consultas/ajax/modal_clientes',$data);
+            }
+            else
+                redirect('home','refresh');            
+        }  
+
+        function tabla_naves_ajax(){
+            if($this->session->userdata('logged_in')){
+                $this->load->model('mantencion/Naves_model');
+                $data['naves']          = $this->Naves_model->listar_naves();
+            
+                $this->load->view('consultas/ajax/modal_naves',$data);
+            }
+            else
+                redirect('home','refresh');            
+        }         
+
+        function tabla_puertos_ajax(){
+            if($this->session->userdata('logged_in')){
+                $this->load->model('mantencion/Puertos_model');
+                $data['puertos']        = $this->Puertos_model->listar_puertos();
+            
+                $this->load->view('consultas/ajax/modal_puertos',$data);
+            }
+            else
+                redirect('home','refresh');            
+        }               
+
     }
 
 ?>

@@ -147,12 +147,6 @@ $('.form-orden #tipo_factura').change(function(){
 });
 
 
-//$('.form-orden #fecha').datepicker();
-//$('.form-orden #fecha').datetimepicker();
-//$('.form-orden #fecha_carga').datetimepicker();
-//$('#desde,#hasta').datetimepicker();
-//$('.form-orden #fecha_presentacion').datetimepicker();
-
 $.datepicker.regional['es'] = {
 		clearText: 'Borra',
 		clearStatus: 'Borra fecha actual',
@@ -176,15 +170,20 @@ $.datepicker.regional['es'] = {
 		weekStatus: 'Semana del a�o',
 		dayNames: ['Domingo', 'Lunes', 'Martes', 'Mi�rcoles', 'Jueves', 'Viernes', 'Sabado'],
 		dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mi�', 'Jue', 'Vie', 'Sab'],
-		dayNamesMin: ['DoA','Lu','Ma','Mi','Ju','Vi','Sa'],
+		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
 		dayStatus: 'Set DD as first week day',
 		dateStatus: 'Select D, M d',
 		dateFormat: 'dd/mm/yy',
 		firstDay: 1,
 		initStatus: 'Seleccionar fecha',
+		today: "Ahora",
+		currentText: 'Hoy',
 		isRTL: false
 	};
 	$.datepicker.setDefaults($.datepicker.regional['es']);
+
+$('.form-orden #fecha_carga').datetimepicker();
+$('#fecha_1').datetimepicker();
 	
 /*Tipos de Naves*/
 

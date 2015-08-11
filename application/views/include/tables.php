@@ -5,22 +5,21 @@
   		$('#tabla-destino').DataTable();
   		$('#tabla-camion').DataTable();
   		$('#tabla-aduana').DataTable();
-  		$('#fecha_').datepicker({
+  		$('#fecha').datetimepicker({
                         changeMonth: true,
                         changeYear: true,
-                        showHour:false,                      
-                        showMinute:false,
-                        showTime: false,
-                        dateFormat: 'dd-mm-yy'
-        });
-        $('#fecha_presentacion_').datepicker({
+                        showHour:true,                      
+                        showMinute:true,
+                        showTime: true
+      });
+      $('#fecha_presentacion').datetimepicker({
                         changeMonth: true,
                         changeYear: true,
-                        showHour:false,                      
-                        showMinute:false,
-                        showTime: false,
-                        dateFormat: 'dd-mm-yy'
-        });
+                        showHour:true,                      
+                        showMinute:true,
+                        showTime: true
+                        
+      });
   });
   
 </script>
