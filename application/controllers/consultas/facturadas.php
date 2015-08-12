@@ -9,7 +9,7 @@
             
 
             date_default_timezone_set('America/Santiago');
-        }
+        }   
                 
         function por_estado(){
             if($this->session->userdata('logged_in')){
@@ -409,6 +409,20 @@
                 $data['tipo'] = 0;
                 $this->load->view('include/head',$session_data);
                 $this->load->view('consultas/master',$data);
+                $this->load->view('include/script');
+            }
+            else{
+                redirec('home','refresh');
+            }
+        }
+
+        function resumen(){
+            $session_data = $this->session->userdata('logged_in');
+
+            if($this->session->userdata('logged_in')){
+                $data['tipo'] = 0;
+                $this->load->view('include/head',$session_data);
+                echo "<h1>resumen en contruccion</h1>";
                 $this->load->view('include/script');
             }
             else{

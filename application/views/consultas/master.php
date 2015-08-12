@@ -25,7 +25,19 @@
 			                    		<a class="btn" id="modal_ordenes" data-target="#modal-ordenes" data-toggle="modal"><i class="icon-search"></i></a>
 			                    	</div>
 			                    </div>                    
-			                </div>			    
+			                </div>	
+			                <div class="control-group">
+			                    <label class="control-label"><strong>Factura</strong></label>
+			                    <div class="controls">
+									<label class="checkbox">
+										<input type="checkbox" id="check_factura" name="check_factura" value="1"> Filtrar por Factura
+									</label>
+			                    	<div class="input-append" id="input-orden">
+			                    		<input type="text" name="factura" id="factura" readonly="">	
+			                    		<a class="btn" id="modal_facturas" data-target="#modal-facturas" data-toggle="modal"><i class="icon-search"></i></a>
+			                    	</div>
+			                    </div>                    
+			                </div>				                		    
 			                <div class="control-group">
 			                    <label class="control-label"><strong>Cliente</strong></label>
 			                    <div class="controls">
