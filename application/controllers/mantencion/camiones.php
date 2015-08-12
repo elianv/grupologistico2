@@ -40,7 +40,6 @@ class Camiones extends CI_Controller{
             
             $this->load->library('form_validation');
             $this->form_validation->set_rules('patente', 'Patente','trim|required|xss_clean|callback_check_database|exact_length[6]');
-            $this->form_validation->set_rules('telefono', 'Telefono Celular', 'trim|required|xss_clean');
             
             if($this->form_validation->run() == FALSE){
                 $session_data = $this->session->userdata('logged_in');
@@ -52,8 +51,7 @@ class Camiones extends CI_Controller{
             else{
                 
                 $camion = array(
-                            'patente' => strtoupper($this->input->post('patente')),
-                            'celular' => $this->input->post('telefono')
+                            'patente' => strtoupper($this->input->post('patente'))
                             );
                 
                 $this->Camiones_model->insertar_camion($camion);
@@ -72,7 +70,7 @@ class Camiones extends CI_Controller{
             
             $this->load->library('form_validation');
             $this->form_validation->set_rules('patente', 'Patente','trim|required|xss_clean|exact_length[6]');
-            $this->form_validation->set_rules('telefono', 'Telefono Celular', 'trim|required|xss_clean');
+            
             
             if($this->form_validation->run() == FALSE){
                 $session_data = $this->session->userdata('logged_in');
@@ -84,8 +82,8 @@ class Camiones extends CI_Controller{
             else{
                 
                 $camion = array(
-                            'patente' => strtoupper($this->input->post('patente')),
-                            'celular' => $this->input->post('telefono')
+                            'patente' => strtoupper($this->input->post('patente'))
+                            
                             );
                 $this->Camiones_model->modificar_camion($camion,$this->input->post('id_camion'));
                 $this->session->set_flashdata('mensaje','Camión editado con éxito');
