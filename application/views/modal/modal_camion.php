@@ -9,7 +9,7 @@
                       <thead>
                         <tr>
                             <th>Patente</th>
-                            <th>Celular</th>
+                            
                         </tr>
                       </thead>
                       <tbody>
@@ -17,7 +17,7 @@
                               foreach ($camiones as $camion){
                                   echo "<tr>";
                                   echo "<td><a class='codigo-click' data-codigo=".strtoupper($camion['patente']).">".strtoupper($camion['patente'])."</a></td>";
-                                  echo "<td>".$camion['celular']."</td>";
+                                  echo "</tr>";
                               }
                               ?>
                        </tbody>
