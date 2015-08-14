@@ -611,20 +611,6 @@
                 
                 if(isset($_POST['tipo_orden'])){
                     
-                    if (!empty($_POST['desde'])){
-                        $desde = $_POST['desde'];
-                        $desde = str_replace('/','-', $desde);
-                        $desde = date("Y-m-d H:i",strtotime($desde));
-                        $_POST['desde'] = $desde; 
-                    }
-                    
-                    if (!empty($_POST['hasta'])){
-                        $hasta = $_POST['hasta'];
-                        $hasta = str_replace('/','-', $hasta);
-                        $hasta = date("Y-m-d H:i",strtotime($hasta));
-                        $_POST['hasta'] = $hasta;
-                    }
-                    
                     $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],  strtoupper($_POST['cliente']));
                     
                     $i=0;

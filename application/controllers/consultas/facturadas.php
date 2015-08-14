@@ -412,7 +412,7 @@
                 $this->load->view('include/script');
             }
             else{
-                redirec('home','refresh');
+                redirect('home','refresh');
             }
         }
 
@@ -431,9 +431,57 @@
         }
 
         function generar_master(){
+            $session_data = $this->session->userdata('logged_in');
 
-            echo "<pre>";
-            print_r($_POST);
+            if($this->session->userdata('logged_in')){
+                
+                $data['tipo'] = 1;
+                
+                if(isset($_POST['salida'])){
+                    $salida         = $this->input->post('salida');
+                    $factura        = $this->input->post('factura');
+                    $id_cliente     = $this->input->post('id-cliente');
+                    $time           = $this->input->post('time');
+                    $desde          = $this->input->post('desde');
+                    $hasta          = $this->input->post('hasta');
+                    $nave           = $this->input->post('id-nave');
+                    $puerto         = $this->input->post('id-puerto');
+                    $contenedor     = $this->input->post('contenedor');
+
+                    $this->load->model('utils/Detalle');
+                    $data['facturas'] = $this->consultas_model->facturas($factura, '');    
+                    $i = 0;
+                    foreach ($data['facturas'] as $factura) {
+                        $data['facturas'][$i]['otros_servicios'] = $this->Detalle->detalle_orden($factura['id_orden']);
+                        $os                                      = $data['facturas'][$i]['otros_servicios'];
+                        
+                        $j = 0;
+                        foreach ($os as $o) {
+                            
+                            $detalle                                        = $this->consultas_model->getServicioOrdenFacturaByIdDetalle($o['id_detalle']);
+                            
+                            $data['facturas'][$i]['otros_servicios'][$j]    = $detalle;
+                            $j++;
+                        }
+                        $i++;
+                    }
+
+
+                    if($salida == 'pantalla'){
+                        $this->load->view('include/head',$session_data);
+                        $this->load->view('consultas/master',$data);
+                        $this->load->view('include/script');
+                    }
+                    else{
+
+                    }
+                }
+                else
+                    redirect('home','refresh');
+            }
+            else{
+                redirect('home','refresh');
+            }
         }
         
         function generar_ordenes(){
@@ -584,6 +632,17 @@
             else
                 redirect('home','refresh');            
         }               
+
+        function tabla_facturas_ajax(){
+            if($this->session->userdata('logged_in')){
+                $this->load->model('transacciones/facturacion_model');
+                $data['facturas']        = $this->facturacion_model->listar_facturas();
+            
+                $this->load->view('consultas/ajax/modal_facturas',$data);
+            }
+            else
+                redirect('home','refresh');              
+        }
 
     }
 

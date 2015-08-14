@@ -121,7 +121,7 @@
                         </div>
                       </div>                         
     </div>
-  <?php } ?> 
+  <?php }?> 
 </div>    
 <div class="modal fade modal-large-custom" id="Proveedores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

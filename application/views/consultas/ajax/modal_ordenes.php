@@ -26,13 +26,13 @@
 <script type="text/javascript">
 	$("#seleccionar").click(function(){
         //console.log("boton seleccion");
-        
+        $('#tabla_facturas :checked').removeAttr('checked');
         var list = new Array();
 		var checkedValues = $('input:checkbox:checked').map(function() {
 		    return this.value;
 		}).get();
 		//console.log(checkedValues);
-		$("#n_orden").val(checkedValues);
+		$("#n_orden").val(String(checkedValues).substr(2) );
 		$('#modal-ordenes').fadeOut('fast',function(){
 			$('body').removeClass('modal-open');
 			$('.modal-backdrop.fade.in').remove();

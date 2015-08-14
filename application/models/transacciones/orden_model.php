@@ -82,10 +82,10 @@ class Orden_model extends CI_Model{
                 $this->db->where('tipo_orden_id_tipo_orden',$tipo_orden);
             }
             if($desde){
-                $this->db->where('fecha >=',$desde);
+                $this->db->where('id_orden >=',$desde);
             }
             if($hasta){
-                $this->db->where('fecha <=',$hasta);
+                $this->db->where('id_orden <=',$hasta);
             }
             if($cliente){
                $this->db->like('cliente.razon_social',$cliente); 

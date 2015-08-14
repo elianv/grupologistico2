@@ -24,6 +24,7 @@
 		//$('.form-left-puertos #codigo_puerto').attr('value', codigo);
 		console.log(codigo);
 		$('.activo #proveedor_servicio').attr( "value", codigo );
+		$('.proveedor_otros_servicios').removeClass('activo');
 		$('#Proveedores').fadeOut('fast',function(){
 			$('body').removeClass('modal-open');
 			$('.modal-backdrop.fade.in').remove();
