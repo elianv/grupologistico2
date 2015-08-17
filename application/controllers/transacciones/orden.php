@@ -260,9 +260,25 @@
                     
                     $fecha_presentacion = str_replace('/','-', $fecha_presentacion);
                     $fecha_presentacion = date("Y-m-d H:i",strtotime($fecha_presentacion));
+
+                    $this->load->model('especificos/especificos_model');
+                    $correlativo = $this->especificos_model->correlativo_os();
+
+                    $num_orden  = $this->input->post('numero_orden');
+                    $codigo     = $this->Orden_model->ultimo_codigo();
+
+                    if($codigo[0]['id_orden'] != $num_orden){
+                        if ($codigo[0]['id_orden'] == ""){
+                            $num_orden = $correlativo[0]['valor'] + 1;
+
+                        }
+                        else{
+                            $num_orden = $codigo[0]['id_orden'] + 1;
+                        } 
+                    }
                     
                     $orden = array(
-                        'id_orden'                  => $this->input->post('numero_orden'),
+                        'id_orden'                  => $num_orden,
                         'referencia'                => $this->input->post('referencia'),
                         'fecha'                     => $fecha ,
                         'cliente_rut_cliente'       => $this->input->post('cliente_rut_cliente'),
@@ -309,7 +325,6 @@
 		            $this->Orden_model->insert_orden($orden);
                     $i = 0;
                                     
-                    $num_orden = $this->input->post('numero_orden');
                     $costo = $this->input->post('valor_costo_servicio');
                     $venta = $this->input->post('valor_venta_servicio');
                     
@@ -350,7 +365,7 @@
 
                 $this->log->insertar_log($log);
 
-                $this->session->set_flashdata('sin_orden','La orden se ha creado con éxito');
+                $this->session->set_flashdata('sin_orden','La orden <b>'.$num_orden.'</b> se ha creado con éxito');
                 redirect('transacciones/orden/index');
                 //$this->load->view('prueba');
                 }
@@ -610,20 +625,6 @@
                 $session_data = $this->session->userdata('logged_in');   
                 
                 if(isset($_POST['tipo_orden'])){
-                    
-                    if (!empty($_POST['desde'])){
-                        $desde = $_POST['desde'];
-                        $desde = str_replace('/','-', $desde);
-                        $desde = date("Y-m-d H:i",strtotime($desde));
-                        $_POST['desde'] = $desde; 
-                    }
-                    
-                    if (!empty($_POST['hasta'])){
-                        $hasta = $_POST['hasta'];
-                        $hasta = str_replace('/','-', $hasta);
-                        $hasta = date("Y-m-d H:i",strtotime($hasta));
-                        $_POST['hasta'] = $hasta;
-                    }
                     
                     $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],  strtoupper($_POST['cliente']));
                     

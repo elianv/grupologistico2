@@ -137,6 +137,135 @@ Class consultas_model extends CI_Model{
 		return $result->result_array();		
 	}
 
+	public function facturas($facturas = null, $ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
+		
+		$query = '	select 
+					    orden.id_orden,
+					    cliente.razon_social,
+					    nave.nombre as nombre_nave,
+					    orden.referencia,
+					    orden.referencia_2,
+					    orden.mercaderia,
+					    orden.numero as contenedor,
+					    factura.guia_despacho,
+					    bodega.nombre as nombre_bodega,
+					    tramo.descripcion as tramo,
+					    orden.fecha_presentacion,
+					    proveedor.razon_social as proveedor,
+						ordenes_facturas.factura_tramo as factura_proveedor,
+					    factura.total_costo as precio_costo,
+					    factura.numero_factura as factura_log,
+					    factura.total_venta as precio_venta,
+					    orden.observacion,
+						factura.total_venta - factura.total_costo as  margen,
+						(factura.total_venta - factura.total_costo) * 100 /factura.total_costo as porcentaje
+					from
+					    factura
+					        left join
+					    ordenes_facturas ON factura.id = ordenes_facturas.id_factura
+					        left join
+					    orden ON orden.id_orden = ordenes_facturas.id_orden
+					        left join
+					    cliente ON orden.cliente_rut_cliente = cliente.rut_cliente
+					        left join
+					    nave ON nave.codigo_nave = orden.nave_codigo_nave
+					        left join
+					    bodega ON bodega.codigo_bodega = orden.bodega_codigo_bodega
+					        left join
+					    tramo ON orden.tramo_codigo_tramo = tramo.codigo_tramo
+					        left join
+					    proveedor ON proveedor.rut_proveedor = orden.proveedor_rut_proveedor ';
+
+		if($facturas){
+				$facturas = explode(',', $facturas);
+				
+				$i = 0;
+				$string = ' where ';
+				if($facturas != ''){
+						foreach ($facturas as $factura) {
+							if ($i > 0 )
+								$string .= ' OR factura.numero_factura = '.$factura;
+							else
+								$string .= ' factura.numero_factura = '.$factura;
+							$i++;
+						}
+				}
+				$query .= $string;
+		}
+
+		if($ordenes){
+				$ordenes = explode(',', $ordenes);
+				
+				$i = 0;
+				$string = ' where ';
+				if($ordenes != ''){
+						foreach ($ordenes as $orden) {
+							if ($i > 0 )
+								$string .= ' OR orden.id_orden = '.$orden;
+							else
+								$string .= ' orden.id_orden = '.$orden;
+							$i++;
+						}
+				}
+				$query .= $string;			
+		}
+
+		if($cliente){
+				
+				$string = ' where cliente.rut_cliente = "'.$cliente.'"';
+				$query .= $string;			
+		}	
+		if($nave){
+				
+				$string = ' where nave.codigo_nave = '.$nave;
+				$query .= $string;			
+		}	
+		if($puerto){
+				
+				$string = ' where puerto.codigo_puerto = '.$puerto;
+				$query .= $string;			
+		}		
+		if($puerto){
+				
+				$string = ' where orden.contenedor like "%'.$contenedor.'%"';
+				$query .= $string;			
+		}	
+		if($desde && $hasta){
+				$desde = new DateTime($desde);
+				$hasta = new DateTime($hasta);
+				
+				$string = ' where orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
+				$query .= $string;			
+		}							
+
+		
+		$sql = $this->db->query($query);
+
+		$result = $sql->result_array();
+		
+		return $result;
+	}
+
+    function getServicioOrdenFacturaByIdDetalle($id){
+        $this->db->select('*');
+        $this->db->from('servicios_orden_factura');
+        $this->db->where('detalle_id_detalle',$id);
+        $resultado = $this->db->get();
+        
+        return $resultado->result_array();        
+    }	
+
+    function getDetalleByIdDetalle($id){
+    	$this->db->select('*');
+    	$this->db->from('detalle');
+    	$this->db->where('id_detalle',$id);
+
+        $resultado = $this->db->get();
+        
+        return $resultado->result_array();     	
+
+    }
+
 }
 
 ?>
