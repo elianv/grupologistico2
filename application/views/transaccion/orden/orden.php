@@ -313,7 +313,7 @@
                                     <div class="control-group">
                                     <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
                                     <div class="controls">
-                                        <input type="text" class="input-large" id="referencia2" name="referencia2" value="<?php echo $orden[0]['referencia']; ?>">
+                                        <input type="text" class="input-large" id="referencia2" name="referencia2" value="<?php echo $orden[0]['referencia_2']; ?>">
                                     </div>
                                     </div>        
                 </div>

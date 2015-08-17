@@ -502,7 +502,7 @@
                     }						
                     
                     $orden = array(
-                                    'id_orden'                  => $this->input->post('numero_orden'),
+                                    
                                     'referencia'                => $this->input->post('referencia'),
                                     'fecha'                     => $fecha,
                                     'cliente_rut_cliente'       => $this->input->post('cliente_rut_cliente'),
@@ -547,7 +547,7 @@
 
                     //guarda viaje y la orden.
                     $this->Viaje->editar_viaje($orden_bd[0]['viaje_id_viaje'],$viaje);
-		            $this->Orden_model->editar_orden($orden,$this->input->post('numero_orden'));
+		            $this->Orden_model->editar_orden($orden , $this->input->post('numero_orden'));
 					$this->Detalle->eliminar_detalle($this->input->post('numero_orden'));
 
                     $i = 0;

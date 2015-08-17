@@ -240,7 +240,7 @@
     
     <div class="span5">
                         <div class="control-group">
-                        <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
+                        <label class="control-label" for="referencia_2"><strong>Referencia 2</strong></label>
                         <div class="controls">
                             <input type="text" class="input-large" id="referencia2" name="referencia2" placeholder="">
                         </div>
