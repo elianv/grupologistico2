@@ -137,7 +137,7 @@ Class consultas_model extends CI_Model{
 		return $result->result_array();		
 	}
 
-	public function facturas($facturas = null, $orden = null){
+	public function facturas($facturas = null, $ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
 		
 		$query = '	select 
 					    orden.id_orden,
@@ -193,11 +193,56 @@ Class consultas_model extends CI_Model{
 				$query .= $string;
 		}
 
+		if($ordenes){
+				$ordenes = explode(',', $ordenes);
+				
+				$i = 0;
+				$string = ' where ';
+				if($ordenes != ''){
+						foreach ($ordenes as $orden) {
+							if ($i > 0 )
+								$string .= ' OR orden.id_orden = '.$orden;
+							else
+								$string .= ' orden.id_orden = '.$orden;
+							$i++;
+						}
+				}
+				$query .= $string;			
+		}
+
+		if($cliente){
+				
+				$string = ' where cliente.rut_cliente = "'.$cliente.'"';
+				$query .= $string;			
+		}	
+		if($nave){
+				
+				$string = ' where nave.codigo_nave = '.$nave;
+				$query .= $string;			
+		}	
+		if($puerto){
+				
+				$string = ' where puerto.codigo_puerto = '.$puerto;
+				$query .= $string;			
+		}		
+		if($puerto){
+				
+				$string = ' where orden.contenedor like "%'.$contenedor.'%"';
+				$query .= $string;			
+		}	
+		if($desde && $hasta){
+				$desde = new DateTime($desde);
+				$hasta = new DateTime($hasta);
+				
+				$string = ' where orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
+				$query .= $string;			
+		}							
+
 		
 		$sql = $this->db->query($query);
 
 		$result = $sql->result_array();
-		//var_dump($this->db->last_query());
+		
 		return $result;
 	}
 
@@ -209,6 +254,17 @@ Class consultas_model extends CI_Model{
         
         return $resultado->result_array();        
     }	
+
+    function getDetalleByIdDetalle($id){
+    	$this->db->select('*');
+    	$this->db->from('detalle');
+    	$this->db->where('id_detalle',$id);
+
+        $resultado = $this->db->get();
+        
+        return $resultado->result_array();     	
+
+    }
 
 }
 

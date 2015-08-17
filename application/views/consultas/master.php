@@ -302,7 +302,7 @@
 				                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>
 				                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
 				                                            <td></td>
-				                                            <td></td>
+				                                            <td><?php echo $otro_servicio['factura_numero_factura'];?></td>
 				                                            <td><?php echo '$'.number_format($otro_servicio['valor_costo'], 0, ',', '.'); ?></td>
 				                                            <td><?php echo $factura['factura_log']; ?></td>
 				                                            <td>$0</td>
@@ -316,8 +316,8 @@
                                 </tbody>
                     </table> 			
 		</div>
-		<pre>
-<?php	print_r($facturas);} ?>
+		
+<?php	} ?>
 <script type="text/javascript">
     $(document).ready(function(){
     	$('#datepicker').datepicker({

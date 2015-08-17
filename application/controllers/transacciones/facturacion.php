@@ -89,7 +89,7 @@ class Facturacion extends CI_Controller{
                         $fecha_factura_tramo  = $this->input->post('fecha_factura_tramo');
                         $ordenes_detalle      = $this->input->post('id_orden_detalle');
                         $i = 0;
-
+                        $k = 0;
                         foreach ($ordenes as $orden) {
 
                             $fecha_factura_tramo[$i] = str_replace('/','-', $fecha_factura_tramo[$i]);
@@ -118,8 +118,8 @@ class Facturacion extends CI_Controller{
                                         if($orden == $orden_detalle ){
                                             $fecha_otros_servicios[$j] = str_replace('/','-', $fecha_otros_servicios[$j]);
                                             $fecha_otros_servicios[$j] = date("Y-m-d ",strtotime($fecha_otros_servicios[$j]));
-                                            $prov                      = explode(" - ", $proveedor_servicio[$j]);
-
+                                            $prov                      = explode(" - ", $proveedor_servicio[$k]);
+                                            $k++;
 
                                             $servicios_orden_factura = array(
                                                         'detalle_id_detalle'     => $id_detalle[$j],
@@ -564,6 +564,7 @@ class Facturacion extends CI_Controller{
     function facturas_ajax(){
         if($this->session->userdata('logged_in')){
             $facturas = $this->facturacion_model->listar_facturas();
+
             $i = 0;
             foreach ($facturas as $factura) {
                 if($factura['estado_factura_id_estado_factura'] != 3){
