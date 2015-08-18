@@ -201,7 +201,7 @@
 </div>
 <?php if ($tipo) { ?>
 	<hr />
-	<center><h2>Facturas</h2></center>
+	<center><h2>Resumen</h2></center>
 		<div style="margin-left: 10px;">
 				<table id="tabla-ordenes_proceso" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
                                 <thead>

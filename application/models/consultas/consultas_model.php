@@ -352,7 +352,7 @@ Class consultas_model extends CI_Model{
 		$sql = $this->db->query($query);
 
 		$result = $sql->result_array();
-		
+		//var_dump($this->db->last_query());
 		return $result;
     }
 
