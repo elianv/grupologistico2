@@ -225,9 +225,9 @@ Class consultas_model extends CI_Model{
 				$string = ' where puerto.codigo_puerto = '.$puerto;
 				$query .= $string;			
 		}		
-		if($puerto){
+		if($contenedor){
 				
-				$string = ' where orden.contenedor like "%'.$contenedor.'%"';
+				$string = ' where orden.numero like "%'.$contenedor.'%"';
 				$query .= $string;			
 		}	
 		if($desde && $hasta){
@@ -307,7 +307,7 @@ Class consultas_model extends CI_Model{
 				$ordenes = explode(',', $ordenes);
 				
 				$i = 0;
-				$string = ' where ';
+				$string = ' and ';
 				if($ordenes != ''){
 						foreach ($ordenes as $orden) {
 							if ($i > 0 )
@@ -322,29 +322,29 @@ Class consultas_model extends CI_Model{
 
 		if($cliente){
 				
-				$string = ' where cliente.rut_cliente = "'.$cliente.'"';
+				$string = ' and orden.cliente_rut_cliente = "'.$cliente.'"';
 				$query .= $string;			
 		}	
 		if($nave){
 				
-				$string = ' where nave.codigo_nave = '.$nave;
+				$string = ' and orden.nave_codigo_nave = '.$nave;
 				$query .= $string;			
 		}	
 		if($puerto){
 				
-				$string = ' where puerto.codigo_puerto = '.$puerto;
+				$string = ' and orden.puerto_codigo_puerto = '.$puerto;
 				$query .= $string;			
 		}		
-		if($puerto){
+		if($contenedor){
 				
-				$string = ' where orden.contenedor like "%'.$contenedor.'%"';
+				$string = ' and orden.numero like "%'.$contenedor.'%"';
 				$query .= $string;			
 		}	
 		if($desde && $hasta){
 				$desde = new DateTime($desde);
 				$hasta = new DateTime($hasta);
 				
-				$string = ' where orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
+				$string = ' and orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
 				$query .= $string;			
 		}							
 
