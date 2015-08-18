@@ -20,7 +20,7 @@ Class Detalle extends CI_Model{
 		$this->db->select('*');
 		$this->db->where('orden_id_orden',$id_orden);
 		$result = $this->db->get('detalle');
-
+        //var_dump($this->db->last_query());
 		return $result->result_array();
     }
     

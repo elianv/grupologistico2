@@ -10,7 +10,7 @@
 	</thead>
 	<tbody>
 		<?php foreach ($ordenes as $orden) { ?>
-				<?php if($orden['id_estado_orden'] != 1){?>
+				<?php if($orden['id_estado_orden'] == 1){?>
 						<tr>
 							<td><?php echo $orden['id_orden']; ?></td>
 							<td align="center"><input type="checkbox" value="<?php echo $orden['id_orden']; ?>" name"ordenes[]"></td>

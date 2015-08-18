@@ -1,4 +1,4 @@
-<legend><h3><center>Master</center></h3></legend> 
+<legend><h3><center>Resumen</center></h3></legend> 
 
             <?php 
                 echo '<div class="container">';
@@ -10,7 +10,7 @@
                 } 
                 echo '</div>';
             ?>
-<form class="form-horizontal" id="formulario" method="post" action="<?php echo base_url('index.php/consultas/facturadas/generar_master')?>">
+<form class="form-horizontal" id="formulario" method="post" action="<?php echo base_url('index.php/consultas/facturadas/generar_resumen')?>">
 	<fieldset>
 		<div class="row">
 			    <div class="span6 offset4">
@@ -26,18 +26,6 @@
 			                    	</div>
 			                    </div>                    
 			                </div>	
-			                <div class="control-group">
-			                    <label class="control-label"><strong>Factura</strong></label>
-			                    <div class="controls">
-									<label class="checkbox">
-										<input type="checkbox" id="check_factura" name="check_factura" value="1"> Filtrar por Factura
-									</label>
-			                    	<div class="input-append" id="input-factura">
-			                    		<input type="text" name="factura" id="factura" readonly="">	
-			                    		<a class="btn" id="modal_facturas" data-target="#modal-facturas" data-toggle="modal"><i class="icon-search"></i></a>
-			                    	</div>
-			                    </div>                    
-			                </div>				                		    
 			                <div class="control-group">
 			                    <label class="control-label"><strong>Cliente</strong></label>
 			                    <div class="controls">
@@ -211,33 +199,11 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-
-<!--  MODAL FACTURAS  -->
-<div class="modal fade modal-large-custom" id="modal-facturas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                 <h4 class="modal-title">Facturas</h4>
-            </div>
-            <div class="modal-body" id="data-facturas">
-            </div>
-            <div class="modal-body"><div class="te"></div></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <a id="seleccionar_facturas" type="button" class="btn btn-success" data-dismiss="modal">Seleccionar</a>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
 <?php if ($tipo) { ?>
 	<hr />
 	<center><h2>Facturas</h2></center>
 		<div style="margin-left: 10px;">
-				<table id="tabla-facturas" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
+				<table id="tabla-ordenes_proceso" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>N° OS</th>
@@ -247,72 +213,64 @@
                                         <th>Referencia 2</th>
                                         <th>Mercaderia</th>
                                         <th>Contenedor</th>
-                                        <th>Guias</th>
                                         <th>Bodega</th>
                                         <th>Tramo</th>
-                                        <th> Fecha Presen.</th>
+                                        <th>Fecha Presen.</th>
                                         <th>Proveedor</th>
-                                        <th>Fact. Proveedor</th>
+                                        
                                         <th>P. Costo</th>
-                                        <th>Factura Log.</th>
+                                        
                                         <th>P. Venta</th>
                                         <th>Observacion</th>
-                                        <th>Margen</th>
-                                        <th>Porcentaje</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($facturas as $factura) { ?>
-	                                        <tr>
-	                                            <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$factura['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $factura['id_orden']; ?></a></td>
-	                                            <td><?php echo $factura['razon_social']; ?></td>
-	                                            <td><?php echo $factura['nombre_nave']; ?></td>
-	                                            <td><?php echo $factura['referencia']; ?></td>
-	                                            <td><?php echo $factura['referencia_2']; ?></td>
-	                                            <td><?php echo $factura['mercaderia']; ?></td>
-	                                            <td><?php echo $factura['contenedor']; ?></td>
-	                                            <td><?php echo $factura['guia_despacho']; ?></td>
-	                                            <td><?php echo $factura['nombre_bodega']; ?></td>
-	                                            <td><?php echo $factura['tramo']; ?></td>
-	                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>
-	                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
-	                                            <td><?php echo $factura['proveedor']; ?></td>
-	                                            <td><?php echo $factura['factura_proveedor']; ?></td>
-	                                            <td><?php echo '$'.number_format($factura['precio_costo'], 0, ',', '.'); ?></td>
-	                                            <td><?php echo $factura['factura_log']; ?></td>
-	                                            <td><?php echo '$'.number_format($factura['precio_venta'], 0, ',', '.'); ?></td>
-	                                            <td><?php echo $factura['observacion']; ?></td>
-	                                            <td><?php echo '$'.number_format($factura['margen'], 0, ',', '.'); ?></td>
-	                                            <td><?php echo $factura['porcentaje'].'%.'; ?></td>
-	                                            
-
-	                                        </tr>
-	                                        <?php if(isset($factura['otros_servicios'][0])) { ?>
-	                                        	<?php foreach ($factura['otros_servicios'] as $otro_servicio) { ?>
-			                                        	<tr>
-			                                        		<td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$factura['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $factura['id_orden']; ?></a></td>
-				                                            <td></td>
-				                                            <td></td>
-				                                            <td></td>
-				                                            <td></td>
-				                                            <td></td>
-				                                            <td></td>
-				                                            <td></td>
-				                                            <td></td>
-				                                            <td></td>
-				                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>
-				                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
-				                                            <td></td>
-				                                            <td><?php echo $otro_servicio['factura_numero_factura'];?></td>
-				                                            <td><?php echo '$'.number_format($otro_servicio['valor_costo'], 0, ',', '.'); ?></td>
-				                                            <td><?php echo $factura['factura_log']; ?></td>
-				                                            <td>$0</td>
-				                                            <td></td>
-				                                            <td>$0</td>
-				                                            <td>0%</td>	                                        		
-			                                        	</tr>	                                        		
-	                                        	<?php }?>
-	                                        <?php } ?>
+			                                        <tr>
+			                                            <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$factura['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $factura['id_orden']; ?></a></td>
+			                                            <td><?php echo $factura['razon_social']; ?></td>
+			                                            <td><?php echo $factura['nombre_nave']; ?></td>
+			                                            <td><?php echo $factura['referencia']; ?></td>
+			                                            <td><?php echo $factura['referencia_2']; ?></td>
+			                                            <td><?php echo $factura['mercaderia']; ?></td>
+			                                            <td><?php echo $factura['contenedor']; ?></td>
+			                                            <td><?php echo $factura['nombre_bodega']; ?></td>
+			                                            <td><?php echo $factura['tramo']; ?></td>
+			                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>
+			                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
+			                                            <td><?php echo $factura['proveedor']; ?></td>
+			                                            
+			                                            <td><?php echo '$'.number_format($factura['precio_costo'], 0, ',', '.'); ?></td>
+			                                            
+			                                            <td><?php echo '$'.number_format($factura['precio_venta'], 0, ',', '.'); ?></td>
+			                                            <td><?php echo $factura['observacion']; ?></td>
+			                                            
+			                                        </tr>
+			                                        <?php if(isset($factura['otros_servicios'][0])) { ?>
+			                                        	<?php foreach ($factura['otros_servicios'] as $otro_servicio) { ?>
+					                                        	<tr>
+					                                        		<td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$factura['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $factura['id_orden']; ?></a></td>
+						                                            <td></td>
+						                                            <td></td>
+						                                            <td></td>
+						                                            <td></td>
+						                                            <td></td>
+						                                            <td></td>
+						                                            <td></td>
+						                                            <td></td>
+						                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>
+						                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
+						                                            <td></td>
+						                                            
+						                                            <td><?php echo '$'.number_format($otro_servicio['valor_costo'], 0, ',', '.'); ?></td>
+						                                            
+						                                            <td>$0</td>
+						                                            <td></td>
+						                                                                                  		
+					                                        	</tr>	                                        		
+			                                        	<?php }?>
+			                                        <?php } ?>
                                     <?php } ?>
                                 </tbody>
                     </table> 			
@@ -321,6 +279,7 @@
 <?php	} ?>
 <script type="text/javascript">
     $(document).ready(function(){
+    	$('#tabla-ordenes_proceso').dataTable();
     	$('#datepicker').datepicker({
                         changeMonth: true,
                         changeYear: true,
@@ -337,7 +296,6 @@
                         showTime: false,
                         dateFormat: 'dd-mm-yy'
         });    	
-        $('#tabla-facturas').DataTable();
         $('#fechas').hide();
         $('#input-cliente').hide();
         $('#input-orden').hide();
@@ -345,7 +303,6 @@
         $('#input-puerto').hide();
         $('#input-embarque').hide();
         $('#input-contenedor').hide();
-        $('#input-factura').hide();
 		$("#check_orden").click(function() { 
 		        if($("#check_orden").is(':checked')) {  
 		            $('#input-orden').show();
@@ -353,7 +310,6 @@
 					$("#check_nave").attr('checked', false);  
 					$("#check_puerto").attr('checked', false);  
 					$("#check_contenedor").attr('checked', false);  
-					$("#check_factura").attr('checked', false); 
 					$('#input-factura').hide();
 			        $('#input-cliente').hide();
 			        $('#input-nave').hide();
@@ -372,7 +328,6 @@
 					$("#check_nave").attr('checked', false);  
 					$("#check_puerto").attr('checked', false);  
 					$("#check_contenedor").attr('checked', false);  
-					$("#check_factura").attr('checked', false); 
 					$('#input-factura').hide();
 			        $('#input-orden').hide();
 			        $('#input-nave').hide();
@@ -391,7 +346,6 @@
 					$("#check_cliente").attr('checked', false);  
 					$("#check_puerto").attr('checked', false);  
 					$("#check_contenedor").attr('checked', false);  
-					$("#check_factura").attr('checked', false); 
 					$('#input-factura').hide();
 			        $('#input-orden').hide();
 			        $('#input-cliente').hide();
@@ -410,7 +364,6 @@
 					$("#check_cliente").attr('checked', false);  
 					$("#check_nave").attr('checked', false);  
 					$("#check_contenedor").attr('checked', false);  
-					$("#check_factura").attr('checked', false); 
 					$('#input-factura').hide();
 			        $('#input-orden').hide();
 			        $('#input-cliente').hide();
@@ -429,7 +382,6 @@
 					$("#check_cliente").attr('checked', false);  
 					$("#check_nave").attr('checked', false);  
 					$("#check_puerto").attr('checked', false);  
-					$("#check_factura").attr('checked', false); 
 					$('#input-factura').hide();
 			        $('#input-orden').hide();
 			        $('#input-cliente').hide();
@@ -441,25 +393,6 @@
 		            $('#input-contenedor').hide();
 		        }  
 		});
-		$("#check_factura").click(function() {  
-		        if($("#check_factura").is(':checked')) {  
-		            $('#input-factura').show();
-					$("#check_orden").attr('checked', false);  
-					$("#check_cliente").attr('checked', false);  
-					$("#check_nave").attr('checked', false);  
-					$("#check_puerto").attr('checked', false);  
-					$("#check_contenedor").attr('checked', false); 
-					$('#input-contenedor').hide();
-			        $('#input-orden').hide();
-			        $('#input-cliente').hide();
-			        $('#input-nave').hide();
-			        $('#input-embarque').hide();
-			        $('#input-puerto').hide();		            
-		        } 
-		        else {  
-		            $('#input-factura').hide();
-		        }  
-		});							
 	    $('#Todas').click(function(){
 	        
 	        $("#Todas").prop("checked", true);
@@ -474,7 +407,7 @@
 		$('#modal_ordenes').click(function(){
 		    $.ajax({
 		        method:"POST",
-		        url:"<?php echo base_url('index.php/consultas/facturadas/tabla_ordenes_ajax');?>",
+		        url:"<?php echo base_url('index.php/consultas/facturadas/tabla_ordenes_proceso_ajax');?>",
 		        success: function(response){
 		            $('#data-ordenes').html(response);
 		            $('#tabla_ordenes').dataTable();
@@ -515,16 +448,5 @@
 
 		    });
 		});					
-		$('#modal_facturas').click(function(){
-		    $.ajax({
-		        method:"POST",
-		        url:"<?php echo base_url('index.php/consultas/facturadas/tabla_facturas_ajax');?>",
-		        success: function(response){
-		            $('#data-facturas').html(response);
-		            $('#tabla_facturas').dataTable();
-		        }
-
-		    });
-		});			
     });
 </script>

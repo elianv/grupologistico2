@@ -422,7 +422,7 @@
             if($this->session->userdata('logged_in')){
                 $data['tipo'] = 0;
                 $this->load->view('include/head',$session_data);
-                echo "<h1>resumen en contruccion</h1>";
+                $this->load->view('consultas/resumen',$data);
                 $this->load->view('include/script');
             }
             else{
@@ -625,14 +625,12 @@
                                             $this->excel->getActiveSheet()->setCellValue('L'.$i,$factura['proveedor']);
                                             $this->excel->getActiveSheet()->setCellValue('M'.$i,$factura['factura_proveedor']);
                                             $this->excel->getActiveSheet()->setCellValue('N'.$i,$factura['precio_costo']);
-                                            $this->excel->getActiveSheet()->getStyle('N',$i)->getNumberFormat()->setFormatCode('#.##0,');
                                             $this->excel->getActiveSheet()->setCellValue('O'.$i,$factura['factura_log']);
                                             $this->excel->getActiveSheet()->setCellValue('P'.$i,$factura['precio_venta']);
-                                            $this->excel->getActiveSheet()->getStyle('P',$i)->getNumberFormat()->setFormatCode('#.##0,');
                                             $this->excel->getActiveSheet()->setCellValue('Q'.$i,$factura['observacion']);
                                             $this->excel->getActiveSheet()->setCellValue('R'.$i,$factura['margen']);
                                             $this->excel->getActiveSheet()->setCellValue('S'.$i,$factura['porcentaje']);
-                                            $this->excel->getActiveSheet()->getStyle('S',$i)->getNumberFormat()->setFormatCode('#.###,00');
+                                            
 
                                             $i++;
                                             $j = $i;
@@ -642,7 +640,6 @@
                                                 $this->excel->getActiveSheet()->setCellValue('K'.$j,$fecha->format('d-m-Y'));  
                                                 $this->excel->getActiveSheet()->setCellValue('M'.$j,$otro_servicio['factura_numero_factura']);  
                                                 $this->excel->getActiveSheet()->setCellValue('N'.$j,$otro_servicio['valor_costo']);  
-                                                $this->excel->getActiveSheet()->getStyle('N',$j)->getNumberFormat()->setFormatCode('#.##0,');
                                                 $this->excel->getActiveSheet()->setCellValue('O'.$j,$factura['factura_log']);                                          
                                                 $j++;
                                             }
@@ -670,6 +667,198 @@
                 redirect('home','refresh');
             }
         }
+
+        function generar_resumen(){
+            $session_data = $this->session->userdata('logged_in');
+
+            if($this->session->userdata('logged_in')){
+                
+                $data['tipo'] = 1;
+                
+                if(isset($_POST['salida'])){
+                    $salida         = $this->input->post('salida');
+                    $cliente        = $this->input->post('id-cliente');
+                    $time           = $this->input->post('time');
+                    $desde          = $this->input->post('desde');
+                    $hasta          = $this->input->post('hasta');
+                    $nave           = $this->input->post('id-nave');
+                    $puerto         = $this->input->post('id-puerto');
+                    $contenedor     = $this->input->post('contenedor');
+                    $orden          = $this->input->post('n_orden');
+
+                    //print_r($_POST);
+
+                    if(isset($_POST['check_orden'])){
+                        echo "sin orden";
+                        if($orden == '')
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', '', '', '');
+                        else
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos($orden, '', '', '', '', '', '');    
+                    }
+                    else if(isset($_POST['check_cliente'])){
+                        if($cliente == '')
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', '', '', '');
+                        else                        
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', $cliente,'', '', '', '', '');    
+                    }
+                    else if(isset($_POST['check_nave'])){
+                        if($nave == '')
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', '', '', '');
+                        else                        
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', $nave, '', '', '', '');       
+                    }
+                    else if(isset($_POST['check_puerto'])){
+                        if($puerto == '')
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', '', '', '');
+                        else                        
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', $puerto, '', '', '');       
+                    }                    
+                    else if(isset($_POST['check_contenedor'])){
+                        if($contenedor == '')
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', '', '', '');
+                        else                        
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', $contenedor, '', '');       
+                    }
+                    else if(isset($_POST['desde']) && isset($_POST['hasta'])){
+                        if($desde == '' && $hasta == '')
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', '', '', '');
+                        else                        
+                            $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', '', $desde, $hasta);       
+                    }                                                           
+                    else{
+                        $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', '', '', '');
+                    }
+                    
+                    //print_r($data['facturas']);
+                    $i = 0;
+                    $this->load->model('utils/Detalle');
+                    $this->load->model('mantencion/Proveedores_model');
+
+                    foreach ($data['facturas'] as $factura) {
+
+                        $data['facturas'][$i]['otros_servicios'] = $this->Detalle->detalle_orden($factura['id_orden']);
+                        $os                                      = $data['facturas'][$i]['otros_servicios'];
+                        $i++;
+                    }
+
+                    
+                    if($salida == 'pantalla'){
+                        $this->load->view('include/head',$session_data);
+                        $this->load->view('consultas/resumen',$data);
+                        $this->load->view('include/script');
+                    }
+                    else{
+                                $this->load->library('excel');
+                                $this->excel->setActiveSheetIndex(0);
+                                $this->excel->getActiveSheet()->setTitle('Master');
+
+                                $this->excel->getActiveSheet()->setCellValue('A1', 'N°');
+                                $this->excel->getActiveSheet()->setCellValue('B1', 'Cliente');
+                                $this->excel->getActiveSheet()->setCellValue('C1', 'Nave');
+                                $this->excel->getActiveSheet()->setCellValue('D1', 'Referencia');
+                                $this->excel->getActiveSheet()->setCellValue('E1', 'Referencia 2');
+                                $this->excel->getActiveSheet()->setCellValue('F1', 'Mercadería');
+                                $this->excel->getActiveSheet()->setCellValue('G1', 'Contenedor');
+                                $this->excel->getActiveSheet()->setCellValue('H1', 'Bodega');
+                                $this->excel->getActiveSheet()->setCellValue('I1', 'Tramo');
+                                $this->excel->getActiveSheet()->setCellValue('J1', 'Fecha Presentación');
+                                $this->excel->getActiveSheet()->setCellValue('K1', 'Proveedor');
+                                $this->excel->getActiveSheet()->setCellValue('L1', 'Precio Costo');
+                                $this->excel->getActiveSheet()->setCellValue('M1', 'Precio Venta');
+                                $this->excel->getActiveSheet()->setCellValue('N1', 'Observación');
+
+
+                                $this->excel->getActiveSheet()->getStyle('A1:N1')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+
+                                $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('B1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);                        
+                                $this->excel->getActiveSheet()->getStyle('C1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('C1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);                                
+                                $this->excel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('E1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);                                
+                                $this->excel->getActiveSheet()->getStyle('F1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('F1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('G1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('G1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('H1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('H1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('I1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('I1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('J1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('J1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('K1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('K1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('L1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('L1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('M1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('M1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('N1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('N1')->getFont()->setBold(true);
+
+
+                                foreach(range('A','N') as $columnID) {
+                                    $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                                        ->setAutoSize(true);
+                                }                           
+
+                                $i = 2;                        
+                                foreach ($data['facturas'] as $factura) {
+
+                                            $this->excel->getActiveSheet()->setCellValue('A'.$i,$factura['id_orden']);
+                                            $this->excel->getActiveSheet()->setCellValue('B'.$i,$factura['razon_social']);
+                                            $this->excel->getActiveSheet()->setCellValue('C'.$i,$factura['nombre_nave']);
+                                            $this->excel->getActiveSheet()->setCellValue('D'.$i,$factura['referencia']);
+                                            $this->excel->getActiveSheet()->setCellValue('E'.$i,$factura['referencia_2']);
+                                            $this->excel->getActiveSheet()->setCellValue('F'.$i,$factura['mercaderia']);
+                                            $this->excel->getActiveSheet()->setCellValue('G'.$i,$factura['contenedor']);
+                                            $this->excel->getActiveSheet()->setCellValue('H'.$i,$factura['nombre_bodega']);
+                                            $this->excel->getActiveSheet()->setCellValue('I'.$i,$factura['tramo']);
+                                            $fecha = new DateTime($factura['fecha_presentacion']);
+                                            $this->excel->getActiveSheet()->setCellValue('J'.$i,$fecha->format('d-m-Y'));
+                                            $this->excel->getActiveSheet()->setCellValue('K'.$i,$factura['proveedor']);
+                                            $this->excel->getActiveSheet()->setCellValue('L'.$i,$factura['precio_costo']);
+                                            $this->excel->getActiveSheet()->setCellValue('M'.$i,$factura['precio_venta']);
+                                            $this->excel->getActiveSheet()->setCellValue('N'.$i,$factura['observacion']);
+                                            
+                                            
+
+                                            $i++;
+                                            $j = $i;
+                                            foreach ($factura['otros_servicios'] as $otro_servicio) {
+                                                $this->excel->getActiveSheet()->setCellValue('A'.$j,$factura['id_orden']);
+                                                $fecha = new DateTime($factura['fecha_presentacion']);
+                                                $this->excel->getActiveSheet()->setCellValue('J'.$j,$fecha->format('d-m-Y'));  
+                                                $this->excel->getActiveSheet()->setCellValue('L'.$j,$otro_servicio['valor_costo']);  
+                                                $j++;
+                                            }
+                                            $i = $j;
+                                 
+                                }
+
+                                $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_BOTTOM);
+                                $filename='RESUMEN.xlsx'; //save our workbook as this file name
+                                header('Content-Type: application/vnd.ms-excel'); //mime type
+                                header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                                header('Cache-Control: max-age=0'); //no cache
+                                            
+                                //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                                //if you want to save it as .XLSX Excel 2007 format
+                                $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');  
+                                //force user to download the Excel file without writing it to server's HD
+                                $objWriter->save('php://output');                        
+                    }
+                }
+                else
+                    redirect('home','refresh');
+            }
+            else{
+                redirect('home','refresh');
+            }
+        }        
         
         function generar_ordenes(){
             if($this->session->userdata('logged_in')){
@@ -786,6 +975,17 @@
             else
                 redirect('home','refresh');            
         }
+
+        function tabla_ordenes_proceso_ajax(){
+            if($this->session->userdata('logged_in')){
+                $this->load->model('transacciones/orden_model');
+                $data['ordenes'] = $this->orden_model->listar_ordenes();
+            
+                $this->load->view('consultas/ajax/modal_ordenes_proceso',$data);
+            }
+            else
+                redirect('home','refresh');            
+        }        
 
         function tabla_clientes_ajax(){
             if($this->session->userdata('logged_in')){

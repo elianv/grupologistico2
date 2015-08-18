@@ -266,6 +266,96 @@ Class consultas_model extends CI_Model{
 
     }
 
+    public function ordenes_procesos($ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
+    	$query = (		'select 
+    	    						orden.id_orden,
+    	    						cliente.razon_social,
+    	    						nave.nombre as nombre_nave,
+    	    						orden.referencia,
+    	    						orden.referencia_2,
+    							    orden.fecha,
+    							    orden.mercaderia,
+    							    orden.numero as contenedor,
+									bodega.nombre as nombre_bodega,
+									tramo.descripcion as tramo,
+									orden.fecha_presentacion,
+									proveedor.razon_social as proveedor,
+    							    orden.observacion,
+    							    orden.valor_costo_tramo as precio_costo,
+    							    orden.valor_venta_tramo as precio_venta
+	    				from
+								proveedor,
+							    tramo,
+							    nave,
+							    bodega,
+							    orden,
+							    cliente
+						where 
+									orden.tramo_codigo_tramo = tramo.codigo_tramo
+								and 
+									orden.proveedor_rut_proveedor = proveedor.rut_proveedor
+								and 
+									orden.nave_codigo_nave = nave.codigo_nave
+								and 
+									orden.bodega_codigo_bodega = bodega.codigo_bodega
+								and 
+									orden.cliente_rut_cliente = cliente.rut_cliente
+								and 
+									orden.id_estado_orden = 1 ');
+
+		if($ordenes){
+				$ordenes = explode(',', $ordenes);
+				
+				$i = 0;
+				$string = ' where ';
+				if($ordenes != ''){
+						foreach ($ordenes as $orden) {
+							if ($i > 0 )
+								$string .= ' OR orden.id_orden = '.$orden;
+							else
+								$string .= ' orden.id_orden = '.$orden;
+							$i++;
+						}
+				}
+				$query .= $string;			
+		}
+
+		if($cliente){
+				
+				$string = ' where cliente.rut_cliente = "'.$cliente.'"';
+				$query .= $string;			
+		}	
+		if($nave){
+				
+				$string = ' where nave.codigo_nave = '.$nave;
+				$query .= $string;			
+		}	
+		if($puerto){
+				
+				$string = ' where puerto.codigo_puerto = '.$puerto;
+				$query .= $string;			
+		}		
+		if($puerto){
+				
+				$string = ' where orden.contenedor like "%'.$contenedor.'%"';
+				$query .= $string;			
+		}	
+		if($desde && $hasta){
+				$desde = new DateTime($desde);
+				$hasta = new DateTime($hasta);
+				
+				$string = ' where orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
+				$query .= $string;			
+		}							
+
+		
+		$sql = $this->db->query($query);
+
+		$result = $sql->result_array();
+		
+		return $result;
+    }
+
 }
 
 ?>
