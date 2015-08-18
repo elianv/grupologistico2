@@ -80,7 +80,7 @@ class Usuarios extends CI_Controller{
             //asigno los datos de session
             $session_data = $this->session->userdata('logged_in');
             
-            //obtengo los tipo de moneda para el formulario
+            //obtengo los tipo de usuario para el formulario
             $data['tusuario'] = $this->Usuario->GetTipo();
             //inicializo la validacion de campos
             
@@ -91,9 +91,7 @@ class Usuarios extends CI_Controller{
 
             // si validacion incorrecta
             if($this->form_validation->run() == FALSE){
-                
-                $data['tusuario'] = $this->Usuario->GetTipo();
-                
+                                
                 $data['tablas'] = $this->Usuarios_model->listar_usuarios();               
                 $this->load->view('include/head',$session_data);
                 $this->load->view('especificos/usuarios',$data);
@@ -106,17 +104,18 @@ class Usuarios extends CI_Controller{
                 					'rut_usuario' => $this->input->post('rut_usuario'),
                                     'nombre' => $this->input->post('nombre'),
                                     'clave' => $this->input->post('clave'),
+                                    'id_tipo_usuario' => $this->input->post('tusuario'),
                                 );
 
-                $tusuario = $this->Usuario->GetTipo();
+               /* $tusuario = $this->Usuario->GetTipo();
                 
 
                 foreach($tusuario as $dato){
                     if($dato['id'] == $this->input->post('tusuario')){
-                        $arreglo['tipo_usuario'] = $dato['id'];
+                        $arreglo['id_tipo_usuario'] = $dato['id'];
                     }
                 }
-
+*/
                 $this->Usuarios_model->insertar($arreglo);
                 $this->session->set_flashdata('mensaje','Usuario guardado con éxito');
                 redirect('especificos/usuarios','refresh');

@@ -50,7 +50,7 @@
                        <select id="tusuario" name="tusuario">
                            <?php
                                    foreach ($tusuario as  $index => $tipo){
-                                       $num = range(3,100);
+                                       $num = range(0,100);
                                        echo "<option value='".$num[$index]."'>".$tipo['tipo_usuario']."</option>";
                                        
                                    }
