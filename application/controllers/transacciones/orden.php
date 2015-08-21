@@ -578,7 +578,7 @@
                                 $servicio = explode(' - ', $servicio);
                                 $detalle = array(
                                     'id_detalle'               => $id_detalle[0]['id_detalle'],
-                                    'servicio_codigo_servicio' => (int)$servicio,
+                                    'servicio_codigo_servicio' => (int)$servicio[0],
                                     'orden_id_orden'           => $num_orden,
                                     'valor_costo'              => str_replace(".", "", $costo[$i]),
                                     'valor_venta'              => str_replace(".", "", $venta[$i])
@@ -599,7 +599,7 @@
                     $this->log->insertar_log($log);  
                                       
 		            $this->session->set_flashdata('sin_orden','La Orden de Servicio se edito con éxito');
-                    redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
+                    //redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
 
                 }
                 
