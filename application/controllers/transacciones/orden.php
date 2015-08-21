@@ -599,7 +599,7 @@
                     $this->log->insertar_log($log);  
                                       
 		            $this->session->set_flashdata('sin_orden','La Orden de Servicio se edito con éxito');
-                    //redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
+                    redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
 
                 }
                 
