@@ -11,12 +11,14 @@ class Orden_model extends CI_Model{
     
     function insert_orden($orden){
                  
-         if($this->db->insert('orden',$orden)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        $this->db->trans_start();               
+        $this->db->insert('orden',$orden);
+        $this->db->trans_status();
+
+        if ($this->db->trans_status() === FALSE)
+            return FALSE;
+        else
+            return $this->db->insert_id();
     }
     
     function editar_orden($orden,$id_orden){

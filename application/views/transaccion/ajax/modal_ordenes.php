@@ -15,7 +15,8 @@
 					<td><?php echo $orden['id_orden']; ?></td>
 					<td align="center"><input type="checkbox" value="<?php echo $orden['id_orden']; ?>" name"ordenes[]"></td>
 					<td><?php echo $orden['razon_social']; ?></td>
-					<td><?php echo $orden['fecha']; ?></td>
+					<?php $fecha = new DateTime($orden['fecha']); ?>
+					<td><?php echo $fecha->format('d-m-Y'); ?></td>					
 				</tr>
 			<?php } ?>
 		<?php }?>

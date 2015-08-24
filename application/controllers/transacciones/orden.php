@@ -163,8 +163,6 @@
                 $this->form_validation->set_rules('nombre_proveedor','Nombre Proveedor','trim|xss_clean');
                 $this->form_validation->set_rules('nombre_cliente','Nombre Cliente','trim|xss_clean');
 
-                
-                  
                 if($this->form_validation->run() == FALSE){
                     $session_data           = $this->session->userdata('logged_in');
                     $data['tfacturacion']   = $this->Facturacion->tipo_orden();
@@ -267,16 +265,14 @@
                     $num_orden  = $this->input->post('numero_orden');
                     $codigo     = $this->Orden_model->ultimo_codigo();
 
-                    if($codigo[0]['id_orden'] != $num_orden){
-                        if ($codigo[0]['id_orden'] == ""){
-                            $num_orden = $correlativo[0]['valor'] + 1;
+                    $codigo[0]['id_orden'] += 1; 
 
-                        }
-                        else{
-                            $num_orden = $codigo[0]['id_orden'] + 1;
-                        } 
+                    if($codigo[0]['id_orden'] != $num_orden){
+
+                        $num_orden = $codigo[0]['id_orden'];
+                        
                     }
-                    
+
                     $orden = array(
                         'id_orden'                  => $num_orden,
                         'referencia'                => $this->input->post('referencia'),
