@@ -118,8 +118,11 @@
                 $session_data = $this->session->userdata('logged_in');
                 $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
                   
-                if(!isset($_POST['enable_tramo'])){
-                      $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
+                if(isset($_POST['enable_tramo'])){
+                    if($_POST['tipo_orden'] != "OTRO SERVICIO")
+                        $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
+                    else
+                        $this->form_validation->set_rules('tramo_codigo_tramo','Descripción','trim|xss_clean|required|callback_check_tramo');
                 }
                   
                 $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
