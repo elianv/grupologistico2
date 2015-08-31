@@ -69,7 +69,8 @@
                  
                  
                  <input data-toggle="tooltip" data-placement="top" title="Guardar Nuevo Usuario" type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/especificos/usuarios/guardar_usuario'" value="Nuevo" />
- 
+                 <input data-toggle="tooltip" data-placement="top" title="Editar Usuario existente" type="submit" class="btn btn-danger" onclick = "this.form.action = '<?php echo base_url();?>index.php/especificos/usuarios/modificar_usuario'" value="Modificar" />
+
              </div>
            </fieldset>
           </form>

@@ -107,15 +107,6 @@ class Usuarios extends CI_Controller{
                                     'id_tipo_usuario' => $this->input->post('tusuario'),
                                 );
 
-               /* $tusuario = $this->Usuario->GetTipo();
-                
-
-                foreach($tusuario as $dato){
-                    if($dato['id'] == $this->input->post('tusuario')){
-                        $arreglo['id_tipo_usuario'] = $dato['id'];
-                    }
-                }
-*/
                 $this->Usuarios_model->insertar($arreglo);
                 $this->session->set_flashdata('mensaje','Usuario guardado con éxito');
                 redirect('especificos/usuarios','refresh');
@@ -129,70 +120,46 @@ class Usuarios extends CI_Controller{
         }
         
     }
-
-/*    
-    function modificar_tramo(){
+ 
+    function modificar_usuario(){
+        
         
         if($this->session->userdata('logged_in')){
             
             //asigno los datos de session
             $session_data = $this->session->userdata('logged_in');
             
-            //obtengo los tipo de moneda para el formulario
-            $data['tmoneda'] = $this->Moneda->GetTipo();
+            //obtengo los tipo de usuario para el formulario
+            $data['tusuario'] = $this->Usuario->GetTipo();
             //inicializo la validacion de campos
             
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('descripcion', 'Descripción','trim|required|xss_clean');
-            $this->form_validation->set_rules('valor_costo', 'Valor Costo','numeric');
-            $this->form_validation->set_rules('valor_venta', 'Valor Venta','numeric');
+            $this->form_validation->set_rules('nombre', 'Nombre','trim|required|xss_clean');
+            $this->form_validation->set_rules('clave', 'Clave','trim|required|xss_clean');
+			$this->form_validation->set_rules('rut_usuario', 'rut_usuario','trim|required|xss_clean');
 
             // si validacion incorrecta
             if($this->form_validation->run() == FALSE){
-                
-                $data['tmoneda'] = $this->Moneda->GetTipo();
-                $resultado = $this->Tramos_model->ultimo_codigo();
-                             
-                if ($resultado[0]['codigo_tramo'] == ""){
-                      $data['form']['cod_tramo'] = 1;
-                }
-              
-                else{
-                      $data['form']['cod_tramo'] = $resultado[0]['codigo_tramo'] + 1;
-                }
-                
-                $data['tablas'] = $this->Tramos_model->listar_tramos();               
+                                
+                $data['tablas'] = $this->Usuarios_model->listar_usuarios();               
                 $this->load->view('include/head',$session_data);
-                $this->load->view('mantencion/tramos',$data);
+                $this->load->view('especificos/usuarios',$data);
                 $this->load->view('include/script');
             }
             
             else{
                 
                 $arreglo = array(
-                                    'codigo_tramo' => $this->input->post('codigo_tramo'),
-                                    'descripcion' => $this->input->post('descripcion'),
-                                    'valor_costo' => $this->input->post('valor_costo'),
-                                    'valor_venta' => $this->input->post('valor_venta'),
-                                    'moneda_id_moneda' => ""
+                					'rut_usuario' => $this->input->post('rut_usuario'),
+                                    'nombre' => $this->input->post('nombre'),
+                                    'clave' => $this->input->post('clave'),
+                                    'id_tipo_usuario' => $this->input->post('tusuario'),
                                 );
 
-                $arreglo['valor_venta'] = str_replace(".", "", $arreglo['valor_venta']);
-                $arreglo['valor_costo'] = str_replace(".", "", $arreglo['valor_costo']);
 
-                $tmoneda = $this->Moneda->GetTipo();
-                 
-                foreach($tmoneda as $dato){
-                    
-                    if($dato['id_moneda'] == $this->input->post('tmoneda')){
-                         $arreglo['moneda_id_moneda'] = $dato['id_moneda'];
-                    }
-                }
-
-                $codigo_tramo = $this->input->post('codigo_tramo');
-                $this->Tramos_model->modificar($arreglo,$codigo_tramo);
-                $this->session->set_flashdata('mensaje','Tramo editado con éxito');
-                redirect('mantencion/tramos','refresh');
+                $this->Usuarios_model->modificar($arreglo,$arreglo['rut_usuario']);
+                $this->session->set_flashdata('mensaje','Usuario modificado con éxito');
+                redirect('especificos/usuarios','refresh');
               
             }
             
@@ -200,12 +167,8 @@ class Usuarios extends CI_Controller{
         
         else{
             redirect('home','refresh');
-        }
-        
-    }
+        }    }
 
- * 
- */	
 	function datos_usuario($rut){
         
         $this->Usuarios_model->datos_usuario($rut);

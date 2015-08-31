@@ -12,12 +12,11 @@ class Usuarios_model extends CI_Model{
         }
          
     }
-    
-/*  
-    function modificar($datos,$codigo_tramo){
-        $this->db->where('codigo_tramo',$codigo_tramo);               
+      
+    function modificar($datos,$rut_usuario){
+        $this->db->where('rut_usuario',$rut_usuario);               
         
-        if($this->db->update('tramo', $datos)){
+        if($this->db->update('usuario', $datos)){
             return true;
         }
         else{
@@ -25,10 +24,7 @@ class Usuarios_model extends CI_Model{
         }
          
     }    
- 
- * 
- */   
-        
+       
     function listar_usuarios(){
         
         $this->db->select('rut_usuario,nombre');
