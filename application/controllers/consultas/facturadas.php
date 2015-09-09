@@ -763,12 +763,16 @@
                                 $this->excel->getActiveSheet()->setCellValue('I1', 'Tramo');
                                 $this->excel->getActiveSheet()->setCellValue('J1', 'Fecha Presentación');
                                 $this->excel->getActiveSheet()->setCellValue('K1', 'Proveedor');
-                                $this->excel->getActiveSheet()->setCellValue('L1', 'Precio Costo');
-                                $this->excel->getActiveSheet()->setCellValue('M1', 'Precio Venta');
-                                $this->excel->getActiveSheet()->setCellValue('N1', 'Observación');
+                                $this->excel->getActiveSheet()->setCellValue('L1', 'Observacion');
+                                $this->excel->getActiveSheet()->setCellValue('M1', 'Booking');
+                                $this->excel->getActiveSheet()->setCellValue('N1', 'Set Point');
+                                $this->excel->getActiveSheet()->setCellValue('O1', 'Peso');
+                                $this->excel->getActiveSheet()->setCellValue('P1', 'Puerto Destino');
+                                $this->excel->getActiveSheet()->setCellValue('Q1', 'Puerto Embarque');
+                                
 
 
-                                $this->excel->getActiveSheet()->getStyle('A1:N1')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+                                $this->excel->getActiveSheet()->getStyle('A1:Q1')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
 
                                 $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(8);
                                 $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
@@ -798,9 +802,16 @@
                                 $this->excel->getActiveSheet()->getStyle('M1')->getFont()->setBold(true);
                                 $this->excel->getActiveSheet()->getStyle('N1')->getFont()->setSize(8);
                                 $this->excel->getActiveSheet()->getStyle('N1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('O1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('O1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('P1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('P1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('Q1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('Q1')->getFont()->setBold(true);
 
 
-                                foreach(range('A','N') as $columnID) {
+
+                                foreach(range('A','Q') as $columnID) {
                                     $this->excel->getActiveSheet()->getColumnDimension($columnID)
                                         ->setAutoSize(true);
                                 }                           
@@ -820,9 +831,12 @@
                                             $fecha = new DateTime($factura['fecha_presentacion']);
                                             $this->excel->getActiveSheet()->setCellValue('J'.$i,$fecha->format('d-m-Y'));
                                             $this->excel->getActiveSheet()->setCellValue('K'.$i,$factura['proveedor']);
-                                            $this->excel->getActiveSheet()->setCellValue('L'.$i,$factura['precio_costo']);
-                                            $this->excel->getActiveSheet()->setCellValue('M'.$i,$factura['precio_venta']);
-                                            $this->excel->getActiveSheet()->setCellValue('N'.$i,$factura['observacion']);
+                                            $this->excel->getActiveSheet()->setCellValue('L'.$i,$factura['observacion']);
+                                            $this->excel->getActiveSheet()->setCellValue('M'.$i,$factura['booking']);
+                                            $this->excel->getActiveSheet()->setCellValue('N'.$i,$factura['set_point']);
+                                            $this->excel->getActiveSheet()->setCellValue('O'.$i,$factura['peso']);
+                                            $this->excel->getActiveSheet()->setCellValue('P'.$i,$factura['p_destino']);
+                                            $this->excel->getActiveSheet()->setCellValue('Q'.$i,$factura['p_embarque']);
                                             
                                             
 
@@ -832,7 +846,6 @@
                                                 $this->excel->getActiveSheet()->setCellValue('A'.$j,$factura['id_orden']);
                                                 $fecha = new DateTime($factura['fecha_presentacion']);
                                                 $this->excel->getActiveSheet()->setCellValue('J'.$j,$fecha->format('d-m-Y'));  
-                                                $this->excel->getActiveSheet()->setCellValue('L'.$j,$otro_servicio['valor_costo']);  
                                                 $j++;
                                             }
                                             $i = $j;
