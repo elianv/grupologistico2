@@ -9,6 +9,7 @@
         <title>Grupo Log&iacute;stico GLC Chile</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href=<?php echo base_url().'bootstrap/css/bootstrap.css' ?> rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/dataTables.bootstrap.css'); ?>">
            
     </head>
 

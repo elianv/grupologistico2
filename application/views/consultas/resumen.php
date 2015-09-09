@@ -217,11 +217,12 @@
                                         <th>Tramo</th>
                                         <th>Fecha Presen.</th>
                                         <th>Proveedor</th>
-                                        
-                                        <th>P. Costo</th>
-                                        
-                                        <th>P. Venta</th>
                                         <th>Observacion</th>
+                                        <th>Booking</th>
+                                        <th>Set Point</th>
+                                        <th>Peso</th>
+                                        <th>Puerto Destino</th>
+                                        <th>Puerto Embarque</th>
                                         
                                     </tr>
                                 </thead>
@@ -240,11 +241,12 @@
 			                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>
 			                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
 			                                            <td><?php echo $factura['proveedor']; ?></td>
-			                                            
-			                                            <td><?php echo '$'.number_format($factura['precio_costo'], 0, ',', '.'); ?></td>
-			                                            
-			                                            <td><?php echo '$'.number_format($factura['precio_venta'], 0, ',', '.'); ?></td>
 			                                            <td><?php echo $factura['observacion']; ?></td>
+			                                            <td><?php echo $factura['booking']; ?></td>
+			                                            <td><?php echo $factura['set_point']; ?></td>
+			                                            <td><?php echo $factura['peso']; ?></td>
+			                                            <td><?php echo $factura['p_destino']; ?></td>
+			                                            <td><?php echo $factura['p_embarque']; ?></td>
 			                                            
 			                                        </tr>
 			                                        <?php if(isset($factura['otros_servicios'][0])) { ?>
@@ -262,12 +264,12 @@
 						                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>
 						                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
 						                                            <td></td>
-						                                            
-						                                            <td><?php echo '$'.number_format($otro_servicio['valor_costo'], 0, ',', '.'); ?></td>
-						                                            
-						                                            <td>$0</td>
 						                                            <td></td>
-						                                                                                  		
+						                                            <td></td>
+						                                            <td></td>
+						                                            <td></td>
+						                                            <td></td>
+						                                            <td></td>
 					                                        	</tr>	                                        		
 			                                        	<?php }?>
 			                                        <?php } ?>
@@ -275,7 +277,6 @@
                                 </tbody>
                     </table> 			
 		</div>
-		
 <?php	} ?>
 <script type="text/javascript">
     $(document).ready(function(){

@@ -119,12 +119,18 @@
                 $this->form_validation->set_rules('cliente_rut_cliente','RUT Cliente','trim|xss_clean|required|min_length[7]|callback_check_cliente');
                   
                 if(isset($_POST['enable_tramo'])){
-                    if($_POST['tipo_orden'] != "OTRO SERVICIO")
+                    if($_POST['tipo_orden'] != "OTRO SERVICIO"){
                         $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
+
+                    }
                     else
                         $this->form_validation->set_rules('tramo_codigo_tramo','Descripción','trim|xss_clean|required|callback_check_tramo');
                 }
-                  
+
+                if($_POST['tipo_orden'] == "OTRO SERVICIO"){
+                        $this->form_validation->set_rules('codigo_servicio','Otros Servicios','callback_check_otros_servicios');
+                }
+
                 $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
                 $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
                   
@@ -251,7 +257,6 @@
                          $destino[0] = -1;
                     }
 
-                    
                     $tramo = explode(' - ', $this->input->post('tramo_codigo_tramo'));
                     $fecha = $this->input->post('fecha');
                     $fecha_presentacion = $this->input->post('fecha_presentacion');
@@ -307,10 +312,12 @@
                         'lugar_retiro'              => $lugar_retiro
                     );
 
-                    if(isset($_POST['enable_tramo'])){
-                       $orden['tramo_codigo_tramo'] = -1;
-                    }
-                   
+                    if($_POST['tipo_orden'] == "OTRO SERVICIO" ){
+                        if(!isset($_POST['enable_tramo'])){
+                           $orden['tramo_codigo_tramo'] = -1;
+                        }                         
+                    }    
+
                     $tipo_ordenes = $this->Facturacion->tipo_orden();
                     foreach($tipo_ordenes as $tipo_orden){
                     
@@ -322,6 +329,7 @@
             //##########################  guarda viaje y la orden. ########################## 
                     $this->Viaje->crear_viaje($viaje);
 		            $this->Orden_model->insert_orden($orden);
+                    
                     $i = 0;
                                     
                     $costo = $this->input->post('valor_costo_servicio');
@@ -348,11 +356,13 @@
                                );
                                $i = $i + 1;
                                $id_detalle = $id_detalle + 1;
+                               
             //########################## guarda uno a uno los detalles. ########################## 
                                $this->Detalle->guardar_detalle($detalle);
                             }
                     }
-
+            
+            echo "</pre>";
             //########################## Log de creado. ##########################                     
 
                 $log = array(   'nombre_usuario' => $session_data['nombre'],
@@ -366,7 +376,7 @@
 
                 $this->session->set_flashdata('sin_orden','La orden <b>'.$num_orden.'</b> se ha creado con éxito');
                 redirect('transacciones/orden/index');
-                //$this->load->view('prueba');
+                $this->load->view('prueba');
                 }
             }
             
@@ -395,13 +405,21 @@
                 $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
                 $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');                  
                 
-                if(!isset($_POST['enable_tramo'])){
-                      $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
-                }
+                if(isset($_POST['enable_tramo'])){
+                    if($_POST['tipo_orden'] != "OTRO SERVICIO"){
+                        $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
+
+                    }
+                    else
+                        $this->form_validation->set_rules('tramo_codigo_tramo','Descripción','trim|xss_clean|required|callback_check_tramo');
+                } 
                 if($_POST['tipo_orden'] != "NACIONAL" &&  $_POST['tipo_orden'] != "OTRO SERVICIO"){
                       $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
                    
                 }
+                if($_POST['tipo_orden'] == "OTRO SERVICIO"){
+                        $this->form_validation->set_rules('codigo_servicio','Otros Servicios','callback_check_otros_servicios');
+                }                
                 if($this->form_validation->run() == FALSE){
                     
                     $id_orden               = $this->input->post('numero_orden');
@@ -471,7 +489,6 @@
                 }
                 else{
                   
-                    	
                     $orden_bd = $this->Orden_model->get_orden($this->input->post('numero_orden'));
                     $id_viaje = $this->Viaje->seleccionar_viaje($orden_bd[0]['viaje_id_viaje']);
                     $camion = $this->Camiones_model->datos_camion($this->input->post('patente'));
@@ -511,10 +528,6 @@
                         $lugar_retiro = "N/A";
                     }
                     
-                    if($_POST['tipo_orden'] == "OTRO SERVICIO"){
-                        $destino[0] = -1 ;
-                    }						
-                    
                     $orden = array(
                                     
                                     'referencia'                => $this->input->post('referencia'),
@@ -545,11 +558,13 @@
                                     'naviera_codigo_naviera'    => $this->input->post('naviera_codigo_naviera'),
                                     'lugar_retiro'              => $lugar_retiro
                                 );
+
+                    if($_POST['tipo_orden'] == "OTRO SERVICIO" ){
+                        if(!isset($_POST['enable_tramo'])){
+                           $orden['tramo_codigo_tramo'] = -1;
+                        }                         
+                    } 
                     
-                    if(isset($_POST['enable_tramo'])){
-                       $orden['tramo_codigo_tramo'] = -1;
-                    }
-                   
                     $tipo_ordenes = $this->Facturacion->tipo_orden();
                     foreach($tipo_ordenes as $tipo_orden){
                     
@@ -558,7 +573,6 @@
                         }
                     }
                     
-
                     //guarda viaje y la orden.
                     $this->Viaje->editar_viaje($orden_bd[0]['viaje_id_viaje'],$viaje);
 		            $this->Orden_model->editar_orden($orden , $this->input->post('numero_orden'));
@@ -569,7 +583,7 @@
                     $costo = $this->input->post('valor_costo_servicio');
                     $venta = $this->input->post('valor_venta_servicio');
                     
-                    if(isset($_POST['codigo_servicio'])){
+                    if($_POST['codigo_servicio'][0] != ''){
                     					
                             foreach ($this->input->post('codigo_servicio') as $servicio){
                                 $id_detalle = $this->Detalle->ultimo_codigo();
@@ -597,7 +611,7 @@
 
                     $this->log->insertar_log($log);  
                                       
-		            $this->session->set_flashdata('sin_orden','La Orden de Servicio se edito con éxito');
+		            $this->session->set_flashdata('sin_orden','La Orden de Servicio <b>'.$num_orden.'</b> se edito con éxito');
                     redirect('transacciones/orden/formulario_editar/'.$_POST['numero_orden'],'refresh');
 
                 }
@@ -784,7 +798,7 @@
                
                 $data['tfacturacion'] = $this->Facturacion->tipo_orden();
                 $data['clientes']     = $this->Clientes_model->listar_clientes();
-                $data['tramos']       = $this->Facturacion->listar_tramos();
+                $data['tramos']       = $this->Tramos_model->listar_tramos();
                 $data['aduanas']      = $this->Agencias_model->listar_agencias();
                 $data['bodegas']      = $this->Bodegas_model->listar_bodegas();
                 $data['puertos']      = $this->Puertos_model->listar_puertos();
@@ -1482,6 +1496,21 @@
             
             return true;
         }
+    }
+
+    function check_otros_servicios($otros_serv){
+
+        $i = 0;
+        foreach ($otros_serv as $otro_serv) {
+            if($otro_serv == '')
+                $i++;
+        }
+        if ($i > 0){
+            $this->form_validation->set_message('check_otros_servicios','Hay campos de otros servicios vacios, favor completelos.');
+            return FALSE;
+        }
+        else 
+            return TRUE;
     }
 
     function datos_ordensh($id_orden){

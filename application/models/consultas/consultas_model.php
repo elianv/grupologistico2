@@ -282,14 +282,22 @@ Class consultas_model extends CI_Model{
 									proveedor.razon_social as proveedor,
     							    orden.observacion,
     							    orden.valor_costo_tramo as precio_costo,
-    							    orden.valor_venta_tramo as precio_venta
+    							    orden.valor_venta_tramo as precio_venta,
+    							    orden.booking,
+    							    orden.set_point,
+    							    orden.peso,
+    							    p.nombre as p_destino,
+    							    puerto.nombre as p_embarque
+
 	    				from
 								proveedor,
 							    tramo,
 							    nave,
 							    bodega,
 							    orden,
-							    cliente
+							    cliente,
+							    puerto as p,
+							    puerto
 						where 
 									orden.tramo_codigo_tramo = tramo.codigo_tramo
 								and 
@@ -300,6 +308,10 @@ Class consultas_model extends CI_Model{
 									orden.bodega_codigo_bodega = bodega.codigo_bodega
 								and 
 									orden.cliente_rut_cliente = cliente.rut_cliente
+								and
+									orden.destino = p.codigo_puerto
+								and
+									orden.puerto_codigo_puerto = puerto.codigo_puerto
 								and 
 									orden.id_estado_orden = 1 ');
 

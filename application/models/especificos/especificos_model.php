@@ -17,7 +17,7 @@ class Especificos_model extends CI_Model{
     public function codigos_sistema_otros(){
         $this->db->select('*');
         $this->db->from('codigos_sistema');
-        $this->db->where('id != 1');
+        //$this->db->where('id != 1');
 
         $result = $this->db->get();
 

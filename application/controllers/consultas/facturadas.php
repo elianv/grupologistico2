@@ -689,7 +689,7 @@
                     //print_r($_POST);
 
                     if(isset($_POST['check_orden'])){
-                        echo "sin orden";
+                        //echo "sin orden";
                         if($orden == '')
                             $data['facturas'] = $this->consultas_model->ordenes_procesos('', '', '', '', '', '', '');
                         else

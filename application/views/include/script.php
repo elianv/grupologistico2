@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/DT_bootstrap.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/anexos.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('css/jquery-ui.css'); ?>">
+    
 	
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 	
