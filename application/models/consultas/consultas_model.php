@@ -141,20 +141,38 @@ Class consultas_model extends CI_Model{
 
 	public function ordenes_conductor($conductor, $desde = null, $hasta = null, $todas = null){
 
-		$this->db->select('orden.id_orden, tipo_orden.tipo_orden, estado_orden.estado, orden.fecha, viaje.conductor_rut');
-		$this->db->from('orden, tipo_orden, estado_orden, viaje');
-		$this->db->where('orden.id_estado_orden = estado_orden.id');
-		$this->db->where('orden.tipo_orden_id_tipo_orden = tipo_orden.id_tipo_orden');
-		$this->db->where('orden.viaje_id_viaje = viaje.id_viaje');
-		$this->db->where('viaje.conductor_rut',$conductor);
+		$sql = "select 
+				    orden.id_orden,
+				    tipo_orden.tipo_orden,
+				    estado_orden.estado,
+				    orden.fecha,
+				    coalesce(SUM(detalle.valor_costo), 0) + coalesce(orden.valor_costo_tramo, 0) as total_neto,
+				    cliente.razon_social,
+					orden.numero as contenedor
+				from
+				    orden
+				        inner join
+				    tipo_orden ON tipo_orden.id_tipo_orden = orden.tipo_orden_id_tipo_orden
+				        inner join
+				    estado_orden ON estado_orden.id = orden.id_estado_orden
+				        inner join
+				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
+				        left join
+				    detalle ON detalle.orden_id_orden = orden.id_orden
+						inner join 
+					viaje ON orden.viaje_id_viaje = viaje.id_viaje
+				and 
+					viaje.conductor_rut = '".$conductor."' ";
 
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$this->db->where('orden.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
+			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 		}
 
-		$result = $this->db->get();
+		$sql .= " group by id_orden"; 
+
+		$result = $this->db->query($sql);
 		
 		return $result->result_array();		
 	}

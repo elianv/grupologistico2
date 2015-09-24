@@ -85,20 +85,21 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Tipo Orden</th>
-                                        <th>Estado</th>
                                         <th>Fecha</th>
+                                        <th>Cliente</th>
+                                        <th>Costo</th>
+                                        <th>Contenedor</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($conductores_ as $conductor) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$conductor['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $conductor['id_orden']; ?></a></td>
-                                            <td><?php echo $conductor['tipo_orden']; ?></td>
-                                            <td><?php echo $conductor['estado']; ?></td>
                                             <?php $fecha = new DateTime($conductor['fecha']); ?>
-                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
-
+                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>                                            
+                                            <td><?php echo $conductor['razon_social']; ?></td>
+                                            <td><?php echo '$'.number_format($conductor['total_neto'], 0, ',', '.'); ?></td>
+                                            <td><?php echo $conductor['contenedor']; ?></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
