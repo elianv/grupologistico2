@@ -58,8 +58,8 @@
 			                    <table id="tabla-proveedor" class="table table-hover table-condensed" cellspacing="0" width="100%">
 			                                <thead>
 			                                    <tr>
-			                                        <th>Rut</th>
-			                                        <th>Raz&oacute;n Social</th>
+			                                        <th style="width:30%">Rut</th>
+			                                        <th style="width:70%">Raz&oacute;n Social</th>
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
@@ -88,19 +88,27 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Tipo Orden</th>
-                                        <th>Estado</th>
                                         <th>Fecha</th>
+                                        <th>Tipo Orden</th>
+                                        <th>Cliente</th>
+                                        <th>Costo</th>
+                                        <th>N° Factura</th>
+                                        <th>Estado</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($proveedores_ as $proveedor) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$proveedor['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $proveedor['id_orden']; ?></a></td>
-                                            <td><?php echo $proveedor['tipo_orden']; ?></td>
-                                            <td><?php echo $proveedor['estado']; ?></td>
                                             <?php $fecha = new DateTime($proveedor['fecha']); ?>
-                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
+                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>                                            
+                                            <td><?php echo $proveedor['tipo_orden']; ?></td>
+                                            <td><?php echo $proveedor['razon_social']; ?></td>
+                                            <td><?php echo '$'.number_format($proveedor['total_neto'], 0, ',', '.'); ?></td>
+                                            <td><?php echo $proveedor['factura_proveedor']; ?></td>
+                                            <td><?php echo $proveedor['estado']; ?></td>
+
 
                                         </tr>
                                     <?php } ?>

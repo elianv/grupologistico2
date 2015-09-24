@@ -81,19 +81,41 @@ Class consultas_model extends CI_Model{
 
 	public function ordenes_proveedor($proveedor, $desde = null, $hasta = null, $todas = null){
 
-		$this->db->select('orden.id_orden, tipo_orden.tipo_orden, estado_orden.estado, orden.fecha');
-		$this->db->from('orden, tipo_orden, estado_orden');
-		$this->db->where('orden.id_estado_orden = estado_orden.id');
-		$this->db->where('orden.tipo_orden_id_tipo_orden = tipo_orden.id_tipo_orden');
-		$this->db->where('orden.proveedor_rut_proveedor',$proveedor);
+		$sql = "select 
+				    orden.id_orden,
+				    tipo_orden.tipo_orden,
+				    estado_orden.estado,
+				    orden.fecha,
+				    coalesce(SUM(detalle.valor_costo), 0) + coalesce(orden.valor_costo_tramo, 0) as total_neto,
+				    cliente.razon_social,
+				    coalesce(ordenes_facturas.factura_tramo, 'N/A') as factura_proveedor
+				from
+				    orden
+				        inner join
+				    tipo_orden ON tipo_orden.id_tipo_orden = orden.tipo_orden_id_tipo_orden
+				        inner join
+				    estado_orden ON estado_orden.id = orden.id_estado_orden
+				        inner join
+				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
+				        left join
+				    detalle ON detalle.orden_id_orden = orden.id_orden
+				        left join
+				    ordenes_facturas ON ordenes_facturas.id_orden = orden.id_orden
+				        left join
+				    factura ON ordenes_facturas.id_factura = factura.id
+				where
+				    orden.proveedor_rut_proveedor = '".$proveedor."' ";
+
 
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$this->db->where('orden.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
+			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			
 		}
+		$sql .= " group by id_orden"; 
 
-		$result = $this->db->get();
+		$result = $this->db->query($sql);
 		//var_dump($this->db->last_query());
 		return $result->result_array();		
 	}
