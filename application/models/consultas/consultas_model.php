@@ -161,7 +161,7 @@ Class consultas_model extends CI_Model{
 				    detalle ON detalle.orden_id_orden = orden.id_orden
 						inner join 
 					viaje ON orden.viaje_id_viaje = viaje.id_viaje
-				and 
+				where 
 					viaje.conductor_rut = '".$conductor."' ";
 
 		if($todas == null){
@@ -176,6 +176,44 @@ Class consultas_model extends CI_Model{
 		
 		return $result->result_array();		
 	}
+
+	public function ordenes_camion($camion, $desde = null, $hasta = null, $todas = null){
+
+		$sql = "select 
+				    orden.id_orden,
+				    tipo_orden.tipo_orden,
+				    estado_orden.estado,
+				    orden.fecha,
+				    coalesce(SUM(detalle.valor_costo), 0) + coalesce(orden.valor_costo_tramo, 0) as total_neto,
+				    cliente.razon_social,
+					orden.numero as contenedor
+				from
+				    orden
+				        inner join
+				    tipo_orden ON tipo_orden.id_tipo_orden = orden.tipo_orden_id_tipo_orden
+				        inner join
+				    estado_orden ON estado_orden.id = orden.id_estado_orden
+				        inner join
+				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
+				        left join
+				    detalle ON detalle.orden_id_orden = orden.id_orden
+						inner join 
+					viaje ON orden.viaje_id_viaje = viaje.id_viaje
+				where 
+					viaje.camion_camion_id = '".$camion."' ";
+
+		if($todas == null){
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+		}
+
+		$sql .= " group by id_orden"; 
+
+		$result = $this->db->query($sql);
+		
+		return $result->result_array();		
+	}	
 
 	public function facturas($facturas = null, $ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
 		

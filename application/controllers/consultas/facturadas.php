@@ -281,7 +281,137 @@
             else{
                 redirec('home','refresh');
             }
-        }      
+        }   
+
+        function por_camion(){
+            if($this->session->userdata('logged_in')){
+                $session_data = $this->session->userdata('logged_in');
+                if( !isset($_POST['id']) ){
+                    $this->load->model('mantencion/Camiones_model');
+
+                    $data['camiones'] = $this->Camiones_model->listar_camiones();
+                    $data['tipo']        = 0;
+                    $this->load->view('include/head',$session_data);
+                    $this->load->view('consultas/por_camion',$data);
+                    $this->load->view('include/script'); 
+                }
+                else{
+
+                    $time   = $this->input->post('time');
+
+                    $this->load->library('form_validation');
+                    $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
+                    $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
+                    $this->form_validation->set_rules('id', 'Conductor','trim|xss_clean|required|callback_check_proveedor');
+
+                    if($time == 'fechas'){
+                        $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
+                        $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
+                    }
+
+                    if($this->form_validation->run() == FALSE){      
+                            $this->load->model('mantencion/Camiones_model');
+                            $data['camiones']  = $this->Camiones_model->listar_camiones();
+                            $data['tipo']         = 0;
+                            
+                            $this->load->view('include/head',$session_data);
+                            $this->load->view('consultas/por_camion',$data);
+                            $this->load->view('include/script');
+                    }
+                    else{
+                        $id        = $this->input->post('id');
+                        $salida    = $this->input->post('salida');
+
+                        if ($time == 'fechas'){
+                            $desde = $this->input->post('desde');
+                            $hasta = $this->input->post('hasta');
+
+                            $data['camiones_'] = $this->consultas_model->ordenes_camion($id, $desde, $hasta, '');
+                        }
+                        else{
+                            $data['camiones_'] = $this->consultas_model->ordenes_camion($id, '' , '' ,1);
+                        }
+
+                        if($salida == 'pantalla'){
+                            $this->load->model('mantencion/Camiones_model');
+                            $data['titulo']       = $this->input->post('patente');
+                            $data['camiones']     = $this->Camiones_model->listar_camiones();
+                            $data['tipo']         = 1;
+
+                            $this->load->view('include/head',$session_data);
+                            $this->load->view('consultas/por_camion',$data);
+                            $this->load->view('include/script');
+                        }
+                        else{
+                                        $this->load->library('excel');
+                                        $this->excel->setActiveSheetIndex(0);
+                                        $this->excel->getActiveSheet()->setTitle('Ordenes por Camion');
+
+                                        $this->excel->getActiveSheet()->setCellValue('A1', 'Camion');
+                                        $this->excel->getActiveSheet()->setCellValue('B1', $this->input->post('patente'));
+
+                                        $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
+                                        $this->excel->getActiveSheet()->setCellValue('B2', 'Fecha');
+                                        $this->excel->getActiveSheet()->setCellValue('C2', 'Cliente');
+                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Costo');
+                                        $this->excel->getActiveSheet()->setCellValue('E2', 'Mantenedor');
+                                        
+
+                                        $this->excel->getActiveSheet()->getStyle('A2:E2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setBold(true);                        
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setBold(true);                                        
+
+                                        foreach(range('A','E') as $columnID) {
+                                            $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                                                ->setAutoSize(true);
+                                        }                           
+
+                                        $i = 3;                        
+                                        foreach ($data['camiones_'] as $orden) {
+
+                                                    $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
+                                                    $fecha = new DateTime($orden['fecha']);
+                                                    $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));                                                    
+                                                    $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['razon_social']);
+                                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['total_neto']);
+                                                    $this->excel->getActiveSheet()->setCellValue('E'.$i,$orden['contenedor']);
+
+                                                    $i++;
+                                         
+                                        }
+
+                                        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_BOTTOM);
+                                        $filename='ordenes_camion.xlsx'; //save our workbook as this file name
+                                        header('Content-Type: application/vnd.ms-excel'); //mime type
+                                        header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                                        header('Cache-Control: max-age=0'); //no cache
+                                                    
+                                        //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                                        //if you want to save it as .XLSX Excel 2007 format
+                                        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
+                                        //$objWriter->save("/temp/test1.xls");  
+                                        //force user to download the Excel file without writing it to server's HD
+                                        $objWriter->save('php://output');                            
+                        }
+
+                        
+                    }
+                } 
+
+            }
+            else{
+                redirec('home','refresh');
+            }
+        }            
 
         function por_proveedor(){
                 $session_data = $this->session->userdata('logged_in');

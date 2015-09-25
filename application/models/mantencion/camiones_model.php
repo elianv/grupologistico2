@@ -45,7 +45,7 @@ class Camiones_model extends CI_Model{
     }
     
     function listar_camiones(){
-        $this->db->select('patente,celular');
+        $this->db->select('patente,camion_id');
         $resultado = $this->db->get('camion');
         
         return $resultado->result_array();
