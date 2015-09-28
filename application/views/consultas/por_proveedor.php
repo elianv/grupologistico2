@@ -1,7 +1,7 @@
 <style type="text/css">
 	
 </style>
-<legend><h3><center>Ordenes de Trabajo Por Proveedor</center></h3></legend> 
+<legend><h3><center>Ordenes de Servicio Por Proveedor</center></h3></legend> 
 
             <?php 
                 echo '<div class="container">';
@@ -58,8 +58,8 @@
 			                    <table id="tabla-proveedor" class="table table-hover table-condensed" cellspacing="0" width="100%">
 			                                <thead>
 			                                    <tr>
-			                                        <th style="width:30%">Rut</th>
-			                                        <th style="width:70%">Raz&oacute;n Social</th>
+			                                        <th style="width:20%">Rut</th>
+			                                        <th style="width:80%">Raz&oacute;n Social</th>
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
@@ -135,7 +135,6 @@
                         showTime: false,
                         dateFormat: 'dd-mm-yy'
         });
-        $('#tabla-proveedor').DataTable();
         $('#fechas').hide();
 	    $('#Todas').click(function(){
 	        
@@ -156,5 +155,6 @@
 			$('#id').val(codigo);
 		});
 		$('#tabla-ordenes-proveedores').DataTable();
+        $('#tabla-proveedor').DataTable();		
     });
 </script>

@@ -1,4 +1,4 @@
-<legend><h3><center>Ordenes de Servicio Por Conductor</center></h3></legend> 
+<legend><h3><center>Ordenes de Servicio por Puerto de Embarque</center></h3></legend> 
 
             <?php 
                 echo '<div class="container">';
@@ -10,14 +10,14 @@
                 } 
                 echo '</div>';
             ?>
-<form class="form-horizontal" id="formulario" method="post">
+<form class="form-horizontal" id="formulario" method="post" action="<?php echo base_url('index.php/consultas/facturadas/por_puerto')?>">
 	<fieldset>
 		<div class="row">
 			    <div class="span6 offset4">
 			                <div class="control-group">
-			                    <label class="control-label"><strong>Conductor</strong></label>
+			                    <label class="control-label"><strong>Puerto</strong></label>
 			                    <div class="controls">
-			                        <input type="text" name="conductor" id="conductor" readonly="">
+			                        <input type="text" name="puerto" id="puerto" readonly="">
 			                        <input type="hidden" name="id" id="id">
 			                    </div>                    
 			                </div>
@@ -52,62 +52,72 @@
 			                </div>
 			    </div>
 			    <div class="span9" style="margin-left: 50px">
-			                    <table id="tabla-conductores" class="table table-hover table-condensed" cellspacing="0" width="100%">
+			                    <table id="tabla-puertos" class="table table-hover table-condensed" cellspacing="0" width="100%">
 			                                <thead>
 			                                    <tr>
-			                                        <th>Rut</th>
-			                                        <th>Nombre</th>
+			                                        <th>C&oacute;digo</th>
+			                                        <th>Puerto Embarque</th>
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
-			                                    <?php foreach ($conductores as $conductor) { ?>
+			                                    <?php foreach ($puertos as $puerto) { ?>
 			                                        <tr>
-			                                            <td><a class="codigo-click" data-codigo="<?php echo $conductor['rut']; ?>" data-nombre="<?php echo $conductor['descripcion']; ?>"><?php echo $conductor['rut']; ?></a></td>
-			                                            <td><?php echo $conductor['descripcion']; ?></td>
+			                                            <td><a class="codigo-click" data-codigo="<?php echo $puerto['codigo_puerto']; ?>" data-rs="<?php echo $puerto['nombre']; ?>"><?php echo $puerto['codigo_puerto']; ?></a></td>
+			                                            <td><?php echo $puerto['nombre']; ?></td>
 			                                        </tr>
 			                                    <?php } ?>
 			                                    
 			                                </tbody>
 			                    </table>                    
 			    </div>
+			    
 		</div>
 		<div class="form-actions">
-		    	<input type="submit" class="btn btn-success offset4" value="Generar"/>
-	    </div>		
+			    	<input type="submit" class="btn btn-success offset4" value="Generar"/>
+		</div>		
+			
+			
+		</div>
 	</fieldset>
 </form> 
-
-	<?php if($tipo){ ?>
-					<hr />
-					<center><h2><?php echo $titulo; ?></h2></center>
-					<div class="container">
-                    <table id="tabla-ordenes-conductor" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
+<?php if($tipo == 1){ ?>
+	<hr />
+	<center><h2><?php echo $titulo; ?></h2></center>
+	<div class="container">
+                    <table id="tabla-ordenes-puertos" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>N°</th>
                                         <th>Fecha</th>
-                                        <th>Cliente</th>
-                                        <th>Costo</th>
+                                        <th>Referencia</th>
+                                        <th>Tipo Orden</th>
                                         <th>Contenedor</th>
+                                        <th>Tramo</th>
+                                        <th>Estado</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($conductores_ as $conductor) { ?>
+                                    <?php foreach ($puertos_ as $puerto) { ?>
                                         <tr>
-                                            <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$conductor['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $conductor['id_orden']; ?></a></td>
-                                            <?php $fecha = new DateTime($conductor['fecha']); ?>
-                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>                                            
-                                            <td><?php echo $conductor['razon_social']; ?></td>
-                                            <td><?php echo '$'.number_format($conductor['total_neto'], 0, ',', '.'); ?></td>
-                                            <td><?php echo $conductor['contenedor']; ?></td>
+                                            <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$puerto['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $puerto['id_orden']; ?></a></td>
+                                            <?php $fecha = new DateTime($puerto['fecha']); ?>
+                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>   
+                                            <td><?php echo $puerto['referencia']; ?></td>
+                                            <td><?php echo $puerto['tipo_orden']; ?></td>
+                                            <td><?php echo $puerto['contenedor']; ?></td>
+                                            <td><?php echo $puerto['tramo']; ?></td>
+                                            <td><?php echo $puerto['estado']; ?></td>
+
+
                                         </tr>
                                     <?php } ?>
                                 </tbody>
-                    </table> 
-                    </div>
-    <?php } ?>
-
+                    </table> 			
+	</div>
+<?php } ?>
 <br>
+
 <script type="text/javascript">
     $(document).ready(function(){
     	$('#datepicker').datepicker({
@@ -125,7 +135,7 @@
                         showMinute:false,
                         showTime: false,
                         dateFormat: 'dd-mm-yy'
-        });     	
+        });    	
         $('#fechas').hide();
 	    $('#Todas').click(function(){
 	        
@@ -141,13 +151,12 @@
 		$('.table .codigo-click').click(function(e){
 			e.preventDefault();
 			var codigo = $(this).attr('data-codigo');
-			var nombre = $(this).attr('data-nombre');
-			$('#conductor').val(codigo+" - "+nombre);
+			var rs = $(this).attr('data-rs');
+			$('#puerto').val(codigo+" - "+rs);
 			$('#id').val(codigo);
 		});
-		$('#tabla-ordenes-conductor').DataTable();
-        $('#tabla-conductores').DataTable();		
-
+		$('#tabla-ordenes-puertos').DataTable();		
+		$('#tabla-puertos').DataTable();		           
     });
         
 

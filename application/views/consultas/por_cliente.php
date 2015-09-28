@@ -1,4 +1,4 @@
-<legend><h3><center>Ordenes de Trabajo Por Cliente</center></h3></legend> 
+<legend><h3><center>Ordenes de Servicio Por Cliente</center></h3></legend> 
 
             <?php 
                 echo '<div class="container">';
@@ -127,7 +127,6 @@
                         showTime: false,
                         dateFormat: 'dd-mm-yy'
         });    	
-        $('#tabla-cliente').DataTable();
         $('#fechas').hide();
 	    $('#Todas').click(function(){
 	        
@@ -147,7 +146,8 @@
 			$('#cliente').val(codigo+" - "+rs);
 			$('#id').val(codigo);
 		});
-		$('#tabla-ordenes-clientes').DataTable();				           
+		$('#tabla-ordenes-clientes').DataTable();	
+        $('#tabla-cliente').DataTable();					           
     });
         
 

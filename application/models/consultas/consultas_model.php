@@ -215,6 +215,149 @@ Class consultas_model extends CI_Model{
 		return $result->result_array();		
 	}	
 
+	public function ordenes_puerto($puerto, $desde = null, $hasta = null, $todas = null){
+
+		$sql = "select 
+				    orden.id_orden,
+				    tipo_orden.tipo_orden,
+				    estado_orden.estado,
+				    orden.fecha,
+				    orden.numero as contenedor,
+				    orden.referencia,
+					tramo.descripcion as tramo
+				from
+				    orden
+				        inner join
+				    tipo_orden ON tipo_orden.id_tipo_orden = orden.tipo_orden_id_tipo_orden
+				        inner join
+				    estado_orden ON estado_orden.id = orden.id_estado_orden
+				        inner join
+				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
+						inner join
+					tramo ON tramo.codigo_tramo = orden.tramo_codigo_tramo
+				where
+				    orden.puerto_codigo_puerto = '".$puerto."' ";
+
+		if($todas == null){
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			
+		}
+		$sql .= " group by id_orden"; 
+
+		$result = $this->db->query($sql);
+		
+		return $result->result_array();			
+	}		
+
+	public function ordenes_retiro($lugar, $desde = null, $hasta = null, $todas = null){
+
+		$sql = "select 
+				    orden.id_orden,
+				    tipo_orden.tipo_orden,
+				    estado_orden.estado,
+				    orden.fecha,
+				    orden.numero as contenedor,
+				    orden.referencia,
+					tramo.descripcion as tramo
+				from
+				    orden
+				        inner join
+				    tipo_orden ON tipo_orden.id_tipo_orden = orden.tipo_orden_id_tipo_orden
+				        inner join
+				    estado_orden ON estado_orden.id = orden.id_estado_orden
+				        inner join
+				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
+						inner join
+					tramo ON tramo.codigo_tramo = orden.tramo_codigo_tramo
+				where
+				    lugar_retiro like '%".$lugar."%' ";
+
+		if($todas == null){
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			
+		}
+		$sql .= " group by id_orden"; 
+
+		$result = $this->db->query($sql);
+		
+		return $result->result_array();			
+	}		
+
+	public function realizadas($desde = null, $hasta = null, $todas = null){
+
+		$sql = "select 
+				    orden.id_orden,
+				    tipo_orden.tipo_orden,
+				    estado_orden.estado,
+				    orden.fecha,
+				    coalesce(SUM(detalle.valor_venta), 0) + coalesce(orden.valor_venta_tramo, 0) as total_neto,
+				    cliente.razon_social
+				from
+				    orden
+				        inner join
+				    tipo_orden ON tipo_orden.id_tipo_orden = orden.tipo_orden_id_tipo_orden
+				        inner join
+				    estado_orden ON estado_orden.id = orden.id_estado_orden
+				        inner join
+				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
+				        left join
+				    detalle ON detalle.orden_id_orden = orden.id_orden ";
+		
+		if($todas == null){
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$sql .= " WHERE orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			
+		}
+		$sql .= " group by id_orden"; 
+
+		$result = $this->db->query($sql);
+
+		return $result->result_array();		
+	}
+
+	public function facturadas($cliente,   $desde = null, $hasta = null, $todas = null){
+		$sql= 	"select 
+				    orden.id_orden,
+				    tipo_orden.tipo_orden,
+				    orden.fecha,
+				    coalesce(SUM(detalle.valor_venta), 0) + coalesce(orden.valor_venta_tramo, 0) as total_neto,
+				    factura.numero_factura,
+				    factura.fecha as fecha_factura,
+				    factura.total_venta as neto_factura
+				from
+				    orden
+				        inner join
+				    tipo_orden ON tipo_orden.id_tipo_orden = orden.tipo_orden_id_tipo_orden
+				        inner join
+				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
+				        left join
+				    detalle ON detalle.orden_id_orden = orden.id_orden
+				        left join
+				    ordenes_facturas ON ordenes_facturas.id_orden = orden.id_orden
+				        left join
+				    factura ON ordenes_facturas.id_factura = factura.id
+				where
+				    orden.cliente_rut_cliente = '".$cliente."'
+				     AND factura.estado_factura_id_estado_factura > 1 ";
+
+		if($todas == null){
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			
+		}
+		$sql .= " group by id_orden"; 
+
+		$result = $this->db->query($sql);
+
+		return $result->result_array();						        
+	}
+
 	public function facturas($facturas = null, $ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
 		
 		$query = '	select 
@@ -341,7 +484,6 @@ Class consultas_model extends CI_Model{
         $resultado = $this->db->get();
         
         return $resultado->result_array();     	
-
     }
 
     public function ordenes_procesos($ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){

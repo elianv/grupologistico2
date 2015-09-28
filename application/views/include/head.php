@@ -71,9 +71,10 @@
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_proveedor');?>">Proveedor</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_conductor');?>">Conductor</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_camion');?>">Camion</a></li>
-								<li><a href="#">Lugar de Retiro</a></li>
-								<li><a href="#">Realizadas</a></li>
-								<li><a href="#">Facturadas</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_retiro');?>">Lugar de Retiro</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_puerto');?>">Puerto Embarque</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/realizadas');?>">Realizadas</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/ordenes_facturadas');?>">Facturadas</a></li>
 								
 							</ul>
 						</li>
@@ -197,9 +198,10 @@
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_proveedor');?>">Proveedor</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_conductor');?>">Conductor</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_camion');?>">Camion</a></li>
-								<li><a href="#">Lugar de Retiro</a></li>
-								<li><a href="#">Realizadas</a></li>
-								<li><a href="#">Facturadas</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_retiro');?>">Lugar de Retiro</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_puerto');?>">Puerto Embarque</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/realizadas');?>">Realizadas</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/ordenes_facturadas');?>">Facturadas</a></li>
 							</ul>
 						</li>
 					</ul>

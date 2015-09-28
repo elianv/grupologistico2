@@ -10,6 +10,10 @@
 
             date_default_timezone_set('America/Santiago');
         }   
+
+        function index(){
+            redirect('home','refresh');
+        }
                 
         function por_estado(){
             if($this->session->userdata('logged_in')){
@@ -302,7 +306,7 @@
                     $this->load->library('form_validation');
                     $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
                     $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
-                    $this->form_validation->set_rules('id', 'Conductor','trim|xss_clean|required|callback_check_proveedor');
+                    $this->form_validation->set_rules('id', 'Camion','trim|xss_clean|required|callback_check_proveedor');
 
                     if($time == 'fechas'){
                         $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
@@ -550,6 +554,551 @@
                     redirec('home','refresh');
                 }
         }  
+
+        function por_retiro(){
+                $session_data = $this->session->userdata('logged_in');
+
+                if($this->session->userdata('logged_in')){
+                        
+                        if( isset($_POST['retiro']) ){
+                            
+                            $time   = $this->input->post('time');
+
+                            $this->load->library('form_validation');
+                            $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
+                            $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
+                            $this->form_validation->set_rules('retiro', 'Lugar de Retiro','trim|xss_clean|required|callback_check_proveedor');
+
+                            if($time == 'fechas'){
+                                $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
+                                $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
+                            }
+
+                            if($this->form_validation->run() == FALSE){   
+
+                                    $data['tipo']        = 0;
+
+                                    $this->load->view('include/head',$session_data);
+                                    $this->load->view('consultas/por_retiro',$data);
+                                    $this->load->view('include/script');
+                            }
+                            else{
+                                
+                                $id        = $this->input->post('retiro');
+                                $salida    = $this->input->post('salida');
+
+                                if ($time == 'fechas'){
+                                    $desde = $this->input->post('desde');
+                                    $hasta = $this->input->post('hasta');
+
+                                    $data['retiros'] = $this->consultas_model->ordenes_retiro($id, $desde, $hasta, '');
+                                }
+                                else{
+                                    $data['retiros'] = $this->consultas_model->ordenes_retiro($id, '' , '' ,1);
+                                }
+                                                               
+                                if($salida == 'pantalla'){
+                                    
+                                    $data['titulo']      = $this->input->post('retiro');
+                                    $data['tipo']        = 1;
+
+                                    $this->load->view('include/head',$session_data);
+                                    $this->load->view('consultas/por_retiro',$data);
+                                    $this->load->view('include/script');
+                                    
+                       
+                                }
+                                if($salida == 'excel'){
+                                        $this->load->library('excel');
+                                        $this->excel->setActiveSheetIndex(0);
+                                        $this->excel->getActiveSheet()->setTitle('Ordenes por Lugar de Retiro');
+
+                                        $this->excel->getActiveSheet()->setCellValue('A1', 'Lugar de Retiro que Contengan :');
+                                        $this->excel->getActiveSheet()->setCellValue('B1', $this->input->post('retiro'));
+
+                                        $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
+                                        $this->excel->getActiveSheet()->setCellValue('B2', 'Fecha');
+                                        $this->excel->getActiveSheet()->setCellValue('C2', 'Referencia');
+                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Tipo Orden');
+                                        $this->excel->getActiveSheet()->setCellValue('E2', 'Contenedor');
+                                        $this->excel->getActiveSheet()->setCellValue('F2', 'Tramo');
+                                        $this->excel->getActiveSheet()->setCellValue('G2', 'Estado');
+
+                                        $this->excel->getActiveSheet()->getStyle('A2:G2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setBold(true);                        
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('G2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('G2')->getFont()->setBold(true);                                        
+
+                                        foreach(range('A','G') as $columnID) {
+                                            $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                                                ->setAutoSize(true);
+                                        }                           
+
+                                        $i = 3;                        
+                                        foreach ($data['retiros'] as $orden) {
+
+                                                    $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
+                                                    $fecha = new DateTime($orden['fecha']);
+                                                    $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));                                                    
+                                                    $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['referencia']);
+                                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['tipo_orden']);
+                                                    $this->excel->getActiveSheet()->setCellValue('E'.$i,$orden['contenedor']);
+                                                    $this->excel->getActiveSheet()->setCellValue('F'.$i,$orden['tramo']);
+                                                    $this->excel->getActiveSheet()->setCellValue('G'.$i,$orden['estado']);
+                                                    
+                                                    $i++;
+                                         
+                                        }
+
+                                        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_BOTTOM);
+                                        $filename='ordenes_lugar_retiro.xlsx'; //save our workbook as this file name
+                                        header('Content-Type: application/vnd.ms-excel'); //mime type
+                                        header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                                        header('Cache-Control: max-age=0'); //no cache
+                                                    
+                                        //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                                        //if you want to save it as .XLSX Excel 2007 format
+                                        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
+                                        //$objWriter->save("/temp/test1.xls");  
+                                        //force user to download the Excel file without writing it to server's HD
+                                        $objWriter->save('php://output');
+                                }
+                            }
+                        }
+                        else{
+                            
+                            $data['tipo']        = 0;
+                            $this->load->view('include/head',$session_data);
+                            $this->load->view('consultas/por_retiro',$data);
+                            $this->load->view('include/script');                            
+                        }
+                }
+                else{
+                    redirec('home','refresh');
+                }            
+        }
+
+        function por_puerto(){
+                $session_data = $this->session->userdata('logged_in');
+
+                if($this->session->userdata('logged_in')){
+                        $this->load->model('mantencion/Puertos_model');
+                        if( isset($_POST['id']) ){
+                            
+                            $time   = $this->input->post('time');
+
+                            $this->load->library('form_validation');
+                            $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
+                            $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
+                            $this->form_validation->set_rules('id', 'Puerto','trim|xss_clean|required|callback_check_proveedor');
+
+                            if($time == 'fechas'){
+                                $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
+                                $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
+                            }
+
+                            if($this->form_validation->run() == FALSE){   
+
+                                    $data['puertos'] = $this->Puertos_model->listar_puertos();
+                                    $data['tipo']        = 0;
+                                    $this->load->view('include/head',$session_data);
+                                    $this->load->view('consultas/por_puerto',$data);
+                                    $this->load->view('include/script');
+                            }
+                            else{
+                                $id        = $this->input->post('id');
+                                $salida    = $this->input->post('salida');
+
+                                if ($time == 'fechas'){
+                                    $desde = $this->input->post('desde');
+                                    $hasta = $this->input->post('hasta');
+
+                                    $data['puertos_'] = $this->consultas_model->ordenes_puerto($id, $desde, $hasta, '');
+                                }
+                                else{
+                                    $data['puertos_'] = $this->consultas_model->ordenes_puerto($id, '' , '' ,1);
+                                }
+                                
+                                if($salida == 'pantalla'){
+                                    
+                                    $data['puertos']     = $this->Puertos_model->listar_puertos();
+                                    $data['titulo']      = $this->input->post('puerto');
+                                    $data['tipo']        = 1;
+
+                                    $this->load->view('include/head',$session_data);
+                                    $this->load->view('consultas/por_puerto',$data);
+                                    $this->load->view('include/script');
+                                    
+                       
+                                }
+                                if($salida == 'excel'){
+                                        $this->load->library('excel');
+                                        $this->excel->setActiveSheetIndex(0);
+                                        $this->excel->getActiveSheet()->setTitle('Ordenes por Puerto Embarque');
+
+                                        $this->excel->getActiveSheet()->setCellValue('A1', 'Proveedor');
+                                        $this->excel->getActiveSheet()->setCellValue('B1', $this->input->post('puerto'));
+
+                                        $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
+                                        $this->excel->getActiveSheet()->setCellValue('B2', 'Fecha');
+                                        $this->excel->getActiveSheet()->setCellValue('C2', 'Referencia');
+                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Tipo Orden');
+                                        $this->excel->getActiveSheet()->setCellValue('E2', 'Contenedor');
+                                        $this->excel->getActiveSheet()->setCellValue('F2', 'Tramo');
+                                        $this->excel->getActiveSheet()->setCellValue('G2', 'Estado');
+
+                                        $this->excel->getActiveSheet()->getStyle('A2:G2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setBold(true);                        
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('G2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('G2')->getFont()->setBold(true);                                        
+
+                                        foreach(range('A','G') as $columnID) {
+                                            $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                                                ->setAutoSize(true);
+                                        }                           
+
+                                        $i = 3;                        
+                                        foreach ($data['puertos_'] as $orden) {
+
+                                                    $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
+                                                    $fecha = new DateTime($orden['fecha']);
+                                                    $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));                                                    
+                                                    $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['referencia']);
+                                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['tipo_orden']);
+                                                    $this->excel->getActiveSheet()->setCellValue('E'.$i,$orden['contenedor']);
+                                                    $this->excel->getActiveSheet()->setCellValue('F'.$i,$orden['tramo']);
+                                                    $this->excel->getActiveSheet()->setCellValue('G'.$i,$orden['estado']);
+                                                    
+                                                    $i++;
+                                         
+                                        }
+
+                                        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_BOTTOM);
+                                        $filename='ordenes_puertos.xlsx'; //save our workbook as this file name
+                                        header('Content-Type: application/vnd.ms-excel'); //mime type
+                                        header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                                        header('Cache-Control: max-age=0'); //no cache
+                                                    
+                                        //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                                        //if you want to save it as .XLSX Excel 2007 format
+                                        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
+                                        //$objWriter->save("/temp/test1.xls");  
+                                        //force user to download the Excel file without writing it to server's HD
+                                        $objWriter->save('php://output');
+                                }
+                            }
+                        }
+                        else{
+                            
+                            $this->load->model('mantencion/Proveedores_model');
+
+                            $data['puertos'] = $this->Puertos_model->listar_puertos();
+                            $data['tipo']        = 0;
+                            $this->load->view('include/head',$session_data);
+                            $this->load->view('consultas/por_puerto',$data);
+                            $this->load->view('include/script');                            
+                        }
+                }
+                else{
+                    redirec('home','refresh');
+                }                
+        }
+
+        function realizadas(){
+                $session_data = $this->session->userdata('logged_in');
+
+                if($this->session->userdata('logged_in')){
+                        $this->load->model('mantencion/Proveedores_model');
+                        if( isset($_POST['time']) ){
+                            
+                            $time   = $this->input->post('time');
+
+                            $this->load->library('form_validation');
+                            $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
+                            $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
+
+                            if($time == 'fechas'){
+                                $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
+                                $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
+                            }
+
+                            if($this->form_validation->run() == FALSE){   
+
+                                    $data['tipo']        = 0;
+                                    $this->load->view('include/head',$session_data);
+                                    $this->load->view('consultas/realizadas',$data);
+                                    $this->load->view('include/script');
+                            }
+                            else{
+                                $id        = $this->input->post('id');
+                                $salida    = $this->input->post('salida');
+
+                                if ($time == 'fechas'){
+                                    $desde = $this->input->post('desde');
+                                    $hasta = $this->input->post('hasta');
+                                    
+                                    $data['realizadas'] = $this->consultas_model->realizadas($desde, $hasta, '');
+                                }
+                                else{
+                                    $data['realizadas'] = $this->consultas_model->realizadas('' , '' ,1);
+                                }
+                                
+                                if($salida == 'pantalla'){
+                                    
+                                    $data['tipo']        = 1;
+
+                                    $this->load->view('include/head',$session_data);
+                                    $this->load->view('consultas/realizadas',$data);
+                                    $this->load->view('include/script');
+                                    
+                       
+                                }
+                                if($salida == 'excel'){
+                                        $this->load->library('excel');
+                                        $this->excel->setActiveSheetIndex(0);
+                                        $this->excel->getActiveSheet()->setTitle('Ordenes Realizadas');
+                                        
+                                        if($time == 'fechas'){
+
+                                            $this->excel->getActiveSheet()->setCellValue('B1', 'Ordenes realizadas desde ');
+                                            $this->excel->getActiveSheet()->setCellValue('C1', $this->input->post('desde'));
+                                            $this->excel->getActiveSheet()->setCellValue('D1', 'hasta');
+                                            $this->excel->getActiveSheet()->setCellValue('E1', $this->input->post('hasta'));
+                                        }
+                                        else
+                                            $this->excel->getActiveSheet()->setCellValue('B1', 'Ordenes realizadas');
+
+                                        $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
+                                        $this->excel->getActiveSheet()->setCellValue('B2', 'Fecha');
+                                        $this->excel->getActiveSheet()->setCellValue('C2', 'Tipo Orden');
+                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Cliente');
+                                        $this->excel->getActiveSheet()->setCellValue('E2', 'Neto Total');
+                                        $this->excel->getActiveSheet()->setCellValue('F2', 'Estado');
+
+                                        $this->excel->getActiveSheet()->getStyle('A2:F2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setBold(true);                        
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setBold(true);
+
+                                        foreach(range('A','F') as $columnID) {
+                                            $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                                                ->setAutoSize(true);
+                                        }                           
+
+                                        $i = 3;                        
+                                        foreach ($data['realizadas'] as $orden) {
+
+                                                    $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
+                                                    $fecha = new DateTime($orden['fecha']);
+                                                    $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));                                                    
+                                                    $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['tipo_orden']);
+                                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['razon_social']);
+                                                    $this->excel->getActiveSheet()->setCellValue('E'.$i,$orden['total_neto']);
+                                                    $this->excel->getActiveSheet()->setCellValue('F'.$i,$orden['estado']);
+                                                    
+                                                    $i++;
+                                         
+                                        }
+
+                                        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_BOTTOM);
+                                        $filename='ordenes_realizadas.xlsx'; //save our workbook as this file name
+                                        header('Content-Type: application/vnd.ms-excel'); //mime type
+                                        header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                                        header('Cache-Control: max-age=0'); //no cache
+                                                    
+                                        //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                                        //if you want to save it as .XLSX Excel 2007 format
+                                        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
+                                        //$objWriter->save("/temp/test1.xls");  
+                                        //force user to download the Excel file without writing it to server's HD
+                                        $objWriter->save('php://output');
+                                }
+                            }
+                        }
+                        else{
+                            
+                            $data['tipo']        = 0;
+                            $this->load->view('include/head',$session_data);
+                            $this->load->view('consultas/realizadas',$data);
+                            $this->load->view('include/script');                            
+                        }
+                }
+                else{
+                    redirec('home','refresh');
+                }
+        }           
+
+        function ordenes_facturadas(){
+            if($this->session->userdata('logged_in')){
+
+                $session_data = $this->session->userdata('logged_in');
+                if( !isset($_POST['id']) ){
+                
+                    $this->load->model('mantencion/Clientes_model');
+                    $data['clientes'] = $this->Clientes_model->listar_clientes();
+                    $data['tipo']     = 0;
+                    $this->load->view('include/head',$session_data);
+                    $this->load->view('consultas/facturadas',$data);
+                    $this->load->view('include/script');
+
+                }
+                else{
+
+                    $time   = $this->input->post('time');
+
+                    $this->load->library('form_validation');
+                    $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
+                    $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
+                    $this->form_validation->set_rules('id', 'Cliente','trim|xss_clean|required|callback_check_proveedor');
+
+                    if($time == 'fechas'){
+                        $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
+                        $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
+                    }
+
+                    if($this->form_validation->run() == FALSE){      
+                            $this->load->model('mantencion/Clientes_model');
+                            $data['clientes'] = $this->Clientes_model->listar_clientes();
+                            $data['tipo']     = 0;
+                            
+                            $this->load->view('include/head',$session_data);
+                            $this->load->view('consultas/facturadas',$data);
+                            $this->load->view('include/script');
+                    }
+                    else{
+                        $id        = $this->input->post('id');
+                        $salida    = $this->input->post('salida');
+
+                        if ($time == 'fechas'){
+                            $desde = $this->input->post('desde');
+                            $hasta = $this->input->post('hasta');
+
+                            $data['facturadas'] = $this->consultas_model->facturadas($id, $desde, $hasta, '');
+                        }
+                        else{
+                            $data['facturadas'] = $this->consultas_model->facturadas($id, '' , '' ,1);
+                        }
+
+                        if($salida == 'pantalla'){
+                            $this->load->model('mantencion/Clientes_model');
+                            $data['clientes'] = $this->Clientes_model->listar_clientes();
+                            $data['tipo']     = 1;
+                            $data['titulo']   = $this->input->post('cliente');
+
+                            $this->load->view('include/head',$session_data);
+                            $this->load->view('consultas/facturadas',$data);
+                            $this->load->view('include/script');
+                        }
+                        else{
+                                        $this->load->library('excel');
+                                        $this->excel->setActiveSheetIndex(0);
+                                        $this->excel->getActiveSheet()->setTitle('Ordenes por Cliente');
+
+                                        $this->excel->getActiveSheet()->setCellValue('A1', 'Cliente');
+                                        $this->excel->getActiveSheet()->setCellValue('B1', $this->input->post('cliente'));
+
+                                        $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
+                                        $this->excel->getActiveSheet()->setCellValue('B2', 'Tipo Orden');
+                                        $this->excel->getActiveSheet()->setCellValue('C2', 'Fecha');
+                                        $this->excel->getActiveSheet()->setCellValue('D2', '$ Neto');
+                                        $this->excel->getActiveSheet()->setCellValue('E2', 'N° Factura');
+                                        $this->excel->getActiveSheet()->setCellValue('F2', 'Fecha Factura');
+                                        $this->excel->getActiveSheet()->setCellValue('G2', '$ Neto Factura');
+
+                                        $this->excel->getActiveSheet()->getStyle('A2:G2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setBold(true);                        
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setBold(true);                                        
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setBold(true);                                        
+                                        $this->excel->getActiveSheet()->getStyle('G2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('G2')->getFont()->setBold(true);                                        
+
+                                        foreach(range('A','G') as $columnID) {
+                                            $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                                                ->setAutoSize(true);
+                                        }                           
+
+                                        $i = 3;                        
+                                        foreach ($data['facturadas'] as $orden) {
+
+                                                    $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
+                                                    $this->excel->getActiveSheet()->setCellValue('B'.$i,$orden['tipo_orden']);
+                                                    $fecha = new DateTime($orden['fecha']);
+                                                    $this->excel->getActiveSheet()->setCellValue('C'.$i,$fecha->format('d-m-Y'));
+                                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['total_neto']);
+                                                    $this->excel->getActiveSheet()->setCellValue('E'.$i,$orden['numero_factura']);
+                                                    $fecha = new DateTime($orden['fecha_factura']);
+                                                    $this->excel->getActiveSheet()->setCellValue('F'.$i,$fecha->format('d-m-Y'));
+                                                    $this->excel->getActiveSheet()->setCellValue('G'.$i,$orden['neto_factura']);
+                                                    $i++;
+                                         
+                                        }
+
+                                        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_BOTTOM);
+                                        $filename='ordenes_facturadas.xlsx'; //save our workbook as this file name
+                                        header('Content-Type: application/vnd.ms-excel'); //mime type
+                                        header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                                        header('Cache-Control: max-age=0'); //no cache
+                                                    
+                                        //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                                        //if you want to save it as .XLSX Excel 2007 format
+                                        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
+                                        //$objWriter->save("/temp/test1.xls");  
+                                        //force user to download the Excel file without writing it to server's HD
+                                        $objWriter->save('php://output');
+                        }
+
+                        
+                    }
+                } 
+            }
+            else{
+                redirect('home','refresh');
+            }
+        }
 
         function master(){
             $session_data = $this->session->userdata('logged_in');
