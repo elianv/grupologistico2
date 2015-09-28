@@ -251,7 +251,7 @@ Class consultas_model extends CI_Model{
 		return $result->result_array();			
 	}		
 
-	public function ordenes_retiro($lugar, $desde = null, $hasta = null, $todas = null){
+	public function ordenes_retiro($deposito, $desde = null, $hasta = null, $todas = null){
 
 		$sql = "select 
 				    orden.id_orden,
@@ -272,7 +272,7 @@ Class consultas_model extends CI_Model{
 						inner join
 					tramo ON tramo.codigo_tramo = orden.tramo_codigo_tramo
 				where
-				    lugar_retiro like '%".$lugar."%' ";
+				    orden.deposito_codigo_deposito like '%".$deposito."%' ";
 
 		if($todas == null){
 			$desde = new DateTime($desde);

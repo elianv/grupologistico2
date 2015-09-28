@@ -559,15 +559,16 @@
                 $session_data = $this->session->userdata('logged_in');
 
                 if($this->session->userdata('logged_in')){
-                        
-                        if( isset($_POST['retiro']) ){
+                        $this->load->model('mantencion/Depositos_model');
+
+                        if( isset($_POST['deposito']) ){
                             
                             $time   = $this->input->post('time');
 
                             $this->load->library('form_validation');
                             $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
                             $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
-                            $this->form_validation->set_rules('retiro', 'Lugar de Retiro','trim|xss_clean|required|callback_check_proveedor');
+                            $this->form_validation->set_rules('deposito', 'Lugar de Retiro','trim|xss_clean|required|callback_check_proveedor');
 
                             if($time == 'fechas'){
                                 $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
@@ -577,6 +578,7 @@
                             if($this->form_validation->run() == FALSE){   
 
                                     $data['tipo']        = 0;
+                                    $data['depositos']   = $this->Depositos_model->listar_depositos();
 
                                     $this->load->view('include/head',$session_data);
                                     $this->load->view('consultas/por_retiro',$data);
@@ -591,15 +593,16 @@
                                     $desde = $this->input->post('desde');
                                     $hasta = $this->input->post('hasta');
 
-                                    $data['retiros'] = $this->consultas_model->ordenes_retiro($id, $desde, $hasta, '');
+                                    $data['depositos_'] = $this->consultas_model->ordenes_retiro($id, $desde, $hasta, '');
                                 }
                                 else{
-                                    $data['retiros'] = $this->consultas_model->ordenes_retiro($id, '' , '' ,1);
+                                    $data['depositos_'] = $this->consultas_model->ordenes_retiro($id, '' , '' ,1);
                                 }
                                                                
                                 if($salida == 'pantalla'){
                                     
-                                    $data['titulo']      = $this->input->post('retiro');
+                                    $data['titulo']      = $this->input->post('deposito');
+                                    $data['depositos']   = $this->Depositos_model->listar_depositos();
                                     $data['tipo']        = 1;
 
                                     $this->load->view('include/head',$session_data);
@@ -614,7 +617,7 @@
                                         $this->excel->getActiveSheet()->setTitle('Ordenes por Lugar de Retiro');
 
                                         $this->excel->getActiveSheet()->setCellValue('A1', 'Lugar de Retiro que Contengan :');
-                                        $this->excel->getActiveSheet()->setCellValue('B1', $this->input->post('retiro'));
+                                        $this->excel->getActiveSheet()->setCellValue('B1', $this->input->post('deposito'));
 
                                         $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
                                         $this->excel->getActiveSheet()->setCellValue('B2', 'Fecha');
@@ -647,7 +650,7 @@
                                         }                           
 
                                         $i = 3;                        
-                                        foreach ($data['retiros'] as $orden) {
+                                        foreach ($data['depositos_'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
                                                     $fecha = new DateTime($orden['fecha']);
@@ -678,7 +681,8 @@
                             }
                         }
                         else{
-                            
+
+                            $data['depositos']   = $this->Depositos_model->listar_depositos();
                             $data['tipo']        = 0;
                             $this->load->view('include/head',$session_data);
                             $this->load->view('consultas/por_retiro',$data);

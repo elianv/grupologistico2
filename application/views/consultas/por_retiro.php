@@ -10,18 +10,17 @@
                 } 
                 echo '</div>';
             ?>
-<form class="form-horizontal" id="formulario" method="post" action="<?php echo base_url('index.php/consultas/facturadas/por_retiro')?>">
+<form class="form-horizontal" id="formulario" action=" <?php echo base_url('index.php/consultas/facturadas/por_retiro') ?> " method="post" >
 	<fieldset>
 		<div class="row">
-			    <div class="span4 offset2">
+			    <div class="span6 offset4" >
 			                <div class="control-group">
-			                    <label class="control-label"><strong>Lugar de Retiro</strong></label>
+			                    <label class="control-label"><strong>Deposito</strong></label>
 			                    <div class="controls">
-			                        <input type="text" name="retiro" id="retiro" required>
+			                        <input type="text" name="deposito" id="deposito" readonly="">
+			                        <input type="hidden" name="id" id="id">
 			                    </div>                    
 			                </div>
-			    </div>
-			    <div class="span4 offset2">
 			                <label class="control-label"><strong>Formato de Salida</strong></label>
 			                <div class="controls">
 			                    <label class="radio">
@@ -30,9 +29,7 @@
 			                    <label class="radio">
 			                        <input type="radio" name="salida" id="optionsRadio2" value="excel">Excel  
 			                    </label>
-			                </div>			    			
-			    </div>
-			    <div class="span4 offset2">
+			                </div>
 			                <label class="control-label"><strong>Periodo de Tiempo</strong></label>
 			                <div class="controls">
 			                    <label class="radio">
@@ -52,20 +49,38 @@
 			                        <label class="control-label" for="hasta"><strong>Hasta :</strong></label> 
 			                        <div class="controls"><input type="text" id="datepicker2" name="hasta" class="span2" readonly="" /></div>
 			                    </div>
-			                </div>			    	
+			                </div>
 			    </div>
-	    
+			    <div class="span8" style="margin-left: 50px">
+			                    <table id="tabla-depositos" class="table table-hover table-condensed" cellspacing="0" width="100%">
+			                                <thead>
+			                                    <tr>
+			                                        <th style="width:20%">Rut</th>
+			                                        <th style="width:80%">Raz&oacute;n Social</th>
+			                                    </tr>
+			                                </thead>
+			                                <tbody>
+			                                    <?php foreach ($depositos as $deposito) { ?>
+			                                        <tr>
+			                                            <td><a class="codigo-click" data-codigo="<?php echo $deposito['codigo_deposito']; ?>" data-rs="<?php echo $deposito['descripcion']; ?>"><?php echo $deposito['codigo_deposito']; ?></a></td>
+			                                            <td><?php echo $deposito['descripcion']; ?></td>
+			                                        </tr>
+			                                    <?php } ?>
+			                                    
+			                                </tbody>
+			                    </table>                    
+			    </div>
 		</div>
-		<div class="form-actions">
-			    	<input type="submit" class="btn btn-success offset4" value="Generar"/>
-		</div>		
-	</fieldset>
+		<div class="form-actions ">
+		    	<input type="submit" class="btn btn-success offset4" value="Generar"/>
+	    </div>		
+	</fieldset	>
 </form> 
 <?php if($tipo == 1){ ?>
 	<hr />
-	<center><h2>Ordenes que continene como Lugar de Retiro :<?php echo $titulo; ?></h2></center>
+	<center><h2><?php echo $titulo; ?></h2></center>
 	<div class="container">
-                    <table id="tabla-ordenes-retiro" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
+                    <table id="tabla-ordenes-depositos" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>N°</th>
@@ -79,7 +94,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($retiros as $retiro) { ?>
+                                    <?php foreach ($depositos_ as $retiro) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$retiro['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $retiro['id_orden']; ?></a></td>
                                             <?php $fecha = new DateTime($retiro['fecha']); ?>
@@ -129,7 +144,15 @@
 	        $("#porFechas").prop("checked", true);
 	        $('#fechas').show();
 	    }); 
-		$('#tabla-ordenes-retiro').DataTable();				           
+		$('.table .codigo-click').click(function(e){
+			e.preventDefault();
+			var codigo = $(this).attr('data-codigo');
+			var rs = $(this).attr('data-rs');
+			$('#deposito').val(codigo+" - "+rs);
+			$('#id').val(codigo);
+		});	    
+		$('#tabla-ordenes-depositos').DataTable();	
+		$('#tabla-depositos').DataTable();
     });
         
 
