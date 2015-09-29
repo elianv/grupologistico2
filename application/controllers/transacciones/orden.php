@@ -126,6 +126,9 @@
                     else
                         $this->form_validation->set_rules('tramo_codigo_tramo','Descripción','trim|xss_clean|required|callback_check_tramo');
                 }
+                else{
+                    $this->form_validation->set_rules('tramo_codigo_tramo','Tramo','trim|xss_clean|required|callback_check_tramo');
+                }
 
                 if($_POST['tipo_orden'] == "OTRO SERVICIO"){
                         $this->form_validation->set_rules('codigo_servicio','Otros Servicios','callback_check_otros_servicios');
@@ -176,7 +179,7 @@
                     $session_data           = $this->session->userdata('logged_in');
                     $data['tfacturacion']   = $this->Facturacion->tipo_orden();
                     $data['clientes']       = $this->Clientes_model->listar_clientes();
-                    $data['tramos']         = $this->Facturacion->listar_tramos();
+                    $data['tramos']         = $this->Tramos_model->listar_tramos();
                     $data['aduanas']        = $this->Agencias_model->listar_agencias();
                     $data['bodegas']        = $this->Bodegas_model->listar_bodegas();
                     $data['puertos']        = $this->Puertos_model->listar_puertos();
