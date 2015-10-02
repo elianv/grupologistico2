@@ -285,6 +285,29 @@ Class consultas_model extends CI_Model{
 		$result = $this->db->query($sql);
 		
 		return $result->result_array();			
+	}	
+
+	public function ordenes_referencia($referencia, $desde = null, $hasta = null, $todas = null){
+		$sql =  "SELECT 
+				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha, cliente.razon_social
+				FROM
+				    glc_sct.orden
+				        inner join
+				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
+				where
+				    referencia like '%".$referencia."%' ";	
+
+		if($todas == null){
+			$desde = new DateTime($desde);
+			$hasta = new DateTime($hasta);
+			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			
+		}
+		$sql .= " group by id_orden"; 
+
+		$result = $this->db->query($sql);
+
+		return $result->result_array();						    
 	}		
 
 	public function realizadas($desde = null, $hasta = null, $todas = null){

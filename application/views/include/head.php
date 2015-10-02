@@ -63,9 +63,6 @@
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/master');?>">Master</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/resumen');?>">Resumen</a></li>
 								<li class="divider"></li>
-								<li class="nav-header">O.S. por estado</li>
-								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_estado');?>" >Ordenes</a></li>
-								<li class="divider"></li>
 								<li class="nav-header">O.S por Otros</li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_cliente');?>">Clientes</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_proveedor');?>">Proveedor</a></li>
@@ -73,9 +70,9 @@
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_camion');?>">Camion</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_retiro');?>">Lugar de Retiro</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_puerto');?>">Puerto Embarque</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_referencia');?>">Referencia</a></li>																
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/realizadas');?>">Realizadas</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/ordenes_facturadas');?>">Facturadas</a></li>
-								
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -190,9 +187,6 @@
 							<ul class="dropdown-menu">
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/master');?>">Generar Datos</a></li>
 								<li class="divider"></li>
-								<li class="nav-header">O.S. por estado</li>
-								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_estado');?>" >Ordenes</a></li>
-								<li class="divider"></li>
 								<li class="nav-header">O.S por Otros</li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_cliente');?>">Clientes</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_proveedor');?>">Proveedor</a></li>
@@ -200,6 +194,7 @@
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_camion');?>">Camion</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_retiro');?>">Lugar de Retiro</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_puerto');?>">Puerto Embarque</a></li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_referencia');?>">Referencia</a></li>								
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/realizadas');?>">Realizadas</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/ordenes_facturadas');?>">Facturadas</a></li>
 							</ul>
