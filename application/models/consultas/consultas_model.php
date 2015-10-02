@@ -122,21 +122,37 @@ Class consultas_model extends CI_Model{
 
 	public function ordenes_clientes($cliente, $desde = null, $hasta = null, $todas = null){
 
-		$this->db->select('orden.id_orden, tipo_orden.tipo_orden, estado_orden.estado, orden.fecha');
-		$this->db->from(' orden, tipo_orden, estado_orden');
-		$this->db->where('orden.id_estado_orden = estado_orden.id');
-		$this->db->where('orden.tipo_orden_id_tipo_orden = tipo_orden.id_tipo_orden');
-		$this->db->where('orden.cliente_rut_cliente',$cliente);
+		$sql = "select 
+				    orden.id_orden,
+					orden.fecha,
+					orden.referencia,
+				    tipo_orden.tipo_orden,
+				    orden.numero as contenedor,
+				    cliente.razon_social,
+				    coalesce(factura.numero_factura, 'N/A') as factura
+				from
+				    orden
+				        inner join
+				    tipo_orden ON tipo_orden.id_tipo_orden = orden.tipo_orden_id_tipo_orden
+				        inner join
+				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
+				        left join
+				    ordenes_facturas ON ordenes_facturas.id_orden = orden.id_orden
+				        left join
+				    factura ON ordenes_facturas.id_factura = factura.id 
+				    where orden.cliente_rut_cliente = '".$cliente."' ";
 
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$this->db->where('orden.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
+			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			
 		}
+		$sql .= " group by id_orden"; 
 
-		$result = $this->db->get();
-		
-		return $result->result_array();		
+		$result = $this->db->query($sql);
+		//var_dump($this->db->last_query());
+		return $result->result_array();	
 	}	
 
 	public function ordenes_conductor($conductor, $desde = null, $hasta = null, $todas = null){
@@ -289,13 +305,13 @@ Class consultas_model extends CI_Model{
 
 	public function ordenes_referencia($referencia, $desde = null, $hasta = null, $todas = null){
 		$sql =  "SELECT 
-				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha, cliente.razon_social
+				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha, cliente.razon_social, orden.referencia_2
 				FROM
 				    glc_sct.orden
 				        inner join
 				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
 				where
-				    referencia like '%".$referencia."%' ";	
+				    referencia like '%".$referencia."%' OR referencia_2 like '%".$referencia."%'";	
 
 		if($todas == null){
 			$desde = new DateTime($desde);

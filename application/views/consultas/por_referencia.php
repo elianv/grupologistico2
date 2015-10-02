@@ -70,6 +70,7 @@
                                         <th>N°</th>
                                         <th>Fecha</th>
                                         <th>Referencia</th>
+                                        <th>Referencia 2</th>
                                         <th>Contenedor</th>
                                         <th>Cliente</th>
                                         
@@ -82,6 +83,7 @@
                                             <?php $fecha = new DateTime($orden['fecha']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>   
                                             <td><?php echo $orden['referencia']; ?></td>
+                                            <td><?php echo $orden['referencia_2']; ?></td>
                                             <td><?php echo $orden['contenedor']; ?></td>
                                             <td><?php echo $orden['razon_social']; ?></td>
                                         </tr>

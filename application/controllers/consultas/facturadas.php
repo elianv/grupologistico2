@@ -878,8 +878,9 @@
                                         $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
                                         $this->excel->getActiveSheet()->setCellValue('B2', 'Fecha');
                                         $this->excel->getActiveSheet()->setCellValue('C2', 'Referencia');
-                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Contenedor');
-                                        $this->excel->getActiveSheet()->setCellValue('E2', 'Cliente');
+                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Referencia2');
+                                        $this->excel->getActiveSheet()->setCellValue('E2', 'Contenedor');
+                                        $this->excel->getActiveSheet()->setCellValue('F2', 'Cliente');
 
 
                                         $this->excel->getActiveSheet()->getStyle('A2:E2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);

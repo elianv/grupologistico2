@@ -10,7 +10,7 @@
                 } 
                 echo '</div>';
             ?>
-<form class="form-horizontal" id="formulario" method="post" action="<?php echo base_url('index.php/consultas/facturadas/por_retiro')?>">
+<form class="form-horizontal" id="formulario" method="post" action="<?php echo base_url('index.php/consultas/facturadas/por_cliente')?>">
 	<fieldset>
 		<div class="row">
 			    <div class="span6 offset4">
@@ -88,20 +88,23 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Tipo Orden</th>
-                                        <th>Estado</th>
                                         <th>Fecha</th>
+                                        <th>Referencia</th>
+                                        <th>Tipo Orden</th>
+                                        <th>Contenedor</th>
+                                        <th>Factura Logistica</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($clientes_ as $cliente) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$cliente['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $cliente['id_orden']; ?></a></td>
-                                            <td><?php echo $cliente['tipo_orden']; ?></td>
-                                            <td><?php echo $cliente['estado']; ?></td>
                                             <?php $fecha = new DateTime($cliente['fecha']); ?>
-                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
-
+                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>                                            
+                                            <td><?php echo $cliente['referencia']; ?></td>
+                                            <td><?php echo $cliente['tipo_orden']; ?></td>
+                                            <td><?php echo $cliente['contenedor']; ?></td>
+                                            <td><?php echo $cliente['factura']; ?></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
