@@ -62,7 +62,7 @@
 </form> 
 <?php if($tipo == 1){ ?>
 	<hr />
-	<center><h2><?php echo "Ordenes que contentan como Referencia ".$titulo; ?></h2></center>
+	<center><h2><?php echo "Ordenes que contentan como Referencia : ".$titulo; ?></h2></center>
 	<div class="container">
                     <table id="tabla-ordenes-referencia" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
                                 <thead>

@@ -12,6 +12,7 @@
         }   
 
         function index(){
+
             redirect('home','refresh');
         }
                 
@@ -85,11 +86,13 @@
                                         $this->excel->getActiveSheet()->setCellValue('B1', $this->input->post('cliente'));
 
                                         $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
-                                        $this->excel->getActiveSheet()->setCellValue('B2', 'Tipo Orden');
-                                        $this->excel->getActiveSheet()->setCellValue('C2', 'Estado');
-                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Fecha');
+                                        $this->excel->getActiveSheet()->setCellValue('B2', 'Fecha');
+                                        $this->excel->getActiveSheet()->setCellValue('C2', 'Referencia');
+                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Tipo Orden');
+                                        $this->excel->getActiveSheet()->setCellValue('E2', 'Contenedor');
+                                        $this->excel->getActiveSheet()->setCellValue('F2', 'Factura Logistica');
 
-                                        $this->excel->getActiveSheet()->getStyle('A2:D2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+                                        $this->excel->getActiveSheet()->getStyle('A2:F2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
 
                                         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
                                         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
@@ -99,8 +102,12 @@
                                         $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setBold(true);
                                         $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setSize(8);
                                         $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setBold(true);
 
-                                        foreach(range('A','D') as $columnID) {
+                                        foreach(range('A','F') as $columnID) {
                                             $this->excel->getActiveSheet()->getColumnDimension($columnID)
                                                 ->setAutoSize(true);
                                         }                           
@@ -109,10 +116,12 @@
                                         foreach ($data['clientes_'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $this->excel->getActiveSheet()->setCellValue('B'.$i,$orden['tipo_orden']);
-                                                    $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['estado']);
                                                     $fecha = new DateTime($orden['fecha']);
-                                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$fecha->format('d-m-Y'));
+                                                    $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));                                                    
+                                                    $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['referencia']);
+                                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['tipo_orden']);
+                                                    $this->excel->getActiveSheet()->setCellValue('E'.$i,$orden['contenedor']);
+                                                    $this->excel->getActiveSheet()->setCellValue('F'.$i,$orden['factura']);
                                                     $i++;
                                          
                                         }
@@ -878,12 +887,12 @@
                                         $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
                                         $this->excel->getActiveSheet()->setCellValue('B2', 'Fecha');
                                         $this->excel->getActiveSheet()->setCellValue('C2', 'Referencia');
-                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Referencia2');
+                                        $this->excel->getActiveSheet()->setCellValue('D2', 'Referencia 2');
                                         $this->excel->getActiveSheet()->setCellValue('E2', 'Contenedor');
                                         $this->excel->getActiveSheet()->setCellValue('F2', 'Cliente');
 
 
-                                        $this->excel->getActiveSheet()->getStyle('A2:E2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+                                        $this->excel->getActiveSheet()->getStyle('A2:F2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
 
                                         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
                                         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
@@ -895,8 +904,10 @@
                                         $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setBold(true);
                                         $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setSize(8);
                                         $this->excel->getActiveSheet()->getStyle('E2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setBold(true);
 
-                                        foreach(range('A','E') as $columnID) {
+                                        foreach(range('A','F') as $columnID) {
                                             $this->excel->getActiveSheet()->getColumnDimension($columnID)
                                                 ->setAutoSize(true);
                                         }                           
@@ -908,8 +919,9 @@
                                                     $fecha = new DateTime($orden['fecha']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));                                                    
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['referencia']);
-                                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['contenedor']);
-                                                    $this->excel->getActiveSheet()->setCellValue('E'.$i,$orden['razon_social']);
+                                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['referencia_2']);
+                                                    $this->excel->getActiveSheet()->setCellValue('E'.$i,$orden['contenedor']);
+                                                    $this->excel->getActiveSheet()->setCellValue('F'.$i,$orden['razon_social']);
                                                     $i++;
                                         }
 
