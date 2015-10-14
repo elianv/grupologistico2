@@ -342,7 +342,7 @@
                             $id_detalle = $cod_detalle[0]['id_detalle'] + 1;
                         }
                                       
-                    if($orden['tipo_orden_id_tipo_orden'] == 8){
+                    if($_POST['codigo_servicio'][0] != ''){
                             foreach ($this->input->post('codigo_servicio') as $servicio){
                                $cod_servicio = "";
                                $cod_servicio = explode("-",$servicio);
@@ -361,7 +361,7 @@
                             }
                     }
             
-            echo "</pre>";
+            
             //########################## Log de creado. ##########################                     
 
                 $log = array(   'nombre_usuario' => $session_data['nombre'],
