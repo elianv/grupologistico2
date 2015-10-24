@@ -40,7 +40,7 @@
               <div class="control-group">
     						  <label class="control-label"><strong>Factura N°</strong></label>
     						  <div class="controls">
-        							  <input type="text" class="span2" name="factura_numero" id="numero_factura" placeholder="Solo números" value="<?php echo set_value('factura_numero'); ?>">
+        							  <input type="text" class="span2" name="factura_numero" id="numero_factura" readonly placeholder="Solo números" value="<?php echo set_value('factura_numero'); ?>">
     						  </div>
     		      </div>
                     
@@ -174,29 +174,41 @@
 
 
 <script type="text/javascript">
+    
 
-    function calendario(){
-                    $('#fecha_factura').datetimepicker({
-                        changeMonth: true,
-                        changeYear: true,
-                        showHour:false,                      
-                        showMinute:false,
-                        showTime: false,
-                        dateFormat: 'dd-mm-yy'
-                  });              
-    };
+        function calendario(){
+            $('#fecha_factura').datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                showHour:false,                      
+                showMinute:false,
+                showTime: false,
+                dateFormat: 'dd-mm-yy'
+            });              
+        };
 
+        function ordenes_servicios(){
+          $("#detalles_orden").html("");
+          $.ajax({
+            method:"POST",
+            url:"<?php echo base_url();?>index.php/transacciones/facturacion/ordenes_servicios_ajax",
+            success: function(response){
+                $('#ordenes').html(response);
+                $('#tabla_ordenes').DataTable();
+            }
 
-    function ordenes_servicios(){
-      $("#detalles_orden").html("");
-      $.ajax({
-        method:"POST",
-        url:"<?php echo base_url();?>index.php/transacciones/facturacion/ordenes_servicios_ajax",
-        success: function(response){
-            $('#ordenes').html(response);
-            $('#tabla_ordenes').DataTable();
-        }
+          });
+        };
 
-      });
-    };
+        $('#factura_papel').click(function(){
+            
+            if($("#factura_papel").is(':checked')) {  
+                $('#numero_factura').prop("readonly", false);
+            } 
+            else {  
+                $('#numero_factura').prop("readonly", true);
+            }              
+        });
+    
+    
 </script>

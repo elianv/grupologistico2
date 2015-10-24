@@ -8,7 +8,7 @@
             <div class="span6">
               
           <div class="control-group">
-						  <label class="control-label"><strong>Factura N°</strong></label>
+						  <label class="control-label"><strong>Factura N°df</strong></label>
 						  <div class="controls">
 							   <input type="text" class="input-large" name="factura_numero" id="numero_factura" placeholder="Solo números">
 						  </div>
@@ -138,6 +138,8 @@
 
 
 <script type="text/javascript">
+  $(document).ready(function(){
+
     function ordenes_servicios(){
 
       $.ajax({
@@ -148,7 +150,7 @@
             $('#tabla_ordenes').dataTable();
         }
 
-      })
+      });
       
     };
 
@@ -161,8 +163,10 @@
             $('#tabla_proveedores').dataTable();
         }
 
-      })      
+      });      
     }
+
+  });
 
 
 

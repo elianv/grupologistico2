@@ -31,7 +31,11 @@ class Facturacion extends CI_Controller{
         if($this->session->userdata('logged_in')){
             
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('factura_numero', 'Numero Factura','trim|required|xss_clean|numeric|callback_check_database');
+            
+            if(isset($_POST['factura_papel']) ){
+                $this->form_validation->set_rules('factura_numero', 'Numero Factura','trim|required|xss_clean|numeric|callback_check_database');    
+            }
+            
             $this->form_validation->set_rules('fecha_factura', 'Fecha de la Factura','trim|required|xss_clean');
             
             if(!isset($_POST['nula'])){
@@ -73,13 +77,19 @@ class Facturacion extends CI_Controller{
                         $fecha_factura = date("Y-m-d ",strtotime($fecha_factura));
 
                         $factura = array(
-                                    'numero_factura'                   => $this->input->post('factura_numero'),
+                                    
                                     'estado_factura_id_estado_factura' => 1,
                                     'total_costo'                      => $total_costo,
                                     'total_venta'                      => $total_venta,
                                     'guia_despacho'                    => $arreglo,
                                     'fecha'                            => $fecha_factura                    
                                 );
+
+                        if(isset( $_POST['factura_papel'] ) )
+                        {
+                            $factura['numero_factura'] = $this->input->post('factura_numero');
+
+                        }
 
                         $this->facturacion_model->insertar_facturacion($factura);
                         $catch_factura        = $this->facturacion_model->ultimo_numero();
@@ -236,41 +246,26 @@ class Facturacion extends CI_Controller{
     
     function modificar_facturacion(){
         
-        if($this->session->userdata('logged_in')){
+        if( $this->session->userdata('logged_in') ){
+            $datos = $this->facturacion_model->datos_factura($this->input->post('factura_numero'));
             
-            $this->load->library('form_validation');
-            $this->form_validation->set_rules('factura_numero', 'Numero Factura','trim|required|xss_clean|numeric');
-            $this->form_validation->set_rules('fecha_factura', 'Fecha de la Factura','trim|required|xss_clean');
-            
-            if(!isset($_POST['nula'])){
-                $this->form_validation->set_rules('total_venta', 'Valor Total Venta','trim|required|xss_clean');
-                $this->form_validation->set_rules('total_costo', 'Valor Total Costo','trim|required|xss_clean');
-                $this->form_validation->set_rules('cliente_factura', 'Cliente','trim|required|xss_clean');                                
-            }
+            if($datos[0]['estado_factura_id_estado_factura'] == 2 ){
 
-            if($this->form_validation->run() == FALSE){
-                $session_data = $this->session->userdata('logged_in');
-                $this->load->view('include/head',$session_data);
-                $this->load->view('transaccion/facturacion/home');
-                $this->load->view('include/script');
-            }
-            else{
-                $datos = $this->facturacion_model->datos_factura($this->input->post('factura_numero'));
-                $ordenes_facts = $this->facturacion_model->getOrdenes($datos[0]['id']);
+                if(isset($_POST['nula']))
+                {
+                        $ordenes_facts = $this->facturacion_model->getOrdenes($datos[0]['id']);
 
-                foreach($ordenes_facts as $orden_fact){
-                    if(isset($orden_fact['id'])){
-                        $this->facturacion_model->eliminarServiciosOrdeneFactura($orden_fact['id']);
-                        $dato = array('id_estado_orden' => 1);
-                        $this->orden_model->editar_orden($dato, $orden_fact['id_orden']);                        
+                        foreach($ordenes_facts as $orden_fact){
+                            if(isset($orden_fact['id'])){
+                                $this->facturacion_model->eliminarServiciosOrdeneFactura($orden_fact['id']);
+                                $dato = array('id_estado_orden' => 1);
+                                $this->orden_model->editar_orden($dato, $orden_fact['id_orden']);                        
 
-                    }
-                }
-                
-                $this->facturacion_model->eliminarOrdenesFactura($datos[0]['id']);
-                $this->facturacion_model->eliminarFactura($datos[0]['id']);
-                if(isset($_POST['nula'])){
-
+                            }
+                        }
+                        
+                        $this->facturacion_model->eliminarOrdenesFactura($datos[0]['id']);
+                        $this->facturacion_model->eliminarFactura($datos[0]['id']);                        
                         $fecha_factura = $this->input->post('fecha_factura');
                         $fecha_factura = str_replace('/','-', $fecha_factura);
                         $fecha_factura = date("Y-m-d ",strtotime($fecha_factura));                    
@@ -283,93 +278,151 @@ class Facturacion extends CI_Controller{
                         $this->facturacion_model->insertar_facturacion($factura);
                         $this->session->set_flashdata('mensaje','La Factura se ha anulado con éxito');
                         redirect('transacciones/facturacion/editar','refresh');                                            
+                } 
+                else
+                {
+                    $this->session->set_flashdata('mensaje','La factura que desea editar, ya se encuentra factura. Intente con otra.');
+                    redirect('transacciones/facturacion/editar','refresh');
+                }               
+                
+            }
+            else{
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('factura_numero', 'Numero Factura','trim|required|xss_clean|numeric');
+                $this->form_validation->set_rules('fecha_factura', 'Fecha de la Factura','trim|required|xss_clean');
+                
+                if(!isset($_POST['nula'])){
+                    $this->form_validation->set_rules('total_venta', 'Valor Total Venta','trim|required|xss_clean');
+                    $this->form_validation->set_rules('total_costo', 'Valor Total Costo','trim|required|xss_clean');
+                    $this->form_validation->set_rules('cliente_factura', 'Cliente','trim|required|xss_clean');                                
+                }
+
+                if($this->form_validation->run() == FALSE){
+                    $session_data = $this->session->userdata('logged_in');
+                    $this->load->view('include/head',$session_data);
+                    $this->load->view('transaccion/facturacion/home');
+                    $this->load->view('include/script');
                 }
                 else{
-                        $session_data = $this->session->userdata('logged_in');
-                        
-                        $arreglo       = implode("|",$this->input->post('guia_despacho'));
-                        $total_costo   = str_replace(".", "", $this->input->post('total_costo'));
-                        $total_venta   = str_replace(".", "", $this->input->post('total_venta'));
-                        $fecha_factura = $this->input->post('fecha_factura');
-                        $fecha_factura = str_replace('/','-', $fecha_factura);
-                        $fecha_factura = date("Y-m-d ",strtotime($fecha_factura));
+                    
+                    $ordenes_facts = $this->facturacion_model->getOrdenes($datos[0]['id']);
 
-                        $factura = array(
-                                    'numero_factura'                   => $this->input->post('factura_numero'),
-                                    'estado_factura_id_estado_factura' => 1,
-                                    'total_costo'                      => $total_costo,
-                                    'total_venta'                      => $total_venta,
-                                    'guia_despacho'                    => $arreglo,
-                                    'fecha'                            => $fecha_factura                    
-                                );
-
-                        $this->facturacion_model->insertar_facturacion($factura);
-                        $catch_factura        = $this->facturacion_model->ultimo_numero();
-                        $ordenes              = $this->input->post('id_orden');
-                        $factura_tramo        = $this->input->post('factura_tramo');
-                        $fecha_factura_tramo  = $this->input->post('fecha_factura_tramo');
-                        $ordenes_detalle      = $this->input->post('id_orden_detalle');
-                        $i = 0;
-                        $k = 0; 
-                        foreach ($ordenes as $orden) {
-
-                            $fecha_factura_tramo[$i] = str_replace('/','-', $fecha_factura_tramo[$i]);
-                            $fecha_factura_tramo[$i] = date("Y-m-d ",strtotime($fecha_factura_tramo[$i]));
-
-                            $orden_factura = array(
-                                    'factura_tramo' => $factura_tramo[$i],
-                                    'fecha_factura' => $fecha_factura_tramo[$i],
-                                    'id_factura'    => $catch_factura[0]['id'],
-                                    'id_orden'      => $orden
-                                );
-                            $i++;
-                            
-                            $this->facturacion_model->insertar_orden_facturacion($orden_factura);
-                            
-                            $dato = array('id_estado_orden' => 2);
-                            $this->orden_model->editar_orden($dato, $orden);                            
-                            
-                            $id_orden_faturacion     = $this->facturacion_model->ultimo_id_orden_facturacion();
-                            $fecha_otros_servicios   = $this->input->post('fecha_otros_servicios');
-                            $factura_otros_servicios = $this->input->post('factura_otros_servicios');
-                            $proveedor_servicio      = $this->input->post('proveedor_servicio');
-                            $id_detalle              = $this->input->post('id_detalle');
-
-                            $j = 0;
-                            
-                            if(isset($ordenes_detalle[0])){
-                                    foreach ($ordenes_detalle as $orden_detalle) {
-                                        if($orden == $orden_detalle ){
-                                            $fecha_otros_servicios[$j] = str_replace('/','-', $fecha_otros_servicios[$j]);
-                                            $fecha_otros_servicios[$j] = date("Y-m-d ",strtotime($fecha_otros_servicios[$j]));
-                                            $prov                      = explode(" - ", $proveedor_servicio[$k]);
-
-                                            $k++; 
-
-                                            $servicios_orden_factura = array(
-                                                        'detalle_id_detalle'     => $id_detalle[$j],
-                                                        'factura_numero_factura' => $factura_otros_servicios[$j],
-                                                        'proveedor_rut_proveedor'=> $prov[0],
-                                                        'fecha_factura_servicio' => $fecha_otros_servicios[$j],
-                                                        'id_ordenes_facturas'    => $id_orden_faturacion[0]['id']
-                                            );
-                                            $this->facturacion_model->insertar_servicios_orden_factura($servicios_orden_factura);
-                                            $j++;   
-
-                                        }
-
-                                    }                        
-                            }
-                              
+                    foreach($ordenes_facts as $orden_fact){
+                        if(isset($orden_fact['id'])){
+                            $this->facturacion_model->eliminarServiciosOrdeneFactura($orden_fact['id']);
+                            $dato = array('id_estado_orden' => 1);
+                            $this->orden_model->editar_orden($dato, $orden_fact['id_orden']);                        
 
                         }
+                    }
+                    
+                    $this->facturacion_model->eliminarOrdenesFactura($datos[0]['id']);
+                    $this->facturacion_model->eliminarFactura($datos[0]['id']);
+                    if(isset($_POST['nula'])){
 
-                        $this->session->set_flashdata('mensaje','Factura editada con éxito');
-                        redirect('transacciones/facturacion/editar','refresh');
-                }
+                            $fecha_factura = $this->input->post('fecha_factura');
+                            $fecha_factura = str_replace('/','-', $fecha_factura);
+                            $fecha_factura = date("Y-m-d ",strtotime($fecha_factura));                    
+                            $factura = array(
+                                        'numero_factura'                   => $this->input->post('factura_numero'),
+                                        'estado_factura_id_estado_factura' => 3,
+                                        'fecha'                            => $fecha_factura                    
+                                    );
+
+                            $this->facturacion_model->insertar_facturacion($factura);
+                            $this->session->set_flashdata('mensaje','La Factura se ha anulado con éxito');
+                            redirect('transacciones/facturacion/editar','refresh');                                            
+                    }
+                    else{
+                            $session_data = $this->session->userdata('logged_in');
+                            
+                            $arreglo       = implode("|",$this->input->post('guia_despacho'));
+                            $total_costo   = str_replace(".", "", $this->input->post('total_costo'));
+                            $total_venta   = str_replace(".", "", $this->input->post('total_venta'));
+                            $fecha_factura = $this->input->post('fecha_factura');
+                            $fecha_factura = str_replace('/','-', $fecha_factura);
+                            $fecha_factura = date("Y-m-d ",strtotime($fecha_factura));
+
+                            $factura = array(
+                                        'numero_factura'                   => $this->input->post('factura_numero'),
+                                        'estado_factura_id_estado_factura' => 1,
+                                        'total_costo'                      => $total_costo,
+                                        'total_venta'                      => $total_venta,
+                                        'guia_despacho'                    => $arreglo,
+                                        'fecha'                            => $fecha_factura                    
+                                    );
+
+                            $this->facturacion_model->insertar_facturacion($factura);
+                            $catch_factura        = $this->facturacion_model->ultimo_numero();
+
+                            $ordenes              = $this->input->post('id_orden');
+                            $factura_tramo        = $this->input->post('factura_tramo');
+                            $fecha_factura_tramo  = $this->input->post('fecha_factura_tramo');
+                            $ordenes_detalle      = $this->input->post('id_orden_detalle');
+                            $i = 0;
+                            $k = 0; 
+                            foreach ($ordenes as $orden) {
+
+                                $fecha_factura_tramo[$i] = str_replace('/','-', $fecha_factura_tramo[$i]);
+                                $fecha_factura_tramo[$i] = date("Y-m-d ",strtotime($fecha_factura_tramo[$i]));
+
+                                $orden_factura = array(
+                                        'factura_tramo' => $factura_tramo[$i],
+                                        'fecha_factura' => $fecha_factura_tramo[$i],
+                                        'id_factura'    => $catch_factura[0]['id'],
+                                        'id_orden'      => $orden
+                                    );
+                                $i++;
+                                
+                                $this->facturacion_model->insertar_orden_facturacion($orden_factura);
+                                
+                                $dato = array('id_estado_orden' => 2);
+                                $this->orden_model->editar_orden($dato, $orden);                            
+                                
+                                $id_orden_faturacion     = $this->facturacion_model->ultimo_id_orden_facturacion();
+                                $fecha_otros_servicios   = $this->input->post('fecha_otros_servicios');
+                                $factura_otros_servicios = $this->input->post('factura_otros_servicios');
+                                $proveedor_servicio      = $this->input->post('proveedor_servicio');
+                                $id_detalle              = $this->input->post('id_detalle');
+
+                                $j = 0;
+                                
+                                if(isset($ordenes_detalle[0])){
+                                        foreach ($ordenes_detalle as $orden_detalle) {
+                                            if($orden == $orden_detalle ){
+                                                $fecha_otros_servicios[$j] = str_replace('/','-', $fecha_otros_servicios[$j]);
+                                                $fecha_otros_servicios[$j] = date("Y-m-d ",strtotime($fecha_otros_servicios[$j]));
+                                                $prov                      = explode(" - ", $proveedor_servicio[$k]);
+
+                                                $k++; 
+
+                                                $servicios_orden_factura = array(
+                                                            'detalle_id_detalle'     => $id_detalle[$j],
+                                                            'factura_numero_factura' => $factura_otros_servicios[$j],
+                                                            'proveedor_rut_proveedor'=> $prov[0],
+                                                            'fecha_factura_servicio' => $fecha_otros_servicios[$j],
+                                                            'id_ordenes_facturas'    => $id_orden_faturacion[0]['id']
+                                                );
+                                                $this->facturacion_model->insertar_servicios_orden_factura($servicios_orden_factura);
+                                                $j++;   
+
+                                            }
+
+                                        }                        
+                                }
+                                  
+
+                            }
+
+                            $this->session->set_flashdata('mensaje','Factura editada con éxito');
+                            redirect('transacciones/facturacion/editar','refresh');
+                    }
+                }                
             }
+                
         }
         else{
+
             redirect('home','refresh');
         }
     }
@@ -404,6 +457,9 @@ class Facturacion extends CI_Controller{
                     $factura  = $this->facturacion_model->datos_factura($numero);
                     $ordenes  = $this->facturacion_model->getOrdenes($factura[0]['id']);
 
+                    $fact_['estado_factura_id_estado_factura'] = 2;
+                    $this->facturacion_model->modificar_facturacion($fact_,$numero);
+
                     $i = 0;
 
                             foreach ($ordenes as $orden) {
@@ -434,6 +490,9 @@ class Facturacion extends CI_Controller{
                                             
                                             $j ++;
                                         }
+                                        
+                                        $dato = array('id_estado_orden' => 2);
+                                        $this->orden_model->editar_orden($dato, $orden['id_orden']);
 
                                         $i ++;
                             }
