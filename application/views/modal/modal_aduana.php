@@ -1,4 +1,4 @@
-<div id="modal-aduana" class="modal hide fade in" style="display: none;" >
+<div id="modal-aduana" class="modal hide fade in" tabindex="-1" style="display: none;" >
     <div class="modal-header">
         <a data-dismiss="modal" class="close">×</a>
         <h3><center>Seleccione una A.A.</center></h3>

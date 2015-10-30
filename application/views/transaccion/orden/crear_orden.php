@@ -394,3 +394,8 @@
            </fieldset>
           </form>
 </div>
+<script type="text/javascript">
+    $('.modal').on('shown.bs.modal', function() {
+  $(this).find('[autofocus]').focus();
+});
+</script>

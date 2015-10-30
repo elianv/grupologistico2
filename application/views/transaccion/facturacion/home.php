@@ -28,9 +28,11 @@
         <div class="row show-grid">
             <div class="span8">
                   <div class="control-group">
-                    <label class="control-label"><strong>Factura en Papel:</label>
+                    <label class="control-label"><strong>Factura:</label>
                     <div class="controls">
-                        <input type="checkbox" id="factura_papel" name="factura_papel" value="1">
+                        <input type="radio" id="factura_papel" name="factura_papel" value="1"> Papel
+                        <br>
+                        <input type="radio" id="factura_electronica" name="factura_papel" value="0" checked=""> Electronica
                     </div>
                   </div>                 
             </div>
@@ -174,8 +176,20 @@
 
 
 <script type="text/javascript">
-    
+    $(document).ready(function(){
+        $('#numero_factura').prop("readonly", true);
 
+
+        $('#factura_papel').click(function(){
+            
+            $('#numero_factura').prop("readonly", false);
+        });
+
+        $('#factura_electronica').click(function(){
+            
+            $('#numero_factura').prop("readonly", true);    
+        });
+    });
         function calendario(){
             $('#fecha_factura').datetimepicker({
                 changeMonth: true,
@@ -198,17 +212,5 @@
             }
 
           });
-        };
-
-        $('#factura_papel').click(function(){
-            
-            if($("#factura_papel").is(':checked')) {  
-                $('#numero_factura').prop("readonly", false);
-            } 
-            else {  
-                $('#numero_factura').prop("readonly", true);
-            }              
-        });
-    
-    
+        };    
 </script>

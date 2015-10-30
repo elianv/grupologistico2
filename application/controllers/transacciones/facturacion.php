@@ -533,6 +533,7 @@ class Facturacion extends CI_Controller{
             
             $ordenes_ = $this->input->post('ordenes');
             $i = 0;
+
             foreach ($ordenes_ as $ordenes) {
                 if($ordenes == ""){
                     unset($ordenes_[$i]);

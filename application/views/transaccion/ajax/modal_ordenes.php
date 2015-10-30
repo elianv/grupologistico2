@@ -31,9 +31,10 @@
         
         var list = new Array();
 		var checkedValues = $('input:checkbox:checked').map(function() {
+			console.log(checkedValues);
 		    return this.value;
 		}).get();
-		//console.log(checkedValues);
+		
 		$.ajax({
 				type:'post',
 				url:'<?php echo base_url();?>index.php/transacciones/facturacion/detalles_ordenes_ajax',
