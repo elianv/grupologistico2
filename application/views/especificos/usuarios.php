@@ -75,12 +75,13 @@
            </fieldset>
           </form>
      </div>
-      <div class="span8 form-tramos" style="margin-left: 50px">
+      <div class="span8 form-usuarios" style="margin-left: 50px">
                   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                       <thead>
                         <tr>
                             <th>Rut Usuario</th>
                             <th>Nombre</th>
+                            <th>Perfil</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -89,6 +90,7 @@
                                   echo "<tr>";
                                   echo "<td><a class='codigo-click' data-codigo=".$tabla['rut_usuario']."></a></td>";
                                   echo "<td>".strtoupper($tabla['nombre'])."</td>";
+								  echo "<td><a class='codigo-click' data-codigo=".$tabla['tusuario']."></a></td>";
                               }
                               ?>
                        </tbody>
