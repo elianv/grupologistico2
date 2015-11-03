@@ -24,19 +24,19 @@
          <form class="form-horizontal" method="post" style="margin-left: 10px">
            <fieldset>  
             <div class="control-group">
-                <label class="control-label" for="codigo_tramo"><strong>Rut Usuario</strong></label>
+                <label class="control-label" for="rut_usuario"><strong>Rut Usuario</strong></label>
                 <div class="controls">
                  <input type='text' class='span2' name='rut_usuario' id='rut_usuario' placeholder="">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="codigo_tramo"><strong>Nombre Usuario</strong></label>
+                <label class="control-label" for="nombre"><strong>Nombre Usuario</strong></label>
                 <div class="controls">
                  <input type='text' class='span3' name='nombre' id='nombre' placeholder="">
                 </div>
             </div>          
             <div class="control-group">
-                <label class="control-label" for="codigo_tramo"><strong>Clave</strong></label>
+                <label class="control-label" for="clave"><strong>Clave</strong></label>
                 <div class="controls">
                  <input type='text' class='span3' name='clave' id='clave' placeholder="">
                 </div>
@@ -75,20 +75,22 @@
            </fieldset>
           </form>
      </div>
-      <div class="span8 form-tramos" style="margin-left: 50px">
+      <div class="span8 form-usuarios" style="margin-left: 50px">
                   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
                       <thead>
                         <tr>
                             <th>Rut Usuario</th>
                             <th>Nombre</th>
+                            <th>Perfil</th>
                         </tr>
                       </thead>
                       <tbody>
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  echo "<td><a class='codigo-click' data-codigo=".$tabla['rut_usuario'].">".$tabla['rut_usuario']."</a></td>";
+                                  echo "<td><a class='codigo-click' data-codigo=".$tabla['rut_usuario']."></a></td>";
                                   echo "<td>".strtoupper($tabla['nombre'])."</td>";
+								  echo "<td><a class='codigo-click' data-codigo=".$tabla['tusuario']."></a></td>";
                               }
                               ?>
                        </tbody>
