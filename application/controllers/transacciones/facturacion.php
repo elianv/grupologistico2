@@ -32,7 +32,7 @@ class Facturacion extends CI_Controller{
             
             $this->load->library('form_validation');
             
-            if(isset($_POST['factura_papel']) ){
+            if( $this->input->post('factura_papel') == 1){
                 $this->form_validation->set_rules('factura_numero', 'Numero Factura','trim|required|xss_clean|numeric|callback_check_database');    
             }
             
@@ -123,7 +123,7 @@ class Facturacion extends CI_Controller{
                             $id_detalle              = $this->input->post('id_detalle');
 
                             $j = 0;
-                            if(isset($ordenes_detalle)){
+                            if(isset($ordenes_detalle[0])){
                                     foreach ($ordenes_detalle as $orden_detalle) {
                                         if($orden == $orden_detalle ){
                                             $fecha_otros_servicios[$j] = str_replace('/','-', $fecha_otros_servicios[$j]);
