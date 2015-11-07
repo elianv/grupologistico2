@@ -84,14 +84,12 @@
                         </tr>
                       </thead>
                       <tbody>
-                              <?php
-                              foreach ($tablas as $tabla){
-                                  echo "<tr>";
-                                  echo "<td><a class='codigo-click' data-codigo=".$tabla['rut_usuario'].">".$tabla['rut_usuario']."</a></td>";
-                                  echo "<td>".strtoupper($tabla['nombre'])."</td>";
-                                  echo "</tr>";
-                              }
-                              ?>
+                              <?php foreach ($tablas as $tabla) { ?>
+			                      <tr>
+			                      <td><a class="codigo-click" data-rut="<?php echo $tabla['rut_usuario']; ?>" data-nombre="<?php echo $tabla['nombre']; ?>"><?php echo $tabla['rut_usuario']; ?></a></td>
+			                      <td><?php echo $tabla['nombre']; ?></td>
+			                      </tr>
+			                  <?php } ?>
                        </tbody>
                   </table>    
        </div>
@@ -101,3 +99,18 @@
   </div>
 
 
+<script type="text/javascript">
+    $(document).ready(function(){
+		$('.table .codigo-click').click(function(e){
+			e.preventDefault();
+			var rut_usuario = $(this).attr('data-rut');
+			var nombre = $(this).attr('data-nombre');
+			$('#rut_usuario').val(rut_usuario);
+			$('#nombre').val(nombre);
+		});
+		$('#tabla-ordenes-clientes').DataTable();	
+        $('#tabla-cliente').DataTable();					           
+    });
+        
+
+</script>

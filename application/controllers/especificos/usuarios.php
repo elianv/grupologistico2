@@ -103,7 +103,7 @@ class Usuarios extends CI_Controller{
                 $arreglo = array(
                 					'rut_usuario' => $this->input->post('rut_usuario'),
                                     'nombre' => $this->input->post('nombre'),
-                                    'clave' => $this->input->post('clave'),
+                                    'clave' => md5($this->input->post('clave')),
                                     'id_tipo_usuario' => $this->input->post('tusuario'),
                                 );
 
@@ -152,7 +152,7 @@ class Usuarios extends CI_Controller{
                 $arreglo = array(
                 					'rut_usuario' => $this->input->post('rut_usuario'),
                                     'nombre' => $this->input->post('nombre'),
-                                    'clave' => $this->input->post('clave'),
+                                    'clave' => md5($this->input->post('clave')),
                                     'id_tipo_usuario' => $this->input->post('tusuario'),
                                 );
 
