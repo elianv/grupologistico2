@@ -1,4 +1,4 @@
-    <legend><h3><center>Mantención de Tramos</center></h3></legend>
+    <legend><h3><center>Mantención de Usuarios</center></h3></legend>
     <div class="container">
                 <?php
             $correcto = $this->session->flashdata('mensaje');
@@ -81,16 +81,15 @@
                         <tr>
                             <th>Rut Usuario</th>
                             <th>Nombre</th>
-                            <th>Perfil</th>
                         </tr>
                       </thead>
                       <tbody>
                               <?php
                               foreach ($tablas as $tabla){
                                   echo "<tr>";
-                                  echo "<td><a class='codigo-click' data-codigo=".$tabla['rut_usuario']."></a></td>";
+                                  echo "<td><a class='codigo-click' data-codigo=".$tabla['rut_usuario'].">".$tabla['rut_usuario']."</a></td>";
                                   echo "<td>".strtoupper($tabla['nombre'])."</td>";
-								  echo "<td><a class='codigo-click' data-codigo=".$tabla['tusuario']."></a></td>";
+                                  echo "</tr>";
                               }
                               ?>
                        </tbody>
