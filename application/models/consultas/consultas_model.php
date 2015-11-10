@@ -420,7 +420,7 @@ Class consultas_model extends CI_Model{
 					select 
 					    IF(1 =  1, 'N/A', '') AS id_orden,
 						IF(1 =  1, 'N/A', '') AS tipo_orden,
-					    IF(1 =  1, 'N/A', '') AS fecha,
+					    IF(1 =  1, '2000-01-01 00:00:01', '') AS fecha,
 					    IF(1 =  1, 0, 0) AS total_neto,
 					    factura.numero_factura,
 					    factura.fecha as fecha_factura,
