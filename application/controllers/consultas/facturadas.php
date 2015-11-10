@@ -1223,7 +1223,8 @@
             if($this->session->userdata('logged_in')){
 
                 $session_data = $this->session->userdata('logged_in');
-                if( !isset($_POST['id']) ){
+                
+                if( !isset($_POST['id'])  ){
                 
                     $this->load->model('mantencion/Clientes_model');
                     $data['clientes'] = $this->Clientes_model->listar_clientes();
@@ -1240,7 +1241,8 @@
                     $this->load->library('form_validation');
                     $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
                     $this->form_validation->set_rules('time', 'Periodo de Tiempo','trim|xss_clean|required');
-                    $this->form_validation->set_rules('id', 'Cliente','trim|xss_clean|required|callback_check_proveedor');
+                    if ($_POST['clientes'] != 0 )
+                        $this->form_validation->set_rules('id', 'Cliente','trim|xss_clean|required|callback_check_proveedor');
 
                     if($time == 'fechas'){
                         $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
@@ -1263,8 +1265,12 @@
                         if ($time == 'fechas'){
                             $desde = $this->input->post('desde');
                             $hasta = $this->input->post('hasta');
-
-                            $data['facturadas'] = $this->consultas_model->facturadas($id, $desde, $hasta, '');
+                            if( $this->input->post('clientes') == 0){
+                                $data['facturadas'] = $this->consultas_model->facturadas( '' , $desde, $hasta, '');
+                                print_r($data['facturadas']);
+                            }
+                            else
+                                $data['facturadas'] = $this->consultas_model->facturadas($id, $desde, $hasta, '');
                         }
                         else{
                             $data['facturadas'] = $this->consultas_model->facturadas($id, '' , '' ,1);
@@ -1295,8 +1301,9 @@
                                         $this->excel->getActiveSheet()->setCellValue('E2', 'N° Factura');
                                         $this->excel->getActiveSheet()->setCellValue('F2', 'Fecha Factura');
                                         $this->excel->getActiveSheet()->setCellValue('G2', '$ Neto Factura');
+                                        $this->excel->getActiveSheet()->setCellValue('H2', 'Cliente');
 
-                                        $this->excel->getActiveSheet()->getStyle('A2:G2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+                                        $this->excel->getActiveSheet()->getStyle('A2:H2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
 
                                         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
                                         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
@@ -1311,9 +1318,11 @@
                                         $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setSize(8);
                                         $this->excel->getActiveSheet()->getStyle('F2')->getFont()->setBold(true);                                        
                                         $this->excel->getActiveSheet()->getStyle('G2')->getFont()->setSize(8);
-                                        $this->excel->getActiveSheet()->getStyle('G2')->getFont()->setBold(true);                                        
+                                        $this->excel->getActiveSheet()->getStyle('G2')->getFont()->setBold(true);
+                                        $this->excel->getActiveSheet()->getStyle('H2')->getFont()->setSize(8);
+                                        $this->excel->getActiveSheet()->getStyle('H2')->getFont()->setBold(true);                                        
 
-                                        foreach(range('A','G') as $columnID) {
+                                        foreach(range('A','H') as $columnID) {
                                             $this->excel->getActiveSheet()->getColumnDimension($columnID)
                                                 ->setAutoSize(true);
                                         }                           
@@ -1330,6 +1339,7 @@
                                                     $fecha = new DateTime($orden['fecha_factura']);
                                                     $this->excel->getActiveSheet()->setCellValue('F'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('G'.$i,$orden['neto_factura']);
+                                                    $this->excel->getActiveSheet()->setCellValue('H'.$i,$orden['razon_social']);
                                                     $i++;
                                          
                                         }

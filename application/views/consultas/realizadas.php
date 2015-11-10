@@ -83,8 +83,6 @@
                                             <td><?php echo $realizada['razon_social']; ?></td>
                                             <td><?php echo '$'.number_format($realizada['total_neto'], 0, ',', '.'); ?></td>
                                             <td><?php echo $realizada['estado']; ?></td>
-
-
                                         </tr>
                                     <?php } ?>
                                 </tbody>
