@@ -642,20 +642,20 @@
                     
                     $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],  strtoupper($_POST['cliente']));
                     
-                    $i=0;
+                    /*$i=0;
                     foreach ($query as $orden){
                         
                         $estado_orden = $this->Facturacion->estado_orden_factura($orden['id_orden']);
                         //print_r($estado_orden);
                         if(isset($estado_orden[0])){
                             if($estado_orden[0]['estado_factura_id_estado_factura'] == 2 ){
-                                $query[$i]['estado'] = "";
-                                $query[$i]['estado'] = 2;
+                                $query[$i]['estado'] = "FACTURABLE";
+                                //$query[$i]['estado'] = 2;
                             }
                         }
                     $i++;
                     }
-                    
+                    */
                     $data['ordenes'] = $query;
 
                 }

@@ -174,6 +174,21 @@ class Facturacion_model extends CI_Model{
             return $resultado->result_array();        
     }
 
+    function valor_factura($id_factura ){
+
+        $sql = "select ( SUM(coalesce(detalle.valor_costo,0) ) + coalesce(orden.valor_costo_tramo,0) ) as total_costo,
+                       ( SUM(coalesce(detalle.valor_venta,0) ) + coalesce(orden.valor_venta_tramo,0) ) as total_venta
+                from factura
+                left join ordenes_facturas ON ordenes_facturas.id_factura = factura.id
+                left join detalle ON ordenes_facturas.id_orden = detalle.orden_id_orden
+                left join orden ON orden.id_orden = ordenes_facturas.id_orden
+                where factura.numero_factura =".$id_factura;
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+
 
 
 }

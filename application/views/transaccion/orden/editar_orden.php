@@ -70,7 +70,7 @@
 
                                       foreach ($ordenes as $orden){
                                           echo "<tr>";
-                                          if ($orden['id_estado_orden'] != 1 ){
+                                          if ($orden['id_estado_orden'] != 3 ){
                                                   echo '<td><a data-toggle="tooltip" data-placement="top" title="La orden '.$orden['id_orden'].' se encuentra facturada, no se puede editar" >'.$orden['id_orden'].'</a></td>';
                                           }
                                           else{
@@ -81,7 +81,7 @@
                                           echo "<td>";
                                           echo "<a class='btn btn-primary' href='".base_url()."index.php/transacciones/orden/pdf/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Imprimir</a>";
                                           echo " ";
-                                          if ($orden['id_estado_orden'] == 1 )
+                                          if ($orden['id_estado_orden'] != 3 )
                                           {
                                                   echo "<a class='btn btn-success' target='_blank' href='".base_url()."index.php/transacciones/orden/formulario_editar/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Editar</a>";
                                           }
