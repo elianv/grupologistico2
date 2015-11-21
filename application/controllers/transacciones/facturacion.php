@@ -193,15 +193,10 @@ class Facturacion extends CI_Controller{
 
                                 $detalle['ordenes'][$i]['tramo']         = $tramo[0];
                                 $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden['id_orden']);
-<<<<<<< HEAD
+
                                 
                                 //$detalle['ordenes'][$i]['total_compra'] += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
                                 //$detalle['ordenes'][$i]['total_venta']  += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
-=======
-
-                                $detalle['ordenes'][$i]['total_compra'] += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
-                                $detalle['ordenes'][$i]['total_venta']  += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
->>>>>>> 0b98df721107055e26849811951d0a3148e3c1d8
 
                                 $detalle['ordenes'][$i]['proveedor']     = $this->proveedores_model->datos_proveedor($detalle['ordenes'][$i][0]['proveedor_rut_proveedor']);
                                 $detalle['ordenes'][$i]['factura_tramo'] = $orden['factura_tramo'];
