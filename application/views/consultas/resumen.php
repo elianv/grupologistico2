@@ -1,13 +1,13 @@
-<legend><h3><center>Resumen</center></h3></legend> 
+<legend><h3><center>Resumen</center></h3></legend>
 
-            <?php 
+            <?php
                 echo '<div class="container">';
                 if(validation_errors()){
                     echo "<div class='alert alert alert-error' align=center>";
                     echo "<a class='close' data-dismiss='alert'>×</a>";
                     echo validation_errors();
                     echo "</div>";
-                } 
+                }
                 echo '</div>';
             ?>
 <form class="form-horizontal" id="formulario" method="post" action="<?php echo base_url('index.php/consultas/facturadas/generar_resumen')?>">
@@ -21,31 +21,31 @@
 										<input type="checkbox" id="check_orden" name="check_orden" value="1"> Filtrar por Orden
 									</label>
 			                    	<div class="input-append" id="input-orden">
-			                    		<input type="text" name="n_orden" id="n_orden" readonly="">	
+			                    		<input type="text" name="n_orden" id="n_orden" readonly="">
 			                    		<a class="btn" id="modal_ordenes" data-target="#modal-ordenes" data-toggle="modal"><i class="icon-search"></i></a>
 			                    	</div>
-			                    </div>                    
-			                </div>	
+			                    </div>
+			                </div>
 			                <div class="control-group">
 			                    <label class="control-label"><strong>Cliente</strong></label>
 			                    <div class="controls">
 									<label class="checkbox">
 										<input type="checkbox" name="check_cliente" id="check_cliente" value="1"> Filtrar por Cliente
-									</label>			                    
+									</label>
 			                    	<div class="input-append" id="input-cliente">
-			                    		<input type="text" name="cliente" id="cliente" disabled="disabled">	
+			                    		<input type="text" name="cliente" id="cliente" disabled="disabled">
 			                    		<a class="btn" id="modal_clientes" data-target="#modal-clientes" data-toggle="modal"><i class="icon-search"></i></a>
 			                    		<input type="hidden" name="id-cliente" id="id-cliente" value="">
 			                    	</div>
-			                    </div>                    
-			                </div>	
+			                    </div>
+			                </div>
 			                <label class="control-label"><strong>Formato de Salida</strong></label>
 			                <div class="controls">
 			                    <label class="radio">
 			                        <input type="radio" name="salida" id="optionsRadio1" value="pantalla" checked>Pantalla
 			                    </label>
 			                    <label class="radio">
-			                        <input type="radio" name="salida" id="optionsRadio2" value="excel">Excel  
+			                        <input type="radio" name="salida" id="optionsRadio2" value="excel">Excel
 			                    </label>
 			                </div>
 
@@ -56,39 +56,39 @@
 			                    <div class="controls">
 									<label class="checkbox">
 										<input type="checkbox" name="check_nave" id="check_nave" value="1"> Filtrar por Nave
-									</label>			                    
+									</label>
 			                    	<div class="input-append" id="input-nave">
-			                    		<input type="text" name="nave" id="nave" disabled="disabled">	
+			                    		<input type="text" name="nave" id="nave" disabled="disabled">
 			                    		<input type="hidden" name="id-nave" id="id-nave">
 			                    		<a class="btn" id="modal_naves" data-target="#modal-naves" data-toggle="modal"><i class="icon-search"></i></a>
 			                    	</div>
-			                    </div>                    
-			                </div>			
+			                    </div>
+			                </div>
 			                <div class="control-group">
 			                    <label class="control-label"><strong>Puerto Embarque</strong></label>
 			                    <div class="controls">
 									<label class="checkbox">
 										<input type="checkbox" name="check_puerto" id="check_puerto" value="1"> Filtrar por Puerto
-									</label>				                    
+									</label>
 			                    	<div class="input-append" id="input-puerto">
-			                    		<input type="text" name="puerto" id="puerto" disabled="disabled">	
-			                    		<input type="hidden" name="id-puerto" id="id-puerto">	
+			                    		<input type="text" name="puerto" id="puerto" disabled="disabled">
+			                    		<input type="hidden" name="id-puerto" id="id-puerto">
 			                    		<a class="btn" id="modal_puertos" data-target="#modal-puertos" data-toggle="modal"><i class="icon-search"></i></a>
 			                    	</div>
-			                    </div>                    
-			                </div>					
+			                    </div>
+			                </div>
 			                <div class="control-group">
 			                    <label class="control-label"><strong>Contenedor</strong></label>
 			                    <div class="controls">
 									<label class="checkbox">
 										<input type="checkbox" name="check_contenedor" id="check_contenedor" value="1"> Filtrar por Contenedor
-									</label>				                    
+									</label>
 			                    	<div id="input-contenedor">
-			                    		<input type="text" name="contenedor" id="contenedor">	
+			                    		<input type="text" name="contenedor" id="contenedor">
 			                    		<p class="help-block">Ingrese el texto o parte del para buscar coinciencias.</p>
 			                    	</div>
-			                    </div>                    
-			                </div>	
+			                    </div>
+			                </div>
 			                <label class="control-label"><strong>Periodo de Tiempo</strong></label>
 			                <div class="controls">
 			                    <label class="radio">
@@ -98,27 +98,27 @@
 			                        <input type="radio" name="time" id="porFechas" value="fechas" >Rango de Fechas
 			                    </label>
 			                </div>
-			                <div id="fechas">                
+			                <div id="fechas">
 			                    <div class="control-group">
-			                        <label class="control-label" for="desde"><strong>Desde :</strong></label> 
+			                        <label class="control-label" for="desde"><strong>Desde :</strong></label>
 			                        <div class="controls"><input type="text" id="datepicker" name="desde" class="span2" readonly="" /></div>
 			                    </div>
 			                    <div class="control-group">
-			                        <label class="control-label" for="hasta"><strong>Hasta :</strong></label> 
+			                        <label class="control-label" for="hasta"><strong>Hasta :</strong></label>
 			                        <div class="controls"><input type="text" id="datepicker2" name="hasta" class="span2" readonly="" /></div>
 			                    </div>
-			                </div>			                				                                	    
-			    	
+			                </div>
+
 			    </div>
 		</div>
 		<div class="form-actions">
 			    	<input type="submit" class="btn btn-success offset4" value="Generar"/>
-		</div>		
-			
-			
+		</div>
+
+
 		</div>
 	</fieldset>
-</form> 
+</form>
 <!--  MODAL ORDENES  -->
 <div class="modal fade modal-large-custom" id="modal-ordenes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -213,6 +213,7 @@
                                         <th>Referencia 2</th>
                                         <th>Mercaderia</th>
                                         <th>Contenedor</th>
+                                        <th>Conductor</th>
                                         <th>Bodega</th>
                                         <th>Tramo</th>
                                         <th>Fecha Presen.</th>
@@ -223,7 +224,7 @@
                                         <th>Peso</th>
                                         <th>Puerto Destino</th>
                                         <th>Puerto Embarque</th>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -236,6 +237,7 @@
 			                                            <td><?php echo $factura['referencia_2']; ?></td>
 			                                            <td><?php echo $factura['mercaderia']; ?></td>
 			                                            <td><?php echo $factura['contenedor']; ?></td>
+                                                  <td><?php echo $factura['conductor']; ?></td>
 			                                            <td><?php echo $factura['nombre_bodega']; ?></td>
 			                                            <td><?php echo $factura['tramo']; ?></td>
 			                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>
@@ -247,7 +249,7 @@
 			                                            <td><?php echo $factura['peso']; ?></td>
 			                                            <td><?php echo $factura['p_destino']; ?></td>
 			                                            <td><?php echo $factura['p_embarque']; ?></td>
-			                                            
+
 			                                        </tr>
 			                                        <?php if(isset($factura['otros_servicios'][0])) { ?>
 			                                        	<?php foreach ($factura['otros_servicios'] as $otro_servicio) { ?>
@@ -260,6 +262,7 @@
 						                                            <td></td>
 						                                            <td></td>
 						                                            <td></td>
+                                                        <td></td>
 						                                            <td></td>
 						                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>
 						                                            <td><?php echo $fecha->format('d-m-Y'); ?></td>
@@ -270,12 +273,12 @@
 						                                            <td></td>
 						                                            <td></td>
 						                                            <td></td>
-					                                        	</tr>	                                        		
+					                                        	</tr>
 			                                        	<?php }?>
 			                                        <?php } ?>
                                     <?php } ?>
                                 </tbody>
-                    </table> 			
+                    </table>
 		</div>
 <?php	} ?>
 <script type="text/javascript">
@@ -284,7 +287,7 @@
     	$('#datepicker').datepicker({
                         changeMonth: true,
                         changeYear: true,
-                        showHour:false,                      
+                        showHour:false,
                         showMinute:false,
                         showTime: false,
                         dateFormat: 'dd-mm-yy'
@@ -292,11 +295,11 @@
     	$('#datepicker2').datepicker({
                         changeMonth: true,
                         changeYear: true,
-                        showHour:false,                      
+                        showHour:false,
                         showMinute:false,
                         showTime: false,
                         dateFormat: 'dd-mm-yy'
-        });    	
+        });
         $('#fechas').hide();
         $('#input-cliente').hide();
         $('#input-orden').hide();
@@ -304,107 +307,107 @@
         $('#input-puerto').hide();
         $('#input-embarque').hide();
         $('#input-contenedor').hide();
-		$("#check_orden").click(function() { 
-		        if($("#check_orden").is(':checked')) {  
+		$("#check_orden").click(function() {
+		        if($("#check_orden").is(':checked')) {
 		            $('#input-orden').show();
-					$("#check_cliente").attr('checked', false);  
-					$("#check_nave").attr('checked', false);  
-					$("#check_puerto").attr('checked', false);  
-					$("#check_contenedor").attr('checked', false);  
+					$("#check_cliente").attr('checked', false);
+					$("#check_nave").attr('checked', false);
+					$("#check_puerto").attr('checked', false);
+					$("#check_contenedor").attr('checked', false);
 					$('#input-factura').hide();
 			        $('#input-cliente').hide();
 			        $('#input-nave').hide();
 			        $('#input-puerto').hide();
 			        $('#input-embarque').hide();
-			        $('#input-contenedor').hide();			            
-		        } 
-		        else {  
+			        $('#input-contenedor').hide();
+		        }
+		        else {
 		            $('#input-orden').hide();
-		        }  
-		}); 
-		$("#check_cliente").click(function() {  
-		        if($("#check_cliente").is(':checked')) {  
+		        }
+		});
+		$("#check_cliente").click(function() {
+		        if($("#check_cliente").is(':checked')) {
 		            $('#input-cliente').show();
-					$("#check_orden").attr('checked', false);  
-					$("#check_nave").attr('checked', false);  
-					$("#check_puerto").attr('checked', false);  
-					$("#check_contenedor").attr('checked', false);  
+					$("#check_orden").attr('checked', false);
+					$("#check_nave").attr('checked', false);
+					$("#check_puerto").attr('checked', false);
+					$("#check_contenedor").attr('checked', false);
 					$('#input-factura').hide();
 			        $('#input-orden').hide();
 			        $('#input-nave').hide();
 			        $('#input-puerto').hide();
 			        $('#input-embarque').hide();
-			        $('#input-contenedor').hide();			            
-		        } 
-		        else {  
+			        $('#input-contenedor').hide();
+		        }
+		        else {
 		            $('#input-cliente').hide();
-		        }  
-		});		 
-		$("#check_nave").click(function() {  
-		        if($("#check_nave").is(':checked')) {  
+		        }
+		});
+		$("#check_nave").click(function() {
+		        if($("#check_nave").is(':checked')) {
 		            $('#input-nave').show();
-					$("#check_orden").attr('checked', false);  
-					$("#check_cliente").attr('checked', false);  
-					$("#check_puerto").attr('checked', false);  
-					$("#check_contenedor").attr('checked', false);  
+					$("#check_orden").attr('checked', false);
+					$("#check_cliente").attr('checked', false);
+					$("#check_puerto").attr('checked', false);
+					$("#check_contenedor").attr('checked', false);
 					$('#input-factura').hide();
 			        $('#input-orden').hide();
 			        $('#input-cliente').hide();
 			        $('#input-puerto').hide();
 			        $('#input-embarque').hide();
-			        $('#input-contenedor').hide();		            
-		        } 
-		        else {  
+			        $('#input-contenedor').hide();
+		        }
+		        else {
 		            $('#input-nave').hide();
-		        }  
-		});			
-		$("#check_puerto").click(function() {  
-		        if($("#check_puerto").is(':checked')) {  
+		        }
+		});
+		$("#check_puerto").click(function() {
+		        if($("#check_puerto").is(':checked')) {
 		            $('#input-puerto').show();
-					$("#check_orden").attr('checked', false);  
-					$("#check_cliente").attr('checked', false);  
-					$("#check_nave").attr('checked', false);  
-					$("#check_contenedor").attr('checked', false);  
+					$("#check_orden").attr('checked', false);
+					$("#check_cliente").attr('checked', false);
+					$("#check_nave").attr('checked', false);
+					$("#check_contenedor").attr('checked', false);
 					$('#input-factura').hide();
 			        $('#input-orden').hide();
 			        $('#input-cliente').hide();
 			        $('#input-nave').hide();
 			        $('#input-embarque').hide();
-			        $('#input-contenedor').hide();		            
-		        } 
-		        else {  
+			        $('#input-contenedor').hide();
+		        }
+		        else {
 		            $('#input-puerto').hide();
-		        }  
-		});				
-		$("#check_contenedor").click(function() {  
-		        if($("#check_contenedor").is(':checked')) {  
+		        }
+		});
+		$("#check_contenedor").click(function() {
+		        if($("#check_contenedor").is(':checked')) {
 		            $('#input-contenedor').show();
-					$("#check_orden").attr('checked', false);  
-					$("#check_cliente").attr('checked', false);  
-					$("#check_nave").attr('checked', false);  
-					$("#check_puerto").attr('checked', false);  
+					$("#check_orden").attr('checked', false);
+					$("#check_cliente").attr('checked', false);
+					$("#check_nave").attr('checked', false);
+					$("#check_puerto").attr('checked', false);
 					$('#input-factura').hide();
 			        $('#input-orden').hide();
 			        $('#input-cliente').hide();
 			        $('#input-nave').hide();
 			        $('#input-embarque').hide();
-			        $('#input-puerto').hide();		            
-		        } 
-		        else {  
+			        $('#input-puerto').hide();
+		        }
+		        else {
 		            $('#input-contenedor').hide();
-		        }  
+		        }
 		});
 	    $('#Todas').click(function(){
-	        
+
 	        $("#Todas").prop("checked", true);
 	        $('#fechas').hide();
 	        $('#tabla').html("");
 	    });
 	    $('#porFechas').click(function(){
-	        
+
 	        $("#porFechas").prop("checked", true);
 	        $('#fechas').show();
-	    }); 
+	    });
 		$('#modal_ordenes').click(function(){
 		    $.ajax({
 		        method:"POST",
@@ -448,6 +451,6 @@
 		        }
 
 		    });
-		});					
+		});
     });
 </script>

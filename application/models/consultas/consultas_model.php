@@ -81,7 +81,7 @@ Class consultas_model extends CI_Model{
 
 	public function ordenes_proveedor($proveedor, $desde = null, $hasta = null, $todas = null){
 
-		$sql = "select 
+		$sql = "select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
@@ -111,18 +111,18 @@ Class consultas_model extends CI_Model{
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
 			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
-			
+
 		}
-		$sql .= " group by id_orden"; 
+		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
 		//var_dump($this->db->last_query());
-		return $result->result_array();		
+		return $result->result_array();
 	}
 
 	public function ordenes_clientes($cliente, $desde = null, $hasta = null, $todas = null){
 
-		$sql = "select 
+		$sql = "select
 				    orden.id_orden,
 					orden.fecha,
 					orden.referencia,
@@ -139,25 +139,25 @@ Class consultas_model extends CI_Model{
 				        left join
 				    ordenes_facturas ON ordenes_facturas.id_orden = orden.id_orden
 				        left join
-				    factura ON ordenes_facturas.id_factura = factura.id 
+				    factura ON ordenes_facturas.id_factura = factura.id
 				    where orden.cliente_rut_cliente = '".$cliente."' ";
 
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
 			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
-			
+
 		}
-		$sql .= " group by id_orden"; 
+		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
 		//var_dump($this->db->last_query());
-		return $result->result_array();	
-	}	
+		return $result->result_array();
+	}
 
 	public function ordenes_conductor($conductor, $desde = null, $hasta = null, $todas = null){
 
-		$sql = "select 
+		$sql = "select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
@@ -175,9 +175,9 @@ Class consultas_model extends CI_Model{
 				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
 				        left join
 				    detalle ON detalle.orden_id_orden = orden.id_orden
-						inner join 
+						inner join
 					viaje ON orden.viaje_id_viaje = viaje.id_viaje
-				where 
+				where
 					viaje.conductor_rut = '".$conductor."' ";
 
 		if($todas == null){
@@ -186,16 +186,16 @@ Class consultas_model extends CI_Model{
 			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 		}
 
-		$sql .= " group by id_orden"; 
+		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
-		
-		return $result->result_array();		
+
+		return $result->result_array();
 	}
 
 	public function ordenes_camion($camion, $desde = null, $hasta = null, $todas = null){
 
-		$sql = "select 
+		$sql = "select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
@@ -213,9 +213,9 @@ Class consultas_model extends CI_Model{
 				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
 				        left join
 				    detalle ON detalle.orden_id_orden = orden.id_orden
-						inner join 
+						inner join
 					viaje ON orden.viaje_id_viaje = viaje.id_viaje
-				where 
+				where
 					viaje.camion_camion_id = '".$camion."' ";
 
 		if($todas == null){
@@ -224,16 +224,16 @@ Class consultas_model extends CI_Model{
 			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 		}
 
-		$sql .= " group by id_orden"; 
+		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
-		
-		return $result->result_array();		
-	}	
+
+		return $result->result_array();
+	}
 
 	public function ordenes_puerto($puerto, $desde = null, $hasta = null, $todas = null){
 
-		$sql = "select 
+		$sql = "select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
@@ -258,18 +258,18 @@ Class consultas_model extends CI_Model{
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
 			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
-			
+
 		}
-		$sql .= " group by id_orden"; 
+		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
-		
-		return $result->result_array();			
-	}		
+
+		return $result->result_array();
+	}
 
 	public function ordenes_retiro($deposito, $desde = null, $hasta = null, $todas = null){
 
-		$sql = "select 
+		$sql = "select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
@@ -294,64 +294,64 @@ Class consultas_model extends CI_Model{
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
 			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
-			
+
 		}
-		$sql .= " group by id_orden"; 
+		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
-		
-		return $result->result_array();			
-	}	
+
+		return $result->result_array();
+	}
 
 	public function ordenes_referencia($referencia, $desde = null, $hasta = null, $todas = null){
-		$sql =  "SELECT 
+		$sql =  "SELECT
 				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha, cliente.razon_social, orden.referencia_2
 				FROM
 				    glc_sct.orden
 				        inner join
 				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
 				where
-				    referencia like '%".$referencia."%' OR referencia_2 like '%".$referencia."%'";	
+				    referencia like '%".$referencia."%' OR referencia_2 like '%".$referencia."%'";
 
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
 			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
-			
+
 		}
-		$sql .= " group by id_orden"; 
+		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
 
-		return $result->result_array();						    
-	}		
+		return $result->result_array();
+	}
 
 	public function ordenes_contenedor($contenedor, $desde = null, $hasta = null, $todas = null){
-		$sql =  "SELECT 
+		$sql =  "SELECT
 				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha, cliente.razon_social, orden.referencia_2
 				FROM
 				    glc_sct.orden
 				        inner join
 				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
 				where
-				    numero like '%".$contenedor."%' ";	
+				    numero like '%".$contenedor."%' ";
 
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
 			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
-			
+
 		}
-		$sql .= " group by id_orden"; 
+		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
 
-		return $result->result_array();						    
-	}	
+		return $result->result_array();
+	}
 
 	public function realizadas($desde = null, $hasta = null, $todas = null){
 
-		$sql = "select 
+		$sql = "select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
@@ -368,29 +368,30 @@ Class consultas_model extends CI_Model{
 				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
 				        left join
 				    detalle ON detalle.orden_id_orden = orden.id_orden ";
-		
+
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
 			$sql .= " WHERE orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
-			
+
 		}
-		$sql .= " group by id_orden"; 
+		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
 
-		return $result->result_array();		
+		return $result->result_array();
 	}
 
-	public function facturadas($cliente,   $desde = null, $hasta = null, $todas = null){
-		$sql= 	"select 
+	public function facturadas($cliente = null,   $desde = null, $hasta = null, $todas = null){
+		$sql= 	"select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    orden.fecha,
 				    coalesce(SUM(detalle.valor_venta), 0) + coalesce(orden.valor_venta_tramo, 0) as total_neto,
 				    factura.numero_factura,
 				    factura.fecha as fecha_factura,
-				    factura.total_venta as neto_factura
+				    factura.total_venta as neto_factura,
+				    cliente.razon_social
 				from
 				    orden
 				        inner join
@@ -404,25 +405,39 @@ Class consultas_model extends CI_Model{
 				        left join
 				    factura ON ordenes_facturas.id_factura = factura.id
 				where
-				    orden.cliente_rut_cliente = '".$cliente."'
-				     AND factura.estado_factura_id_estado_factura > 1 ";
-
+				    factura.estado_factura_id_estado_factura != 1 ";
+ 		if( $cliente )
+ 			$sql .= " AND orden.cliente_rut_cliente = '".$cliente."' ";
+		
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
 			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
-			
+
 		}
-		$sql .= " group by id_orden"; 
-
+		$sql .= " group by id_orden ";
+		$sql .= " union
+					select 
+					    IF(1 =  1, 'N/A', '') AS id_orden,
+						IF(1 =  1, 'N/A', '') AS tipo_orden,
+					    IF(1 =  1, '2000-01-01 00:00:01', '') AS fecha,
+					    IF(1 =  1, 0, 0) AS total_neto,
+					    factura.numero_factura,
+					    factura.fecha as fecha_factura,
+					    IF(1 =  1, 0, '') AS neto_factura,
+					    IF(1 =  1, 'FACTURA NULA', '') AS razon_social
+					from
+					    factura
+					where
+					    factura.estado_factura_id_estado_factura = 3";
 		$result = $this->db->query($sql);
-
-		return $result->result_array();						        
+		
+		return $result->result_array();
 	}
 
 	public function facturas($facturas = null, $ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
-		
-		$query = '	select 
+
+		$query = '	select
 					    orden.id_orden,
 					    cliente.razon_social,
 					    nave.nombre as nombre_nave,
@@ -461,7 +476,7 @@ Class consultas_model extends CI_Model{
 
 		if($facturas){
 				$facturas = explode(',', $facturas);
-				
+
 				$i = 0;
 				$string = ' where ';
 				if($facturas != ''){
@@ -478,7 +493,7 @@ Class consultas_model extends CI_Model{
 
 		if($ordenes){
 				$ordenes = explode(',', $ordenes);
-				
+
 				$i = 0;
 				$string = ' where ';
 				if($ordenes != ''){
@@ -490,42 +505,42 @@ Class consultas_model extends CI_Model{
 							$i++;
 						}
 				}
-				$query .= $string;			
+				$query .= $string;
 		}
 
 		if($cliente){
-				
+
 				$string = ' where cliente.rut_cliente = "'.$cliente.'"';
-				$query .= $string;			
-		}	
+				$query .= $string;
+		}
 		if($nave){
-				
+
 				$string = ' where nave.codigo_nave = '.$nave;
-				$query .= $string;			
-		}	
+				$query .= $string;
+		}
 		if($puerto){
-				
+
 				$string = ' where puerto.codigo_puerto = '.$puerto;
-				$query .= $string;			
-		}		
+				$query .= $string;
+		}
 		if($contenedor){
-				
+
 				$string = ' where orden.numero like "%'.$contenedor.'%"';
-				$query .= $string;			
-		}	
+				$query .= $string;
+		}
 		if($desde && $hasta){
 				$desde = new DateTime($desde);
 				$hasta = new DateTime($hasta);
-				
-				$string = ' where orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
-				$query .= $string;			
-		}							
 
-		
+				$string = ' where orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
+				$query .= $string;
+		}
+
+
 		$sql = $this->db->query($query);
 
 		$result = $sql->result_array();
-		
+
 		return $result;
 	}
 
@@ -534,9 +549,9 @@ Class consultas_model extends CI_Model{
         $this->db->from('servicios_orden_factura');
         $this->db->where('detalle_id_detalle',$id);
         $resultado = $this->db->get();
-        
-        return $resultado->result_array();        
-    }	
+
+        return $resultado->result_array();
+    }
 
     function getDetalleByIdDetalle($id){
     	$this->db->select('*');
@@ -544,12 +559,12 @@ Class consultas_model extends CI_Model{
     	$this->db->where('id_detalle',$id);
 
         $resultado = $this->db->get();
-        
-        return $resultado->result_array();     	
+
+        return $resultado->result_array();
     }
 
     public function ordenes_procesos($ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
-    	$query = (		'select 
+    	$query = (		'select
     	    						orden.id_orden,
     	    						cliente.razon_social,
     	    						nave.nombre as nombre_nave,
@@ -558,10 +573,10 @@ Class consultas_model extends CI_Model{
     							    orden.fecha,
     							    orden.mercaderia,
     							    orden.numero as contenedor,
-									bodega.nombre as nombre_bodega,
-									tramo.descripcion as tramo,
-									orden.fecha_presentacion,
-									proveedor.razon_social as proveedor,
+											bodega.nombre as nombre_bodega,
+											tramo.descripcion as tramo,
+											orden.fecha_presentacion,
+											proveedor.razon_social as proveedor,
     							    orden.observacion,
     							    orden.valor_costo_tramo as precio_costo,
     							    orden.valor_venta_tramo as precio_venta,
@@ -569,7 +584,8 @@ Class consultas_model extends CI_Model{
     							    orden.set_point,
     							    orden.peso,
     							    p.nombre as p_destino,
-    							    puerto.nombre as p_embarque
+    							    puerto.nombre as p_embarque,
+											conductor.descripcion as conductor
 
 	    				from
 								proveedor,
@@ -579,27 +595,33 @@ Class consultas_model extends CI_Model{
 							    orden,
 							    cliente,
 							    puerto as p,
-							    puerto
-						where 
+							    puerto,
+									conductor,
+									viaje
+						where
 									orden.tramo_codigo_tramo = tramo.codigo_tramo
-								and 
+								and
 									orden.proveedor_rut_proveedor = proveedor.rut_proveedor
-								and 
+								and
 									orden.nave_codigo_nave = nave.codigo_nave
-								and 
+								and
 									orden.bodega_codigo_bodega = bodega.codigo_bodega
-								and 
+								and
 									orden.cliente_rut_cliente = cliente.rut_cliente
 								and
 									orden.destino = p.codigo_puerto
 								and
 									orden.puerto_codigo_puerto = puerto.codigo_puerto
-								and 
+								and
+									viaje.id_viaje = orden.viaje_id_viaje
+								and
+									viaje.conductor_rut = conductor.rut
+								and
 									orden.id_estado_orden = 1 ');
 
 		if($ordenes){
 				$ordenes = explode(',', $ordenes);
-				
+
 				$i = 0;
 				$string = ' and ';
 				if($ordenes != ''){
@@ -611,38 +633,38 @@ Class consultas_model extends CI_Model{
 							$i++;
 						}
 				}
-				$query .= $string;			
+				$query .= $string;
 		}
 
 		if($cliente){
-				
+
 				$string = ' and orden.cliente_rut_cliente = "'.$cliente.'"';
-				$query .= $string;			
-		}	
+				$query .= $string;
+		}
 		if($nave){
-				
+
 				$string = ' and orden.nave_codigo_nave = '.$nave;
-				$query .= $string;			
-		}	
+				$query .= $string;
+		}
 		if($puerto){
-				
+
 				$string = ' and orden.puerto_codigo_puerto = '.$puerto;
-				$query .= $string;			
-		}		
+				$query .= $string;
+		}
 		if($contenedor){
-				
+
 				$string = ' and orden.numero like "%'.$contenedor.'%"';
-				$query .= $string;			
-		}	
+				$query .= $string;
+		}
 		if($desde && $hasta){
 				$desde = new DateTime($desde);
 				$hasta = new DateTime($hasta);
-				
-				$string = ' and orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
-				$query .= $string;			
-		}							
 
-		
+				$string = ' and orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
+				$query .= $string;
+		}
+
+
 		$sql = $this->db->query($query);
 
 		$result = $sql->result_array();

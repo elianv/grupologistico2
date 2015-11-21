@@ -1,4 +1,4 @@
-    <legend><h3><center>Mantención de Tramos</center></h3></legend>
+    <legend><h3><center>Mantención de Usuarios</center></h3></legend>
     <div class="container">
                 <?php
             $correcto = $this->session->flashdata('mensaje');
@@ -81,18 +81,15 @@
                         <tr>
                             <th>Rut Usuario</th>
                             <th>Nombre</th>
-                            <th>Perfil</th>
                         </tr>
                       </thead>
                       <tbody>
-                              <?php
-                              foreach ($tablas as $tabla){
-                                  echo "<tr>";
-                                  echo "<td><a class='codigo-click' data-codigo=".$tabla['rut_usuario']."></a></td>";
-                                  echo "<td>".strtoupper($tabla['nombre'])."</td>";
-								  echo "<td><a class='codigo-click' data-codigo=".$tabla['tusuario']."></a></td>";
-                              }
-                              ?>
+                              <?php foreach ($tablas as $tabla) { ?>
+			                      <tr>
+			                      <td><a class="codigo-click" data-rut="<?php echo $tabla['rut_usuario']; ?>" data-nombre="<?php echo $tabla['nombre']; ?>"><?php echo $tabla['rut_usuario']; ?></a></td>
+			                      <td><?php echo $tabla['nombre']; ?></td>
+			                      </tr>
+			                  <?php } ?>
                        </tbody>
                   </table>    
        </div>
@@ -102,3 +99,18 @@
   </div>
 
 
+<script type="text/javascript">
+    $(document).ready(function(){
+		$('.table .codigo-click').click(function(e){
+			e.preventDefault();
+			var rut_usuario = $(this).attr('data-rut');
+			var nombre = $(this).attr('data-nombre');
+			$('#rut_usuario').val(rut_usuario);
+			$('#nombre').val(nombre);
+		});
+		$('#tabla-ordenes-clientes').DataTable();	
+        $('#tabla-cliente').DataTable();					           
+    });
+        
+
+</script>
