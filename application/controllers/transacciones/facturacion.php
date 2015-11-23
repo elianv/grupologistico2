@@ -177,8 +177,9 @@ class Facturacion extends CI_Controller{
                     $ordenes  = $this->facturacion_model->getOrdenes($factura[0]['id']);
 
                     $i = 0;
-                    $detalle['total_venta']  = $factura[0]['total_venta'];
-                    $detalle['total_compra'] = $factura[0]['total_costo'];
+                    $totales                 = $this->facturacion_model->valor_factura($this->input->post('num_factura'));
+                    $detalle['total_venta']  = $totales[0]['total_venta'];
+                    $detalle['total_compra'] = $totales[0]['total_costo'];
                     foreach ($ordenes as $orden) {
 
 
@@ -193,8 +194,9 @@ class Facturacion extends CI_Controller{
                                 $detalle['ordenes'][$i]['tramo']         = $tramo[0];
                                 $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden['id_orden']);
 
-                                $detalle['ordenes'][$i]['total_compra'] += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
-                                $detalle['ordenes'][$i]['total_venta']  += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
+                                
+                                //$detalle['ordenes'][$i]['total_compra'] += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
+                                //$detalle['ordenes'][$i]['total_venta']  += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
 
                                 $detalle['ordenes'][$i]['proveedor']     = $this->proveedores_model->datos_proveedor($detalle['ordenes'][$i][0]['proveedor_rut_proveedor']);
                                 $detalle['ordenes'][$i]['factura_tramo'] = $orden['factura_tramo'];
@@ -213,8 +215,8 @@ class Facturacion extends CI_Controller{
 
                                     $detalle['ordenes'][$i]['detalle'][$j]['factura']     = $serv_odn_factura[0]['factura_numero_factura'];
                                     $detalle['ordenes'][$i]['detalle'][$j]['fecha']       = $serv_odn_factura[0]['fecha_factura_servicio'];
-                                    $detalle['ordenes'][$i]['total_compra']              += $servicio['valor_costo'];
-                                    $detalle['ordenes'][$i]['total_venta']               += $servicio['valor_venta'];
+                                    //$detalle['ordenes'][$i]['total_compra']              += $servicio['valor_costo'];
+                                    //$detalle['ordenes'][$i]['total_venta']               += $servicio['valor_venta'];
                                     $detalle['ordenes'][$i]['detalle'][$j]['proveedor']   = $proveedor[0]['rut_proveedor'].' - '.$proveedor[0]['razon_social'];
 
                                     $j ++;
