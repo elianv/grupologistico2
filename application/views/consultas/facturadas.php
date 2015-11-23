@@ -123,7 +123,7 @@
                                             <?php $fecha = new DateTime($cliente['fecha']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>
                                             <td><?php echo'$'.number_format($cliente['total_neto'], 0, ',', '.'); ?></td>
-                                            <td><a href="<?php echo base_url('index.php/transacciones/facturacion/imprimir/'.$cliente['numero_factura']); ?>"><?php echo $cliente['numero_factura']; ?></a></td>
+                                            <td><a href="<?php echo base_url('index.php/transacciones/facturacion/imprimir/'.$cliente['numero_factura']); ?>" target="_blank"><?php echo $cliente['numero_factura']; ?></a></td>
                                             <?php $fecha = new DateTime($cliente['fecha_factura']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>
                                             <td><?php echo'$'.number_format($cliente['neto_factura'], 0, ',', '.'); ?></td>

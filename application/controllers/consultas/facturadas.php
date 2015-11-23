@@ -1267,7 +1267,7 @@
                             $hasta = $this->input->post('hasta');
                             if( $this->input->post('clientes') == 0){
                                 $data['facturadas'] = $this->consultas_model->facturadas( '' , $desde, $hasta, '');
-                                print_r($data['facturadas']);
+                             
                             }
                             else
                                 $data['facturadas'] = $this->consultas_model->facturadas($id, $desde, $hasta, '');

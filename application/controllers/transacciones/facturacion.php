@@ -145,7 +145,7 @@ class Facturacion extends CI_Controller{
                                     }
                             }
                         }
-
+                        
                         $this->session->set_flashdata('mensaje','Facturación guardada con éxito');
                         redirect('transacciones/facturacion','refresh');
                 }
@@ -442,7 +442,7 @@ class Facturacion extends CI_Controller{
         }
     }
 
-    function imprimir($numero = null){
+    function imprimir($numero = NULL , $opc = NULL){
         if($this->session->userdata('logged_in')){
 
             if($numero && $this->facturacion_model->existe_factura($numero)){
@@ -462,40 +462,43 @@ class Facturacion extends CI_Controller{
 
                     $i = 0;
 
-                            foreach ($ordenes as $orden) {
+                    foreach ($ordenes as $orden) {
 
-                                        $orden_temp                              = $this->orden_model->get_orden($orden['id_orden']);
-                                        $detalle['ordenes'][$i]                  = $orden_temp[0];
-                                        $rut_cliente                             = $detalle['ordenes'][$i]['cliente_rut_cliente'];
-                                        $tramo                                   = $this->tramos_model->datos_tramo($detalle['ordenes'][$i]['tramo_codigo_tramo']);
+                                $orden_temp                              = $this->orden_model->get_orden($orden['id_orden']);
+                                $detalle['ordenes'][$i]                  = $orden_temp[0];
+                                $rut_cliente                             = $detalle['ordenes'][$i]['cliente_rut_cliente'];
+                                $tramo                                   = $this->tramos_model->datos_tramo($detalle['ordenes'][$i]['tramo_codigo_tramo']);
 
-                                        $detalle['ordenes'][$i]['tramo']         = $tramo[0];
-                                        $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden['id_orden']);
+                                $detalle['ordenes'][$i]['tramo']         = $tramo[0];
+                                $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden['id_orden']);
 
-                                        $detalle['ordenes'][$i]['factura_tramo'] = $orden['factura_tramo'];
-                                        $detalle['ordenes'][$i]['fecha_factura'] = $orden['fecha_factura'];
-
-
-                                        $servicios                               = $detalle['ordenes'][$i]['detalle'];
-
-                                        $j = 0;
-                                        foreach ( $servicios as $servicio) {
-
-                                            $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
-                                            $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
-                                            $serv_odn_factura                                     = $this->facturacion_model->getServicioOrdenFactura($orden['id']);
-                                            $detalle['ordenes'][$i]['detalle'][$j]['factura']     = $serv_odn_factura[0]['factura_numero_factura'];
-                                            $detalle['ordenes'][$i]['detalle'][$j]['fecha']       = $serv_odn_factura[0]['fecha_factura_servicio'];
+                                $detalle['ordenes'][$i]['factura_tramo'] = $orden['factura_tramo'];
+                                $detalle['ordenes'][$i]['fecha_factura'] = $orden['fecha_factura'];
 
 
-                                            $j ++;
-                                        }
+                                $servicios                               = $detalle['ordenes'][$i]['detalle'];
 
-                                        $dato = array('id_estado_orden' => 2);
-                                        $this->orden_model->editar_orden($dato, $orden['id_orden']);
+                                $j = 0;
+                                foreach ( $servicios as $servicio) {
 
-                                        $i ++;
-                            }
+                                    $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
+                                    $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
+                                    $serv_odn_factura                                     = $this->facturacion_model->getServicioOrdenFactura($orden['id']);
+                                    $detalle['ordenes'][$i]['detalle'][$j]['factura']     = $serv_odn_factura[0]['factura_numero_factura'];
+                                    $detalle['ordenes'][$i]['detalle'][$j]['fecha']       = $serv_odn_factura[0]['fecha_factura_servicio'];
+
+
+                                    $j ++;
+                                }
+
+                                if($opc == 1 && $factura[0]['tipo_factura_id'] == 1){
+                                    $dato = array('id_estado_orden' => 2);
+                                    $this->orden_model->editar_orden($dato, $orden['id_orden']);                                            
+                                }
+                                
+
+                                $i ++;
+                    }
                     $nombre_cliente      = $this->clientes_model->datos_cliente($rut_cliente);
 
                     $data['cliente']     = $nombre_cliente[0];
@@ -630,10 +633,12 @@ class Facturacion extends CI_Controller{
                 if($factura['estado_factura_id_estado_factura'] != 3){
 
                         $ordenes = $this->facturacion_model->getOrdenes($factura['id']);
-                        if ( isset($factura['id']) )
+                        if ( isset($factura['id']) && isset($ordenes[0]['id_orden']) ) 
                             $orden   = $this->orden_model->get_orden($ordenes[0]['id_orden']);
-                        $cliente = $this->clientes_model->datos_cliente($orden[0]['cliente_rut_cliente']);
-                        $facturas[$i]['cliente'] = $cliente[0]['rut_cliente']." - ".$cliente[0]['razon_social'];
+                        if( isset($orden[0]['cliente_rut_cliente']) )
+                            $cliente = $this->clientes_model->datos_cliente($orden[0]['cliente_rut_cliente']);
+                        if( isset($cliente[0]['rut_cliente']) )
+                            $facturas[$i]['cliente'] = $cliente[0]['rut_cliente']." - ".$cliente[0]['razon_social'];
 
                 }
                 else{

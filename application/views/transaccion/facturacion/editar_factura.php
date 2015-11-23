@@ -161,16 +161,16 @@
 
 <script type="text/javascript">
 
-            function calendario(){
-                    $('#fecha_factura').datetimepicker({
-                        changeMonth: true,
-                        changeYear: true,
-                        showHour:false,                      
-                        showMinute:false,
-                        showTime: false,
-                        dateFormat: 'dd-mm-yy'
-                  });              
-            };
+    function calendario(){
+            $('#fecha_factura').datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                showHour:false,                      
+                showMinute:false,
+                showTime: false,
+                dateFormat: 'dd-mm-yy'
+          });              
+    };
 
 
     function ordenes_servicios(){

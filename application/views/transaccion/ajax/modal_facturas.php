@@ -61,7 +61,7 @@
 					}
 					else{
 						$("#nula").prop('checked', false);
-						$('#botones').html('<input type="submit" class="btn btn-danger" onclick = "this.form.action = \'<?php echo base_url("index.php/transacciones/facturacion/modificar_facturacion");?>\';" value="Editar" /> <a type="button" class="btn btn-info" id="imprimir" href="<?php echo base_url();?>index.php/transacciones/facturacion/imprimir/'+response.factura.numero_factura+'" target="_blank"><i class="icon-print icon-white"></i>Imprimir</a>');
+						$('#botones').html('<input type="submit" class="btn btn-danger" onclick = "this.form.action = \'<?php echo base_url("index.php/transacciones/facturacion/modificar_facturacion");?>\';" value="Editar" /> <a type="button" class="btn btn-info" id="imprimir" href="<?php echo base_url();?>index.php/transacciones/facturacion/imprimir/'+response.factura.numero_factura+'/1" target="_blank"><i class="icon-print icon-white"></i>Imprimir</a>');
 					}
 
 					$('#guia_despacho').html(response.guia);
