@@ -189,7 +189,25 @@ class Facturacion_model extends CI_Model{
         return $query->result_array();
     }
 
+    function getOrdenFacturaByOrden($orden)
+    {
+    	$this->db->select('id,id_factura,id_orden')
+    			->where('id_orden',$orden);
 
+    	$result = $this->db->get('ordenes_facturas');
+
+    	return $result->result_array();
+    }
+
+    function getFacturabyId($id)
+    {
+    	$this->db->select('id,numero_factura')
+    			->where('id',$id);
+
+    	$result = $this->db->get('factura');
+
+    	return $result->result_array();
+    }
 
 }
 

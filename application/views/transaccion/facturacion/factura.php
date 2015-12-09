@@ -4,6 +4,9 @@
 	<head>
 		<style type="text/css">
 		 	@media print { .oculto {display:none} }
+		 	td{ font-size: 8pt; font-family:'Courier New';} 
+		 	th{ font-size: 8pt; font-family:'Courier New';} 
+		 	
 		</style>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Factrura N° <?php echo $numero; ?></title>
@@ -24,13 +27,13 @@
 		      	<td width="64%">
 		          	<table width="200" border="0" align="center">
 			            <tr>
-			            	<td align="center"><strong><div class="oculto">RUT 76.010.628-3</div></strong></td>
+			            	<td align="center"><strong><div class="oculto Estilo6">RUT 76.010.628-3</div></strong></td>
 			            </tr>
 			            <tr>
 			            	<td align="center"><strong><div class="oculto">FACTURA</div></strong></td>
 			            </tr>
 			            <tr>
-			            	<td align="center"><strong><div class="oculto">N° <?php echo $numero; ?></div><strong></td>
+			            	<td align="center"><strong><div class="oculto Estilo6">N° <?php echo $numero; ?></div><strong></td>
 			            </tr>
 		          	</table>
 		        </td>
@@ -60,7 +63,7 @@
 			            </tr>
 			            <tr>
 			              <td align="left"><div class="oculto">Direcci&oacute;n: </div></td>
-			              <td><?php echo $cliente['direccion'].", ".$cliente['ciudad']; ?></td>
+			              <td ><?php echo $cliente['direccion'].", ".$cliente['ciudad']; ?></td>
 			              <td align="left"><div class="oculto">Comuna: </div></td>
 			              <td><?php echo $cliente['comuna']; ?></td>
 			            </tr>
@@ -69,25 +72,6 @@
 			              <td><?php echo $cliente['giro']; ?></td>
 			              <td align="left"><div class="oculto">Tel&eacute;fono: </div></td>
 			              <td><?php echo $cliente['fono']; ?></td>
-			            </tr>
-			            <tr>
-			              <td align="left"><div class="oculto">Guia de Despacho:</div></td>
-			              <td>
-			              	<?php 
-			              		
-			              		$i = 1;
-			              		foreach ($guia_despacho as $guia) { 
-			              			if ($i == count($guia_despacho) ){
-			              				echo $guia;
-			              			}
-			              			else
-			              				echo $guia." - ";	
-			              			$i++;
-			              		} 
-			              	?>
-			              </td>
-			              <td align="left"><div class="oculto">N° Cond de venta</div></td>
-			              <td>&nbsp;</td>
 			            </tr>
 		            </table>
 		          	<br />

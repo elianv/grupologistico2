@@ -211,6 +211,8 @@ class Facturacion extends CI_Controller{
                                     $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
                                     $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
                                     $serv_odn_factura                                     = $this->facturacion_model->getServicioOrdenFactura($orden['id']);
+                                    //print_r($orden);
+                                    //print_r($serv_odn_factura);
                                     $proveedor                                            = $this->proveedores_model->datos_proveedor($serv_odn_factura[0]['proveedor_rut_proveedor']);
 
                                     $detalle['ordenes'][$i]['detalle'][$j]['factura']     = $serv_odn_factura[0]['factura_numero_factura'];

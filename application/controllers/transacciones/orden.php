@@ -579,17 +579,22 @@
 		            $this->Orden_model->editar_orden($orden , $this->input->post('numero_orden'));
 					$this->Detalle->eliminar_detalle($this->input->post('numero_orden'));
 
+
                     $i = 0;
-                    $num_orden = $this->input->post('numero_orden');
-                    $costo = $this->input->post('valor_costo_servicio');
-                    $venta = $this->input->post('valor_venta_servicio');
+                    $num_orden   = $this->input->post('numero_orden');
+                    $costo       = $this->input->post('valor_costo_servicio');
+                    $venta       = $this->input->post('valor_venta_servicio');
+                    $costo_total = $orden['valor_costo_tramo'];
+                    $venta_total = $orden['valor_venta_tramo'];
                     
                     if($_POST['codigo_servicio'][0] != ''){
                     					
                             foreach ($this->input->post('codigo_servicio') as $servicio){
-                                $id_detalle = $this->Detalle->ultimo_codigo();
-                                $id_detalle[0]['id_detalle'] = $id_detalle[0]['id_detalle'] + 1;                    		
-                                $servicio = explode(' - ', $servicio);
+                                $id_detalle                     = $this->Detalle->ultimo_codigo();
+                                $id_detalle[0]['id_detalle']    = $id_detalle[0]['id_detalle'] + 1;                    		
+                                $servicio                       = explode(' - ', $servicio);
+
+
                                 $detalle = array(
                                     'id_detalle'               => $id_detalle[0]['id_detalle'],
                                     'servicio_codigo_servicio' => (int)$servicio[0],
@@ -597,12 +602,43 @@
                                     'valor_costo'              => str_replace(".", "", $costo[$i]),
                                     'valor_venta'              => str_replace(".", "", $venta[$i])
                                 );
+                                
                                 $i = $i + 1;
+
+                                $costo_total = $costo_total + $detalle['valor_costo'];
+                                $venta_total = $venta_total + $detalle['valor_venta'];
                                //guarda uno a uno los detalles.
                                $this->Detalle->guardar_detalle($detalle);
                             }
                     }
 
+                    /* SI la orden esta facturable
+                       Tengo que editar la factura con los nuevos datos y valores.
+                    
+                    $orden_factura = $this->Orden_model->get_orden( $this->input->post('numero_orden') );
+                    
+                    if($orden_factura['id_estado_orden'] == 2){
+                        
+                        $this->load->model('transacciones/Facturacion_model');
+                        
+                        $orden_factura      = $this->Facturacion_model->getOrdenFacturaByOrden( $orden_factura['id_orden'] );
+                        $factura            = $this->Facturacion_model->getFacturabyId( $orden_factura['id_factura'] );
+                        $servicios_factura  = $this->Facturacion_model->getServicioOrdenFactura($orden_factura['id'])
+
+                        $factura = array(   'total_costo' => $costo_total,
+                                            'total_venta' =>$venta_total
+                                        );
+                        
+                        $this->Facturacion_model->modificar_facturacion($factura, $factura['numero_factura']);
+                        $this->Facturacion_model->eliminarServiciosOrdeneFactura($orden_factura['id']);
+
+
+
+                    } */
+
+                    /*
+                    Se guarda Registro de quien hace modificaciones en las ordenes.
+                    */
                     $log = array(   'nombre_usuario' => $session_data['nombre'],
                                     'rut_usuario' => $session_data['rut_usuario'],
                                     'accion' => 'EDITAR ORDEN',
