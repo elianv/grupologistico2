@@ -26,21 +26,29 @@
 			<fieldset>  
 			<div class="row show-grid">
 				<div class="span5">
+
 					<div class="control-group">
-						
-						<label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
-						<div class="controls">
-							<?php echo "<div class='input-append'><input type='text' disabled='disabled' class='span2' name='id_orden' id='id_orden' value=".$orden[0]['id_orden']."></div>"; ?>
-							<input type="hidden" name="numero_orden" id="numero_orden" value="<?php echo $orden[0]['id_orden']; ?>">
-						</div>
-						
+    					<label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
+    					<div class="controls">
+    						<?php echo "<div class='input-append'><input type='text' disabled='disabled' class='span2' name='id_orden' id='id_orden' value=".$orden[0]['id_orden']."></div>"; ?>
+    						<input type="hidden" name="numero_orden" id="numero_orden" value="<?php echo $orden[0]['id_orden']; ?>">
+    					</div>
 					</div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="numero_orden"><strong>Fecha Creaci&oacute;n O.S. </strong></label>
+                        <div class="controls">
+                            <div class='input-append'><input type='text' readonly class='span2' value="<?php echo date("d-m-Y"); ?>"></div>
+                        </div>
+                    </div>                    
+
 					<div class="control-group">
 						<label class="control-label" for="referencia"><strong>Referencia</strong></label>
 						<div class="controls">
 							<input type="text" class="input-xxlarge" name="referencia" id="referencia" value = "<?php echo $orden[0]['referencia']; ?>">
 						</div>
 					</div>
+
 				</div>
 			
 				<div class="span6">
@@ -49,14 +57,14 @@
 						<div class="controls">
 						   <select id="tipo_factura" name="tipo_orden" class="span2" onchange="cambioOrden(this)">
 								<?php
-									// print_r(tfacturacion[0]);
+
 									foreach ($tfacturacion as $tipo){
-                                                                                if($orden[0]['tipo_orden_id_tipo_orden'] == $tipo['id_tipo_orden']){
-                                                                                    echo "<option selected value='".$tipo['tipo_orden']."'>".$tipo['tipo_orden']."</option>";
-                                                                                }
-                                                                                else{
-                                                                                    echo "<option value='".$tipo['tipo_orden']."'>".$tipo['tipo_orden']."</option>";
-                                                                                }
+                                        if($orden[0]['tipo_orden_id_tipo_orden'] == $tipo['id_tipo_orden']){
+                                            echo "<option selected value='".$tipo['tipo_orden']."'>".$tipo['tipo_orden']."</option>";
+                                        }
+                                        else{
+                                            echo "<option value='".$tipo['tipo_orden']."'>".$tipo['tipo_orden']."</option>";
+                                        }
 									}
 								?>
 							</select>
@@ -80,20 +88,20 @@
                 </div>
             </div>
 
-                <div class="row show-grid">
-                    <div class="span3">
-                        <div class="control-group booking">
-                            <label class="control-label" for="booking"><strong>Booking</strong></label>
-                            <div class="controls">
-                                <input type="text" class="input-xxlarge" id="booking" name="booking" value="<?php echo $orden[0]['booking']; ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="control-group">
+            <div class="row show-grid">
+                <div class="span3">
+                    <div class="control-group booking">
+                        <label class="control-label" for="booking"><strong>Booking</strong></label>
+                        <div class="controls">
+                            <input type="text" class="input-xxlarge" id="booking" name="booking" value="<?php echo $orden[0]['booking']; ?>">
                         </div>
                     </div>
                 </div>
+                <div class="span6">
+                    <div class="control-group">
+                    </div>
+                </div>
+            </div>
 
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Aduana</strong></label>

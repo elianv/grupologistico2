@@ -250,7 +250,7 @@
                                         <th>Guias</th>
                                         <th>Bodega</th>
                                         <th>Tramo</th>
-                                        <th> Fecha Presen.</th>
+                                        <th>Fecha Presen.</th>
                                         <th>Proveedor</th>
                                         <th>Fact. Proveedor</th>
                                         <th>P. Costo</th>

@@ -28,13 +28,19 @@
 			<div class="row show-grid">
 				<div class="span5">
 					<div class="control-group">
-						
-                                            <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
-                                            <div class="controls">
-                                                <?php echo "<div class='input-append'><input type='text' readonly class='span2' name='numero_orden' id='numero_orden' value=".$numero_orden."></div>"; ?>
-                                            </div>
-						
+                        <label class="control-label" for="numero_orden"><strong>O.S. N°</strong></label>
+                        <div class="controls">
+                            <?php echo "<div class='input-append'><input type='text' readonly class='span2' name='numero_orden' id='numero_orden' value=".$numero_orden."></div>"; ?>
+                        </div>
 					</div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="numero_orden"><strong>Fecha Creaci&oacute;n O.S. </strong></label>
+                        <div class="controls">
+                            <div class='input-append'><input type='text' readonly class='span2' value="<?php echo date("d-m-Y"); ?>"></div>
+                        </div>
+                    </div>
+
 					<div class="control-group">
 						<label class="control-label" for="referencia"><strong>Referencia</strong></label>
 						<div class="controls">

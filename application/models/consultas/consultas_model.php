@@ -11,7 +11,7 @@ Class consultas_model extends CI_Model{
 
 		$this->db->select('
 						    orden.id_orden,
-						    orden.fecha,
+						    orden.fecha_creacion,
 						    orden.referencia,
 						    orden.booking,
 						    orden.numero,
@@ -71,7 +71,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$this->db->where('orden.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
+			$this->db->where('orden.fecha_creacion between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
 		}
 
 		$result = $this->db->get();
@@ -85,7 +85,7 @@ Class consultas_model extends CI_Model{
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
-				    orden.fecha,
+				    orden.fecha_creacion,
 				    coalesce(SUM(detalle.valor_costo), 0) + coalesce(orden.valor_costo_tramo, 0) as total_neto,
 				    cliente.razon_social,
 				    coalesce(ordenes_facturas.factura_tramo, 'N/A') as factura_proveedor
@@ -110,7 +110,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " AND orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 
 		}
 		$sql .= " group by id_orden";
@@ -124,7 +124,7 @@ Class consultas_model extends CI_Model{
 
 		$sql = "select
 				    orden.id_orden,
-					orden.fecha,
+					orden.fecha_creacion,
 					orden.referencia,
 				    tipo_orden.tipo_orden,
 				    orden.numero as contenedor,
@@ -145,7 +145,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " AND orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 
 		}
 		$sql .= " group by id_orden";
@@ -161,7 +161,7 @@ Class consultas_model extends CI_Model{
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
-				    orden.fecha,
+				    orden.fecha_creacion,
 				    coalesce(SUM(detalle.valor_costo), 0) + coalesce(orden.valor_costo_tramo, 0) as total_neto,
 				    cliente.razon_social,
 					orden.numero as contenedor
@@ -183,7 +183,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " AND orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 		}
 
 		$sql .= " group by id_orden";
@@ -199,7 +199,7 @@ Class consultas_model extends CI_Model{
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
-				    orden.fecha,
+				    orden.fecha_creacion,
 				    coalesce(SUM(detalle.valor_costo), 0) + coalesce(orden.valor_costo_tramo, 0) as total_neto,
 				    cliente.razon_social,
 					orden.numero as contenedor
@@ -221,7 +221,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " AND orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 		}
 
 		$sql .= " group by id_orden";
@@ -237,7 +237,7 @@ Class consultas_model extends CI_Model{
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
-				    orden.fecha,
+				    orden.fecha_creacion,
 				    orden.numero as contenedor,
 				    orden.referencia,
 					tramo.descripcion as tramo
@@ -257,7 +257,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " AND orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 
 		}
 		$sql .= " group by id_orden";
@@ -273,7 +273,7 @@ Class consultas_model extends CI_Model{
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
-				    orden.fecha,
+				    orden.fecha_creacion,
 				    orden.numero as contenedor,
 				    orden.referencia,
 					tramo.descripcion as tramo
@@ -293,7 +293,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " AND orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 
 		}
 		$sql .= " group by id_orden";
@@ -305,7 +305,7 @@ Class consultas_model extends CI_Model{
 
 	public function ordenes_referencia($referencia, $desde = null, $hasta = null, $todas = null){
 		$sql =  "SELECT
-				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha, cliente.razon_social, orden.referencia_2
+				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha_creacion, cliente.razon_social, orden.referencia_2
 				FROM
 				    glc_sct.orden
 				        inner join
@@ -316,7 +316,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " AND orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 
 		}
 		$sql .= " group by id_orden";
@@ -328,7 +328,7 @@ Class consultas_model extends CI_Model{
 
 	public function ordenes_contenedor($contenedor, $desde = null, $hasta = null, $todas = null){
 		$sql =  "SELECT
-				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha, cliente.razon_social, orden.referencia_2
+				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha_creacion, cliente.razon_social, orden.referencia_2
 				FROM
 				    glc_sct.orden
 				        inner join
@@ -339,7 +339,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " AND orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 
 		}
 		$sql .= " group by id_orden";
@@ -355,7 +355,7 @@ Class consultas_model extends CI_Model{
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
-				    orden.fecha,
+				    orden.fecha_creacion,
 				    coalesce(SUM(detalle.valor_venta), 0) + coalesce(orden.valor_venta_tramo, 0) as total_neto,
 				    cliente.razon_social
 				from
@@ -372,7 +372,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " WHERE orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " WHERE orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 
 		}
 		$sql .= " group by id_orden";
@@ -386,7 +386,7 @@ Class consultas_model extends CI_Model{
 		$sql= 	"select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
-				    orden.fecha,
+				    orden.fecha_creacion,
 				    coalesce(SUM(detalle.valor_venta), 0) + coalesce(orden.valor_venta_tramo, 0) as total_neto,
 				    factura.numero_factura,
 				    factura.fecha as fecha_factura,
@@ -412,7 +412,7 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " AND orden.fecha between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " AND orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
 
 		}
 		$sql .= " group by id_orden ";
@@ -570,7 +570,7 @@ Class consultas_model extends CI_Model{
     	    						nave.nombre as nombre_nave,
     	    						orden.referencia,
     	    						orden.referencia_2,
-    							    orden.fecha,
+    							    orden.fecha_creacion,
     							    orden.mercaderia,
     							    orden.numero as contenedor,
 											bodega.nombre as nombre_bodega,

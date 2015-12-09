@@ -84,7 +84,7 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Fecha</th>
+                                        <th>Fecha Creaci&oacute;n</th>
                                         <th>Referencia</th>
                                         <th>Tipo Orden</th>
                                         <th>Contenedor</th>
@@ -97,7 +97,7 @@
                                     <?php foreach ($depositos_ as $retiro) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$retiro['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $retiro['id_orden']; ?></a></td>
-                                            <?php $fecha = new DateTime($retiro['fecha']); ?>
+                                            <?php $fecha = new DateTime($retiro['fecha_creacion']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>   
                                             <td><?php echo $retiro['referencia']; ?></td>
                                             <td><?php echo $retiro['tipo_orden']; ?></td>

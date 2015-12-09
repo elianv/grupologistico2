@@ -347,11 +347,11 @@
                                $cod_servicio = "";
                                $cod_servicio = explode("-",$servicio);
                                $detalle = array(
-                                            'id_detalle' => $id_detalle,
+                                            'id_detalle'               => $id_detalle,
                                             'servicio_codigo_servicio' => $servicio[0],
-                                            'orden_id_orden'=> $num_orden,
-                                            'valor_costo'=> $costo[$i],
-                                            'valor_venta'=> $venta[$i]
+                                            'orden_id_orden'           => $num_orden,
+                                            'valor_costo'              => str_replace(".", "", $costo[$i]),
+                                            'valor_venta'              => str_replace(".", "", $venta[$i])
                                );
                                $i = $i + 1;
                                $id_detalle = $id_detalle + 1;
@@ -930,7 +930,7 @@
             $orden[0]['camion'] = $camion[0];
             $orden[0]['chofer'] = $chofer[0];
             $orden[0]['fecha_presentacion'] = date("d-m-Y H:i",strtotime($orden[0]['fecha_presentacion']));
-            $orden[0]['fecha'] = date("d-m-Y H:i",strtotime($orden[0]['fecha']));
+            $orden[0]['fecha'] = date("d-m-Y H:i",strtotime($orden[0]['fecha_creacion']));
             
             for($j = 0;$j < count($detalles);$j++){
                 $orden[0]['detalle'][$j]  = $detalles[$j];

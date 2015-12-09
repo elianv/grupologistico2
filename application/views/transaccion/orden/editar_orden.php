@@ -86,7 +86,7 @@
                                                   echo "<a class='btn btn-success' target='_blank' href='".base_url()."index.php/transacciones/orden/formulario_editar/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Editar</a>";
                                           }
                                           echo "</td>";
-                                          echo "<td>".$orden['fecha']."</td>";                                                                                          
+                                          echo "<td>".$orden['fecha_creacion']."</td>";                                                                                          
                                           echo "</tr>";
                                       }
 

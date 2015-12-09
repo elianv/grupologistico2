@@ -88,7 +88,7 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Fecha</th>
+                                        <th>Fecha Creaci&oacute;n</th>
                                         <th>Referencia</th>
                                         <th>Tipo Orden</th>
                                         <th>Contenedor</th>
@@ -99,7 +99,7 @@
                                     <?php foreach ($clientes_ as $cliente) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$cliente['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $cliente['id_orden']; ?></a></td>
-                                            <?php $fecha = new DateTime($cliente['fecha']); ?>
+                                            <?php $fecha = new DateTime($cliente['fecha_creacion']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>                                            
                                             <td><?php echo $cliente['referencia']; ?></td>
                                             <td><?php echo $cliente['tipo_orden']; ?></td>

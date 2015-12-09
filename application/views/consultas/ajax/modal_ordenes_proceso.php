@@ -5,7 +5,7 @@
 			<th>N° Orden</th>
 			<th>Seleccionar</th>
 			<th>Cliente</th>
-			<th>Fecha</th>	
+			<th>Fecha Creaci&oacute;on</th>	
 		</tr>
 	</thead>
 	<tbody>
@@ -15,7 +15,7 @@
 							<td><?php echo $orden['id_orden']; ?></td>
 							<td align="center"><input type="checkbox" value="<?php echo $orden['id_orden']; ?>" name"ordenes[]"></td>
 							<td><?php echo $orden['razon_social']; ?></td>
-							<?php $fecha = new DateTime($orden['fecha']); ?>
+							<?php $fecha = new DateTime($orden['fecha_creacion']); ?>
 							<td><?php echo $fecha->format('d-m-Y'); ?></td>
 						</tr>
 				<?php } ?>

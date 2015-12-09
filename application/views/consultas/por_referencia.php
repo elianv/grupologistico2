@@ -1,4 +1,4 @@
-<legend><h3><center>Ordenes de Servicio por Lugar de Retiro</center></h3></legend> 
+<legend><h3><center>Ordenes de Servicio por Referencia</center></h3></legend> 
 
             <?php 
                 echo '<div class="container">';
@@ -68,7 +68,7 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Fecha</th>
+                                        <th>Fecha Creaci&oacute;n</th>
                                         <th>Referencia</th>
                                         <th>Referencia 2</th>
                                         <th>Contenedor</th>
@@ -80,7 +80,7 @@
                                     <?php foreach ($ordenes as $orden) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$orden['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $orden['id_orden']; ?></a></td>
-                                            <?php $fecha = new DateTime($orden['fecha']); ?>
+                                            <?php $fecha = new DateTime($orden['fecha_creacion']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>   
                                             <td><?php echo $orden['referencia']; ?></td>
                                             <td><?php echo $orden['referencia_2']; ?></td>
