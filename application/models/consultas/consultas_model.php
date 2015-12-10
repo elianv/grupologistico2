@@ -288,7 +288,7 @@ Class consultas_model extends CI_Model{
 						inner join
 					tramo ON tramo.codigo_tramo = orden.tramo_codigo_tramo
 				where
-				    orden.deposito_codigo_deposito like '%".$deposito."%' ";
+				    orden.deposito_codigo_deposito = ".$deposito." ";
 
 		if($todas == null){
 			$desde = new DateTime($desde);

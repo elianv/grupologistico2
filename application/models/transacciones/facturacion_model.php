@@ -209,6 +209,27 @@ class Facturacion_model extends CI_Model{
     	return $result->result_array();
     }
 
+    function getFacturabyFecha($desde = null, $hasta = null)
+    {
+        $this->db->select('numero_factura, id, fecha,')
+                    ->join('ordenes_facturas','ordenes_facturas.id_factura = factura.id','inner')
+                    ->join('orden','ordenes_facturas.id_orden = orden.id_orden','inner')
+                    ->join('cliente', 'orden.cliente_rut_cliente = cliente.rut_cliente', 'inner')
+                    ->join('estado_factura' , 'estado_factura.id_estado_factura = factura.estado_factura_id_estado_factura', 'inner');
+
+        if($desde && $hasta)
+        {
+            $desde = new DateTime($desde);
+            $hasta = new DateTime($hasta);
+            $this->db->where('factura.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
+        }
+
+        $result = $this->db->get('factura');
+
+        return $resul->result_array();
+
+    }
+
 }
 
 ?>

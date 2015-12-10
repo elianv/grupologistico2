@@ -54,6 +54,7 @@
 								<li class="divider"></li>							
 								<li><a href='<?php echo base_url("index.php/transacciones/facturacion"); ?>' >Crear Factura</a></li>
                                 <li><a href='<?php echo base_url("index.php/transacciones/facturacion/editar");?>' >Editar, Imprimir Factura</a></li>
+                                <li><a href='<?php echo base_url("index.php/transacciones/facturacion/realizadas");?>' >Realizadas</a></li>
 							</ul>
 						</li>  						   
 						<li class="dropdown">
@@ -200,6 +201,7 @@
 								<li class="divider"></li>							
 								<li><a href='<?php echo base_url("index.php/transacciones/facturacion"); ?>' >Crear Factura</a></li>
                                 <li><a href='<?php echo base_url("index.php/transacciones/facturacion/editar");?>' >Editar, Imprimir Factura</a></li>
+                                <li><a href='<?php echo base_url("index.php/transacciones/facturacion/realizadas");?>' >Realizadas</a></li>
 							</ul>
 						</li>  						   
 						<li class="dropdown">

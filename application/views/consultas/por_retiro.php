@@ -1,4 +1,4 @@
-<legend><h3><center>Ordenes de Servicio por Lugar de Retiro</center></h3></legend> 
+<legend><h3><center>Ordenes de Servicio por Dep&oacute;sito de Retiro</center></h3></legend> 
 
             <?php 
                 echo '<div class="container">';
