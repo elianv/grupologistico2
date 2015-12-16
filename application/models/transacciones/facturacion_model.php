@@ -211,7 +211,7 @@ class Facturacion_model extends CI_Model{
 
     function getFacturabyFecha($desde = null, $hasta = null)
     {
-        $this->db->select('numero_factura, id, fecha,')
+        $this->db->select('factura.`numero_factura`, factura.`id`, factura.`fecha`, estado_factura.tipo_factura, cliente.razon_social')
                     ->join('ordenes_facturas','ordenes_facturas.id_factura = factura.id','inner')
                     ->join('orden','ordenes_facturas.id_orden = orden.id_orden','inner')
                     ->join('cliente', 'orden.cliente_rut_cliente = cliente.rut_cliente', 'inner')
@@ -226,7 +226,7 @@ class Facturacion_model extends CI_Model{
 
         $result = $this->db->get('factura');
 
-        return $resul->result_array();
+        return $result->result_array();
 
     }
 

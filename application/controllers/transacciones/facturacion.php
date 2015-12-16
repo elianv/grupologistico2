@@ -446,6 +446,120 @@ class Facturacion extends CI_Controller{
         }
     }
 
+    public function realizadas()
+    {
+        if($this->session->userdata('logged_in')){
+            
+            $session_data   = $this->session->userdata('logged_in');
+            $data['tipo']   = 0;              
+
+            if ( isset($_POST['salida']) ) 
+            {
+
+                $time   = $this->input->post('time');
+
+                $this->load->library('form_validation');
+                $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
+                
+                if($time == 'fechas')
+                {
+                    $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
+                    $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
+                }
+
+                if($this->form_validation->run() == FALSE)
+                {      
+                    $this->load->view('include/head',$session_data);
+                    $this->load->view('transaccion/facturacion/realizadas', $data);
+                    $this->load->view('include/script');
+
+                }                
+                else
+                {
+                    
+                    $data['tipo']       = 1;
+
+                    if($time == 'fechas')
+                        $data['facturas']   = $this->facturacion_model->getFacturabyFecha($this->input->post('desde') , $this->input->post('hasta') );
+                    else
+                        $data['facturas']   = $this->facturacion_model->getFacturabyFecha( '' , '' );
+                    
+                    if($this->input->post('salida') == 'pantalla')
+                    {
+                        $this->load->view('include/head',$session_data);
+                        $this->load->view('transaccion/facturacion/realizadas', $data);
+                        $this->load->view('include/script');
+                    }
+                    else
+                    {
+                        $this->load->library('excel');
+                        $this->excel->setActiveSheetIndex(0);
+                        $this->excel->getActiveSheet()->setTitle('Facturas Realizadas');
+
+                        $this->excel->getActiveSheet()->setCellValue('A2', 'N°');
+                        $this->excel->getActiveSheet()->setCellValue('B2', 'Cliente');
+                        $this->excel->getActiveSheet()->setCellValue('C2', 'Estado Factura');
+                        $this->excel->getActiveSheet()->setCellValue('D2', 'Fecha');
+
+                        $this->excel->getActiveSheet()->getStyle('A2:D2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+
+                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
+                        $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
+                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setSize(8);
+                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setBold(true);                        
+                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setSize(8);
+                        $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setBold(true);
+                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setSize(8);
+                        $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setBold(true);
+
+                        foreach(range('A','D') as $columnID) {
+                            $this->excel->getActiveSheet()->getColumnDimension($columnID)
+                                ->setAutoSize(true);
+                        }                           
+
+                        $i = 3;                        
+                        foreach ($data['facturas'] as $orden) {
+
+                                    $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['numero_factura']);
+                                    $this->excel->getActiveSheet()->setCellValue('B'.$i,$orden['razon_social']);
+                                    $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['tipo_factura']);
+                                    $fecha = new DateTime($orden['fecha']);
+                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$fecha->format('d-m-Y'));                                                    
+                                    $i++;
+                         
+                        }
+
+                        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_BOTTOM);
+                        $filename='facturas_realizadas.xlsx'; //save our workbook as this file name
+                        header('Content-Type: application/vnd.ms-excel'); //mime type
+                        header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+                        header('Cache-Control: max-age=0'); //no cache
+                                    
+                        //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+                        //if you want to save it as .XLSX Excel 2007 format
+                        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
+                        //$objWriter->save("/temp/test1.xls");  
+                        //force user to download the Excel file without writing it to server's HD
+                        $objWriter->save('php://output');
+                    }
+                }
+            }
+
+            else{
+
+                $this->load->view('include/head',$session_data);
+                $this->load->view('transaccion/facturacion/realizadas', $data);
+                $this->load->view('include/script');
+
+            }
+            
+
+        }
+        else{
+            redirect('home','refresh');
+        }        
+    }
+
     function imprimir($numero = NULL , $opc = NULL){
         if($this->session->userdata('logged_in')){
 

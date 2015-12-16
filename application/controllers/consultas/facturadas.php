@@ -578,7 +578,7 @@
                             }
                             else{
                                 
-                                $id        = $this->input->post('retiro');
+                                $id        = $this->input->post('id');
                                 $salida    = $this->input->post('salida');
 
                                 if ($time == 'fechas'){

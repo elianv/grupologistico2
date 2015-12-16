@@ -612,9 +612,9 @@
                             }
                     }
 
-                    /* SI la orden esta facturable
+                    /*   SI la orden esta facturable
                        Tengo que editar la factura con los nuevos datos y valores.
-                    
+                    */
                     $orden_factura = $this->Orden_model->get_orden( $this->input->post('numero_orden') );
                     
                     if($orden_factura['id_estado_orden'] == 2){
@@ -632,9 +632,7 @@
                         $this->Facturacion_model->modificar_facturacion($factura, $factura['numero_factura']);
                         $this->Facturacion_model->eliminarServiciosOrdeneFactura($orden_factura['id']);
 
-
-
-                    } */
+                    } 
 
                     /*
                     Se guarda Registro de quien hace modificaciones en las ordenes.
