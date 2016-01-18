@@ -612,9 +612,9 @@
                             }
                     }
 
-                    /* SI la orden esta facturable
+                    /*   SI la orden esta facturable
                        Tengo que editar la factura con los nuevos datos y valores.
-                    
+                    */
                     $orden_factura = $this->Orden_model->get_orden( $this->input->post('numero_orden') );
                     
                     if($orden_factura['id_estado_orden'] == 2){
@@ -623,7 +623,7 @@
                         
                         $orden_factura      = $this->Facturacion_model->getOrdenFacturaByOrden( $orden_factura['id_orden'] );
                         $factura            = $this->Facturacion_model->getFacturabyId( $orden_factura['id_factura'] );
-                        $servicios_factura  = $this->Facturacion_model->getServicioOrdenFactura($orden_factura['id'])
+                        $servicios_factura  = $this->Facturacion_model->getServicioOrdenFactura($orden_factura['id']);
 
                         $factura = array(   'total_costo' => $costo_total,
                                             'total_venta' =>$venta_total
@@ -632,9 +632,7 @@
                         $this->Facturacion_model->modificar_facturacion($factura, $factura['numero_factura']);
                         $this->Facturacion_model->eliminarServiciosOrdeneFactura($orden_factura['id']);
 
-
-
-                    } */
+                    } 
 
                     /*
                     Se guarda Registro de quien hace modificaciones en las ordenes.
@@ -1321,7 +1319,7 @@
             $numero = $id;	
             //ob_end_clean();
  
-            $this->pdf->Output("Orden_de_Servicio_".$id.".pdf", 'D');
+            $this->pdf->Output("Orden_de_Servicio_".$id.".pdf", 'I');
         }
     }		
 			

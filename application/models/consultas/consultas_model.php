@@ -372,13 +372,13 @@ Class consultas_model extends CI_Model{
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
-			$sql .= " WHERE orden.fecha_creacion between '".$desde->format('Y-m-d')."' AND '".$hasta->format('Y-m-d')."'";
+			$sql .= " WHERE orden.fecha_creacion >= '".$desde->format('Y-m-d')." 00:00:01' AND orden.fecha_creacion <='".$hasta->format('Y-m-d')." 23:59:59'";
 
 		}
 		$sql .= " group by id_orden";
 
 		$result = $this->db->query($sql);
-
+		//var_dump($this->db->last_query());
 		return $result->result_array();
 	}
 
@@ -570,7 +570,7 @@ Class consultas_model extends CI_Model{
     	    						nave.nombre as nombre_nave,
     	    						orden.referencia,
     	    						orden.referencia_2,
-    							    orden.fecha_creacion,
+    							    orden.fecha_presentacion as fecha_creacion,
     							    orden.mercaderia,
     							    orden.numero as contenedor,
 											bodega.nombre as nombre_bodega,

@@ -79,7 +79,7 @@
                                           echo "<td>".strtoupper($orden['razon_social'])."</td>";
                                           echo "<td>".$orden['estado']."</td>";
                                           echo "<td>";
-                                          echo "<a class='btn btn-primary' href='".base_url()."index.php/transacciones/orden/pdf/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Imprimir</a>";
+                                          echo "<a class='btn btn-primary' target='_blank' href='".base_url()."index.php/transacciones/orden/pdf/".$orden['id_orden']."'><i class='icon-print icon-white'></i>Imprimir</a>";
                                           echo " ";
                                           if ($orden['id_estado_orden'] != 3 )
                                           {

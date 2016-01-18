@@ -4,12 +4,12 @@
 	<?php if(validation_errors()){ ?>
 	    <div class='alert alert alert-error' align=center>
 		    <a class='close' data-dismiss='alert'>×</a>
-		    echo validation_errors();
+		    <?php echo validation_errors(); ?>
 	    </div>
 	<?php } ?>
 </div>
 
-<form class="form-horizontal" id="formulario" method="post" action="<?php echo base_url('index.php/consultas/facturadas/realizadas')?>">
+<form class="form-horizontal" id="formulario" method="post" action="<?php echo base_url('index.php/transacciones/facturacion/realizadas')?>">
 	<fieldset>
 		<div class="row">
 			    <div class="span6 offset4">
@@ -58,6 +58,30 @@
 	</fieldset>
 </form>  
 <?php if($tipo){ ?>
+	<center><h2>Facturas Realizadas</h2></center>
+	<div class="container">
+            <table id="tabla-facturas-realizadas" class="table table-hover table-condensed table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>Cliente</th>
+                                <th>Estado Factura</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($facturas as $factura) { ?>
+                                <tr>
+                                    <td><a href=#"<?php //echo base_url('index.php/transacciones/orden/pdf/'.$facturas['id_orden'])?>" title="Para ver la Factura haga click"><?php echo $factura['numero_factura']; ?></a></td>
+                                    <td><?php echo $factura['razon_social']; ?></td>
+                                    <td><?php echo $factura['tipo_factura']; ?></td>
+                                    <?php $fecha = new DateTime($factura['fecha']); ?>
+                                    <td><?php echo $fecha->format('d-m-Y'); ?></td>                                            
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+            </table> 
+	</div>
 <?php } ?>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -88,6 +112,7 @@
 	        
 	        $("#porFechas").prop("checked", true);
 	        $('#fechas').show();
-	    });         	
+	    });
+	    $('#tabla-facturas-realizadas').dataTable();
     });
 </script>           
