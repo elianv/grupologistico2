@@ -135,6 +135,9 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Consultas<b class="caret"></b></a>
 							<ul class="dropdown-menu">
+								<li class="nav-header">Generar Datos</li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/resumen');?>">Resumen</a></li>
+								<li class="divider"></li>
 								<li class="nav-header">O.S por Otros</li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_cliente');?>">Clientes</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_proveedor');?>">Proveedor</a></li>
@@ -208,7 +211,10 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Consultas<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/master');?>">Generar Datos</a></li>
-								<li class="divider"></li>
+								<li class="nav-header">Generar Datos</li>
+								<li><a href="<?php echo base_url('index.php/consultas/facturadas/resumen');?>">Resumen</a></li>
+								<li class="divider"></li>								
+								
 								<li class="nav-header">O.S por Otros</li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_cliente');?>">Clientes</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_proveedor');?>">Proveedor</a></li>

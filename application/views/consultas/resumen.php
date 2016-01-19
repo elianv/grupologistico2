@@ -237,7 +237,7 @@
 			                                            <td><?php echo $factura['referencia_2']; ?></td>
 			                                            <td><?php echo $factura['mercaderia']; ?></td>
 			                                            <td><?php echo $factura['contenedor']; ?></td>
-                                                  <td><?php echo $factura['conductor']; ?></td>
+                                                  		<td><?php echo $factura['conductor']; ?></td>
 			                                            <td><?php echo $factura['nombre_bodega']; ?></td>
 			                                            <td><?php echo $factura['tramo']; ?></td>
 			                                            <?php $fecha = new DateTime($factura['fecha_presentacion']); ?>

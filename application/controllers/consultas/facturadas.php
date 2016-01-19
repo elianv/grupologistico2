@@ -1724,29 +1724,30 @@
                                 $this->excel->getActiveSheet()->setCellValue('E1', 'Referencia 2');
                                 $this->excel->getActiveSheet()->setCellValue('F1', 'Mercadería');
                                 $this->excel->getActiveSheet()->setCellValue('G1', 'Contenedor');
-                                $this->excel->getActiveSheet()->setCellValue('H1', 'Bodega');
-                                $this->excel->getActiveSheet()->setCellValue('I1', 'Tramo');
-                                $this->excel->getActiveSheet()->setCellValue('J1', 'Fecha Presentación');
-                                $this->excel->getActiveSheet()->setCellValue('K1', 'Proveedor');
-                                $this->excel->getActiveSheet()->setCellValue('L1', 'Observacion');
-                                $this->excel->getActiveSheet()->setCellValue('M1', 'Booking');
-                                $this->excel->getActiveSheet()->setCellValue('N1', 'Set Point');
-                                $this->excel->getActiveSheet()->setCellValue('O1', 'Peso');
-                                $this->excel->getActiveSheet()->setCellValue('P1', 'Puerto Destino');
-                                $this->excel->getActiveSheet()->setCellValue('Q1', 'Puerto Embarque');
+                                $this->excel->getActiveSheet()->setCellValue('H1', 'Conductor');
+                                $this->excel->getActiveSheet()->setCellValue('I1', 'Bodega');
+                                $this->excel->getActiveSheet()->setCellValue('J1', 'Tramo');
+                                $this->excel->getActiveSheet()->setCellValue('K1', 'Fecha Presentación');
+                                $this->excel->getActiveSheet()->setCellValue('L1', 'Proveedor');
+                                $this->excel->getActiveSheet()->setCellValue('M1', 'Observacion');
+                                $this->excel->getActiveSheet()->setCellValue('N1', 'Booking');
+                                $this->excel->getActiveSheet()->setCellValue('O1', 'Set Point');
+                                $this->excel->getActiveSheet()->setCellValue('P1', 'Peso');
+                                $this->excel->getActiveSheet()->setCellValue('Q1', 'Puerto Destino');
+                                $this->excel->getActiveSheet()->setCellValue('R1', 'Puerto Embarque');
                                 
 
 
-                                $this->excel->getActiveSheet()->getStyle('A1:Q1')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
+                                $this->excel->getActiveSheet()->getStyle('A1:R1')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
 
                                 $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(8);
                                 $this->excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
                                 $this->excel->getActiveSheet()->getStyle('B1')->getFont()->setSize(8);
                                 $this->excel->getActiveSheet()->getStyle('B1')->getFont()->setBold(true);                        
                                 $this->excel->getActiveSheet()->getStyle('C1')->getFont()->setSize(8);
-                                $this->excel->getActiveSheet()->getStyle('C1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('D1')->getFont()->setSize(8);
                                 $this->excel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);                                
-                                $this->excel->getActiveSheet()->getStyle('D1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('C1')->getFont()->setBold(true);
                                 $this->excel->getActiveSheet()->getStyle('E1')->getFont()->setSize(8);
                                 $this->excel->getActiveSheet()->getStyle('E1')->getFont()->setBold(true);                                
                                 $this->excel->getActiveSheet()->getStyle('F1')->getFont()->setSize(8);
@@ -1773,10 +1774,12 @@
                                 $this->excel->getActiveSheet()->getStyle('P1')->getFont()->setBold(true);
                                 $this->excel->getActiveSheet()->getStyle('Q1')->getFont()->setSize(8);
                                 $this->excel->getActiveSheet()->getStyle('Q1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('R1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('R1')->getFont()->setBold(true);                                
 
 
 
-                                foreach(range('A','Q') as $columnID) {
+                                foreach(range('A','R') as $columnID) {
                                     $this->excel->getActiveSheet()->getColumnDimension($columnID)
                                         ->setAutoSize(true);
                                 }                           
@@ -1791,17 +1794,18 @@
                                             $this->excel->getActiveSheet()->setCellValue('E'.$i,$factura['referencia_2']);
                                             $this->excel->getActiveSheet()->setCellValue('F'.$i,$factura['mercaderia']);
                                             $this->excel->getActiveSheet()->setCellValue('G'.$i,$factura['contenedor']);
-                                            $this->excel->getActiveSheet()->setCellValue('H'.$i,$factura['nombre_bodega']);
-                                            $this->excel->getActiveSheet()->setCellValue('I'.$i,$factura['tramo']);
+                                            $this->excel->getActiveSheet()->setCellValue('H'.$i,$factura['conductor']);
+                                            $this->excel->getActiveSheet()->setCellValue('I'.$i,$factura['nombre_bodega']);
+                                            $this->excel->getActiveSheet()->setCellValue('J'.$i,$factura['tramo']);
                                             $fecha = new DateTime($factura['fecha_presentacion']);
-                                            $this->excel->getActiveSheet()->setCellValue('J'.$i,$fecha->format('d-m-Y'));
-                                            $this->excel->getActiveSheet()->setCellValue('K'.$i,$factura['proveedor']);
-                                            $this->excel->getActiveSheet()->setCellValue('L'.$i,$factura['observacion']);
-                                            $this->excel->getActiveSheet()->setCellValue('M'.$i,$factura['booking']);
-                                            $this->excel->getActiveSheet()->setCellValue('N'.$i,$factura['set_point']);
-                                            $this->excel->getActiveSheet()->setCellValue('O'.$i,$factura['peso']);
-                                            $this->excel->getActiveSheet()->setCellValue('P'.$i,$factura['p_destino']);
-                                            $this->excel->getActiveSheet()->setCellValue('Q'.$i,$factura['p_embarque']);
+                                            $this->excel->getActiveSheet()->setCellValue('K'.$i,$fecha->format('d-m-Y'));
+                                            $this->excel->getActiveSheet()->setCellValue('L'.$i,$factura['proveedor']);
+                                            $this->excel->getActiveSheet()->setCellValue('M'.$i,$factura['observacion']);
+                                            $this->excel->getActiveSheet()->setCellValue('N'.$i,$factura['booking']);
+                                            $this->excel->getActiveSheet()->setCellValue('O'.$i,$factura['set_point']);
+                                            $this->excel->getActiveSheet()->setCellValue('P'.$i,$factura['peso']);
+                                            $this->excel->getActiveSheet()->setCellValue('Q'.$i,$factura['p_destino']);
+                                            $this->excel->getActiveSheet()->setCellValue('R'.$i,$factura['p_embarque']);
                                             
                                             
 
@@ -1810,7 +1814,7 @@
                                             foreach ($factura['otros_servicios'] as $otro_servicio) {
                                                 $this->excel->getActiveSheet()->setCellValue('A'.$j,$factura['id_orden']);
                                                 $fecha = new DateTime($factura['fecha_presentacion']);
-                                                $this->excel->getActiveSheet()->setCellValue('J'.$j,$fecha->format('d-m-Y'));  
+                                                $this->excel->getActiveSheet()->setCellValue('K'.$j,$fecha->format('d-m-Y'));  
                                                 $j++;
                                             }
                                             $i = $j;
