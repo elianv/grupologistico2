@@ -65,15 +65,16 @@ class Servicios_model extends CI_Model{
     }
 	
      function datos_servicio($rut) {
-			$this->db->select ();
-			$this->db->from('servicio');
-			$this->db->where('codigo_servicio',$rut);
+			$this->db->select('*')
+			         ->from('servicio')
+                     ->join('codigos_sistema', 'servicio.id_codigo_sistema = codigos_sistema.id')   
+			         ->where('codigo_servicio',$rut);
 			$resultado = $this->db->get();
 			
 			return $resultado->result_array();
         
     }     
-    
+
 }
 
 ?>

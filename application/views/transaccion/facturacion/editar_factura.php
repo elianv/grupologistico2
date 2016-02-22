@@ -36,6 +36,15 @@
                       </div>
     						  </div>
     		      </div>
+
+              <div class="control-group">
+                  <label class="control-label"><strong>OS N° MANAGER</strong></label>
+                  <div class="controls">
+                      <div class="input-append">
+                         <input type="text" class="span2" id="os_manager" value="<?php echo set_value('os_manager'); ?>" readonly >
+                      </div>
+                  </div>
+              </div>              
                     
               <div class="control-group">
                         <label class="control-label" for="numero_factura"><strong>Ordenes de Servicio</strong></label>

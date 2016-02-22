@@ -23,10 +23,10 @@ class Facturacion_model extends CI_Model{
     
     function insertar_facturacion($factura){
         
-        $this->db->trans_start();
         $this->db->insert('factura', $factura);
-        $this->db->trans_complete();
-        return $this->db->insert_id();
+        $insert_id = $this->db->insert_id();
+
+   return  $insert_id;
     }
     
     function insertar_orden_facturacion($orden){
@@ -97,10 +97,12 @@ class Facturacion_model extends CI_Model{
         }
     }
     
-    function datos_factura($numero_factura) {
+    function datos_factura($numero_factura , $os_manager = NULL) {
 			$this->db->select('*');
 			$this->db->from('factura');
 			$this->db->where('numero_factura',$numero_factura);
+            if($os_manager)
+                $this->db->where('os_manager', $os_manager);
 			$resultado = $this->db->get();
 			
 			return $resultado->result_array();
@@ -230,6 +232,17 @@ class Facturacion_model extends CI_Model{
 
     }
 
+    function manager($ws,$method)
+    {
+        $this->db->select('url, name, action')
+                 ->where('name' , $ws)
+                 ->where('method' , $method);
+        $query = $this->db->get('web_service');
+
+        return $query->result();
+    }    
+
 }
 
 ?>
+

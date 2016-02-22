@@ -10,13 +10,6 @@
 			parent::__construct();
 		}
 
-		function manager()
-		{
-			$this->db->select('url, name');
 
-			$query = $this->db->get('web_service');
-
-			return $query->result();
-		}
 	}
 ?>
