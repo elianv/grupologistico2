@@ -275,7 +275,7 @@ class Facturacion extends CI_Controller{
                                     </soapenv:Envelope>
                                     ';                                
                                     $cliente->send( $xml2 , $DetalleOS[0]->action);
-
+                                    
                                     $doc->loadXML( $cliente->responseData );
                                     
                                     $XMLresults2Detalle     = $doc->getElementsByTagName("Mensaje");
@@ -287,7 +287,7 @@ class Facturacion extends CI_Controller{
                                         $errorB .= '<br><strong>'.$XMLresults2Detalle->item(0)->nodeValue.'</strong>';
                                         
                                     }
-
+                                    
                                     foreach ($detalle_servicio as $det_servicio) {
                                     
                                     
@@ -304,7 +304,7 @@ class Facturacion extends CI_Controller{
                                                      <!--Optional:-->
                                                     <ven:codigoProducto>'.$serv_[0]['codigo_sistema'].'</ven:codigoProducto>
                                                     <ven:cantidad>1</ven:cantidad>
-                                                    <ven:precioUnitario>'.$orden[0]['valor_venta_tramo'].'</ven:precioUnitario>
+                                                    <ven:precioUnitario>'.$serv_[0]['valor_venta'].'</ven:precioUnitario>
                                                     <ven:cantidadDespachada>1</ven:cantidadDespachada>
                                                     <ven:descuento>0</ven:descuento>
                                                      <!--Optional:-->
@@ -321,7 +321,8 @@ class Facturacion extends CI_Controller{
                                                   </ven:IngresaDetalleDeNotaDeVenta>
                                                </soapenv:Body>
                                             </soapenv:Envelope>
-                                            ';                                
+                                            ';   
+                          
                                             $cliente->send( $xml2 , $DetalleOS[0]->action);
 
                                             $doc->loadXML( $cliente->responseData );
@@ -334,7 +335,7 @@ class Facturacion extends CI_Controller{
                                                 $flag2 ++;
                                                 $errorB .= '<br><strong>'.$XMLresults2Detalle->item(0)->nodeValue.'</strong>';
                                                 
-                                            }                                        
+                                            }                                   
                                     }
                             }
 
@@ -367,6 +368,7 @@ class Facturacion extends CI_Controller{
                     $theHTMLResponse['total_venta']  = "--";
                     $theHTMLResponse['cliente']      = "--";
                     $theHTMLResponse['factura']      = $factura[0];
+
 
                     $this->output->set_content_type('application/json');
                     $this->output->set_output(json_encode($theHTMLResponse));
@@ -437,6 +439,7 @@ class Facturacion extends CI_Controller{
                     $theHTMLResponse['total_venta']  = $detalle['total_venta'];
                     $theHTMLResponse['cliente']      = $rut_cliente." - ".$nombre_cliente[0]['razon_social'];
                     $theHTMLResponse['factura']      = $factura[0];
+                    $theHTMLResponse['factura']['os_manager']      = $factura[0]['id'];
 
                     $this->output->set_content_type('application/json');
                     $this->output->set_output(json_encode($theHTMLResponse));

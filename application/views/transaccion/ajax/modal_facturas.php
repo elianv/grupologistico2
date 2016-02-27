@@ -1,4 +1,3 @@
-
 <div class="tabla-facturas">
 <table id="tabla-facturas" class="table table-bordered table-striped dataTable">
 	<thead>
@@ -13,8 +12,8 @@
 	<tbody>
 		<?php foreach ($facturas as $factura) { ?>
 			<tr>
-				<td><a class="codigo-click" data-codigo="<?php echo $factura['numero_factura']; ?>" data-os="<?php echo $factura['os_manager']; ?>" ><?php echo $factura['numero_factura']; ?></a></td>
-				<td><?php echo $factura['os_manager']; ?></td>
+				<td><a class="codigo-click" data-codigo="<?php echo $factura['numero_factura']; ?>" data-os="<?php echo $factura['id']; ?>" ><?php echo $factura['numero_factura']; ?></a></td>
+				<td><?php echo $factura['id']; ?></td>
 				<td><?php echo $factura['cliente']; ?></td>
 				 <?php $date = date_create($factura['fecha']); ?>
 				<td><?php echo date_format($date, 'd-m-Y'); ?></td>

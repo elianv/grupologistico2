@@ -102,7 +102,7 @@ class Facturacion_model extends CI_Model{
 			$this->db->from('factura');
 			$this->db->where('numero_factura',$numero_factura);
             if($os_manager)
-                $this->db->where('os_manager', $os_manager);
+                $this->db->where('id', $os_manager);
 			$resultado = $this->db->get();
 			
 			return $resultado->result_array();
