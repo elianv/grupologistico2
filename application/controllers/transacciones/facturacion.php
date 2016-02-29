@@ -103,6 +103,7 @@ class Facturacion extends CI_Controller{
                         $ordenes_detalle      = $this->input->post('id_orden_detalle');
                         $i = 0;
                         $k = 0;
+
                         foreach ($ordenes as $orden) {
 
                             $fecha_factura_tramo[$i] = str_replace('/','-', $fecha_factura_tramo[$i]);
@@ -166,7 +167,8 @@ class Facturacion extends CI_Controller{
                             $flag1   = 0;                 
                             $flag2   = 0;            
                             $errorH  = '<strong>Mensaje Manager: </strong>';
-                            $errorB  = '<strong>Mensaje Manager: </strong>';     
+                            $errorB  = '<strong>Mensaje Manager: </strong>';
+                            $observaciones = '';     
 
                             $xml = '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ven="http://manager.cl/ventas/">
                                        <soap:Header/>
@@ -204,7 +206,7 @@ class Facturacion extends CI_Controller{
                                              <!--Optional:-->
                                              <ven:observacionesNv>XML</ven:observacionesNv>
                                              <!--Optional:-->
-                                             <ven:observacionesFormaPago>Efectiuvo</ven:observacionesFormaPago>
+                                             <ven:observacionesFormaPago>Efectivo</ven:observacionesFormaPago>
                                              <!--Optional:-->
                                              <ven:observacionesGdv>0</ven:observacionesGdv>
                                              <!--Optional:-->
@@ -238,60 +240,90 @@ class Facturacion extends CI_Controller{
                             $DetalleOS          = $this->facturacion_model->manager("manager" , "detalle");
                             $ordenes_facturas   = $this->facturacion_model->getOrdenes($id_factura);
 
-                            
-
                             foreach ($ordenes_facturas as $o_facturas) {
-                                    
+
+
                                     $orden            = $this->orden_model->get_orden($o_facturas['id_orden']);
                                     $detalle_servicio = $this->orden_model->getDetalleByOrdenId($orden[0]['id_orden']);
+                                    
+                                    if($orden[0]['tramo_codigo_tramo'] > 0)
+                                    {
 
-                                    $xml2 = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ven="http://manager.cl/ventas/">
-                                       <soapenv:Header/>
-                                       <soapenv:Body>
-                                          <ven:IngresaDetalleDeNotaDeVenta>
-                                             <!--Optional:-->
-                                            <ven:rutEmpresa>76010628-3</ven:rutEmpresa>
-                                            <ven:numNota>'.$catch_factura[0]["id"].'</ven:numNota>
-                                            <ven:fecha>'.$fechaOS.'</ven:fecha>
-                                             <!--Optional:-->
-                                            <ven:codigoProducto>1001</ven:codigoProducto>
-                                            <ven:cantidad>1</ven:cantidad>
-                                            <ven:precioUnitario>'.$orden[0]['valor_venta_tramo'].'</ven:precioUnitario>
-                                            <ven:cantidadDespachada>1</ven:cantidadDespachada>
-                                            <ven:descuento>0</ven:descuento>
-                                             <!--Optional:-->
-                                            <ven:codigoCtaCble>310101001</ven:codigoCtaCble>
-                                             <!--Optional:-->
-                                            <ven:codigoCentroCosto>1001</ven:codigoCentroCosto>
-                                            <ven:estado>0</ven:estado>
-                                             <!--Optional:-->
-                                            <ven:codigoBodega>0</ven:codigoBodega>
-                                            <ven:facturable>0</ven:facturable>
-                                            <ven:despachable>0</ven:despachable>
-                                             <!--Optional:-->
-                                            <ven:codigoPersonal>ADM</ven:codigoPersonal>
-                                          </ven:IngresaDetalleDeNotaDeVenta>
-                                       </soapenv:Body>
-                                    </soapenv:Envelope>
-                                    ';                                
-                                    $cliente->send( $xml2 , $DetalleOS[0]->action);
+                                        $tramo_ = $this->tramos_model->datos_tramo($orden[0]['tramo_codigo_tramo']);
+
+                                        if($orden[0]['tipo_orden_id_tipo_orden'] == 6)
+                                        {
+                                            $T_ORDEN = 'Exportacion';
+                                        }
+                                        switch ($orden[0]['tipo_orden_id_tipo_orden']) {
+                                            case 5:
+                                                $T_ORDEN = 'EXPORTACION';
+                                                break;
+                                            case 6:
+                                                $T_ORDEN = 'IMPORTACION';
+                                                break;
+                                            case 7:
+                                                $T_ORDEN = 'NACIONAL';
+                                                break;                                            
+                                            case 8:
+                                                $T_ORDEN = 'OTRO SERVICIO';
+                                                break;                                            
+                                            default:
+                                                $T_ORDEN = '';
+                                                break;
+                                        }
+                                        $observaciones .= 'OS/'.$o_facturas['id_orden'].' - '.$T_ORDEN.' - '.str_replace("\n", " ", $tramo_[0]['descripcion'])."\n";
                                     
-                                    $doc->loadXML( $cliente->responseData );
-                                    
-                                    $XMLresults2Detalle     = $doc->getElementsByTagName("Mensaje");
-                                    $XMLresultsDetalle     = $doc->getElementsByTagName("Error");
-                                    
-                                    $codWS = $XMLresults->item(0)->nodeValue;
-                                    if($codWS != '0' ){
-                                        $flag2 ++;
-                                        $errorB .= '<br><strong>'.$XMLresults2Detalle->item(0)->nodeValue.'</strong>';
+
+                                        $xml2 = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ven="http://manager.cl/ventas/">
+                                           <soapenv:Header/>
+                                           <soapenv:Body>
+                                              <ven:IngresaDetalleDeNotaDeVenta>
+                                                 <!--Optional:-->
+                                                <ven:rutEmpresa>76010628-3</ven:rutEmpresa>
+                                                <ven:numNota>'.$catch_factura[0]["id"].'</ven:numNota>
+                                                <ven:fecha>'.$fechaOS.'</ven:fecha>
+                                                 <!--Optional:-->
+                                                <ven:codigoProducto>1001</ven:codigoProducto>
+                                                <ven:cantidad>1</ven:cantidad>
+                                                <ven:precioUnitario>'.$orden[0]['valor_venta_tramo'].'</ven:precioUnitario>
+                                                <ven:cantidadDespachada>1</ven:cantidadDespachada>
+                                                <ven:descuento>0</ven:descuento>
+                                                 <!--Optional:-->
+                                                <ven:codigoCtaCble>310101001</ven:codigoCtaCble>
+                                                 <!--Optional:-->
+                                                <ven:codigoCentroCosto>1001</ven:codigoCentroCosto>
+                                                <ven:estado>0</ven:estado>
+                                                 <!--Optional:-->
+                                                <ven:codigoBodega>0</ven:codigoBodega>
+                                                <ven:facturable>0</ven:facturable>
+                                                <ven:despachable>0</ven:despachable>
+                                                 <!--Optional:-->
+                                                <ven:codigoPersonal>ADM</ven:codigoPersonal>
+                                              </ven:IngresaDetalleDeNotaDeVenta>
+                                           </soapenv:Body>
+                                        </soapenv:Envelope>
+                                        ';                                
+                                        $cliente->send( $xml2 , $DetalleOS[0]->action);
                                         
+                                        $doc->loadXML( $cliente->responseData );
+                                        
+                                        $XMLresults2Detalle     = $doc->getElementsByTagName("Mensaje");
+                                        $XMLresultsDetalle     = $doc->getElementsByTagName("Error");
+                                        
+                                        $codWS = $XMLresults->item(0)->nodeValue;
+                                        if($codWS != '0' ){
+                                            $flag2 ++;
+                                            $errorB .= '<br><strong>'.$XMLresults2Detalle->item(0)->nodeValue.'</strong>';
+                                            
+                                        }
                                     }
-                                    
                                     foreach ($detalle_servicio as $det_servicio) {
                                     
                                     
                                             $serv_ = $this->servicios_model->datos_servicio($det_servicio['servicio_codigo_servicio']);
+                                        
+                                            $observaciones .= 'OS/'.$o_facturas['id_orden'].' - OTROS SERVICIOS - '.str_replace("\n", " ", $serv_[0]['descripcion'])."\n";
 
                                             $xml2 = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ven="http://manager.cl/ventas/">
                                                <soapenv:Header/>
@@ -338,6 +370,74 @@ class Facturacion extends CI_Controller{
                                             }                                   
                                     }
                             }
+
+                            //ACUTALIZO LA CABECERA PARA INGRESAR OBSERVACIONES
+
+                            $xml = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ven="http://manager.cl/ventas/">
+                                       <soapenv:Header/>
+                                       <soapenv:Body>
+                                          <ven:ActualizaCabeceraDeNotaDeVenta>
+                                             <!--Optional:-->
+                                             <ven:rutEmpresa>76010628-3</ven:rutEmpresa>
+                                             <ven:numNota>'.$catch_factura[0]["id"].'</ven:numNota>
+                                             <!--Optional:-->
+                                             <ven:fecha>'.$fechaOS.'</ven:fecha>
+                                             <!--Optional:-->
+                                             <ven:rutFacA>76010628-3</ven:rutFacA>
+                                             <!--Optional:-->
+                                             <ven:rutCliente>'.str_replace("." , "", $RUTcliente[0]).'</ven:rutCliente>
+                                             <!--Optional:-->
+                                             <ven:codigoVendedor>ADM</ven:codigoVendedor>
+                                             <!--Optional:-->
+                                             <ven:glosaPago>0</ven:glosaPago>
+                                             <!--Optional:-->
+                                             <ven:codigoSucursal>0</ven:codigoSucursal>
+                                             <!--Optional:-->
+                                             <ven:tipoVenta>0</ven:tipoVenta>
+                                             <!--Optional:-->
+                                             <ven:ocNum>1</ven:ocNum>
+                                             <!--Optional:-->
+                                             <ven:codigoMoneda>$</ven:codigoMoneda>
+                                             <ven:comision>0</ven:comision>
+                                             <ven:pagoA>0</ven:pagoA>
+                                             <ven:descuentoTipo>0</ven:descuentoTipo>
+                                             <ven:descuento>0</ven:descuento>
+                                             <ven:aprobado>0</ven:aprobado>
+                                             <ven:contratoArriendo>0</ven:contratoArriendo>
+                                             <!--Optional:-->
+                                             <ven:formaPago>Efectivo</ven:formaPago>
+                                             <!--Optional:-->
+                                             <ven:observacionesNv>'.$observaciones.'</ven:observacionesNv>
+                                             <!--Optional:-->
+                                             <ven:observacionesFormaPago>Efectivo</ven:observacionesFormaPago>
+                                             <!--Optional:-->
+                                             <ven:observacionesGdv>0</ven:observacionesGdv>
+                                             <!--Optional:-->
+                                             <ven:observacionesFactura>0</ven:observacionesFactura>
+                                             <!--Optional:-->
+                                             <ven:atencionA>0</ven:atencionA>
+                                             <!--Optional:-->
+                                             <ven:obra>0</ven:obra>
+                                             <!--Optional:-->
+                                             <ven:codigoPersonal>ADM</ven:codigoPersonal>
+                                          </ven:ActualizaCabeceraDeNotaDeVenta>
+                                       </soapenv:Body>
+                                    </soapenv:Envelope>';
+                            $actualizar = $this->facturacion_model->manager("manager" , "cabeceraactualizar");
+                            $cliente->send( $xml , $actualizar[0]->action);
+                            
+                            $doc = new DOMDocument('1.0', 'utf-8');
+                            $doc->loadXML( $cliente->responseData );
+                            
+                            $XMLresults2     = $doc->getElementsByTagName("Mensaje");
+                            $XMLresults     = $doc->getElementsByTagName("Error");
+                            
+                            $codWS = $XMLresults->item(0)->nodeValue;
+                            $errorH .= '<br><strong>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';
+                            
+                            if($codWS != '0' ){
+                                $flag1 = 1;
+                            }                            
 
                             if( $flag1 || $flag2 )
                                 if($flag1)
