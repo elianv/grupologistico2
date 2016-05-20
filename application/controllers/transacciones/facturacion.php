@@ -198,16 +198,16 @@ class Facturacion extends CI_Controller{
                                              <ven:codigoMoneda>$</ven:codigoMoneda>
                                              <ven:comision>0</ven:comision>
                                              <ven:pagoA>0</ven:pagoA>
-                                             <ven:descuentoTipo>0</ven:descuentoTipo>
+                                             <ven:descuentoTipo>1</ven:descuentoTipo>
                                              <ven:descuento>0</ven:descuento>
                                              <ven:aprobado>0</ven:aprobado>
                                              <ven:contratoArriendo>0</ven:contratoArriendo>
                                              <!--Optional:-->
-                                             <ven:formaPago>Efectivo</ven:formaPago>
+                                             <ven:formaPago>2</ven:formaPago>
                                              <!--Optional:-->
                                              <ven:observacionesNv>SIN OBSERVACIONES</ven:observacionesNv>
                                              <!--Optional:-->
-                                             <ven:observacionesFormaPago>Efectivo</ven:observacionesFormaPago>
+                                             <ven:observacionesFormaPago>30 dias</ven:observacionesFormaPago>
                                              <!--Optional:-->
                                              <ven:observacionesGdv>0</ven:observacionesGdv>
                                              <!--Optional:-->
@@ -223,6 +223,7 @@ class Facturacion extends CI_Controller{
                                     </soap:Envelope>
                             ';
                             $cliente->send( $xml , $datosWS[0]->action);
+                            
                             
                             $doc = new DOMDocument('1.0', 'utf-8');
                             $doc->loadXML( $cliente->responseData );
@@ -308,6 +309,7 @@ class Facturacion extends CI_Controller{
                                                     <ven:codigoBodega>0</ven:codigoBodega>
                                                     <ven:facturable>0</ven:facturable>
                                                     <ven:despachable>0</ven:despachable>
+                                                    <ven:fechaEntrega>'.$fechaOS.'</ven:fechaEntrega>
                                                      <!--Optional:-->
                                                     <ven:codigoPersonal>ADM</ven:codigoPersonal>
                                                   </ven:IngresaDetalleDeNotaDeVenta>
@@ -360,6 +362,7 @@ class Facturacion extends CI_Controller{
                                                     <ven:codigoBodega>0</ven:codigoBodega>
                                                     <ven:facturable>0</ven:facturable>
                                                     <ven:despachable>0</ven:despachable>
+                                                    <ven:fechaEntrega>'.$fechaOS.'</ven:fechaEntrega>
                                                      <!--Optional:-->
                                                     <ven:codigoPersonal>ADM</ven:codigoPersonal>
                                                   </ven:IngresaDetalleDeNotaDeVenta>
@@ -412,16 +415,16 @@ class Facturacion extends CI_Controller{
                                              <ven:codigoMoneda>$</ven:codigoMoneda>
                                              <ven:comision>0</ven:comision>
                                              <ven:pagoA>0</ven:pagoA>
-                                             <ven:descuentoTipo>0</ven:descuentoTipo>
+                                             <ven:descuentoTipo>1</ven:descuentoTipo>
                                              <ven:descuento>0</ven:descuento>
                                              <ven:aprobado>0</ven:aprobado>
                                              <ven:contratoArriendo>0</ven:contratoArriendo>
                                              <!--Optional:-->
-                                             <ven:formaPago>Efectivo</ven:formaPago>
+                                             <ven:formaPago>2</ven:formaPago>
                                              <!--Optional:-->
                                              <ven:observacionesNv>0</ven:observacionesNv>
                                              <!--Optional:-->
-                                             <ven:observacionesFormaPago>Efectivo</ven:observacionesFormaPago>
+                                             <ven:observacionesFormaPago>30 dias</ven:observacionesFormaPago>
                                              <!--Optional:-->
                                              <ven:observacionesGdv>0</ven:observacionesGdv>
                                              <!--Optional:-->
@@ -460,6 +463,7 @@ class Facturacion extends CI_Controller{
                                 $this->session->set_flashdata('mensaje','<strong>Se cargo al ERP MANGER la OS N° '.$catch_factura[0]["id"].'</strong>.<br> Facturación guardada con éxito SCT.');        
                         }
                         
+
                         redirect('transacciones/facturacion','refresh');
                 }
             }
@@ -490,7 +494,8 @@ class Facturacion extends CI_Controller{
                     $ordenes  = $this->facturacion_model->getOrdenes($factura[0]['id']);
 
                     $i = 0;
-                    $totales                 = $this->facturacion_model->valor_factura($this->input->post('num_factura'));
+                    $totales                 = $this->facturacion_model->valor_factura($this->input->post('os_manager'));
+
                     $detalle['total_venta']  = $totales[0]['total_venta'];
                     $detalle['total_compra'] = $totales[0]['total_costo'];
                     foreach ($ordenes as $orden) {

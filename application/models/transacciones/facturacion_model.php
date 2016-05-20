@@ -184,10 +184,10 @@ class Facturacion_model extends CI_Model{
                 left join ordenes_facturas ON ordenes_facturas.id_factura = factura.id
                 left join detalle ON ordenes_facturas.id_orden = detalle.orden_id_orden
                 left join orden ON orden.id_orden = ordenes_facturas.id_orden
-                where factura.numero_factura =".$id_factura;
+                where factura.id =".$id_factura;
 
         $query = $this->db->query($sql);
-
+        
         return $query->result_array();
     }
 
