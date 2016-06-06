@@ -617,13 +617,13 @@
                     */
                     $orden_factura = $this->Orden_model->get_orden( $this->input->post('numero_orden') );
                     
-                    if($orden_factura['id_estado_orden'] == 2){
+                    if($orden_factura[0]['id_estado_orden'] == 2){
                         
                         $this->load->model('transacciones/Facturacion_model');
                         
-                        $orden_factura      = $this->Facturacion_model->getOrdenFacturaByOrden( $orden_factura['id_orden'] );
-                        $factura            = $this->Facturacion_model->getFacturabyId( $orden_factura['id_factura'] );
-                        $servicios_factura  = $this->Facturacion_model->getServicioOrdenFactura($orden_factura['id']);
+                        $orden_factura      = $this->Facturacion_model->getOrdenFacturaByOrden( $orden_factura[0]['id_orden'] );
+                        $factura            = $this->Facturacion_model->getFacturabyId( $orden_factura[0]['id_factura'] );
+                        $servicios_factura  = $this->Facturacion_model->getServicioOrdenFactura($orden_factura[0]['id']);
 
                         $factura = array(   'total_costo' => $costo_total,
                                             'total_venta' =>$venta_total

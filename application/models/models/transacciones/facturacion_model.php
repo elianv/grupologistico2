@@ -133,7 +133,7 @@ class Facturacion_model extends CI_Model{
     function getOrdenes($id_factura){
         $this->db->select('*');
         $this->db->from('ordenes_facturas');
-        $this->db->where('id_factura',$id_factura);
+        $this->db->where('id_ordenes_facturas',$id_factura);
         $resultado = $this->db->get();
             
         return $resultado->result_array();

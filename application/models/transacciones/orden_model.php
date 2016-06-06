@@ -56,7 +56,7 @@ class Orden_model extends CI_Model{
 	
     function get_orden($id_orden){
 		
-		$this->db->select();
+		$this->db->select('*');
 		$this->db->from('orden');
 		$this->db->where('id_orden',$id_orden);
 		$result = $this->db->get();

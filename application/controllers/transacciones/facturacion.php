@@ -187,17 +187,17 @@ class Facturacion extends CI_Controller{
                                              <!--Optional:-->
                                              <ven:codigoVendedor>ADM</ven:codigoVendedor>
                                              <!--Optional:-->
-                                             <ven:glosaPago>0</ven:glosaPago>
+                                             <ven:glosaPago>2</ven:glosaPago>
                                              <!--Optional:-->
-                                             <ven:codigoSucursal>0</ven:codigoSucursal>
+                                             <ven:codigoSucursal>1</ven:codigoSucursal>
                                              <!--Optional:-->
                                              <ven:tipoVenta>0</ven:tipoVenta>
                                              <!--Optional:-->
-                                             <ven:ocNum>0</ven:ocNum>
+                                             
                                              <!--Optional:-->
                                              <ven:codigoMoneda>$</ven:codigoMoneda>
                                              <ven:comision>0</ven:comision>
-                                             <ven:pagoA>0</ven:pagoA>
+                                             <ven:pagoA>30 (dias)</ven:pagoA>
                                              <ven:descuentoTipo>1</ven:descuentoTipo>
                                              <ven:descuento>0</ven:descuento>
                                              <ven:aprobado>0</ven:aprobado>
@@ -404,17 +404,17 @@ class Facturacion extends CI_Controller{
                                              <!--Optional:-->
                                              <ven:codigoVendedor>ADM</ven:codigoVendedor>
                                              <!--Optional:-->
-                                             <ven:glosaPago>0</ven:glosaPago>
+                                             <ven:glosaPago>2</ven:glosaPago>
                                              <!--Optional:-->
-                                             <ven:codigoSucursal>0</ven:codigoSucursal>
+                                             <ven:codigoSucursal>1</ven:codigoSucursal>
                                              <!--Optional:-->
                                              <ven:tipoVenta>0</ven:tipoVenta>
                                              <!--Optional:-->
-                                             <ven:ocNum>0</ven:ocNum>
+                                             
                                              <!--Optional:-->
                                              <ven:codigoMoneda>$</ven:codigoMoneda>
                                              <ven:comision>0</ven:comision>
-                                             <ven:pagoA>0</ven:pagoA>
+                                             <ven:pagoA>30 (dias)</ven:pagoA>
                                              <ven:descuentoTipo>1</ven:descuentoTipo>
                                              <ven:descuento>0</ven:descuento>
                                              <ven:aprobado>0</ven:aprobado>
@@ -463,7 +463,7 @@ class Facturacion extends CI_Controller{
                                 $this->session->set_flashdata('mensaje','<strong>Se cargo al ERP MANGER la OS N° '.$catch_factura[0]["id"].'</strong>.<br> Facturación guardada con éxito SCT.');        
                         }
                         
-
+                        //$this->session->set_flashdata('mensaje','Facturación guardada con éxito SCT. <br><strong>NUMERO '.$catch_factura[0]["id"].'</strong>'); 
                         redirect('transacciones/facturacion','refresh');
                 }
             }
@@ -524,14 +524,14 @@ class Facturacion extends CI_Controller{
                                 $servicios                               = $detalle['ordenes'][$i]['detalle'];
 
                                 $j = 0;
-                                foreach ( $servicios as $servicio) {
+                                
 
+                                foreach ( $servicios as $servicio) {
+                                    
                                     $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
                                     $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
                                     $serv_odn_factura                                     = $this->facturacion_model->getServicioOrdenFactura($orden['id']);
-                                    //print_r($orden);
-                                    //print_r($serv_odn_factura);
-                                    $proveedor                                            = $this->proveedores_model->datos_proveedor($serv_odn_factura[0]['proveedor_rut_proveedor']);
+                                    $proveedor                                            = $this->proveedores_model->datos_proveedor($serv_odn_factura[$j]['proveedor_rut_proveedor']);
 
                                     $detalle['ordenes'][$i]['detalle'][$j]['factura']     = $serv_odn_factura[0]['factura_numero_factura'];
                                     $detalle['ordenes'][$i]['detalle'][$j]['fecha']       = $serv_odn_factura[0]['fecha_factura_servicio'];
