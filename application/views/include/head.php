@@ -3,6 +3,7 @@
 <html>
     <head>
     	<script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/jquery.js"></script>
+    	
         <style>
             body {padding-top: 40px;}
         </style>
@@ -54,6 +55,7 @@
 								<li class="divider"></li>							
 								<li><a href='<?php echo base_url("index.php/transacciones/facturacion"); ?>' >Crear Factura</a></li>
                                 <li><a href='<?php echo base_url("index.php/transacciones/facturacion/editar");?>' >Editar, Imprimir Factura</a></li>
+                                <li><a href='<?php echo base_url("index.php/transacciones/facturacion/reFacturar"); ?>' >Reintentar Facturar</a></li>
                                 <li><a href='<?php echo base_url("index.php/transacciones/facturacion/realizadas");?>' >Realizadas</a></li>
 							</ul>
 						</li>  						   
@@ -204,6 +206,7 @@
 								<li class="divider"></li>							
 								<li><a href='<?php echo base_url("index.php/transacciones/facturacion"); ?>' >Crear Factura</a></li>
                                 <li><a href='<?php echo base_url("index.php/transacciones/facturacion/editar");?>' >Editar, Imprimir Factura</a></li>
+                                <li><a href='<?php echo base_url("index.php/transacciones/facturacion/reFacturar"); ?>' >Reintentar Facturar</a></li>
                                 <li><a href='<?php echo base_url("index.php/transacciones/facturacion/realizadas");?>' >Realizadas</a></li>
 							</ul>
 						</li>  						   

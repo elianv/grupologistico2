@@ -203,7 +203,7 @@ class Facturacion_model extends CI_Model{
 
     function getFacturabyId($id)
     {
-    	$this->db->select('id,numero_factura')
+    	$this->db->select("id,numero_factura,DATE_FORMAT(fecha,'%d-%m-%Y') as fecha")
     			->where('id',$id);
 
     	$result = $this->db->get('factura');
@@ -226,10 +226,90 @@ class Facturacion_model extends CI_Model{
             $this->db->where('factura.fecha between "'.$desde->format('Y-m-d').'" AND "'.$hasta->format('Y-m-d').'"');
         }
 
-        $result = $this->db->get('factura');
+        $result = $this->db->get('factura', 10, 20);
 
         return $result->result_array();
 
+    }
+
+    function getFacturasPendientes($desde,$limit,$where=null,$order=null,$by=null,$count=0)
+    {
+        
+        switch ($by) {
+            case 0:
+                $valor = 'factura.id';
+            break;
+            case 1:
+                $valor = 'factura.id';
+            break;
+            case 2:
+                $valor = 'cliente';
+            break;
+            case 3:
+                $valor = 'factura.fecha';
+            break;
+
+        }
+        
+
+        $sql = "SELECT CONCAT(\"<input type='checkbox' name='select' value=' \", factura.id, \" ' > \" ) boton, factura.id, factura.numero_factura, DATE_FORMAT(factura.fecha,'%d-%m-%Y') as fecha, cliente.razon_social as cliente
+                    FROM (factura)
+                    INNER JOIN ordenes_facturas ON ordenes_facturas.id_factura = factura.id
+                    INNER JOIN orden ON ordenes_facturas.id_orden = orden.id_orden
+                    INNER JOIN cliente ON orden.cliente_rut_cliente = cliente.rut_cliente
+                    WHERE numero_factura = 0
+                    AND estado_factura_id_estado_factura = 1 ";
+        if($where)
+        {
+            $sql .= 'AND ( CAST(factura.id as CHAR) like "%'.$where.'%" OR cliente.razon_social like "%'.$where.'%"  OR CAST(factura.fecha as CHAR) like "%'.$where.'%" ) ';
+        }                    
+        
+        $sql .= "ORDER BY {$valor} {$order} ";
+        
+        if(!$count)            
+            $sql .= "limit  {$desde}, {$limit} ";        
+
+        $query = $this->db->query($sql);
+        
+
+        if(!$count){
+            //var_dump($this->db->last_query());
+            return $query->result_array();                             
+        }
+            
+        else 
+            return $query->num_rows();
+    }
+
+    function getFacturaOrden($id_factura)
+    {
+        $sql = $this->db->query("
+            SELECT 
+                DATE_FORMAT(f.fecha, \"%d-%m-%Y\") fecha,
+                or_f.factura_tramo,
+                or_f.id_orden,
+                o.cliente_rut_cliente,
+                o.valor_venta_tramo,
+                t.codigo_tramo,
+                t.descripcion,
+                t.id_codigo_sistema,
+                cs.cuenta_contable
+            FROM
+                ordenes_facturas or_f,
+                orden o,
+                tramo t,
+                codigos_sistema cs,
+                factura f
+            WHERE
+                or_f.id_factura = f.id
+            AND o.id_orden = or_f.id_orden
+            AND o.tramo_codigo_tramo = t.codigo_tramo
+            AND t.id_codigo_sistema = cs.codigo_sistema
+            AND f.id = {$id_factura}");
+
+            
+
+        return $sql->result_array();                             
     }
 
     function manager($ws,$method)

@@ -25,13 +25,14 @@
 					<td>Por Facturar</td>
 				<?php } ?>
 			</tr>
-		<?php }?>
+		<?php } ?>
 	</tbody>
 
 </table>
 </div>
 <script type="text/javascript">
 	$('.tabla-facturas .codigo-click').click(function(e){
+		console.log("ghjk");
 		e.preventDefault();
 		var codigo = $(this).attr('data-codigo');
 		var os_manager = $(this).attr('data-os');
