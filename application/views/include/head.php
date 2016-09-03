@@ -46,6 +46,8 @@
 								<li class="divider"></li>
 								<li><a href=<?php echo base_url();?>index.php/transacciones/orden>Crear O.S.</a></li>
                                 <li><a href=<?php echo base_url();?>index.php/transacciones/orden/editar_orden>Editar, Imprimir O.S.</a></li>
+                                <li class="divider"></li>
+                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/datosFaltantes>Ingresar Costos</a></li>
 							</ul>
 						</li> 
 						<li class="dropdown">
@@ -57,6 +59,8 @@
                                 <li><a href='<?php echo base_url("index.php/transacciones/facturacion/editar");?>' >Editar, Imprimir Factura</a></li>
                                 <li><a href='<?php echo base_url("index.php/transacciones/facturacion/reFacturar"); ?>' >Reintentar Facturar</a></li>
                                 <li><a href='<?php echo base_url("index.php/transacciones/facturacion/realizadas");?>' >Realizadas</a></li>
+                                <li class="divider"></li>
+                                <!-- <li><a href='<?php //echo base_url("index.php/transacciones/facturacion/datosFaltantes");?>' >Ingresar Costos</a></li> -->
 							</ul>
 						</li>  						   
 						<li class="dropdown">

@@ -34,6 +34,11 @@ Class Detalle extends CI_Model{
         }
 
     }
+
+    function editarDetalle($id,$detalle){
+        $this->db->where('id_detalle',$id)
+                 ->update('detalle',$detalle);
+    }    
     
     function ultimo_codigo(){
         $this->db->select_max('id_detalle');

@@ -13,10 +13,10 @@ class Web_service
 	private $numNota;
     private $observaciones;
 	private $clienteWS;
-	private $codWS;
+	var $codWS;
     private $codigo_sistema;
     private $cta_cble;
-    private $error_h;
+    var $error_h;
 	public  $xml     = '';
 
 	
@@ -29,11 +29,12 @@ class Web_service
     {
         $this->fechaOS        = date("d/m/Y",strtotime($fechaos));
         $this->rutCliente     = str_replace("." , "", $rutcliente);
-        $this->rutEmpresa     = '76010628-3';
+        //$this->rutEmpresa     = '76010628-3';
+        $this->rutEmpresa     = '76010628-4';
         $this->codigoVendedor = 'ADM';
         $this->numNota        = $numnota;
-        $this->error_h        = 'vacio';
-        $this->codWS          = 'vacio';
+        //$this->codWS          = 'vacio';
+        //$this->error_h          = 'vacio';
         
     }
 
@@ -77,9 +78,9 @@ class Web_service
                          <!--Optional:-->
                          <ven:codigoVendedor>'.$this->codigoVendedor.'</ven:codigoVendedor>
                          <!--Optional:-->
-                         <ven:glosaPago>0</ven:glosaPago>
+                         <ven:glosaPago>2</ven:glosaPago>
                          <!--Optional:-->
-                         <ven:codigoSucursal>0</ven:codigoSucursal>
+                         <ven:codigoSucursal>1</ven:codigoSucursal>
                          <!--Optional:-->
                          <ven:tipoVenta>0</ven:tipoVenta>
                          <!--Optional:-->
@@ -88,7 +89,7 @@ class Web_service
                          <ven:codigoMoneda>$</ven:codigoMoneda>
                          <ven:comision>0</ven:comision>
                          <ven:pagoA>30</ven:pagoA>
-                         <ven:descuentoTipo>0</ven:descuentoTipo>
+                         <ven:descuentoTipo>1</ven:descuentoTipo>
                          <ven:descuento>0</ven:descuento>
                          <ven:aprobado>0</ven:aprobado>
                          <ven:contratoArriendo>0</ven:contratoArriendo>
@@ -130,7 +131,7 @@ class Web_service
                 <ven:codigoProducto>'.$codigo_sistema.'</ven:codigoProducto>
                 <ven:cantidad>1</ven:cantidad>
                 <ven:precioUnitario>'.$valor_venta.'</ven:precioUnitario>
-                <ven:cantidadDespachada>1</ven:cantidadDespachada>
+                <ven:cantidadDespachada>0</ven:cantidadDespachada>
                 <ven:descuento>0</ven:descuento>
                  <!--Optional:-->
                 <ven:codigoCtaCble>'.$cta_cble.'</ven:codigoCtaCble>
@@ -151,10 +152,42 @@ class Web_service
         return $xml;  		
 	}
 
-    public function ActualizarXmlBody()
+    public function eliminarXmlBody($item)
     {
+        $xml =
+            '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ven="http://manager.cl/ventas/">
+                <soap:Header/>
+                    <soap:Body>
+                        <ven:EliminaDetalleDeNotaDeVenta>
+                        <!--Optional:-->
+                        <ven:rutEmpresa>'.str_replace(" ", "", $this->rutEmpresa).'</ven:rutEmpresa>
+                        <ven:numNota>'.str_replace(" ", "",$this->numNota).'</ven:numNota>
+                        <!--Optional:-->
+                        <ven:fecha>'.$this->fechaOS.'</ven:fecha>
+                        <ven:item>'.$item.'</ven:item>
+                        </ven:EliminaDetalleDeNotaDeVenta>
+                    </soap:Body>
+                </soap:Envelope>';
 
+        return $xml;
     }
+
+    public function eliminarXmlHeader()
+    {
+        $xml =  '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ven="http://manager.cl/ventas/">
+                           <soap:Header/>
+                           <soap:Body>
+                              <ven:EliminaCabeceraDeNotaDeVenta>
+                                 <!--Optional:-->
+                                 <ven:rutEmpresa>'.str_replace(" ", "", $this->rutEmpresa).'</ven:rutEmpresa>
+                                 <ven:numNota>'.str_replace(" ", "",$this->numNota).'</ven:numNota>
+                                 <!--Optional:-->
+                                 <ven:fecha>'.$this->fechaOS.'</ven:fecha>
+                              </ven:EliminaCabeceraDeNotaDeVenta>
+                           </soap:Body>
+                        </soap:Envelope>';
+        return $xml;
+    }    
 
     public function ActualizarXmlHeader($observaciones)
     {
@@ -220,19 +253,32 @@ class Web_service
         $doc = new DOMDocument('1.0', 'utf-8');
         $doc->loadXML( $this->clienteWS->responseData );
         
+        //error_log(print_r($this->clienteWS->request,true));
+        //error_log(print_r($this->clienteWS->responseData,true));
+        //error_log(print_r($this->clienteWS->response,true));
+        //echo 'REQUEST<br>'.$this->clienteWS->request.'<br> ---------- <br>';
+        //echo 'RESPONSE<br>'.$this->clienteWS->getDebug().'<br> ---------- <br>';
+        //echo 'RESPONSE<br>'.$this->clienteWS->response.'<br> ---------- <br>';
         $XMLresults2     = $doc->getElementsByTagName("Mensaje");
         $XMLresults      = $doc->getElementsByTagName("Error");
-        if ($opc)
-            print_r(htmlentities($this->clienteWS->responseData));
         
-        $this->codWS   = $XMLresults->item(0)->nodeValue;
-        $this->error_h = '<strong>Mensaje Manager: <br>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';		
+        
+        if (@$XMLresults->item(0)->nodeValue != null){
+            $this->codWS   = @$XMLresults->item(0)->nodeValue;
+            $this->error_h = '<strong>Mensaje Manager: <br>'.@$XMLresults2->item(0)->nodeValue.'</strong><br>';     
+        }
+        else{
+            $XMLresults2     = $doc->getElementsByTagName("Text");
+            $this->codWS   = 2;
+            $this->error_h = '<strong>Mensaje Manager: <br>'.@$XMLresults2->item(0)->nodeValue.'</strong><br>';     
+        }
 
 	}	
 
 	public function getCodigo()
 	{
 		return $this->codWS;
+        //return 0;
 	}
 
 	public function getError()
@@ -242,4 +288,5 @@ class Web_service
 
 
 }
+
 

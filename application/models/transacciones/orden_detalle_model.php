@@ -18,7 +18,6 @@ class Orden_detalle_model extends CI_Model{
          return $resultado->result_array();
     }
 
-    
 }
 
 ?>

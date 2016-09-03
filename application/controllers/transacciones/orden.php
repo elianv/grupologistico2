@@ -3,6 +3,7 @@
     function __construct() {
         parent::__construct();
         $this->load->model('transacciones/Orden_model');
+        $this->load->model('transacciones/Facturacion_model');
         $this->load->model('utils/Facturacion');
         $this->load->model('utils/Viaje');
         $this->load->model('utils/Detalle');
@@ -625,12 +626,12 @@
                         $factura            = $this->Facturacion_model->getFacturabyId( $orden_factura[0]['id_factura'] );
                         $servicios_factura  = $this->Facturacion_model->getServicioOrdenFactura($orden_factura[0]['id']);
 
-                        $factura = array(   'total_costo' => $costo_total,
-                                            'total_venta' =>$venta_total
-                                        );
+                        $fact_['total_costo'] = $costo_total;
+                        $fact_['total_venta'] = $venta_total;
                         
-                        $this->Facturacion_model->modificar_facturacion($factura, $factura['numero_factura']);
-                        $this->Facturacion_model->eliminarServiciosOrdeneFactura($orden_factura['id']);
+
+                        $this->Facturacion_model->modificar_facturacion($fact_, $factura[0]['id']);
+                        $this->Facturacion_model->eliminarServiciosOrdeneFactura($orden_factura[0]['id']);
 
                     } 
 
@@ -874,6 +875,131 @@
             
         }
     }
+
+    function datosFaltantes(){
+        
+        if($this->session->userdata('logged_in')){
+            $session_data = $this->session->userdata('logged_in');
+
+            $this->load->view('include/head',$session_data);
+            $this->load->view('transaccion/orden/costos');
+            $this->load->view('include/modal');
+            $this->load->view('include/tables');    
+            $this->load->view('include/script');
+        }
+        else{
+            redirect('home','refresh');
+        }
+
+    }
+
+    function editarDatosFaltantes(){
+
+        if($this->session->userdata('logged_in') && isset($_POST['inputOrden_'])){
+                
+                //actualizar datos orden
+                $data = array(
+                                'proveedor_rut_proveedor'   => $this->input->post('inputProveedor'),
+                                'cliente_rut_cliente'       => $this->input->post('inputCliente'),
+                                'tramo_codigo_tramo'        => $this->input->post('inputTramo'),
+                                'valor_costo_tramo'         => str_replace('.', '', $this->input->post('inputCosto'))
+                                  );
+                $this->Orden_model->editar_orden($data, $this->input->post('inputOrden_'));
+                
+                $i=0;
+                foreach ($this->input->post('inputProveedorOtroServicio_') as $key => $value) {
+                    list($proveedor, $id_servicios_orden_factura, $id_detalle, $orden, $id_ordenes_facturas) = explode('W' , $value);
+                    
+                    //detalle de os
+                    $detalle = array('valor_costo' => str_replace('.', '', $_POST['inputCostoOS_'][$i] ) );
+                    $this->Detalle->editarDetalle($id_detalle,$detalle);
+
+                    //detalle factura
+                    $servicios_orden_factura = array('proveedor_rut_proveedor' => $_POST['inputProveedorOtroServicioNew_'][$i] );
+                    $this->Facturacion_model->editarServiciosOrdenesFacturas($id_servicios_orden_factura,$servicios_orden_factura);
+                    //re calculo factura
+                    
+                    $i++;
+                }
+
+                $costo_total            = $this->Facturacion_model->total_costo($this->input->post('idFactura_'));
+                $factura['total_costo'] = $costo_total[0]['TOTAL_COSTO'];
+                $this->Facturacion_model->modificar_facturacion($factura, $this->input->post('idFactura_'));
+                
+
+                $this->session->set_flashdata('mensaje','La orden '.$this->input->post('inputOrden_').' se modifico con éxito');
+                redirect('transacciones/orden/datosFaltantes','refresh');
+        }
+        else{
+            redirect('home','refresh');
+        }        
+                            
+    }
+
+    function costos_ajax(){
+
+        if($this->session->userdata('logged_in')){
+            $this->load->model('transacciones/Facturacion_model');
+            $datos['data']          = $this->Orden_model->orden( $this->input->post('id') );
+            $datos['orden_factura'] = $this->Facturacion_model->getOrdenFacturaByOrden($datos['data'][0]['id_orden']);
+            
+            $datos['detalle']       = $this->Facturacion_model->detalleTotalByOrden($datos['data'][0]['id_orden']);
+            $data['view']           = $this->load->view('transaccion/ajax/costo_orden_ajax',$datos,true);
+
+            //print_r($datos);
+            $this->output->set_content_type('application/json');
+            $this->output->set_output(json_encode($data));
+        }
+        else
+            redirect('home','refresh');
+    }
+
+    function modalDatosFaltantes_ajax(){
+        if($this->session->userdata('logged_in') && isset($_POST['dato'])){
+
+            switch ($this->input->post('dato')) {
+                case 1:
+                    $data = $this->Proveedores_model->listar_proveedores();
+                    break;
+                case 2:
+                    $data = $this->Clientes_model->listar_clientes();
+                    break;
+                case 3:
+                    $data = $this->Tramos_model->listar_tramos();
+                    break;
+            }
+
+
+            $this->output->set_content_type('application/json');
+            $this->output->set_output(json_encode($data));
+        }
+        else
+            redirect('home','refresh');        
+    }
+
+    //funcion para la datatabla! 
+    function listarOrdenes(){
+        if($this->session->userdata('logged_in') && isset($_GET['start']) ) {
+
+                $inicio    = $_GET['start'];
+                $cantidad  = $_GET['length'];
+                $where     = $_GET['search']['value'];
+                $order     = $_GET['order'][0]['dir'];
+                $by        = $_GET['order'][0]['column'];
+                
+                $total = $this->Orden_model->getOrden($inicio, $cantidad,$where,$order,$by,1,1);
+                
+                
+                $data['draw']              = $_GET['draw'];
+                $data['recordsTotal']      = $total;
+                $data['recordsFiltered']   = $total;
+                $data['data']              = $this->Orden_model->getOrden($inicio, $cantidad,$where,$order,$by,0,1);
+                echo json_encode($data); 
+        }
+        else{
+            redirect('home','refresh');
+        }       
+    }
             
     function pdf($id = null){
         $orden = $this->Orden_model->get_orden($id);
@@ -902,7 +1028,10 @@
             $tramo = $this->Tramos_model->datos_tramo($orden[0]['tramo_codigo_tramo']);
             $aduana = $this->Agencias_model->datos_aduana($orden[0]['aduana_codigo_aduana']);
             $carga = $this->Cargas_model->datos_carga($orden[0]['tipo_carga_codigo_carga']);
-            $ret_cont = $this->Depositos_model->datos_deposito($orden[0]['deposito_codigo_deposito']);
+            $deposito = $this->Depositos_model->datos_deposito($orden[0]['deposito_codigo_deposito']);
+            $ret_cont = $orden[0]['lugar_retiro'];
+            //error_log(print_r($orden, TRUE));
+            //print_r($orden[0]['lugar_retiro']);
             $bodega = $this->Bodegas_model->datos_bodega($orden[0]['bodega_codigo_bodega']);
             $puerto_embarque = $this->Puertos_model->datos_puerto($orden[0]['puerto_codigo_puerto']);
             $destino = $this->Puertos_model->datos_puerto($orden[0]['destino']);
@@ -920,7 +1049,8 @@
             $orden[0]['tramo']['tramo'] = $tramo[0]['descripcion'];
             $orden[0]['aduana'] = $aduana[0];
             $orden[0]['carga'] = $carga[0];
-            $orden[0]['deposito'] = $ret_cont[0];
+            //error_log(print_r($ret_cont, TRUE));
+            $orden[0]['deposito'] = $ret_cont;
             $orden[0]['bodega'] = $bodega[0];
             $orden[0]['puerto'] = $puerto_embarque[0];
             $orden[0]['puerto_destino'] = $destino[0]; 
@@ -1094,7 +1224,8 @@
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
                     //RET Contenedor = deposito
                     $this->pdf->Cell(60,6,'Ret. Contenedor','0',0,'L',0);
-                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
+                    //$this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($ret_cont),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Fecha '.utf8_decode("Presentacion"),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);

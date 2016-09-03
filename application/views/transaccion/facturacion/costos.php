@@ -1,4 +1,4 @@
-<legend><h3><center>Facturas Pendientes</center></h3></legend>
+<legend><h3><center>Facturas</center></h3></legend>
 
 <div class="container">
     <?php if(validation_errors()){ ?>
@@ -14,7 +14,6 @@
         <table id="tabla-facturas" class="table table-bordered table-striped dataTable">
             <thead>
             <tr>
-                <th>Seleccionar</th>
                 <th>N° OS ERP</th>
                 <th>Cliente</th>
                 <th>Fecha</th>
@@ -27,9 +26,7 @@
 
     </div>
     <br>
-    <div align="right">
-        <a class="btn btn-success" id="procesar">Re facturar seleccionados</a>
-    </div>
+
     <div id="detalle">
     </div>
     
@@ -37,40 +34,35 @@
 
 <script>
     $( document ).ready(function() {
+        
         $('#tabla-facturas').DataTable({
+            
             "processing": true,
             "serverSide": true,
             "bProcessing": true,
             "ajax": "porFacturar_ajax" ,
 
             columns: [
-                {data:"boton"},
                 {data:"id"},
                 {data:"cliente"},
                 {data:"fecha"}
-                
             ]
         });
-     
-        $('#procesar').click( function () {
-            var checkedValues = $('input:checkbox:checked').map(function() {
-                return this.value;
-            }).get()
-                    
-            $.ajax({
-                method:"POST",
-                url:"<?php echo base_url();?>index.php/transacciones/facturacion/reFacturacion_ajax",
-                dataType: 'json',
-                data: { ordenes : checkedValues},
-                beforeSend: function(){
-                    console.log(checkedValues);
-                },              
-                success: function(response){
-                    $('#detalle').html(response.result);
-                }
-
-          });                        
-                    
-        } );
+	
     });
+    function datos(dato){
+
+    	$.ajax({
+				type:'post',
+				url:'<?php echo base_url();?>index.php/transacciones/facturacion/costos_ajax',
+				dataType: 'json',
+				data: { id : dato},
+				beforeSend: function(){
+					//$('#detalle').html();
+				},
+				success: function(response){
+					$('#detalle').html("response");
+				}
+    	});
+    }
 </script>

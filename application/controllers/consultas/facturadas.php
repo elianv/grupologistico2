@@ -1949,9 +1949,11 @@
 
         function tabla_ordenes_ajax(){
             if($this->session->userdata('logged_in')){
+
                 $this->load->model('transacciones/orden_model');
+                
                 $data['ordenes'] = $this->orden_model->listar_ordenes();
-            
+                error_log(print_r($data['ordenes'][0], true));
                 $this->load->view('consultas/ajax/modal_ordenes',$data);
             }
             else
