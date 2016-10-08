@@ -897,6 +897,7 @@
 
         if($this->session->userdata('logged_in') && isset($_POST['inputOrden_'])){
                 
+
                 //actualizar datos orden
                 $data = array(
                                 'proveedor_rut_proveedor'   => $this->input->post('inputProveedor'),
@@ -905,17 +906,25 @@
                                 'valor_costo_tramo'         => str_replace('.', '', $this->input->post('inputCosto'))
                                   );
                 $this->Orden_model->editar_orden($data, $this->input->post('inputOrden_'));
-                
+                               
                 $i=0;
                 foreach ($this->input->post('inputProveedorOtroServicio_') as $key => $value) {
                     list($proveedor, $id_servicios_orden_factura, $id_detalle, $orden, $id_ordenes_facturas) = explode('W' , $value);
-                    
+     //echo "<br>";
+     //print_r($id_servicios_orden_factura);
                     //detalle de os
                     $detalle = array('valor_costo' => str_replace('.', '', $_POST['inputCostoOS_'][$i] ) );
                     $this->Detalle->editarDetalle($id_detalle,$detalle);
 
                     //detalle factura
-                    $servicios_orden_factura = array('proveedor_rut_proveedor' => $_POST['inputProveedorOtroServicioNew_'][$i] );
+                    $fecha = new DateTime($_POST['inputFechaOS_'][$i]);
+                    $servicios_orden_factura = array(
+
+                                                        'proveedor_rut_proveedor' => $_POST['inputProveedorOtroServicioNew_'][$i],
+                                                        'fecha_factura_servicio'  => (string)$fecha->format('Y-m-d'),
+                                                        'factura_numero_factura'  => $_POST['inputFacturaOS_'][$i],
+
+                                                    );
                     $this->Facturacion_model->editarServiciosOrdenesFacturas($id_servicios_orden_factura,$servicios_orden_factura);
                     //re calculo factura
                     
@@ -928,7 +937,8 @@
                 
 
                 $this->session->set_flashdata('mensaje','La orden '.$this->input->post('inputOrden_').' se modifico con éxito');
-                redirect('transacciones/orden/datosFaltantes','refresh');
+
+               redirect('transacciones/orden/datosFaltantes','refresh');
         }
         else{
             redirect('home','refresh');
@@ -1128,7 +1138,7 @@
                     $this->pdf->Cell(60,6,'Set Point','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Origen','0',0,'L',0);
-                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Fecha '.utf8_decode("Presentacion"),'0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);
@@ -1321,7 +1331,7 @@
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
                     //RET Contenedor = deposito
                     $this->pdf->Cell(60,6,'Ret. Contenedor','0',0,'L',0);
-                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']['descripcion']),'0',1,'L',0);
+                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Fecha de Presentacion','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Bodega','0',0,'L',0);

@@ -105,7 +105,22 @@
                         <input type="hidden" id="inputProveedorOtroServicioNew_<?php echo $i; ?>" name="inputProveedorOtroServicioNew_[]" value="<?php echo $d['proveedor_rut_proveedor'];?>" >
                     </div>
                 </div>                 
-            
+
+                <div class="control-group">
+                    <label class="control-label" ><b>Factura Proveedor Otro Servicio</b></label>
+                    <div class="controls">
+                        <input type="text" class="input-small" name="inputFacturaOS_[]" id="inputFacturaOS_<?php echo $i; ?>" value="<?php echo $d['factura_numero_factura'];?>" >
+                    </div>
+                </div>    
+
+                <div class="control-group">
+                    <label class="control-label" ><b>Fecha Factura Proveedor Otro Servicio</b></label>
+                    <div class="controls">
+                    <?php $fecha = new DateTime($d['fecha_factura_servicio']);?>
+                        <input type="text" onclick="calendario(<?php echo $i; ?>)" class="input-medium" name="inputFechaOS_[]" id="inputFechaOS_<?php echo $i; ?>" value="<?php echo $fecha->format('d-m-Y');?>" >
+                    </div>
+                </div>             
+
                 <div class="control-group">
                     <label class="control-label" ><b>Costo otro servicio</b></label>
                     <div class="controls">
@@ -133,12 +148,27 @@
 
     
 </form>
-<pre> 
-<?php print_r($detalle); print_r($orden_factura);?>
 <br>
 <hr>
 <br>
 <script type="text/javascript">
+
+    $( document ).ready( function(){
+        var cont = <?php echo $i;?>
+        //console.log(cont);
+    function calendario(id){
+            $('#inputFechaOS_'+id).datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                showHour:false,                      
+                showMinute:false,
+                showTime: false,
+                dateFormat: 'dd-mm-yy'
+          });              
+    }
+    });
+
+
     
     function openModal(id,serv)
     {

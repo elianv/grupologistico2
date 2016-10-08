@@ -84,7 +84,7 @@ class Facturacion extends CI_Controller{
                                     'total_venta'                      => $total_venta,
                                     'guia_despacho'                    => $arreglo,
                                     'fecha'                            => $fecha_factura
-                                    
+
                                 );
 
                         if(isset( $_POST['factura_papel'] ) )
@@ -121,7 +121,7 @@ class Facturacion extends CI_Controller{
                             $this->facturacion_model->insertar_orden_facturacion($orden_factura);
                             $dato = array('id_estado_orden' => 2);
                             $this->orden_model->editar_orden($dato, $orden);
-                            
+
                             $id_orden_faturacion     = $this->facturacion_model->ultimo_id_orden_facturacion();
                             $fecha_otros_servicios   = $this->input->post('fecha_otros_servicios');
                             $factura_otros_servicios = $this->input->post('factura_otros_servicios');
@@ -155,21 +155,21 @@ class Facturacion extends CI_Controller{
                         if( $_POST['factura_papel'] == 0)
                         {
                             $this->load->library('lib/nusoap_base');
-                            
+
                             //Ingreso cabereca NOTA DE VENTA
                             $datosWS = $this->facturacion_model->manager("manager", "cabecera");
-                            
-                            $cliente = new nusoap_client($datosWS[0]->url , true);       
+
+                            $cliente = new nusoap_client($datosWS[0]->url , true);
                             $cliente->soap_defencoding = 'UTF-8';
-                            $cliente->decode_utf8 = false;    
+                            $cliente->decode_utf8 = false;
 
                             $fechaOS = date("d/m/Y",strtotime($fecha_factura));
-                            $RUTcliente = explode(" - ", $this->input->post('cliente_factura'));         
-                            $flag1   = 0;                 
-                            $flag2   = 0;            
+                            $RUTcliente = explode(" - ", $this->input->post('cliente_factura'));
+                            $flag1   = 0;
+                            $flag2   = 0;
                             $errorH  = '<strong>Mensaje Manager: </strong>';
                             $errorB  = '<strong>Mensaje Manager: </strong>';
-                            $observaciones = '';     
+                            $observaciones = '';
 
                             $xml = '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ven="http://manager.cl/ventas/">
                                        <soap:Header/>
@@ -223,21 +223,21 @@ class Facturacion extends CI_Controller{
                                     </soap:Envelope>
                             ';
                             $cliente->send( $xml , $datosWS[0]->action);
-                            
-                            
+
+
                             $doc = new DOMDocument('1.0', 'utf-8');
                             $doc->loadXML( $cliente->responseData );
-                            
+
                             $XMLresults2     = $doc->getElementsByTagName("Mensaje");
                             $XMLresults     = $doc->getElementsByTagName("Error");
-                            
+
                             $codWS = $XMLresults->item(0)->nodeValue;
                             $errorH .= '<br><strong>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';
-                            
+
                             if($codWS != '0' ){
                                 $flag1 = 1;
                             }
-                            
+
                             //DETALLE NOTA DE VENTA
                             $DetalleOS          = $this->facturacion_model->manager("manager" , "detalle");
                             $ordenes_facturas   = $this->facturacion_model->getOrdenes($id_factura);
@@ -248,8 +248,8 @@ class Facturacion extends CI_Controller{
                                     $orden            = $this->orden_model->get_orden($o_facturas['id_orden']);
                                     $detalle_servicio = $this->orden_model->getDetalleByOrdenId($orden[0]['id_orden']);
                                     $nave             = $this->naves_model->datos_nave($orden[0]['nave_codigo_nave']);
-                                    
-                                    
+
+
                                     if($orden[0]['tramo_codigo_tramo'] > 0)
                                         $tramo_ = $this->tramos_model->datos_tramo($orden[0]['tramo_codigo_tramo']);
 
@@ -262,10 +262,10 @@ class Facturacion extends CI_Controller{
                                             break;
                                         case 7:
                                             $T_ORDEN = 'NACIONAL';
-                                            break;                                            
+                                            break;
                                         case 8:
                                             $T_ORDEN = 'OTRO SERVICIO';
-                                            break;                                            
+                                            break;
                                         default:
                                             $T_ORDEN = '';
                                             break;
@@ -283,7 +283,7 @@ class Facturacion extends CI_Controller{
                                     $observaciones .= "^ \n";
                                     $observaciones .= "^ \n";
                                     $observaciones .= 'OS/'.$o_facturas['id_orden']."^ \n";
-                                
+
                                     if($orden[0]['tramo_codigo_tramo'] > 0)
                                     {
                                             $xml2 = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ven="http://manager.cl/ventas/">
@@ -315,28 +315,28 @@ class Facturacion extends CI_Controller{
                                                   </ven:IngresaDetalleDeNotaDeVenta>
                                                </soapenv:Body>
                                             </soapenv:Envelope>
-                                            ';                                
+                                            ';
                                             $cliente->send( $xml2 , $DetalleOS[0]->action);
-                                            
+
                                             $doc->loadXML( $cliente->responseData );
-                                            
+
                                             $XMLresults2Detalle     = $doc->getElementsByTagName("Mensaje");
                                             $XMLresultsDetalle     = $doc->getElementsByTagName("Error");
-                                            
+
                                             $codWS = $XMLresults->item(0)->nodeValue;
                                             if($codWS != '0' ){
                                                 $flag2 ++;
                                                 $errorB .= '<br><strong>'.$XMLresults2Detalle->item(0)->nodeValue.'</strong>';
-                                                
-                                            }                                        
-                                    }    
 
-                                
+                                            }
+                                    }
+
+
                                     foreach ($detalle_servicio as $det_servicio) {
-                                    
-                                    
+
+
                                             $serv_ = $this->servicios_model->datos_servicio($det_servicio['servicio_codigo_servicio']);
-                                        
+
                                             //$observacionesOS .= 'OS/'.$o_facturas['id_orden'].' - OTROS SERVICIOS - '.str_replace("\n", " ", $serv_[0]['descripcion'])."\n";
 
                                             $xml2 = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ven="http://manager.cl/ventas/">
@@ -368,21 +368,21 @@ class Facturacion extends CI_Controller{
                                                   </ven:IngresaDetalleDeNotaDeVenta>
                                                </soapenv:Body>
                                             </soapenv:Envelope>
-                                            ';   
-                          
+                                            ';
+
                                             $cliente->send( $xml2 , $DetalleOS[0]->action);
 
                                             $doc->loadXML( $cliente->responseData );
-                                            
+
                                             $XMLresults2Detalle     = $doc->getElementsByTagName("Mensaje");
                                             $XMLresultsDetalle     = $doc->getElementsByTagName("Error");
-                                            
+
                                             $codWS = $XMLresults->item(0)->nodeValue;
                                             if($codWS != '0' ){
                                                 $flag2 ++;
                                                 $errorB .= '<br><strong>'.$XMLresults2Detalle->item(0)->nodeValue.'</strong>';
-                                                
-                                            }                                   
+
+                                            }
                                     }
                             }
 
@@ -440,30 +440,30 @@ class Facturacion extends CI_Controller{
                                     </soapenv:Envelope>';
                             $actualizar = $this->facturacion_model->manager("manager" , "cabeceraactualizar");
                             $cliente->send( $xml , $actualizar[0]->action);
-                            
+
                             $doc = new DOMDocument('1.0', 'utf-8');
                             $doc->loadXML( $cliente->responseData );
-                            
+
                             $XMLresults2     = $doc->getElementsByTagName("Mensaje");
                             $XMLresults     = $doc->getElementsByTagName("Error");
-                            
+
                             $codWS = $XMLresults->item(0)->nodeValue;
                             $errorH .= '<br><strong>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';
-                            
+
                             if($codWS != '0' ){
                                 $flag1 = 1;
-                            }                            
+                            }
 
                             if( $flag1 || $flag2 )
                                 if($flag1)
-                                    $this->session->set_flashdata('mensaje','<strong>NO se cargo al ERP MANGER la OS N° '.$catch_factura[0]["id"].'</strong>.<br>ERROR ERP: '.$errorH.'<br>Facturación guardada con éxito en SCT.');  
+                                    $this->session->set_flashdata('mensaje','<strong>NO se cargo al ERP MANGER la OS N° '.$catch_factura[0]["id"].'</strong>.<br>ERROR ERP: '.$errorH.'<br>Facturación guardada con éxito en SCT.');
                                 else
-                                    $this->session->set_flashdata('mensaje','<strong>NO se cargo al ERP MANGER la OS N° '.$catch_factura[0]["id"].'</strong>.<br>ERROR ERP: '.$errorB.'<br>Facturación guardada con éxito en SCT.');  
+                                    $this->session->set_flashdata('mensaje','<strong>NO se cargo al ERP MANGER la OS N° '.$catch_factura[0]["id"].'</strong>.<br>ERROR ERP: '.$errorB.'<br>Facturación guardada con éxito en SCT.');
                             else
-                                $this->session->set_flashdata('mensaje','<strong>Se cargo al ERP MANGER la OS N° '.$catch_factura[0]["id"].'</strong>.<br> Facturación guardada con éxito SCT.');        
+                                $this->session->set_flashdata('mensaje','<strong>Se cargo al ERP MANGER la OS N° '.$catch_factura[0]["id"].'</strong>.<br> Facturación guardada con éxito SCT.');
                         }
-                        
-                        //$this->session->set_flashdata('mensaje','Facturación guardada con éxito SCT. <br><strong>NUMERO '.$catch_factura[0]["id"].'</strong>'); 
+
+                        //$this->session->set_flashdata('mensaje','Facturación guardada con éxito SCT. <br><strong>NUMERO '.$catch_factura[0]["id"].'</strong>');
                         redirect('transacciones/facturacion','refresh');
                 }
             }
@@ -498,6 +498,7 @@ class Facturacion extends CI_Controller{
 
                     $detalle['total_venta']  = $totales[0]['total_venta'];
                     $detalle['total_compra'] = $totales[0]['total_costo'];
+
                     foreach ($ordenes as $orden) {
 
 
@@ -512,7 +513,6 @@ class Facturacion extends CI_Controller{
                                 $detalle['ordenes'][$i]['tramo']         = $tramo[0];
                                 $detalle['ordenes'][$i]['detalle']       = $this->Detalle->detalle_orden($orden['id_orden']);
 
-                                
                                 $detalle['ordenes'][$i]['total_compra'] += $detalle['ordenes'][$i][0]['valor_costo_tramo'];
                                 $detalle['ordenes'][$i]['total_venta']  += $detalle['ordenes'][$i][0]['valor_venta_tramo'];
 
@@ -524,17 +524,19 @@ class Facturacion extends CI_Controller{
                                 $servicios                               = $detalle['ordenes'][$i]['detalle'];
 
                                 $j = 0;
-                                
+
 
                                 foreach ( $servicios as $servicio) {
-                                    
+
+
                                     $detalle_                                             = $this->servicios_model->datos_servicio($servicio['servicio_codigo_servicio']);
                                     $detalle['ordenes'][$i]['detalle'][$j]['descripcion'] = $detalle_[0]['descripcion'];
-                                    $serv_odn_factura                                     = $this->facturacion_model->getServicioOrdenFactura($orden['id']);
-                                    $proveedor                                            = $this->proveedores_model->datos_proveedor($serv_odn_factura[$j]['proveedor_rut_proveedor']);
+                                    $serv_odn_factura                                     = $this->facturacion_model->getServicioOrdenFacturabydetalle($servicio['id_detalle']);
+                                    $proveedor                                            = $this->proveedores_model->datos_proveedor($serv_odn_factura[0]['proveedor_rut_proveedor']);
 
                                     $detalle['ordenes'][$i]['detalle'][$j]['factura']     = $serv_odn_factura[0]['factura_numero_factura'];
                                     $detalle['ordenes'][$i]['detalle'][$j]['fecha']       = $serv_odn_factura[0]['fecha_factura_servicio'];
+
                                     $detalle['ordenes'][$i]['total_compra']              += $servicio['valor_costo'];
                                     $detalle['ordenes'][$i]['total_venta']               += $servicio['valor_venta'];
                                     $detalle['ordenes'][$i]['detalle'][$j]['proveedor']   = $proveedor[0]['rut_proveedor'].' - '.$proveedor[0]['razon_social'];
@@ -604,7 +606,7 @@ class Facturacion extends CI_Controller{
                 }
                 else
                 {
-                    $this->session->set_flashdata('mensaje','La factura que desea editar, ya se encuentra factura. Intente con otra.');
+                    $this->session->set_flashdata('mensaje','La factura que desea editar, ya se encuentra facturada. Intente con otra.');
                     redirect('transacciones/facturacion/editar','refresh');
                 }
 
@@ -750,8 +752,7 @@ class Facturacion extends CI_Controller{
         }
     }
 
-    function editar()
-    {
+    function editar(){
         if($this->session->userdata('logged_in')){
 
             $session_data = $this->session->userdata('logged_in');
@@ -765,44 +766,43 @@ class Facturacion extends CI_Controller{
         }
     }
 
-    public function realizadas()
-    {
+    public function realizadas(){
         if($this->session->userdata('logged_in')){
-            
-            $session_data   = $this->session->userdata('logged_in');
-            $data['tipo']   = 0;              
 
-            if ( isset($_POST['salida']) ) 
+            $session_data   = $this->session->userdata('logged_in');
+            $data['tipo']   = 0;
+
+            if ( isset($_POST['salida']) )
             {
 
                 $time   = $this->input->post('time');
 
                 $this->load->library('form_validation');
                 $this->form_validation->set_rules('salida', 'Formato de Salida','trim|xss_clean|required');
-                
+
                 if($time == 'fechas')
                 {
                     $this->form_validation->set_rules('desde', 'Fecha de Inicio','trim|xss_clean|required');
-                    $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');                    
+                    $this->form_validation->set_rules('hasta', 'Fecha de Fin','trim|xss_clean|required');
                 }
 
                 if($this->form_validation->run() == FALSE)
-                {      
+                {
                     $this->load->view('include/head',$session_data);
                     $this->load->view('transaccion/facturacion/realizadas', $data);
                     $this->load->view('include/script');
 
-                }                
+                }
                 else
                 {
-                    
+
                     $data['tipo']       = 1;
 
                     if($time == 'fechas')
                         $data['facturas']   = $this->facturacion_model->getFacturabyFecha($this->input->post('desde') , $this->input->post('hasta') );
                     else
                         $data['facturas']   = $this->facturacion_model->getFacturabyFecha( '' , '' );
-                    
+
                     if($this->input->post('salida') == 'pantalla')
                     {
                         $this->load->view('include/head',$session_data);
@@ -825,7 +825,7 @@ class Facturacion extends CI_Controller{
                         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setSize(8);
                         $this->excel->getActiveSheet()->getStyle('A2')->getFont()->setBold(true);
                         $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setSize(8);
-                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setBold(true);                        
+                        $this->excel->getActiveSheet()->getStyle('B2')->getFont()->setBold(true);
                         $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setSize(8);
                         $this->excel->getActiveSheet()->getStyle('C2')->getFont()->setBold(true);
                         $this->excel->getActiveSheet()->getStyle('D2')->getFont()->setSize(8);
@@ -834,18 +834,18 @@ class Facturacion extends CI_Controller{
                         foreach(range('A','D') as $columnID) {
                             $this->excel->getActiveSheet()->getColumnDimension($columnID)
                                 ->setAutoSize(true);
-                        }                           
+                        }
 
-                        $i = 3;                        
+                        $i = 3;
                         foreach ($data['facturas'] as $orden) {
 
                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['numero_factura']);
                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$orden['razon_social']);
                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['tipo_factura']);
                                     $fecha = new DateTime($orden['fecha']);
-                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$fecha->format('d-m-Y'));                                                    
+                                    $this->excel->getActiveSheet()->setCellValue('D'.$i,$fecha->format('d-m-Y'));
                                     $i++;
-                         
+
                         }
 
                         $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_BOTTOM);
@@ -853,11 +853,11 @@ class Facturacion extends CI_Controller{
                         header('Content-Type: application/vnd.ms-excel'); //mime type
                         header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
                         header('Cache-Control: max-age=0'); //no cache
-                                    
+
                         //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
                         //if you want to save it as .XLSX Excel 2007 format
                         $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
-                        //$objWriter->save("/temp/test1.xls");  
+                        //$objWriter->save("/temp/test1.xls");
                         //force user to download the Excel file without writing it to server's HD
                         $objWriter->save('php://output');
                     }
@@ -871,12 +871,12 @@ class Facturacion extends CI_Controller{
                 $this->load->view('include/script');
 
             }
-            
+
 
         }
         else{
             redirect('home','refresh');
-        }        
+        }
     }
 
     function imprimir($numero = NULL , $opc = NULL){
@@ -931,9 +931,9 @@ class Facturacion extends CI_Controller{
 
                                 if($opc == 1 && $factura[0]['tipo_factura_id'] == 1){
                                     $dato = array('id_estado_orden' => 2);
-                                    $this->orden_model->editar_orden($dato, $orden['id_orden']);                                            
+                                    $this->orden_model->editar_orden($dato, $orden['id_orden']);
                                 }
-                                
+
 
                                 $i ++;
                     }
@@ -963,16 +963,15 @@ class Facturacion extends CI_Controller{
         if($this->session->userdata('logged_in')){
 
             $session_data     = $this->session->userdata('logged_in');
-            
+
             $this->load->view('include/head',$session_data);
             $this->load->view('transaccion/facturacion/re_facturar');
             $this->load->view('include/script');
 
         }
         else{
-            
-        }
 
+        }
     }
 
     function datosFaltantes(){
@@ -986,13 +985,83 @@ class Facturacion extends CI_Controller{
         }
         else{
             redirect('home','refresh');
-        }        
+        }
     }
 
+    function sincronizar(){
+        $session_data = $this->session->userdata('logged_in');
+        if($session_data['id_tipo_usuario'] == 0 && isset($session_data['id_tipo_usuario']) ){
 
+            $this->load->view('include/head',$session_data);
+            $this->load->view('transaccion/facturacion/sincronizar');
+            $this->load->view('include/script');
+
+        }
+        else
+            redirect('main','refresh');
+    }
+
+    function sincronizar_ajax(){
+        $session_data = $this->session->userdata('logged_in');
+
+        if($session_data['id_tipo_usuario'] == 0 && isset($session_data['id_tipo_usuario']) && $_FILES['uploadFile']['error'] == 0 ){
+
+            //echo "<pre>";
+            //print_r($_FILES);
+            $fact = 0;
+            $os = 0;
+            $this->load->library('excel');
+            $objReader = PHPExcel_IOFactory::createReader('Excel5');
+            //agregar mas formatos de excel
+            $objReader->setReadDataOnly(true);
+            //print_r($objReader->canRead($_FILES['uploadFile']['tmp_name']));
+            //validadiones de archivo
+
+            if ( $objReader->canRead($_FILES['uploadFile']['tmp_name']) ){
+                $objPHPExcel = $objReader->load($_FILES['uploadFile']['tmp_name']);
+                $objWorksheet = $objPHPExcel->getActiveSheet();
+
+                $u_fila = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();
+                //echo "fghjkl".$u_fila;
+                //es ese valor??
+                if($objPHPExcel->getActiveSheet()->getCell('G1')->getFormattedValue() == 'numfact'){
+
+                    for($i = 2; $i <= $u_fila ; $i++){
+                        $id       = trim($objPHPExcel->getActiveSheet()->getCell('AC'.$i)->getFormattedValue());
+                        $num_fact = trim($objPHPExcel->getActiveSheet()->getCell('G'.$i)->getFormattedValue());
+
+                        if ( $num_fact != "" && $num_fact != " " && strlen($num_fact) > 0 && $id != "" && $id != " " && strlen($id) > 0 ){
+
+                            $OK[$objPHPExcel->getActiveSheet()->getCell('AC'.$i)->getFormattedValue()] = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getFormattedValue();
+                            // guardo el id;
+                            print_r($OK);
+
+
+                            $this->facturacion_model->actualizarOS($id);
+                            $this->facturacion_model->sincronizarFact($id,$num_fact);
+                        }
+                        else {
+                            $error[$i] = '';
+
+                        }
+
+                    }
+                }
+
+
+            }
+            else{
+                echo "NO ES EXCEL";
+            }
+
+        }
+        else{
+            redirect('main','refresh');
+        }
+    }
 
     function porFacturar_ajax(){
-      
+
         //print_r($_GET);
         if($this->session->userdata('logged_in') && isset($_GET['start']) ) {
 
@@ -1001,28 +1070,26 @@ class Facturacion extends CI_Controller{
                 $where     = $_GET['search']['value'];
                 $order     = $_GET['order'][0]['dir'];
                 $by        = $_GET['order'][0]['column'];
-                
+
                 $total = $this->facturacion_model->getFacturasPendientes($inicio, $cantidad,$where,$order,$by,1,1);
-                
-                
+
+
                 $data['draw']              = $_GET['draw'];
                 $data['recordsTotal']      = $total;
                 $data['recordsFiltered']   = $total;
                 $data['data']              = $this->facturacion_model->getFacturasPendientes($inicio, $cantidad,$where,$order,$by,0);
-                echo json_encode($data); 
+                echo json_encode($data);
         }
         else{
             redirect('home','refresh');
         }
-
     }
-
-    function reFacturacion_ajax()
-    {
+/*
+    function reFacturacion_ajax(){
 
         if ($this->session->userdata('logged_in')){
             if( !isset($_POST['ordenes']) ){
-                        $error['result'] =  
+                        $error['result'] =
                            '<br>
                            <div class="container">
                                 <div class="alert alert alert-error" align=center>
@@ -1038,17 +1105,17 @@ class Facturacion extends CI_Controller{
             $ordenes = $_POST['ordenes'];
 
             $this->load->library('Web_service');
-            
-            
+
+
 
             //obtengo URL
             $datosWS      = $this->facturacion_model->manager("manager", "cabecera");
             $DetalleOS    = $this->facturacion_model->manager("manager" , "detalle");
             $actualizar   = $this->facturacion_model->manager("manager" , "cabeceraactualizar");
-            
+
             //creo objeto
             $WS = new Web_service();
-            
+
             //le doi al objeto las url de los WS
             $WS->new_soap($datosWS[0]->url );
             //
@@ -1056,7 +1123,7 @@ class Facturacion extends CI_Controller{
             foreach ($ordenes as $key => $value) {
                 # code...
                 $observaciones = '';
-                
+
                 $fOrdenes = $this->facturacion_model->getFacturaOrden($value);
 
                 //print_r($fOrdenes);
@@ -1067,16 +1134,16 @@ class Facturacion extends CI_Controller{
 
                 $detalle[$key]['cabecera']['codigo'][] = $WS->getCodigo();
                 $detalle[$key]['cabecera']['error'][] = $WS->getError();
-                
+
                 //primero que se cargue en MANAGER
-                
+
                 if($WS->getCodigo() == 0){
                     foreach ($fOrdenes as $f_ord) {
                             $orden            = $this->orden_model->get_orden($f_ord['id_orden']);
                             $detalle_servicio = $this->orden_model->getDetalleByOrdenId($f_ord['id_orden']);
                             $nave             = $this->naves_model->datos_nave($orden[0]['nave_codigo_nave']);
                             //print_r($f_ord);
-                            
+
                             if($orden[0]['tramo_codigo_tramo'] > 0)
                                 $tramo_ = $this->tramos_model->datos_tramo($orden[0]['tramo_codigo_tramo']);
 
@@ -1089,10 +1156,10 @@ class Facturacion extends CI_Controller{
                                     break;
                                 case 7:
                                     $T_ORDEN = 'NACIONAL';
-                                    break;                                            
+                                    break;
                                 case 8:
                                     $T_ORDEN = 'OTRO SERVICIO';
-                                    break;                                            
+                                    break;
                                 default:
                                     $T_ORDEN = '';
                                     break;
@@ -1109,20 +1176,20 @@ class Facturacion extends CI_Controller{
                             $observaciones .= "^ \n";
                             $observaciones .= "^ \n";
                             $observaciones .= "^ \n";
-                            $observaciones .= 'OS/'.$f_ord['id_orden']."^ \n"; 
+                            $observaciones .= 'OS/'.$f_ord['id_orden']."^ \n";
 
                             if($orden[0]['tramo_codigo_tramo'] > 0)
                             {
 
                                 $WS->setDatos($f_ord['cliente_rut_cliente'],$f_ord['fecha'],$value,$observaciones);
                                 $WS->mensaje( $DetalleOS[0]->action, $WS->XmlBody($f_ord['valor_venta_tramo'] , $f_ord['id_codigo_sistema'] , $f_ord['cuenta_contable'] ));
-                                
+
                                 $detalle[$key]['detalle']['codigo'][] = $WS->getCodigo();
                                 $detalle[$key]['detalle']['error'][] = $WS->getError();
-                                $valida_Error = $WS->getCodigo();                            
-                                           
+                                $valida_Error = $WS->getCodigo();
+
                             }
-                            
+
                             foreach ($detalle_servicio as $det_servicio) {
                                 if($valida_Error == 0){
                                     //print_r($detalle_servicio);
@@ -1131,10 +1198,10 @@ class Facturacion extends CI_Controller{
                                     //$WS->setCodigos( $serv_[0]['codigo_sistema'] , $serv_[0]['cuenta_contable'] );
 
                                     $WS->mensaje( $DetalleOS[0]->action, $WS->XmlBody($det_servicio['valor_venta'], $serv_[0]['codigo_sistema'], $serv_[0]['cuenta_contable'] ) );
-                                    
+
                                     $detalle[$key]['detalle']['codigo'][] = $WS->getCodigo();
-                                    $detalle[$key]['detalle']['error'][] = $WS->getError(); 
-                                    $valida_Error = $WS->getCodigo();                                   
+                                    $detalle[$key]['detalle']['error'][] = $WS->getError();
+                                    $valida_Error = $WS->getCodigo();
                                 }
                             }
                     }
@@ -1144,7 +1211,7 @@ class Facturacion extends CI_Controller{
                         $detalle[$key]['cabeceraactualizar']['codigo'][] = $WS->getCodigo();
                         $detalle[$key]['cabeceraactualizar']['error'][] = $WS->getError();
                         //$ordenesERROR[$value]['codigo'] = 0;
-                        //$ordenesERROR[$value]['error']  = 'La Orden se cargo con éxito.';                                             
+                        //$ordenesERROR[$value]['error']  = 'La Orden se cargo con éxito.';
                     }
                 }
                 else{
@@ -1168,7 +1235,7 @@ class Facturacion extends CI_Controller{
 
                     //echo "value ".$value['error']."<br>";
                     //echo "key ".$key."<br>";
-                    $theHTMLResponse['result'] .= 
+                    $theHTMLResponse['result'] .=
                     "<tr>
                         <td>{$key}</td>
                         <td>".(string)$value['codigo']."</td>
@@ -1181,7 +1248,7 @@ class Facturacion extends CI_Controller{
                     </table>
 
                 ";
-                
+
                 $this->output->set_content_type('application/json');
                 $this->output->set_output(json_encode($theHTMLResponse));
                 //echo json_encode($theHTMLResponse);
@@ -1189,9 +1256,120 @@ class Facturacion extends CI_Controller{
 
         }
         else
-            redirect('home','refresh');   
+            redirect('home','refresh');
     }
-    
+*/
+
+    function reFacturacion_ajax()
+    {
+
+        $this->load->library('Web_service');
+
+        $ordenes = $_POST['ordenes'];
+        //obtengo URL
+        $datosWS      = $this->facturacion_model->manager("manager", "cabecera");
+        $DetalleOS    = $this->facturacion_model->manager("manager" , "detalle");
+        $actualizar   = $this->facturacion_model->manager("manager" , "cabeceraactualizar");
+
+        //creo objeto
+        $WS = new Web_service();
+
+        //le doi al objeto las url de los WS
+        $WS->new_soap($datosWS[0]->url );
+        //
+        foreach ($ordenes as $key => $value) {
+            # code...
+            $observaciones = '';
+
+            $fOrdenes = $this->facturacion_model->getFacturaOrden($value);
+            print_r($fOrdenes);
+            //INGRESO CABECERA
+            $WS->setDatos($fOrdenes[0]['cliente_rut_cliente'],$fOrdenes[0]['fecha'],$value,'');
+            $WS->mensaje($datosWS[0]->action, $WS->XmlHeader());
+            print_r($WS->XmlHeader());
+            $detalle[$key]['cabecera']['codigo'][] = $WS->getCodigo();
+            $detalle[$key]['cabecera']['error'][] = $WS->getError();
+
+            //primero que se cargue en MANAGER
+            if($WS->getCodigo() == 0){
+                foreach ($fOrdenes as $f_ord) {
+                        $orden            = $this->orden_model->get_orden($f_ord['id_orden']);
+                        $detalle_servicio = $this->orden_model->getDetalleByOrdenId($f_ord['id_orden']);
+                        $nave             = $this->naves_model->datos_nave($orden[0]['nave_codigo_nave']);
+                        print_r($f_ord);
+
+                        if($orden[0]['tramo_codigo_tramo'] > 0)
+                            $tramo_ = $this->tramos_model->datos_tramo($orden[0]['tramo_codigo_tramo']);
+                        switch ($orden[0]['tipo_orden_id_tipo_orden']) {
+                            case 5:
+                                $T_ORDEN = 'EXPORTACION';
+                                break;
+                            case 6:
+                                $T_ORDEN = 'IMPORTACION';
+                                break;
+                            case 7:
+                                $T_ORDEN = 'NACIONAL';
+                                break;
+                            case 8:
+                                $T_ORDEN = 'OTRO SERVICIO';
+                                break;
+                            default:
+                                $T_ORDEN = '';
+                                break;
+                        }
+                        $observaciones .= 'TIPO '.$T_ORDEN."^ \n";
+                        $observaciones .= 'MN '.$nave[0]['nombre']."^ \n";
+                        if($orden[0]['tramo_codigo_tramo'] > 0)
+                            $observaciones .= 'TRAMO '.str_replace("\n", " ", $tramo_[0]['descripcion'])."^ \n";
+                        $observaciones .= 'REF.1 : '.$orden[0]['referencia']."^ \n";
+                        $orden[0]['referencia_2'] != '' ? $observaciones .= 'REF.2 : '.$orden[0]['referencia_2']."^ \n" : $observaciones .="^\n";
+                        $observaciones .= 'UNIDAD : '.$orden[0]['numero']."^ \n";
+                        $observaciones .= "^ \n";
+                        $observaciones .= "^ \n";
+                        $observaciones .= "^ \n";
+                        $observaciones .= "^ \n";
+                        $observaciones .= 'OS/'.$f_ord['id_orden']."^ \n";
+                        if($orden[0]['tramo_codigo_tramo'] > 0)
+                        {
+                            $WS->setDatos($f_ord['cliente_rut_cliente'],$f_ord['fecha'],$value,$observaciones);
+                            $WS->mensaje( $DetalleOS[0]->action, $WS->XmlBody($f_ord['valor_venta_tramo'] , $f_ord['id_codigo_sistema'] , $f_ord['cuenta_contable'] ));
+
+                            $detalle[$key]['detalle']['codigo'][] = $WS->getCodigo();
+                            $detalle[$key]['detalle']['error'][] = $WS->getError();
+
+
+                        }
+                        foreach ($detalle_servicio as $det_servicio) {
+
+
+                                $serv_ = $this->servicios_model->datos_servicio($det_servicio['servicio_codigo_servicio']);
+                                $WS->setCodigos( $serv_[0]['codigo_sistema'] , $serv_[0]['cuenta_contable'] );
+                                $WS->mensaje( $DetalleOS[0]->action, $WS->XmlBody($det_servicio['valor_venta'], $det_servicio['id_codigo_sistema'], $det_servicio['cuenta_contable'] ) );
+
+                                $detalle[$key]['detalle']['codigo'][] = $WS->getCodigo();
+                                $detalle[$key]['detalle']['error'][] = $WS->getError();
+                        }
+                }
+                //$WS->setDatos($fOrdenes[0]['cliente_rut_cliente'],$fOrdenes[0]['fecha'],$value,$observaciones);
+                $WS->mensaje($actualizar[0]->action, $WS->ActualizarXmlHeader($observaciones));
+                $detalle[$key]['cabeceraactualizar']['codigo'][] = $WS->getCodigo();
+                $detalle[$key]['cabeceraactualizar']['error'][] = $WS->getError();
+            }
+            else{
+            }
+        }
+        print_r($detalle);
+        //creo y genero cabecera
+            //ingreso detalle
+        /*
+            $session_data     = $this->session->userdata('logged_in');
+
+            $this->load->view('include/head',$session_data);
+            $this->load->view('transaccion/facturacion/re_facturar');
+            $this->load->view('include/script');
+        */
+}
+
     function ordenes_servicios_ajax(){
 
         if($this->session->userdata('logged_in')){
@@ -1305,7 +1483,7 @@ class Facturacion extends CI_Controller{
                 if($factura['estado_factura_id_estado_factura'] != 3){
 
                         $ordenes = $this->facturacion_model->getOrdenes($factura['id']);
-                        if ( isset($factura['id']) && isset($ordenes[0]['id_orden']) ) 
+                        if ( isset($factura['id']) && isset($ordenes[0]['id_orden']) )
                             $orden   = $this->orden_model->get_orden($ordenes[0]['id_orden']);
                         if( isset($orden[0]['cliente_rut_cliente']) )
                             $cliente = $this->clientes_model->datos_cliente($orden[0]['cliente_rut_cliente']);

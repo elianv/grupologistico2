@@ -6,7 +6,7 @@
 class delManager 
 {
 	
-	function __construct(argument)
+	function __construct(/*argument*/)
 	{
 		# code...
 	}
@@ -26,4 +26,3 @@ class delManager
 }
 
 
-?>

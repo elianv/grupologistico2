@@ -13,10 +13,10 @@ class Web_service
 	private $numNota;
     private $observaciones;
 	private $clienteWS;
-	var $codWS;
+	private $codWS;
     private $codigo_sistema;
     private $cta_cble;
-    var $error_h;
+    private $error_h;
 	public  $xml     = '';
 
 	
@@ -29,12 +29,11 @@ class Web_service
     {
         $this->fechaOS        = date("d/m/Y",strtotime($fechaos));
         $this->rutCliente     = str_replace("." , "", $rutcliente);
-        //$this->rutEmpresa     = '76010628-3';
-        $this->rutEmpresa     = '76010628-4';
+        $this->rutEmpresa     = '76010628-3';
         $this->codigoVendedor = 'ADM';
         $this->numNota        = $numnota;
-        //$this->codWS          = 'vacio';
-        //$this->error_h          = 'vacio';
+        $this->error_h        = 'vacio';
+        $this->codWS          = 'vacio';
         
     }
 
@@ -253,25 +252,16 @@ class Web_service
         $doc = new DOMDocument('1.0', 'utf-8');
         $doc->loadXML( $this->clienteWS->responseData );
         
-        //error_log(print_r($this->clienteWS->request,true));
-        //error_log(print_r($this->clienteWS->responseData,true));
-        //error_log(print_r($this->clienteWS->response,true));
-        //echo 'REQUEST<br>'.$this->clienteWS->request.'<br> ---------- <br>';
+        echo 'REQUEST<br>'.$this->clienteWS->request.'<br> ---------- <br>';
         //echo 'RESPONSE<br>'.$this->clienteWS->getDebug().'<br> ---------- <br>';
         //echo 'RESPONSE<br>'.$this->clienteWS->response.'<br> ---------- <br>';
         $XMLresults2     = $doc->getElementsByTagName("Mensaje");
         $XMLresults      = $doc->getElementsByTagName("Error");
+        if ($opc)
+            //print_r(htmlentities($this->clienteWS->responseData));
         
-        
-        if (@$XMLresults->item(0)->nodeValue != null){
-            $this->codWS   = @$XMLresults->item(0)->nodeValue;
-            $this->error_h = '<strong>Mensaje Manager: <br>'.@$XMLresults2->item(0)->nodeValue.'</strong><br>';     
-        }
-        else{
-            $XMLresults2     = $doc->getElementsByTagName("Text");
-            $this->codWS   = 2;
-            $this->error_h = '<strong>Mensaje Manager: <br>'.@$XMLresults2->item(0)->nodeValue.'</strong><br>';     
-        }
+        $this->codWS   = (int)$XMLresults->item(0)->nodeValue;
+        $this->error_h = '<strong>Mensaje Manager: <br>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';		
 
 	}	
 
@@ -288,5 +278,4 @@ class Web_service
 
 
 }
-
 
