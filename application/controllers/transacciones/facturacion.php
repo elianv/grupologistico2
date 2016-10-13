@@ -991,9 +991,9 @@ class Facturacion extends CI_Controller{
     function sincronizar(){
         $session_data = $this->session->userdata('logged_in');
         if($session_data['id_tipo_usuario'] == 0 && isset($session_data['id_tipo_usuario']) ){
-
+			$data['opc'] = 0;
             $this->load->view('include/head',$session_data);
-            $this->load->view('transaccion/facturacion/sincronizar');
+            $this->load->view('transaccion/facturacion/sincronizar',$data);
             $this->load->view('include/script');
 
         }
@@ -1001,30 +1001,29 @@ class Facturacion extends CI_Controller{
             redirect('main','refresh');
     }
 
-    function sincronizar_ajax(){
+    function FORMsincronizar(){
+
         $session_data = $this->session->userdata('logged_in');
 
         if($session_data['id_tipo_usuario'] == 0 && isset($session_data['id_tipo_usuario']) && $_FILES['uploadFile']['error'] == 0 ){
 
-            //echo "<pre>";
-            //print_r($_FILES);
+
             $fact = 0;
             $os = 0;
             $this->load->library('excel');
             $objReader = PHPExcel_IOFactory::createReader('Excel5');
             //agregar mas formatos de excel
             $objReader->setReadDataOnly(true);
-            //print_r($objReader->canRead($_FILES['uploadFile']['tmp_name']));
-            //validadiones de archivo
 
-            if ( $objReader->canRead($_FILES['uploadFile']['tmp_name']) ){
+
+            //validadiones de archivo
+            if ( $objReader->canRead($_FILES['uploadFile']['tmp_name'])){
                 $objPHPExcel = $objReader->load($_FILES['uploadFile']['tmp_name']);
                 $objWorksheet = $objPHPExcel->getActiveSheet();
 
                 $u_fila = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();
-                //echo "fghjkl".$u_fila;
-                //es ese valor??
-                if($objPHPExcel->getActiveSheet()->getCell('G1')->getFormattedValue() == 'numfact'){
+
+                if($objPHPExcel->getActiveSheet()->getCell('G1')->getFormattedValue() == 'numfact' && $objPHPExcel->getActiveSheet()->getCell('AC1')->getFormattedValue() == 'num_ot'){
 
                     for($i = 2; $i <= $u_fila ; $i++){
                         $id       = trim($objPHPExcel->getActiveSheet()->getCell('AC'.$i)->getFormattedValue());
@@ -1034,29 +1033,32 @@ class Facturacion extends CI_Controller{
 
                             $OK[$objPHPExcel->getActiveSheet()->getCell('AC'.$i)->getFormattedValue()] = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getFormattedValue();
                             // guardo el id;
-                            print_r($OK);
-
 
                             $this->facturacion_model->actualizarOS($id);
                             $this->facturacion_model->sincronizarFact($id,$num_fact);
+							
                         }
-                        else {
-                            $error[$i] = '';
-
-                        }
-
                     }
+					$data['opc'] = 1;
+					$data['ok']  = json_encode($OK);
+		            $this->load->view('include/head',$session_data);
+		            $this->load->view('transaccion/facturacion/sincronizar',$data);
+		            $this->load->view('include/script');					
                 }
-
-
+				else {
+					$this->session->set_flashdata('mensaje','<b>Error al cargar el archivo</b><br>La columna de numfact o num_ot no corresponde a las indicadas.<br>La operación de sincronización se abortara.');
+                	redirect('transacciones/facturacion/sincronizar','refresh');  
+				}
             }
             else{
-                echo "NO ES EXCEL";
+                $this->session->set_flashdata('mensaje','Error al cargar el archivo');
+                redirect('transacciones/facturacion/sincronizar','refresh');                
             }
 
         }
         else{
-            redirect('main','refresh');
+            $this->session->set_flashdata('mensaje','<b>¡Error!</b>.<br>No ha cargado ningún archivo');
+			redirect('transacciones/facturacion/sincronizar','refresh');
         }
     }
 
@@ -1259,7 +1261,6 @@ class Facturacion extends CI_Controller{
             redirect('home','refresh');
     }
 */
-
     function reFacturacion_ajax()
     {
 
