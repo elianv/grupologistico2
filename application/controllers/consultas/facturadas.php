@@ -1484,7 +1484,13 @@
                                 $proveedor                                                      = $this->Proveedores_model->datos_proveedor($detalle['proveedor_rut_proveedor']);
                                 $detalle_os                                                     = $this->consultas_model->getDetalleByIdDetalle($detalle['detalle_id_detalle']);
                                 $data['facturas'][$i]['otros_servicios'][$j]['valor_costo']     = $detalle_os[0]['valor_costo'];
-                                $data['facturas'][$i]['otros_servicios'][$j]['proveedor']       = $proveedor[0]['razon_social'];
+                                //echo "<pre>";
+                                //print_r($proveedor);
+                                if(isset($proveedor[0]['razon_social'])){
+                                    
+                                    
+                                    $data['facturas'][$i]['otros_servicios'][$j]['proveedor']       = $proveedor[0]['razon_social'];
+                                }
 
                                 $j++;
                     

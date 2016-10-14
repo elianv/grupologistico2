@@ -72,12 +72,21 @@ class Proveedores_model extends CI_Model{
     }
 	
 	function datos_proveedor($rut) {
-			$this->db->select ();
-			$this->db->from('proveedor');
-			$this->db->where('rut_proveedor',$rut);
-			$resultado = $this->db->get();
+
+            $sql = $this->db->query(" SELECT 
+                                coalesce(rut_proveedor,\"\") as rut_proveedor ,
+                                coalesce(razon_social,\"\") as razon_social,
+                                coalesce(giro,\"\") as giro,
+                                coalesce(direccion,\"\") as direccion,
+                                coalesce(comuna,\"\") as comuna,
+                                coalesce(ciudad,\"\") as ciudad,
+                                coalesce(fono,\"\") as fono,
+                                coalesce(celular,\"\") as celular
+			                 FROM proveedor
+			                 WHERE rut_proveedor = '{$rut}' ;");
 			
-			return $resultado->result_array();
+			
+			return  $sql->result_array();
         
     }
 }
