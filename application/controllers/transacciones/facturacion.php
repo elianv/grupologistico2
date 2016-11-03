@@ -1036,23 +1036,23 @@ class Facturacion extends CI_Controller{
 
                             $this->facturacion_model->actualizarOS($id);
                             $this->facturacion_model->sincronizarFact($id,$num_fact);
-							
+
                         }
                     }
 					$data['opc'] = 1;
 					$data['ok']  = json_encode($OK);
 		            $this->load->view('include/head',$session_data);
 		            $this->load->view('transaccion/facturacion/sincronizar',$data);
-		            $this->load->view('include/script');					
+		            $this->load->view('include/script');
                 }
 				else {
 					$this->session->set_flashdata('mensaje','<b>Error al cargar el archivo</b><br>La columna de numfact o num_ot no corresponde a las indicadas.<br>La operación de sincronización se abortara.');
-                	redirect('transacciones/facturacion/sincronizar','refresh');  
+                	redirect('transacciones/facturacion/sincronizar','refresh');
 				}
             }
             else{
                 $this->session->set_flashdata('mensaje','Error al cargar el archivo');
-                redirect('transacciones/facturacion/sincronizar','refresh');                
+                redirect('transacciones/facturacion/sincronizar','refresh');
             }
 
         }
@@ -1279,15 +1279,16 @@ class Facturacion extends CI_Controller{
         $WS->new_soap($datosWS[0]->url );
         //
         foreach ($ordenes as $key => $value) {
-            # code...
+            
+            $detalle[$key]['num_orden'] = $value;
             $observaciones = '';
 
             $fOrdenes = $this->facturacion_model->getFacturaOrden($value);
-            print_r($fOrdenes);
+            //print_r($fOrdenes);
             //INGRESO CABECERA
             $WS->setDatos($fOrdenes[0]['cliente_rut_cliente'],$fOrdenes[0]['fecha'],$value,'');
             $WS->mensaje($datosWS[0]->action, $WS->XmlHeader());
-            print_r($WS->XmlHeader());
+            //print_r($WS->XmlHeader());
             $detalle[$key]['cabecera']['codigo'][] = $WS->getCodigo();
             $detalle[$key]['cabecera']['error'][] = $WS->getError();
 
@@ -1297,7 +1298,7 @@ class Facturacion extends CI_Controller{
                         $orden            = $this->orden_model->get_orden($f_ord['id_orden']);
                         $detalle_servicio = $this->orden_model->getDetalleByOrdenId($f_ord['id_orden']);
                         $nave             = $this->naves_model->datos_nave($orden[0]['nave_codigo_nave']);
-                        print_r($f_ord);
+                        //print_r($f_ord);
 
                         if($orden[0]['tramo_codigo_tramo'] > 0)
                             $tramo_ = $this->tramos_model->datos_tramo($orden[0]['tramo_codigo_tramo']);
@@ -1359,7 +1360,9 @@ class Facturacion extends CI_Controller{
             else{
             }
         }
-        print_r($detalle);
+        //print_r($detalle);
+		$this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($detalle));
         //creo y genero cabecera
             //ingreso detalle
         /*

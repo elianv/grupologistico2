@@ -252,12 +252,12 @@ class Web_service
         $doc = new DOMDocument('1.0', 'utf-8');
         $doc->loadXML( $this->clienteWS->responseData );
         
-        echo 'REQUEST<br>'.$this->clienteWS->request.'<br> ---------- <br>';
+        //echo 'REQUEST<br>'.$this->clienteWS->request.'<br> ---------- <br>';
         //echo 'RESPONSE<br>'.$this->clienteWS->getDebug().'<br> ---------- <br>';
         //echo 'RESPONSE<br>'.$this->clienteWS->response.'<br> ---------- <br>';
         $XMLresults2     = $doc->getElementsByTagName("Mensaje");
         $XMLresults      = $doc->getElementsByTagName("Error");
-        if ($opc)
+        //if ($opc)
             //print_r(htmlentities($this->clienteWS->responseData));
         
         $this->codWS   = (int)$XMLresults->item(0)->nodeValue;
