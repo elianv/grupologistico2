@@ -408,7 +408,7 @@ Class consultas_model extends CI_Model{
 				    factura.estado_factura_id_estado_factura != 1 ";
  		if( $cliente )
  			$sql .= " AND orden.cliente_rut_cliente = '".$cliente."' ";
-		
+
 		if($todas == null){
 			$desde = new DateTime($desde);
 			$hasta = new DateTime($hasta);
@@ -417,7 +417,7 @@ Class consultas_model extends CI_Model{
 		}
 		$sql .= " group by id_orden ";
 		$sql .= " union
-					select 
+					select
 					    IF(1 =  1, 'N/A', '') AS id_orden,
 						IF(1 =  1, 'N/A', '') AS tipo_orden,
 					    IF(1 =  1, '2000-01-01 00:00:01', '') AS fecha,
@@ -431,7 +431,7 @@ Class consultas_model extends CI_Model{
 					where
 					    factura.estado_factura_id_estado_factura = 3";
 		$result = $this->db->query($sql);
-		
+
 		return $result->result_array();
 	}
 
@@ -538,7 +538,7 @@ Class consultas_model extends CI_Model{
 
 
 		$sql = $this->db->query($query);
-
+var_dump($this->db->last_query());
 		$result = $sql->result_array();
 
 		return $result;

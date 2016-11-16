@@ -572,8 +572,7 @@ class Facturacion extends CI_Controller{
     function modificar_facturacion(){
 
         if( $this->session->userdata('logged_in') ){
-            $datos = $this->facturacion_model->datos_factura($this->input->post('factura_numero'));
-
+            $datos = $this->facturacion_model->datos_factura($this->input->post('factura_numero') , $this->input->post('_os_manager'));
             if($datos[0]['estado_factura_id_estado_factura'] == 2 ){
 
                 if(isset($_POST['nula']))
@@ -590,16 +589,16 @@ class Facturacion extends CI_Controller{
                         }
 
                         $this->facturacion_model->eliminarOrdenesFactura($datos[0]['id']);
-                        $this->facturacion_model->eliminarFactura($datos[0]['id']);
+                        $this->facturacion_model->eliminarFactura($datos[0]['id'],$this->input->post('_os_manager'));
                         $fecha_factura = $this->input->post('fecha_factura');
                         $fecha_factura = str_replace('/','-', $fecha_factura);
                         $fecha_factura = date("Y-m-d ",strtotime($fecha_factura));
                         $factura = array(
                                     'numero_factura'                   => $this->input->post('factura_numero'),
+                                    'id'                               => $this->input->post('_os_manager'),
                                     'estado_factura_id_estado_factura' => 3,
                                     'fecha'                            => $fecha_factura
                                 );
-
                         $this->facturacion_model->insertar_facturacion($factura);
                         $this->session->set_flashdata('mensaje','La Factura se ha anulado con éxito');
                         redirect('transacciones/facturacion/editar','refresh');
@@ -670,6 +669,7 @@ class Facturacion extends CI_Controller{
 
                             $factura = array(
                                         'numero_factura'                   => $this->input->post('factura_numero'),
+                                        'id'                               => $this->input->post('_os_manager'),
                                         'estado_factura_id_estado_factura' => 1,
                                         'total_costo'                      => $total_costo,
                                         'total_venta'                      => $total_venta,
@@ -679,7 +679,6 @@ class Facturacion extends CI_Controller{
 
                             $this->facturacion_model->insertar_facturacion($factura);
                             $catch_factura        = $this->facturacion_model->ultimo_numero();
-
                             $ordenes              = $this->input->post('id_orden');
                             $factura_tramo        = $this->input->post('factura_tramo');
                             $fecha_factura_tramo  = $this->input->post('fecha_factura_tramo');
@@ -1279,7 +1278,7 @@ class Facturacion extends CI_Controller{
         $WS->new_soap($datosWS[0]->url );
         //
         foreach ($ordenes as $key => $value) {
-            
+
             $detalle[$key]['num_orden'] = $value;
             $observaciones = '';
 

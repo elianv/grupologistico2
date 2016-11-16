@@ -5,7 +5,7 @@
 			<th>Factura </th>
 			<th>N° OS ERP</th>
 			<th>Cliente</th>
-			<th>Fecha</th>	
+			<th>Fecha</th>
 			<th>Estado</th>
 		</tr>
 	</thead>
@@ -50,7 +50,7 @@
 					}
 					else{
 						$('#cliente_factura_').val("--");
-						
+
 					}
 
 					//console.log(response.total_compra);
@@ -60,7 +60,8 @@
 					$('#total_costo').val(response.total_compra);
 					$('#total_venta').val(response.total_venta);
 					$('#os_manager').val(response.factura.os_manager);
-					
+					$('#_os_manager').val(response.factura.os_manager);
+
 					if(response.factura.estado_factura_id_estado_factura == 3){
 						$("#nula").prop('checked', true);
 						$('#botones').html('<input type="submit" class="btn btn-danger" onclick = "this.form.action = \'<?php echo base_url("index.php/transacciones/facturacion/modificar_facturacion");?>\';" value="Editar" />');
@@ -72,8 +73,8 @@
 
 					$('#guia_despacho').html(response.guia);
 
-		
-					
+
+
 
 				}
 		});
@@ -81,9 +82,9 @@
 			$('body').removeClass('modal-open');
 			$('.modal-backdrop.fade.in').remove();
 			$('#detalles_orden').slideDown('slow');
-		
+
 		});
-		
+
 		console.log(codigo);
 	});
 </script>

@@ -1331,8 +1331,6 @@
                     $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['set_point']),'0',1,'L',0);
                     //RET Contenedor = deposito
                     $this->pdf->Cell(60,6,'Ret. Contenedor','0',0,'L',0);
-                    $this->pdf->Cell(61,6,':   '.utf8_decode($orden[0]['deposito']),'0',1,'L',0);
-                    $this->pdf->Cell(60,6,'Lugar de Retiro','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.utf8_decode($deposito[0]['descripcion']),'0',1,'L',0);
                     $this->pdf->Cell(60,6,'Fecha de Presentacion','0',0,'L',0);
                     $this->pdf->Cell(61,6,':   '.$orden[0]['fecha_presentacion'],'0',1,'L',0);

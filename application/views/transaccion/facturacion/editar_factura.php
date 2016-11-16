@@ -1,14 +1,14 @@
 <div class="container">
-    <legend><h3><center>Editar Factura</center></h3></legend> 
+    <legend><h3><center>Editar Factura</center></h3></legend>
       <div style="margin-left: 10px">
-            <?php 
-            
+            <?php
+
                 if(validation_errors()){
                     echo "<div class='alert alert-info '>";
                     echo "<a class='close' data-dismiss='alert'>×</a>";
                     echo validation_errors();
                     echo "</div>";
-                } 
+                }
             ?>
       </div>
             <?php
@@ -20,11 +20,11 @@
                     echo "</div>";
                 }
             ?>
-    
+
 
     <form class="form-horizontal" method="post" id="target">
         <fieldset>
-        
+
         <div class="row show-grid">
             <div class="span6">
               <div class="control-group">
@@ -41,16 +41,17 @@
                   <label class="control-label"><strong>OS N° MANAGER</strong></label>
                   <div class="controls">
                       <div class="input-append">
-                         <input type="text" class="span2" id="os_manager" value="<?php echo set_value('os_manager'); ?>" readonly >
+                         <input type="text" class="span2" name="os_manager" id="os_manager" value="<?php echo set_value('os_manager'); ?>" readonly >
+                         <input type="hidden" class="span2" name="_os_manager" id="_os_manager" value="<?php echo set_value('os_manager'); ?>" 
                       </div>
                   </div>
-              </div>              
-                    
+              </div>
+
               <div class="control-group">
                         <label class="control-label" for="numero_factura"><strong>Ordenes de Servicio</strong></label>
                         <div class="controls">
                             <div class="">
-            						        
+
             						        <a class="btn" id="search_ordenes" onclick="ordenes_servicios();" data-target="#ordenServicio" data-toggle="modal"><i class="icon-search"></i></a>
         					           </div>
                         </div>
@@ -61,14 +62,14 @@
                     <div class="controls">
                       <input type="text" class="input-large" name="cliente_factura" id="cliente_factura_" value="<?php echo set_value('cliente_factura'); ?>" readonly="" required>
                     </div>
-                  </div>              
+                  </div>
 
                       <div class="control-group">
                         <label class="control-label"><strong>Fecha Factura</strong></label>
                         <div class="controls">
                           <input type="text" class="input-large calendario" name="fecha_factura" value="<?php echo set_value('fecha_factura'); ?>" id="fecha_factura" onclick="calendario();" required>
                         </div>
-                      </div> 
+                      </div>
 
               <div id="guia_despacho">
                   <div class="repetir-guia" >
@@ -79,30 +80,30 @@
                         </div>
                       </div>
 
-                  </div>                
+                  </div>
               </div>
 
       				<div class="boton-clonar">
       					<a href="#">Agregar otra guía <span>+</span></a>
       				</div>
 
-				
-            </div>         
-            
+
+            </div>
+
               <div class="span6">
                   <div class="control-group">
                     <label class="control-label"><strong>Factura Nula?</strong></label>
                     <div class="controls">
                       <input type="checkbox" id="nula" name="nula" value="">
                     </div>
-                  </div>                   
+                  </div>
 
                   <div class="control-group">
                     <label class="control-label"><strong>Valor Total Costo</strong></label>
                     <div class="controls">
                       <input type="text" class="input-large" name="total_costo" id="total_costo" value="<?php echo set_value('total_costo'); ?>" readonly="">
                     </div>
-                  </div> 
+                  </div>
                   <div class="control-group">
                     <label class="control-label"><strong>Valor Total Venta</strong></label>
                     <div class="controls">
@@ -113,13 +114,13 @@
         </div>
         <br>
         <div class="row show-grid">
-            
+
               <legend>Detalles Ordenes</legend>
               <div id="detalles_orden">
-              </div>  
-            
+              </div>
+
         </div>
-        <div class="form-actions" id="botones" ></div>    
+        <div class="form-actions" id="botones" ></div>
         </fieldset>
     </form>
 </div>
@@ -137,7 +138,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 <a id="seleccionar" type="button" class="btn btn-success" data-dismiss="modal">Seleccionar</a>
-                
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -159,7 +160,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 
-                
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -174,11 +175,11 @@
             $('#fecha_factura').datetimepicker({
                 changeMonth: true,
                 changeYear: true,
-                showHour:false,                      
+                showHour:false,
                 showMinute:false,
                 showTime: false,
                 dateFormat: 'dd-mm-yy'
-          });              
+          });
     };
 
 
@@ -204,7 +205,7 @@
             $('#tabla-facturas').DataTable();
         }
 
-      });        
+      });
     };
 
 </script>

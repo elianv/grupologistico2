@@ -159,7 +159,7 @@ class Facturacion_model extends CI_Model{
         return $resultado->result_array();
     }
 
-    function eliminarFactura($id){
+    function eliminarFactura($id, $os_manager = NULL){
 
         $this->db->where('id', $id);
         $this->db->delete('factura');

@@ -74,11 +74,13 @@
                 error: function(jqXHR, textStatus, errorThrown){
                   mensaje = '<div class="alert alert-success" role="alert"><strong>ERROR!</strong><br>Error al comunicarse con MANAGER</div>';
                   $('#detalle').html(mensaje);
-                
+                }
 
           }).fail( function( jqXHR, textStatus, errorThrown ) {
-
+            mensaje = '<div class="alert alert-success" role="alert"><strong>ERROR!</strong><br>Error al comunicarse con MANAGER</div>';
+            $('#detalle').html(mensaje);
 
           });
     });
+  });
 </script>
