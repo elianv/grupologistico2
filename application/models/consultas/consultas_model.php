@@ -437,241 +437,282 @@ Class consultas_model extends CI_Model{
 
 	public function facturas($facturas = null, $ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
 
-		$query = '	select
-					    orden.id_orden,
-					    cliente.razon_social,
-					    nave.nombre as nombre_nave,
-					    orden.referencia,
-					    orden.referencia_2,
-					    orden.mercaderia,
-					    orden.numero as contenedor,
-					    factura.guia_despacho,
-					    bodega.nombre as nombre_bodega,
-					    tramo.descripcion as tramo,
-					    orden.fecha_presentacion,
-					    proveedor.razon_social as proveedor,
-						ordenes_facturas.factura_tramo as factura_proveedor,
-					    factura.total_costo as precio_costo,
-					    factura.numero_factura as factura_log,
-					    factura.total_venta as precio_venta,
-					    orden.observacion,
-						factura.total_venta - factura.total_costo as  margen,
-						(factura.total_venta - factura.total_costo) * 100 /factura.total_costo as porcentaje
-					from
-					    factura
-					        left join
-					    ordenes_facturas ON factura.id = ordenes_facturas.id_factura
-					        left join
-					    orden ON orden.id_orden = ordenes_facturas.id_orden
-					        left join
-					    cliente ON orden.cliente_rut_cliente = cliente.rut_cliente
-					        left join
-					    nave ON nave.codigo_nave = orden.nave_codigo_nave
-					        left join
-					    bodega ON bodega.codigo_bodega = orden.bodega_codigo_bodega
-					        left join
-					    tramo ON orden.tramo_codigo_tramo = tramo.codigo_tramo
-					        left join
-					    proveedor ON proveedor.rut_proveedor = orden.proveedor_rut_proveedor ';
+			$query = '	select
+						    orden.id_orden,
+						    cliente.razon_social,
+						    nave.nombre as nombre_nave,
+						    orden.referencia,
+						    orden.referencia_2,
+						    orden.mercaderia,
+						    orden.numero as contenedor,
+						    factura.guia_despacho,
+						    bodega.nombre as nombre_bodega,
+						    tramo.descripcion as tramo,
+						    orden.fecha_presentacion,
+						    proveedor.razon_social as proveedor,
 
-		if($facturas){
-				$facturas = explode(',', $facturas);
+							ordenes_facturas.factura_tramo as factura_proveedor,
+						    factura.total_costo as precio_costo,
+						    factura.numero_factura as factura_log,
+						    factura.total_venta as precio_venta,
+						    orden.observacion,
+							factura.total_venta - factura.total_costo as  margen,
+							(factura.total_venta - factura.total_costo) * 100 /factura.total_costo as porcentaje
+						from
+								orden
+										left join
+								ordenes_facturas ON orden.id_orden = ordenes_facturas.id_orden
+										left join
+								factura ON ordenes_facturas.id_factura = factura.id
+										left join
 
-				$i = 0;
-				$string = ' where ';
-				if($facturas != ''){
-						foreach ($facturas as $factura) {
-							if ($i > 0 )
-								$string .= ' OR factura.numero_factura = '.$factura;
-							else
-								$string .= ' factura.numero_factura = '.$factura;
-							$i++;
-						}
-				}
-				$query .= $string;
+						    cliente ON orden.cliente_rut_cliente = cliente.rut_cliente
+						        left join
+						    nave ON nave.codigo_nave = orden.nave_codigo_nave
+						        left join
+						    bodega ON bodega.codigo_bodega = orden.bodega_codigo_bodega
+						        left join
+						    tramo ON orden.tramo_codigo_tramo = tramo.codigo_tramo
+						        left join
+						    proveedor ON proveedor.rut_proveedor = orden.proveedor_rut_proveedor ';
+
+			if($facturas){
+					$facturas = explode(',', $facturas);
+
+					$i = 0;
+					$string = ' where ';
+					if($facturas != ''){
+							foreach ($facturas as $factura) {
+								if ($i > 0 )
+									$string .= ' OR factura.numero_factura = '.$factura;
+								else
+									$string .= ' factura.numero_factura = '.$factura;
+								$i++;
+							}
+					}
+					$query .= $string;
+			}
+
+			if($ordenes){
+					$ordenes = explode(',', $ordenes);
+
+					$i = 0;
+					$string = ' where ';
+					if($ordenes != ''){
+							foreach ($ordenes as $orden) {
+								if ($i > 0 )
+									$string .= ' OR orden.id_orden = '.$orden;
+								else
+									$string .= ' orden.id_orden = '.$orden;
+								$i++;
+							}
+					}
+					$query .= $string;
+			}
+
+			if($cliente){
+
+					$string = ' where cliente.rut_cliente = "'.$cliente.'"';
+					$query .= $string;
+			}
+			if($nave){
+
+					$string = ' where nave.codigo_nave = '.$nave;
+					$query .= $string;
+			}
+			if($puerto){
+					$string = ' LEFT JOIN puerto ON puerto.codigo_puerto = orden.puerto_codigo_puerto ';
+					$string .= ' where puerto.codigo_puerto = '.$puerto;
+					$query .= $string;
+			}
+			if($contenedor){
+
+					$string = ' where orden.numero like "%'.$contenedor.'%"';
+					$query .= $string;
+			}
+			if($desde && $hasta){
+					$desde = new DateTime($desde);
+					$hasta = new DateTime($hasta);
+
+					$string = ' where orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
+					$query .= $string;
+			}
+
+
+			$sql = $this->db->query($query);
+			//var_dump($this->db->last_query());
+			$result = $sql->result_array();
+
+			return $result;
 		}
 
-		if($ordenes){
-				$ordenes = explode(',', $ordenes);
+	    function getServicioOrdenFacturaByIdDetalle($id){
+	        $this->db->select('*');
+	        $this->db->from('servicios_orden_factura');
+	        $this->db->where('detalle_id_detalle',$id);
+	        $resultado = $this->db->get();
 
-				$i = 0;
-				$string = ' where ';
-				if($ordenes != ''){
-						foreach ($ordenes as $orden) {
-							if ($i > 0 )
-								$string .= ' OR orden.id_orden = '.$orden;
-							else
-								$string .= ' orden.id_orden = '.$orden;
-							$i++;
-						}
-				}
-				$query .= $string;
-		}
+	        return $resultado->result_array();
+	    }
 
-		if($cliente){
+	    function getDetalleByIdDetalle($id){
+	    	$this->db->select('*');
+	    	$this->db->from('detalle');
+				$this->db->join('servicio' , 'servicio.codigo_servicio = detalle.servicio_codigo_servicio');
+	    	$this->db->where('id_detalle',$id);
 
-				$string = ' where cliente.rut_cliente = "'.$cliente.'"';
-				$query .= $string;
-		}
-		if($nave){
+	        $resultado = $this->db->get();
 
-				$string = ' where nave.codigo_nave = '.$nave;
-				$query .= $string;
-		}
-		if($puerto){
+	        return $resultado->result_array();
+	    }
 
-				$string = ' where puerto.codigo_puerto = '.$puerto;
-				$query .= $string;
-		}
-		if($contenedor){
+	    public function ordenes_procesos($ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
+	    	$query = (		'select
+	    	    						orden.id_orden,
+	    	    						cliente.razon_social,
+	    	    						nave.nombre as nombre_nave,
+	    	    						orden.referencia,
+	    	    						orden.referencia_2,
+	    							    orden.fecha_presentacion as fecha_creacion,
+	    							    orden.mercaderia,
+	    							    orden.numero as contenedor,
+												bodega.nombre as nombre_bodega,
+												tramo.descripcion as tramo,
+												orden.fecha_presentacion,
+												proveedor.razon_social as proveedor,
+	    							    orden.observacion,
+	    							    orden.valor_costo_tramo as precio_costo,
+	    							    orden.valor_venta_tramo as precio_venta,
+	    							    orden.booking,
+	    							    orden.set_point,
+	    							    orden.peso,
+	    							    p.nombre as p_destino,
+	    							    puerto.nombre as p_embarque,
+												conductor.descripcion as conductor
 
-				$string = ' where orden.numero like "%'.$contenedor.'%"';
-				$query .= $string;
-		}
-		if($desde && $hasta){
-				$desde = new DateTime($desde);
-				$hasta = new DateTime($hasta);
+		    				from
+									proveedor,
+								    tramo,
+								    nave,
+								    bodega,
+								    orden,
+								    cliente,
+								    puerto as p,
+								    puerto,
+										conductor,
+										viaje
+							where
+										orden.tramo_codigo_tramo = tramo.codigo_tramo
+									and
+										orden.proveedor_rut_proveedor = proveedor.rut_proveedor
+									and
+										orden.nave_codigo_nave = nave.codigo_nave
+									and
+										orden.bodega_codigo_bodega = bodega.codigo_bodega
+									and
+										orden.cliente_rut_cliente = cliente.rut_cliente
+									and
+										orden.destino = p.codigo_puerto
+									and
+										orden.puerto_codigo_puerto = puerto.codigo_puerto
+									and
+										viaje.id_viaje = orden.viaje_id_viaje
+									and
+										viaje.conductor_rut = conductor.rut
+									and
+										orden.id_estado_orden = 1 ');
 
-				$string = ' where orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
-				$query .= $string;
-		}
+			if($ordenes){
+					$ordenes = explode(',', $ordenes);
+
+					$i = 0;
+					$string = ' and ';
+					if($ordenes != ''){
+							foreach ($ordenes as $orden) {
+								if ($i > 0 )
+									$string .= ' OR orden.id_orden = '.$orden;
+								else
+									$string .= ' orden.id_orden = '.$orden;
+								$i++;
+							}
+					}
+					$query .= $string;
+			}
+
+			if($cliente){
+
+					$string = ' and orden.cliente_rut_cliente = "'.$cliente.'"';
+					$query .= $string;
+			}
+			if($nave){
+
+					$string = ' and orden.nave_codigo_nave = '.$nave;
+					$query .= $string;
+			}
+			if($puerto){
+
+					$string = ' LEFT JOIN puerto ON puerto.codigo_puerto = orden.puerto_codigo_puerto ';
+					$string .= ' and orden.puerto_codigo_puerto = '.$puerto;
+					$query .= $string;
+			}
+			if($contenedor){
+
+					$string = ' and orden.numero like "%'.$contenedor.'%"';
+					$query .= $string;
+			}
+			if($desde && $hasta){
+					$desde = new DateTime($desde);
+					$hasta = new DateTime($hasta);
+
+					$string = ' and orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
+					$query .= $string;
+			}
 
 
-		$sql = $this->db->query($query);
-var_dump($this->db->last_query());
-		$result = $sql->result_array();
+			$sql = $this->db->query($query);
 
-		return $result;
-	}
-
-    function getServicioOrdenFacturaByIdDetalle($id){
-        $this->db->select('*');
-        $this->db->from('servicios_orden_factura');
-        $this->db->where('detalle_id_detalle',$id);
-        $resultado = $this->db->get();
-
-        return $resultado->result_array();
+			$result = $sql->result_array();
+			//var_dump($this->db->last_query());
+			return $result;
     }
 
-    function getDetalleByIdDetalle($id){
-    	$this->db->select('*');
-    	$this->db->from('detalle');
-    	$this->db->where('id_detalle',$id);
-
-        $resultado = $this->db->get();
-
-        return $resultado->result_array();
-    }
-
-    public function ordenes_procesos($ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
-    	$query = (		'select
-    	    						orden.id_orden,
-    	    						cliente.razon_social,
-    	    						nave.nombre as nombre_nave,
-    	    						orden.referencia,
-    	    						orden.referencia_2,
-    							    orden.fecha_presentacion as fecha_creacion,
-    							    orden.mercaderia,
-    							    orden.numero as contenedor,
-											bodega.nombre as nombre_bodega,
-											tramo.descripcion as tramo,
-											orden.fecha_presentacion,
-											proveedor.razon_social as proveedor,
-    							    orden.observacion,
-    							    orden.valor_costo_tramo as precio_costo,
-    							    orden.valor_venta_tramo as precio_venta,
-    							    orden.booking,
-    							    orden.set_point,
-    							    orden.peso,
-    							    p.nombre as p_destino,
-    							    puerto.nombre as p_embarque,
-											conductor.descripcion as conductor
-
-	    				from
-								proveedor,
-							    tramo,
-							    nave,
-							    bodega,
-							    orden,
-							    cliente,
-							    puerto as p,
-							    puerto,
-									conductor,
-									viaje
-						where
-									orden.tramo_codigo_tramo = tramo.codigo_tramo
-								and
-									orden.proveedor_rut_proveedor = proveedor.rut_proveedor
-								and
-									orden.nave_codigo_nave = nave.codigo_nave
-								and
-									orden.bodega_codigo_bodega = bodega.codigo_bodega
-								and
-									orden.cliente_rut_cliente = cliente.rut_cliente
-								and
-									orden.destino = p.codigo_puerto
-								and
-									orden.puerto_codigo_puerto = puerto.codigo_puerto
-								and
-									viaje.id_viaje = orden.viaje_id_viaje
-								and
-									viaje.conductor_rut = conductor.rut
-								and
-									orden.id_estado_orden = 1 ');
-
-		if($ordenes){
-				$ordenes = explode(',', $ordenes);
-
-				$i = 0;
-				$string = ' and ';
-				if($ordenes != ''){
-						foreach ($ordenes as $orden) {
-							if ($i > 0 )
-								$string .= ' OR orden.id_orden = '.$orden;
-							else
-								$string .= ' orden.id_orden = '.$orden;
-							$i++;
-						}
-				}
-				$query .= $string;
+		function getByIdOrden($id){
+				$query = "SELECT
+									detalle.*, servicio.descripcion, servicios_orden_factura.*
+								FROM
+									detalle
+											LEFT JOIN
+									servicio ON servicio.codigo_servicio = detalle.servicio_codigo_servicio
+											LEFT JOIN
+									servicios_orden_factura ON servicios_orden_factura.detalle_id_detalle = detalle.id_detalle
+								WHERE
+									orden_id_orden = {$id}";
+				$sql = $this->db->query($query);
+				//var_dump($this->db->last_query());
+				return $sql->result_array();
 		}
 
-		if($cliente){
+		function total_ordenes($id_orden){
 
-				$string = ' and orden.cliente_rut_cliente = "'.$cliente.'"';
-				$query .= $string;
+			$query = "SELECT
+								    (valor_costo_tramo + COALESCE(det_costo,0)) as total_costo,
+										(valor_venta_tramo + COALESCE(det_venta,0)) as total_venta,
+										(valor_venta_tramo + COALESCE(det_venta,0)) - (valor_costo_tramo + COALESCE(det_costo,0)) AS margen
+								FROM
+								    orden,
+								    (SELECT
+								        SUM(valor_costo) AS det_costo, SUM(valor_venta) AS det_venta
+								    FROM
+								        detalle
+								    WHERE
+								        orden_id_orden = {$id_orden}) det
+								WHERE
+								    id_orden = {$id_orden}";
+
+				$sql = $this->db->query($query);
+				//var_dump($this->db->last_query());
+				return $sql->result_array();
 		}
-		if($nave){
-
-				$string = ' and orden.nave_codigo_nave = '.$nave;
-				$query .= $string;
-		}
-		if($puerto){
-
-				$string = ' and orden.puerto_codigo_puerto = '.$puerto;
-				$query .= $string;
-		}
-		if($contenedor){
-
-				$string = ' and orden.numero like "%'.$contenedor.'%"';
-				$query .= $string;
-		}
-		if($desde && $hasta){
-				$desde = new DateTime($desde);
-				$hasta = new DateTime($hasta);
-
-				$string = ' and orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
-				$query .= $string;
-		}
-
-
-		$sql = $this->db->query($query);
-
-		$result = $sql->result_array();
-		//var_dump($this->db->last_query());
-		return $result;
-    }
-
 }
 
 ?>
