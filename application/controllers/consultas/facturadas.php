@@ -91,7 +91,7 @@
                                         $this->excel->getActiveSheet()->setCellValue('C2', 'Referencia');
                                         $this->excel->getActiveSheet()->setCellValue('D2', 'Tipo Orden');
                                         $this->excel->getActiveSheet()->setCellValue('E2', 'Contenedor');
-                                        $this->excel->getActiveSheet()->setCellValue('F2', 'Factura Logistica');
+                                        $this->excel->getActiveSheet()->setCellValue('F2', 'Factura GLC');
 
                                         $this->excel->getActiveSheet()->getStyle('A2:F2')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
 
@@ -1418,7 +1418,7 @@
                     //print_r($_POST);
 
                     if(isset($_POST['check_orden'])){
-                        
+
                         if($orden == '')
                             $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
                         else
