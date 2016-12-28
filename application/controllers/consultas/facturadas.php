@@ -1455,10 +1455,15 @@
                             $data['facturas'] = $this->consultas_model->facturas( '', '', '', '', '', $contenedor, '', '');
                     }
                     else if(isset($_POST['desde']) && isset($_POST['hasta'])){
-                        if($desde == '' && $hasta == '')
-                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
-                        else
-                            $data['facturas'] = $this->consultas_model->facturas( '', '', '', '', '', '', $desde, $hasta);
+                        if($desde == '' && $hasta == ''){
+                              $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
+                        }
+
+                        else{
+                              $data['facturas'] = $this->consultas_model->facturas( '', '', '', '', '', '', $desde, $hasta);
+                        }
+
+
                     }
                     else{
                         $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');

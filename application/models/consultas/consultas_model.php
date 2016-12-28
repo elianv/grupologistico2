@@ -534,7 +534,7 @@ Class consultas_model extends CI_Model{
 					$desde = new DateTime($desde);
 					$hasta = new DateTime($hasta);
 
-					$string = ' where orden.fecha_presentacion between "'.$desde->format('Y-m-d').'" and "'.$hasta->format('Y-m-d').'"';
+					$string = " where orden.fecha_presentacion between '".$desde->format('Y-m-d')."' and '".$hasta->format('Y-m-d')."'";
 					$query .= $string;
 			}
 
