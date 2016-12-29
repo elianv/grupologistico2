@@ -474,19 +474,20 @@ Class consultas_model extends CI_Model{
 						        left join
 						    tramo ON orden.tramo_codigo_tramo = tramo.codigo_tramo
 						        left join
-						    proveedor ON proveedor.rut_proveedor = orden.proveedor_rut_proveedor ';
+						    proveedor ON proveedor.rut_proveedor = orden.proveedor_rut_proveedor
+								WHERE 1 ';
 
 			if($facturas){
 					$facturas = explode(',', $facturas);
 
 					$i = 0;
-					$string = ' where ';
+
 					if($facturas != ''){
 							foreach ($facturas as $factura) {
 								if ($i > 0 )
 									$string .= ' OR factura.numero_factura = '.$factura;
 								else
-									$string .= ' factura.numero_factura = '.$factura;
+									$string .= ' AND factura.numero_factura = '.$factura;
 								$i++;
 							}
 					}
@@ -497,13 +498,13 @@ Class consultas_model extends CI_Model{
 					$ordenes = explode(',', $ordenes);
 
 					$i = 0;
-					$string = ' where ';
+
 					if($ordenes != ''){
 							foreach ($ordenes as $orden) {
 								if ($i > 0 )
 									$string .= ' OR orden.id_orden = '.$orden;
 								else
-									$string .= ' orden.id_orden = '.$orden;
+									$string .= ' AND orden.id_orden = '.$orden;
 								$i++;
 							}
 					}
@@ -512,12 +513,12 @@ Class consultas_model extends CI_Model{
 
 			if($cliente){
 
-					$string = ' where cliente.rut_cliente = "'.$cliente.'"';
+					$string = ' AND cliente.rut_cliente = "'.$cliente.'"';
 					$query .= $string;
 			}
 			if($nave){
 
-					$string = ' where nave.codigo_nave = '.$nave;
+					$string = ' nave.codigo_nave = '.$nave;
 					$query .= $string;
 			}
 			if($puerto){
@@ -527,14 +528,14 @@ Class consultas_model extends CI_Model{
 			}
 			if($contenedor){
 
-					$string = ' where orden.numero like "%'.$contenedor.'%"';
+					$string = ' orden.numero like "%'.$contenedor.'%"';
 					$query .= $string;
 			}
 			if($desde && $hasta){
 					$desde = new DateTime($desde);
 					$hasta = new DateTime($hasta);
 
-					$string = " where orden.fecha_presentacion between '".$desde->format('Y-m-d')."' and '".$hasta->format('Y-m-d')."'";
+					$string = " AND orden.fecha_presentacion between '".$desde->format('Y-m-d')."' and '".$hasta->format('Y-m-d')."'";
 					$query .= $string;
 			}
 

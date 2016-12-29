@@ -1415,58 +1415,64 @@
                     $contenedor     = $this->input->post('contenedor');
                     $orden          = $this->input->post('n_orden');
 
+                    //echo "<pre>";
                     //print_r($_POST);
+                    //echo $desde." ".$hasta;
 
                     if(isset($_POST['check_orden'])){
 
                         if($orden == '')
-                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
+                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', $desde, $hasta);
                         else
-                            $data['facturas'] = $this->consultas_model->facturas('', $orden, '', '', '', '', '', '');
+                            $data['facturas'] = $this->consultas_model->facturas('', $orden, '', '', '', '', $desde, $hasta);
                     }
                     else if(isset($_POST['check_factura'])) {
                         if($factura == '')
-                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
+                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', $desde, $hasta);
                         else
-                            $data['facturas'] = $this->consultas_model->facturas($factura, '', '', '', '', '', '', '');
+                            $data['facturas'] = $this->consultas_model->facturas($factura, '', '', '', '', '',$desde, $hasta);
                     }
                     else if(isset($_POST['check_cliente'])){
                         if($cliente == '')
-                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
+                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', $desde, $hasta);
                         else
-                            $data['facturas'] = $this->consultas_model->facturas('', '', $cliente,'', '', '', '', '');
+                            $data['facturas'] = $this->consultas_model->facturas('', '', $cliente,'', '', '', $desde, $hasta);
                     }
                     else if(isset($_POST['check_nave'])){
                         if($nave == '')
-                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
+                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', $desde, $hasta);
                         else
-                            $data['facturas'] = $this->consultas_model->facturas( '', '', '', $nave, '', '', '', '');
+                            $data['facturas'] = $this->consultas_model->facturas( '', '', '', $nave, '', '', $desde, $hasta);
                     }
                     else if(isset($_POST['check_puerto'])){
-                        if($puerto == '')
-                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
-                        else
-                            $data['facturas'] = $this->consultas_model->facturas( '', '', '', '', $puerto, '', '', '');
+                        if($puerto == ''){
+                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', $desde, $hasta);
+                        }
+                        else{
+                            $data['facturas'] = $this->consultas_model->facturas( '', '', '', '', $puerto, '', $desde, $hasta);
+                          }
                     }
                     else if(isset($_POST['check_contenedor'])){
-                        if($contenedor == '')
-                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
-                        else
-                            $data['facturas'] = $this->consultas_model->facturas( '', '', '', '', '', $contenedor, '', '');
+                        if($contenedor == ''){
+                            $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', $desde, $hasta);
+                        }
+                        else{
+                            $data['facturas'] = $this->consultas_model->facturas( '', '', '', '', '', $contenedor, $desde, $hasta);
+                        }
                     }
                     else if(isset($_POST['desde']) && isset($_POST['hasta'])){
                         if($desde == '' && $hasta == ''){
-                              $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
+                              $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', $desde, $hasta);
                         }
 
                         else{
-                              $data['facturas'] = $this->consultas_model->facturas( '', '', '', '', '', '', $desde, $hasta);
+                             $data['facturas'] = $this->consultas_model->facturas( '', '', '', '', '', '', $desde, $hasta);
                         }
 
 
                     }
                     else{
-                        $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', '', '');
+                        $data['facturas'] = $this->consultas_model->facturas('', '', '', '', '', '', $desde, $hasta);
                     }
 
                     $i = 0;
@@ -1531,7 +1537,7 @@
                     //echo "<pre>";
                     //print_r($data);
 
-                    if($salida == 'pantalla'){
+                    if($salida == 'pantalla' ){
                         $this->load->view('include/head',$session_data);
                         $this->load->view('consultas/master',$data);
                         $this->load->view('include/script');
