@@ -11,6 +11,7 @@ class Facturacion extends CI_Controller{
         $this->load->model('mantencion/proveedores_model');
         $this->load->model('mantencion/clientes_model');
         $this->load->model('mantencion/naves_model');
+
     }
 
     function index(){
@@ -86,14 +87,16 @@ class Facturacion extends CI_Controller{
                                     'fecha'                            => $fecha_factura
 
                                 );
-
-                        if(isset( $_POST['factura_papel'] ) )
+                        
+                        if( $_POST['factura_papel'] == 1 && $this->input->post('factura_numero') == '')
                         {
                             $factura['numero_factura']  = $this->input->post('factura_numero');
                             $factura['tipo_factura_id'] = 1;
                         }
-                        else
+                        else{
                             $factura['tipo_factura_id'] = 2;
+                        }
+
 
                         $id_factura                    = $this->facturacion_model->insertar_facturacion($factura);
                         $catch_factura[0]['id']        = $id_factura;

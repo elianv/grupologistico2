@@ -1,11 +1,11 @@
 <?php
 
 /**
-* 
+*
 */
-class Web_service 
+class Web_service
 {
-	
+
 	private $fechaOS;
 	private $rutEmpresa;
 	private $rutCliente;
@@ -19,7 +19,7 @@ class Web_service
     private $error_h;
 	public  $xml     = '';
 
-	
+
 	function __construct()
 	{
 
@@ -34,7 +34,7 @@ class Web_service
         $this->numNota        = $numnota;
         $this->error_h        = 'vacio';
         $this->codWS          = 'vacio';
-        
+
     }
 
     public function setCodigos($codigo_sistema,$cta_cble){
@@ -50,12 +50,12 @@ class Web_service
 	public function new_soap($url)
 	{
         $CI =& get_instance();
-        
+
 		$CI->load->library('lib/nusoap_base');
 
-		$this->clienteWS = new nusoap_client($url , true);       
+		$this->clienteWS = new nusoap_client($url , true);
         $this->clienteWS->soap_defencoding = 'UTF-8';
-        $this->clienteWS->decode_utf8 = false; 		
+        $this->clienteWS->decode_utf8 = false;
 	}
 
 
@@ -111,7 +111,7 @@ class Web_service
                       </ven:IngresaCabeceraDeNotaDeVenta>
                    </soap:Body>
                 </soap:Envelope>
-        ';	
+        ';
 
         return $xml;
 	}
@@ -146,9 +146,9 @@ class Web_service
               </ven:IngresaDetalleDeNotaDeVenta>
            </soapenv:Body>
         </soapenv:Envelope>
-        '; 
+        ';
 
-        return $xml;  		
+        return $xml;
 	}
 
     public function eliminarXmlBody($item)
@@ -186,7 +186,7 @@ class Web_service
                            </soap:Body>
                         </soap:Envelope>';
         return $xml;
-    }    
+    }
 
     public function ActualizarXmlHeader($observaciones)
     {
@@ -212,7 +212,7 @@ class Web_service
                          <!--Optional:-->
                          <ven:tipoVenta>0</ven:tipoVenta>
                          <!--Optional:-->
-                         
+
                          <!--Optional:-->
                          <ven:codigoMoneda>$</ven:codigoMoneda>
                          <ven:comision>0</ven:comision>
@@ -239,19 +239,19 @@ class Web_service
                          <ven:codigoPersonal>ADM</ven:codigoPersonal>
                       </ven:ActualizaCabeceraDeNotaDeVenta>
                    </soapenv:Body>
-                </soapenv:Envelope>';       
+                </soapenv:Envelope>';
 
-        return $xml; 
-    }    
+        return $xml;
+    }
 
 	public function mensaje( $action , $xml , $opc=0 )
 	{
-        
+
         $this->clienteWS->send( $xml , $action);
-        
+
         $doc = new DOMDocument('1.0', 'utf-8');
         $doc->loadXML( $this->clienteWS->responseData );
-        
+
         //echo 'REQUEST<br>'.$this->clienteWS->request.'<br> ---------- <br>';
         //echo 'RESPONSE<br>'.$this->clienteWS->getDebug().'<br> ---------- <br>';
         //echo 'RESPONSE<br>'.$this->clienteWS->response.'<br> ---------- <br>';
@@ -259,11 +259,11 @@ class Web_service
         $XMLresults      = $doc->getElementsByTagName("Error");
         //if ($opc)
             //print_r(htmlentities($this->clienteWS->responseData));
-        
-        $this->codWS   = (int)$XMLresults->item(0)->nodeValue;
-        $this->error_h = '<strong>Mensaje Manager: <br>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';		
 
-	}	
+        $this->codWS   = (int)$XMLresults->item(0)->nodeValue;
+        $this->error_h = '<strong>Mensaje Manager: <br>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';
+
+	}
 
 	public function getCodigo()
 	{
@@ -278,4 +278,3 @@ class Web_service
 
 
 }
-
