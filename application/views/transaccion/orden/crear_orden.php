@@ -1,16 +1,16 @@
 <div class="container">
 
 	<legend><h3><center>Nueva Orden de Servicio</center></h3></legend>
-	
+
 	<div style="margin-left: 10px">
-            <?php 
-            
+            <?php
+
                 if(validation_errors()){
                     echo "<div class='alert alert-info '>";
                     echo "<a class='close' data-dismiss='alert'>×</a>";
                     echo validation_errors();
                     echo "</div>";
-                } 
+                }
             ?>
         </div>
         <?php
@@ -22,9 +22,9 @@
                 echo "</div>";
             }
         ?>
-        
+
 		<form class="form-horizontal form-orden" method="post">
-			<fieldset>  
+			<fieldset>
 			<div class="row show-grid">
 				<div class="span5">
 					<div class="control-group">
@@ -44,11 +44,11 @@
 					<div class="control-group">
 						<label class="control-label" for="referencia"><strong>Referencia</strong></label>
 						<div class="controls">
-                                                    <input type="text" class="input-xxlarge" name="referencia" id="referencia" value="<?php echo set_value('referencia'); ?>">
+            		<input type="text" class="input-xxlarge" name="referencia" id="referencia" value="<?php echo set_value('referencia'); ?>">
 						</div>
 					</div>
 				</div>
-			
+
 				<div class="span6">
 					<div class="control-group">
 						<label class="control-label" for="tipo_factura"><strong>Tipo</strong></label>
@@ -57,7 +57,18 @@
 								<?php
 									// print_r(tfacturacion[0]);
 									foreach ($tfacturacion as $tipo){
-										echo "<option value='".$tipo['tipo_orden']."' >".$tipo['tipo_orden']."</option>";
+
+										if (isset($active)){
+												if ($active == $tipo['tipo_orden'])
+														echo "<option id='".str_replace(' ', '',$tipo['tipo_orden'])."' value='".$tipo['tipo_orden']."' selected>".$tipo['tipo_orden']."</option>";
+												else {
+														echo "<option id='".str_replace(' ', '',$tipo['tipo_orden'])."' value='".$tipo['tipo_orden']."' >".$tipo['tipo_orden']."</option>";
+												}
+										}
+										else {
+													echo "<option id='".str_replace(' ', '',$tipo['tipo_orden'])."' value='".$tipo['tipo_orden']."' >".$tipo['tipo_orden']."</option>";
+
+										}
 									}
 								?>
 							</select>
@@ -65,10 +76,10 @@
 					</div>
 				</div>
 			</div>
-            
+
 			</br>
 			</br>
-<!--   ##############################################################    -->     
+<!--   ##############################################################    -->
 
             <div class="control-group">
                 <label class="control-label" for="cliente"><strong>RUT Cliente</strong></label>
@@ -95,14 +106,14 @@
                     <div class="input-append"><input type="text" class="input-xxlarge" value="<?php echo set_value('aduana_codigo_aduana'); ?>" id="aduana" name="aduana_codigo_aduana" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-aduana"><i class="icon-search"></i></button></div>
                 </div>
             </div>
-            
+
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Contacto Aduana</strong></label>
                 <div class="controls">
                     <input type="text" class="input-xxlarge" id="contacto" readonly="" name="contacto" value="<?php echo set_value('contacto'); ?>">
                 </div>
             </div>
-            
+
             <div class="control-group">
                 <label class="control-label" for="aduana"><strong>Fono Aduana</strong></label>
                 <div class="controls">
@@ -123,7 +134,7 @@
                     <div class="input-append"><input type="text" class="input-xxlarge" id="naviera" name="naviera_codigo_naviera" value="<?php echo set_value('naviera_codigo_naviera'); ?>" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-naviera"><i class="icon-search"></i></button></div>
                 </div>
             </div>
-            
+
             <div class="control-group" id="check_tramo" style="display:none;">
                 <label class="control-label"></label>
                 <div class="checkbox">
@@ -169,8 +180,8 @@
                 <div class="controls">
                     <input type="text" class="input-large" name="fecha" id="fecha" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha'); ?>">
                 </div>
-            </div> 
-  
+            </div>
+
             <div class="control-group">
                 <label class="control-label" for="carga"><strong>Carga</strong></label>
                 <div class="controls">
@@ -182,7 +193,7 @@
                     </div>
                 </div>
             </div>
-               
+
             <div class="control-group">
                 <label class="control-label" for="observacion"><strong>Mercader&iacute;a</strong></label>
                 <div class="controls">
@@ -210,21 +221,21 @@
                  <input type="text" class="input-xxlarge" id="set_point" name="set_point" value="<?php echo set_value('set_point'); ?>">
                 </div>
             </div>
-               
+
             <div class="control-group deposito" id="form_deposito" style="display:;">
                 <label class="control-label" for="bodega"><strong>Dep&oacute;sito</strong></label>
                 <div class="controls">
                     <div class="input-append"><input type="text" value="<?php echo set_value('deposito_codigo_deposito'); ?>" class="input-xxlarge" id="deposito" name="deposito_codigo_deposito" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-deposito"><i class="icon-search"></i></button></div>
                 </div>
-            </div>  
-            
-                
+            </div>
+
+
             <div class="control-group retiro" id="form_lugar_retiro" style="display:none;">
                 <label class="control-label" for="retiro"><strong>Lugar de Retiro</strong></label>
                 <div class="controls">
                     <textarea class="input-xxlarge" id="lugar_retiro" name="lugar_retiro" value="<?php echo set_value('lugar_retiro'); ?>"></textarea>
                 </div>
-            </div>              
+            </div>
 
             <div class="control-group">
                 <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
@@ -232,7 +243,7 @@
                  <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha_presentacion'); ?>">
                 </div>
             </div>
-               
+
             <div class="control-group">
                 <label class="control-label" for="bodega"><strong>Bodega</strong></label>
                 <div class="controls">
@@ -279,22 +290,22 @@
             </div>
 
 
-                   
+
 
             <div class="row show-grid">
-                
+
                 <div class="span5">
                                     <div class="control-group">
                                     <label class="control-label" for="referencia"><strong>Referencia 2</strong></label>
                                     <div class="controls">
                                         <input type="text" class="input-large" id="referencia2" name="referencia2" placeholder="" value="<?php echo set_value('referencia2'); ?>">
                                     </div>
-                                    </div>        
+                                    </div>
                 </div>
                 <div class="span5">
 
                 </div>
-                
+
             </div>
 
                         <div class="control-group">
@@ -306,15 +317,15 @@
                                     <input type="text" class="span4" id="rsocial" name="nombre_proveedor" readonly="" placeholder="Nombre Proveedor..." style="margin-left: 40px;" value="<?php echo set_value('nombre_proveedor'); ?>">
                                 </div>
                             </div>
-                        </div>            
-               
+                        </div>
+
                         <div class="control-group">
                             <label class="control-label" for="observacion"><strong>Observación</strong></label>
                             <div class="controls">
                              <textarea class="input-xxlarge" id="observacion" name="observacion" rows="3"><?php echo set_value('observacion'); ?></textarea>
                             </div>
                         </div>
-						
+
 						<div class="campo-a-repetir original">
 
 							<div class="control-group">
@@ -329,7 +340,7 @@
 							</div>
 
 							<div class="row show-grid">
-								 <div class="span5">    
+								 <div class="span5">
 									<div class="control-group">
 										<label class="control-label" for="valor_costo_servicio"><strong>Valor Costo</strong></label>
 										<div class="controls">
@@ -346,24 +357,24 @@
 								</div>
 							 </div>
 							</div>
-							
+
 							<div class="eliminar-campo">
 								<a href="javascript:void(0);">Eliminar Servicio <span>-</span></a>
 							</div>
-						
+
 						</div>
-						
+
 						<div class="boton-repetir">
 							<a href="#">Agregar otro Servicio <span>+</span></a>
 						</div>
-						
-						
+
+
                </br>
                </br>
                </br>
-               
+
                <!--   #########################################################################    -->
-              
+
       <div class="control-group">
             <label class="control-label" for="conductor"><strong>Conductor</strong></label>
             <div class="controls">
@@ -383,7 +394,7 @@
                 <input id="telefono_conductor" name="telefono_conductor" type="text" readonly="" value="<?php echo set_value('telefono_conductor'); ?>"/>
             </div>
         </div>
-               
+
        <div class="control-group">
            <label class="control-label" for="patente"><strong>Patente Cami&oacute;n</strong></label>
             <div class="controls">
@@ -392,8 +403,8 @@
                 <input type="hidden" name="viaje_id" id="viaje_id">
             </div>
         </div>
-          
-               
+
+
             <div class="form-actions" >
                 <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/guardar'" value="Crear"/>
             </div>
@@ -401,7 +412,71 @@
           </form>
 </div>
 <script type="text/javascript">
-    $('.modal').on('shown.bs.modal', function() {
-  $(this).find('[autofocus]').focus();
-});
+		$( document ).ready(function() {
+					var tipo_orden = $('#tipo_factura').val();
+					console.log('tipo de orden :'+tipo_orden);
+					switch (tipo_orden) {
+						case 'EXPORTACION':
+								divC = document.getElementById("form_deposito");
+								divC.style.display = "";
+
+								divT = document.getElementById("form_lugar_retiro");
+								divT.style.display = "none";
+
+								divP = document.getElementById("form_puerto_embarque");
+								divP.style.display = "";
+
+								divB = document.getElementById("check_tramo");
+								divB.style.display="none";
+
+								divA = document.getElementById("destino");
+								divA.style.display="";
+						break;
+						case 'IMPORTACION':
+								divC = document.getElementById("form_deposito");
+								divC.style.display="none";
+
+								divT = document.getElementById("form_lugar_retiro");
+								divT.style.display = "";
+
+								divP = document.getElementById("form_puerto_embarque");
+								divP.style.display = "none";
+
+								divB = document.getElementById("check_tramo");
+								divB.style.display="none";
+
+								divA = document.getElementById("p_destino");
+								divA.style.display="";
+						break;
+						case 'OTRO SERVICIO':
+								divC = document.getElementById("check_tramo");
+							  divC.style.display="";
+
+			          divA = document.getElementById("p_destino");
+			          divA.style.display="none";
+
+							  divB = document.getElementById("select_tramo");
+							  divB.style.display="none";
+
+							  divD = document.getElementById("form_deposito");
+							  divD.style.display="";
+						break;
+						case 'NACIONAL':
+								divC = document.getElementById("check_tramo");
+					  		divC.style.display="none";
+
+			          divA = document.getElementById("p_destino");
+			          divA.style.display="none";
+
+					  		divB = document.getElementById("form_deposito");
+					  		divB.style.display="";
+						break;
+
+					}
+		});
+
+		$('.modal').on('shown.bs.modal', function() {
+  		$(this).find('[autofocus]').focus();
+		});
+
 </script>

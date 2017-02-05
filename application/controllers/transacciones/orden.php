@@ -190,8 +190,8 @@
                     $data['navieras']       = $this->Navieras_model->listar_navieras();
                     $data['numero_orden']   = $this->input->post('numero_orden') ;
 
-                    $tab['active'] = 'exportacion';
-
+                    $data['active'] = $_POST['tipo_orden'];
+                    
                     $this->load->view('include/head',$session_data);
                     $this->load->view('transaccion/orden/crear_orden',$data);
                     $this->load->view('modal/modal_aduana', $data);

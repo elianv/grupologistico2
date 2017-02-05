@@ -1,11 +1,11 @@
 $('.form-navieras .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var codigo = $(this).attr('data-codigo');
-	
+
 	$('.form-left-navieras #codigo_naviera').attr('value', codigo);
-	
+
 	var nombre = $(this).parent().next('.nombre').text();
 
 	$('.form-left-navieras #nombre').attr('value', nombre);
@@ -15,9 +15,9 @@ $('.form-navieras .codigo-click').click(function(e){
 /*Camiones*/
 
 $('.form-camiones .codigo-click').click(function(e){
-	
+
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		url:'../mantencion/camiones',
@@ -39,11 +39,11 @@ $('.form-camiones .codigo-click').click(function(e){
 $('.form-puertos .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var codigo = $(this).attr('data-codigo');
-	
+
 	$('.form-left-puertos #codigo_puerto').attr('value', codigo);
-	
+
 	var nombre = $(this).parent().next('.nombre').text();
 
 	$('.form-left-puertos #nombre').attr('value', nombre);
@@ -55,11 +55,11 @@ $('.form-puertos .codigo-click').click(function(e){
 $('.form-cargas .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var codigo = $(this).attr('data-codigo');
-	
+
 	$('.form-left-cargas #codigo_carga').attr('value', codigo);
-	
+
 	var nombre = $(this).parent().next('.descripcion').text();
 
 	$('.form-left-cargas #descripcion').attr('value', nombre);
@@ -71,11 +71,11 @@ $('.form-cargas .codigo-click').click(function(e){
 $('.form-depositos .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var codigo = $(this).attr('data-codigo');
-	
+
 	$('.form-left-depositos #codigo_deposito').attr('value', codigo);
-	
+
 	var nombre = $(this).parent().next('.descripcion').text();
 
 	$('.form-left-depositos #descripcion').attr('value', nombre);
@@ -87,7 +87,7 @@ $('.form-depositos .codigo-click').click(function(e){
 $('.form-clientes .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		url:'../mantencion/clientes',
@@ -135,13 +135,13 @@ $('.form-orden #tipo_factura').change(function(){
 		$('.form-orden .ret label strong').text('Ret. Contenedor');
 		$('.form-orden .booking label strong').text('Tarjeton');
 		$('.form-orden .destino label strong').text('Destino');
-		$('.form-orden .tramo label strong').text('Tramo');		
+		$('.form-orden .tramo label strong').text('Tramo');
 	}
 	if(filtro == 'OTRO SERVICIO'){
 		$('.form-orden .ret label strong').text('Ret. Contenedor');
 		$('.form-orden .booking label strong').text('Booking');
 		$('.form-orden .destino label strong').text('Destino');
-		$('.form-orden .tramo label strong').text('Descripcion');		
+		$('.form-orden .tramo label strong').text('Descripcion');
 	}
 
 });
@@ -184,13 +184,13 @@ $.datepicker.regional['es'] = {
 
 $('.form-orden #fecha_carga').datetimepicker();
 $('#fecha_1').datetimepicker();
-	
+
 /*Tipos de Naves*/
 
 $('.form-naves .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		url:'../mantencion/naves',
@@ -212,7 +212,7 @@ $('.form-naves .codigo-click').click(function(e){
 $('.form-aduanas .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		url:'../mantencion/agencias',
@@ -235,7 +235,7 @@ $('.form-aduanas .codigo-click').click(function(e){
 $('.form-tramos .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		url:'../mantencion/tramos',
@@ -259,7 +259,7 @@ $('.form-tramos .codigo-click').click(function(e){
 $('.form-proveedores .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		url:'../mantencion/proveedores',
@@ -289,7 +289,7 @@ $('.form-proveedores .codigo-click').click(function(e){
 $('.form-bodegas .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		url:'../mantencion/bodegas',
@@ -311,9 +311,9 @@ $('.form-bodegas .codigo-click').click(function(e){
 /*Servicios*/
 
 $('.form-servicios .codigo-click').click(function(e){
-	
+
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		url:'../mantencion/servicios',
@@ -336,9 +336,9 @@ $('.form-servicios .codigo-click').click(function(e){
 /*Conductores*/
 
 $('.form-conductores .codigo-click').click(function(e){
-	
+
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		url:'../mantencion/conductores',
@@ -360,13 +360,13 @@ $('.form-conductores .codigo-click').click(function(e){
 $('.boton-repetir a').click(function(e){
 
 	e.preventDefault();
-	
+
 	$('.campo-a-repetir:last').after($('.campo-a-repetir:last').clone());
-	
+
 	$('.campo-a-repetir:last').removeClass('original');
-	
+
 	document.setCloneEvent();
-	
+
 });
 
 /*Repetir campo + funcion para que Clon pueda quedar "activo"*/
@@ -374,13 +374,13 @@ $('.boton-repetir a').click(function(e){
 (document.setCloneEvent = function(){
 
 	$('.campo-a-repetir .btn').last().click(function(){
-		
+
 		$('.campo-a-repetir').removeClass('activo');
 
 		$(this).parent().parent().parent().parent().addClass('activo');
 
 	});
-	
+
 })();
 
 $('#modal-servicio .close').click(function(){
@@ -392,7 +392,7 @@ $('#modal-servicio .close').click(function(){
 $(document).on('click', '.eliminar-campo a',function(e){
 
 	e.preventDefault();
-	
+
 	$(this).closest('.campo-a-repetir').remove();
 
 });
@@ -402,7 +402,7 @@ $(document).on('click', '.eliminar-campo a',function(e){
 $('#modal-servicio .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
 		url_controller = '../../../../mantencion/servicios';
@@ -417,7 +417,7 @@ $('#modal-servicio .codigo-click').click(function(e){
 		url_controller = '../mantencion/servicios';
 		console.log('Creando');
 	}
-	
+
 	$.ajax({
 		type:'post',
 		//url:'../mantencion/servicios',
@@ -432,13 +432,13 @@ $('#modal-servicio .codigo-click').click(function(e){
 			$('.campo-a-repetir.activo #valor_venta_servicio').val(response[0].valor_venta);
 		}
 	});
-	
+
 	$('#modal-servicio').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
+
 	});
 
 });
@@ -448,19 +448,19 @@ $('#modal-servicio .codigo-click').click(function(e){
 $('#modal-cliente .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #cliente').attr('value', $(this).data('codigo'));
 	$('.form-orden #cliente').val($(this).data('codigo'));
 	$('.form-orden .nombre-cliente').val(nombre);
-	
+
 	$('#modal-cliente').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
+
 	});
 
 });
@@ -470,15 +470,15 @@ $('#modal-cliente .codigo-click').click(function(e){
 $('#modal-naviera .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #naviera').val($(this).data('codigo')+'-'+nombre);
-	
+
 	$('#modal-naviera').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
 
 	});
@@ -488,9 +488,9 @@ $('#modal-naviera .codigo-click').click(function(e){
 /*Modal Ordn - Aduanas */
 
 $('#modal-aduana .codigo-click').click(function(e){
-	
+
 	var url_controller = '';
-	
+
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
 		console.log('Editando');
@@ -507,7 +507,7 @@ $('#modal-aduana .codigo-click').click(function(e){
 	}
 
 	e.preventDefault();
-	
+
 	$.ajax({
 		type:'post',
 		//url:'../../../mantencion/agencias',
@@ -522,14 +522,14 @@ $('#modal-aduana .codigo-click').click(function(e){
 			$('#telefono').val(response[0].telefono);
 		}
 	});
-	
+
 	$('#modal-aduana').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
-	
+
+
 	});
 
 });
@@ -539,18 +539,18 @@ $('#modal-aduana .codigo-click').click(function(e){
 $('#modal-nave .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #nave').val($(this).data('codigo')+' - '+nombre);
-	
+
 	$('#modal-nave').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
-	
+
+
 	});
 
 });
@@ -560,9 +560,9 @@ $('#modal-nave .codigo-click').click(function(e){
 $('#modal-tramo .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
 		url_controller = '../../../mantencion/tramos';
@@ -577,7 +577,7 @@ $('#modal-tramo .codigo-click').click(function(e){
 		url_controller = '../mantencion/tramos';
 		console.log('Creando');
 	}
-	
+
 	$.ajax({
 		type:'post',
 		//url:'../mantencion/tramos',
@@ -592,14 +592,14 @@ $('#modal-tramo .codigo-click').click(function(e){
 			$('.form-orden #valor_venta_tramo').val(response[0].valor_venta);
 		}
 	});
-	
+
 	$('#modal-tramo').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
-	
+
+
 	});
 
 });
@@ -609,18 +609,18 @@ $('#modal-tramo .codigo-click').click(function(e){
 $('#modal-carga .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #carga').val($(this).data('codigo')+' - '+nombre);
-	
+
 	$('#modal-carga').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
-	
+
+
 	});
 
 });
@@ -630,18 +630,18 @@ $('#modal-carga .codigo-click').click(function(e){
 /*$('#modal-bodega .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #bodega').val($(this).data('codigo')+' - '+nombre);
-	
+
 	//$('#modal-bodega').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
-	
+
+
 	});
 
 });*/
@@ -650,7 +650,7 @@ $('#modal-carga .codigo-click').click(function(e){
 $('#modal-bodega .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
 		url_controller = '../../../mantencion/bodegas';
@@ -665,7 +665,7 @@ $('#modal-bodega .codigo-click').click(function(e){
 		url_controller = '../mantencion/bodegas';
 		console.log('Creando');
 	}
-	
+
 	$.ajax({
 		type:'post',
 		//url:'../mantencion/bodegas',
@@ -680,17 +680,17 @@ $('#modal-bodega .codigo-click').click(function(e){
 			$('.form-orden #telefono_bodega').val(response[0].telefono);
 		}
 	});
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #bodega').val($(this).data('codigo')+' - '+nombre);
-	
+
 	$('#modal-bodega').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
+
 	});
 
 });
@@ -701,17 +701,17 @@ $('#modal-bodega .codigo-click').click(function(e){
 $('#modal-deposito .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #deposito').val($(this).data('codigo')+' - '+nombre);
-	
+
 	$('#modal-deposito').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
+
 	});
 
 });
@@ -725,9 +725,9 @@ $('#modal-proveedor .codigo-click').click(function(e){
 	$('.form-orden #rut').attr('value', $(this).data('codigo'));
 	$('.form-orden #rsocial').attr('value', $(this).data('rs'));
 	$('#modal-proveedor').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
 
 	});
@@ -739,19 +739,19 @@ $('#modal-proveedor .codigo-click').click(function(e){
 $('#modal-conductor .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #conductor').val($(this).data('codigo'));
-	
+
 	$('.form-orden .nombre-conductor').val(nombre);
-	
+
 	$('#modal-conductor').fadeOut('fast',function(){
 	ent
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-		
+
 	});
 
 });
@@ -760,7 +760,7 @@ $('#modal-conductor .codigo-click').click(function(e){
 $('#modal-conductor .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
 		url_controller = '../../../mantencion/conductores';
@@ -775,7 +775,7 @@ $('#modal-conductor .codigo-click').click(function(e){
 		console.log('Creando');
 	}
 	//Ejemplo con error
-	
+
 	$.ajax({
 		type:'post',
 		//url:'../mantencion/conductores',
@@ -790,11 +790,11 @@ $('#modal-conductor .codigo-click').click(function(e){
 			$('#telefono_conductor').val(response[0].telefono);
 		}
 	});
-	
+
 	$('#modal-conductor').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
 
 	});
@@ -806,7 +806,7 @@ $('#modal-conductor .codigo-click').click(function(e){
 $('#modal-camion .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
 		url_controller = '../../../../mantencion/camiones';
@@ -821,7 +821,7 @@ $('#modal-camion .codigo-click').click(function(e){
 		url_controller = '../mantencion/camiones';
 		console.log('Creando');
 	}
-	
+
 	$.ajax({
 		type:'post',
 		//url:'../mantencion/camiones',
@@ -834,14 +834,14 @@ $('#modal-camion .codigo-click').click(function(e){
 			$('#patente').val(response[0].patente);
 		}
 	});
-	
+
 	$('#modal-camion').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
-	
+
+
 	});
 
 });
@@ -852,18 +852,18 @@ $('#modal-camion .codigo-click').click(function(e){
 $('.modal-naves .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('#codigo_naviera').attr('value', $(this).data('codigo')+'-'+nombre);
-	
+
 	$('.modal-naves').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
-	
+
+
 	});
 
 });
@@ -877,7 +877,7 @@ function valor_format(input){
     var output = '';
     $(input.split('').reverse()).each(function(i){
         output += this;
-        
+
         if (i % 3 == 2) output += '.';
     });
     return output.split('').reverse().join('').replace(/^\./, '');
@@ -888,12 +888,12 @@ $('.form-left-tramos #valor_costo , .form-left-tramos #valor_venta , .form-left-
 
 /* Lo mismo de abajo pero en menos lineas
 	var valor = $(this).val();
-	
+
 	valor = valor_format(valor);
-	
+
 	$(this).val(valor);
 */
-	
+
 	$(this).val(valor_format($(this).val()));
 });
 
@@ -912,11 +912,11 @@ $(".form-left-clientes #rut , .form-left-conductores #rut , .form-left-proveedor
 $('.boton-clonar a').click(function(e){
 
 	e.preventDefault();
-	
+
 	$('.repetir-guia:last').after($('.repetir-guia:last').clone());
-	
+
 	document.setCloneEvent();
-	
+
 });
 
 
@@ -925,20 +925,20 @@ $('.boton-clonar a').click(function(e){
 $('#modal-puerto .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #puerto').attr('value', '');
 	//$('.form-orden #puerto').attr('value', $(this).data('codigo')+'-'+nombre);
 	$('.form-orden #puerto').val($(this).data('codigo')+'-'+nombre);
 	$('.form-orden #puerto').text($(this).data('codigo')+'-'+nombre);
-	
+
 	$('#modal-puerto').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
+
 	});
 
 });
@@ -948,19 +948,19 @@ $('#modal-puerto .codigo-click').click(function(e){
 $('#modal-destino .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
-	
+
 	$('.form-orden #destino').attr('value', '');
 	$('.form-orden #destino').val($(this).data('codigo')+'-'+nombre);
 	$('.form-orden #destino').text($(this).data('codigo')+'-'+nombre);
-	
+
 	$('#modal-destino').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
+
 	});
 
 });
@@ -970,12 +970,12 @@ $('#modal-destino .codigo-click').click(function(e){
 $('#modal-orden .codigo-click').click(function(e){
 
 	e.preventDefault();
-	
+
 	var nombre = $(this).parent().next('td').text();
 	var serv = [];
 	var code = $(this).data('codigo');
 	var id_viaje;
-	
+
 	$.ajax({
 		type:'post',
 		url:'../transacciones/orden',
@@ -983,48 +983,48 @@ $('#modal-orden .codigo-click').click(function(e){
 		data:{id_orden:code},
 		//beforeSend: function(){//},
 		success:function(res) {
-			
+
 			$('#numero_orden').val(res[0].id_orden);
 			$('#referencia').val(res[0].referencia);
-			
+
 			$('.form-orden #tipo_factura :selected').text();
 			$('#fecha').val(res[0].fecha);
-			
+
 			$('#cliente').val(res[0].cliente_rut_cliente);
 			$('.nombre-cliente').val(nombre);
-			
+
 			$('#booking').val(res[0].booking);
 			$('#aduana').val(res[0].aduana_codigo_aduana);
 			$('#nave').val(res[0].nave_codigo_nave);
-			
+
 			$('#tramo').val(res[0].tramo_codigo_tramo);
 			$('#valor_costo_tramo').val(res[0].valor_costo_tramo);valor_venta_tramo
 			$('#valor_venta_tramo').val(res[0].valor_venta_tramo);
-			
+
 			$('#carga').val(res[0].tipo_carga_codigo_carga);
 			$('#numero').val(res[0].numero);
 			$('#fecha_carga').val(res[0].fecha_carga);
-			
+
 			$('#peso').val(res[0].peso);
 			$('#set_point').val(res[0].set_point);
-			
+
 			$('#mercaderia').val(res[0].mercaderia);
-			
+
 			$('#fecha_presentacion').val(res[0].fecha_presentacion);
-			
+
 			$('#bodega').val(res[0].bodega_codigo_bodega);
 			$('#deposito').val(res[0].deposito_codigo_deposito);
-			
+
 			$('#destino').val(res[0].destino);
 			$('#puerto').val(res[0].puerto_codigo_puerto);
-			
+
 			$('#referencia2').val(res[0].referencia_2);
 			$('#rut').val(res[0].proveedor_rut_proveedor);
 			$('#observacion').val(res[0].observacion);
-			
+
 			id_viaje = res[0].viaje_id_viaje;
-			
-		}, 
+
+		},
 		complete: function(){
 			$.ajax({
 				type     : 'post',
@@ -1039,7 +1039,7 @@ $('#modal-orden .codigo-click').click(function(e){
 							$('.campo-a-repetir:last').removeClass('original').find('#valor_venta_servicio').val(res2[index][0].valor_venta);
 							$('.campo-a-repetir:last').after($('.campo-a-repetir:last').clone());
 							document.setCloneEvent();
-						} 
+						}
 						//alert(res2[index][0].codigo_servicio);
 					});
 				},
@@ -1059,40 +1059,41 @@ $('#modal-orden .codigo-click').click(function(e){
 			});
 		}
 	});
-	
+
 	function setServicioData(res2, index){
 		alert(res2[index][0].codigo_servicio);
 		$('.campo-a-repetir #servicio').each(function(key, element){
 			$(element).eq(key).val(res2[index][0].codigo_servicio);
 		});
-	
+
 	};
-	
+
 	$('#modal-orden').fadeOut('fast',function(){
-	
+
 		$('body').removeClass('modal-open');
-		
+
 		$('.modal-backdrop.fade.in').remove();
-	
+
 	});
 
 });
 
 
 function cambioOrden(sel) {
+
 	  if (sel.value=="EXPORTACION"){
 		   divC = document.getElementById("form_deposito");
 		   divC.style.display = "";
 
 		   divT = document.getElementById("form_lugar_retiro");
 		   divT.style.display = "none";
-		   
+
 		   divP = document.getElementById("form_puerto_embarque");
 		   divP.style.display = "";
-		   
+
 		   divB = document.getElementById("check_tramo");
 		   divB.style.display="none";
-                   
+
 		   divA = document.getElementById("destino");
            divA.style.display="";
 
@@ -1104,13 +1105,13 @@ function cambioOrden(sel) {
 
 		   divT = document.getElementById("form_lugar_retiro");
 		   divT.style.display = "";
-		   
+
 		   divP = document.getElementById("form_puerto_embarque");
 		   divP.style.display = "none";
-		   
+
 		   divB = document.getElementById("check_tramo");
 		   divB.style.display="none";
-                   
+
            divA = document.getElementById("p_destino");
            divA.style.display="";
 	  }
@@ -1131,7 +1132,7 @@ function cambioOrden(sel) {
 	  if(sel.value=="NACIONAL"){
 		  divC = document.getElementById("check_tramo");
 		  divC.style.display="none";
-                  
+
           divA = document.getElementById("p_destino");
           divA.style.display="none";
 
