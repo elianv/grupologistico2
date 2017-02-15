@@ -436,7 +436,7 @@ Class consultas_model extends CI_Model{
 	}
 
 	public function facturas($facturas = null, $ordenes = null, $cliente = null, $nave = null , $puerto = null, $contenedor = null, $desde = null, $hasta = null){
-
+			$string = '';
 			$query = '	select
 						    orden.id_orden,
 						    cliente.razon_social,
@@ -513,29 +513,30 @@ Class consultas_model extends CI_Model{
 
 			if($cliente){
 
-					$string = ' AND cliente.rut_cliente = "'.$cliente.'"';
+					$string .= ' AND cliente.rut_cliente = "'.$cliente.'"';
 					$query .= $string;
 			}
 			if($nave){
 
-					$string = ' nave.codigo_nave = '.$nave;
+					$string .= ' nave.codigo_nave = '.$nave;
 					$query .= $string;
 			}
 			if($puerto){
-					$string = ' LEFT JOIN puerto ON puerto.codigo_puerto = orden.puerto_codigo_puerto ';
+					$string .= ' LEFT JOIN puerto ON puerto.codigo_puerto = orden.puerto_codigo_puerto ';
 					$string .= ' where puerto.codigo_puerto = '.$puerto;
 					$query .= $string;
 			}
 			if($contenedor){
 
-					$string = ' orden.numero like "%'.$contenedor.'%"';
+					$string .= ' orden.numero like "%'.$contenedor.'%"';
 					$query .= $string;
 			}
 			if($desde && $hasta){
 					$desde = new DateTime($desde);
 					$hasta = new DateTime($hasta);
 
-					$string = " AND orden.fecha_presentacion between '".$desde->format('Y-m-d')."' and '".$hasta->format('Y-m-d')."'";
+					$string .= " AND orden.fecha_presentacion between '".$desde->format('Y-m-d')."' and '".$hasta->format('Y-m-d')."'";
+					$string .= " OR orden.id_orden IN (SELECT id_orden FROM ordenes_facturas WHERE id_factura IN ( SELECT id FROM factura WHERE fecha > '{$desde->format('Y-m-d')}' AND fecha < '{$hasta->format('Y-m-d')}' )) ";
 					$query .= $string;
 			}
 

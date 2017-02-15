@@ -42,11 +42,11 @@
                   <div class="controls">
                       <div class="input-append">
                          <input type="text" class="span2" name="os_manager" id="os_manager" value="<?php echo set_value('os_manager'); ?>" readonly >
-                         <input type="hidden" class="span2" name="_os_manager" id="_os_manager" value="<?php echo set_value('os_manager'); ?>" 
+                         <input type="hidden" class="span2" name="_os_manager" id="_os_manager" value="<?php echo set_value('os_manager'); ?>"
                       </div>
                   </div>
               </div>
-
+<br>
               <div class="control-group">
                         <label class="control-label" for="numero_factura"><strong>Ordenes de Servicio</strong></label>
                         <div class="controls">
