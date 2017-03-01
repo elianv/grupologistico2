@@ -258,7 +258,7 @@ class Web_service
         $XMLresults2     = $doc->getElementsByTagName("Mensaje");
         $XMLresults      = $doc->getElementsByTagName("Error");
         //if ($opc)
-            //print_r(htmlentities($this->clienteWS->responseData));
+        //print_r(htmlentities($this->clienteWS->responseData));
 
         $this->codWS   = (int)$XMLresults->item(0)->nodeValue;
         $this->error_h = '<strong>Mensaje Manager: <br>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';

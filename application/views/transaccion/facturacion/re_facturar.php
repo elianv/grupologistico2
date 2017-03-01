@@ -59,7 +59,7 @@
 
             $.ajax({
                 method:"POST",
-                url:"<?php echo base_url();?>index.php/transacciones/facturacion/reFac-turacion_ajax",
+                url:"<?php echo base_url();?>index.php/transacciones/facturacion/reFacturacion_ajax",
                 dataType: 'json',
                 data: { ordenes : checkedValues},
                 success: function(response){

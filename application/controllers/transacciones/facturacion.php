@@ -87,7 +87,7 @@ class Facturacion extends CI_Controller{
                                     'fecha'                            => $fecha_factura
 
                                 );
-                        
+
                         if( $_POST['factura_papel'] == 1 && $this->input->post('factura_numero') == '')
                         {
                             $factura['numero_factura']  = $this->input->post('factura_numero');
@@ -1280,6 +1280,7 @@ class Facturacion extends CI_Controller{
         //le doi al objeto las url de los WS
         $WS->new_soap($datosWS[0]->url );
         //
+        //error_log(print_r($WS,true));
         foreach ($ordenes as $key => $value) {
 
             $detalle[$key]['num_orden'] = $value;
