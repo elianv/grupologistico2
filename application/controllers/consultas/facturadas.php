@@ -1485,6 +1485,9 @@
                         $costos = $this->consultas_model->total_ordenes($data['facturas'][$i]['id_orden']);
                         $data['facturas'][$i]['precio_costo'] = $costos[0]['total_costo'];
                         $data['facturas'][$i]['precio_venta'] = $costos[0]['total_venta'];
+                        if($costos[0]['total_costo'] !=0 && !is_null($costos[0]['total_costo'])){
+                            $data['facturas'][$i]['porcentaje'] = ($costos[0]['total_venta']-$costos[0]['total_costo'])*100/$costos[0]['total_costo'];    
+                        }
                         $data['facturas'][$i]['margen'] = $costos[0]['margen'];
                         $j = 0;
                         //echo "<pre>";

@@ -1280,7 +1280,6 @@ class Facturacion extends CI_Controller{
         //le doi al objeto las url de los WS
         $WS->new_soap($datosWS[0]->url );
         //
-        //error_log(print_r($WS,true));
         foreach ($ordenes as $key => $value) {
 
             $detalle[$key]['num_orden'] = $value;
@@ -1346,10 +1345,12 @@ class Facturacion extends CI_Controller{
                         }
                         foreach ($detalle_servicio as $det_servicio) {
 
+                                //error_log(print_r(array($det_servicio),true));
 
                                 $serv_ = $this->servicios_model->datos_servicio($det_servicio['servicio_codigo_servicio']);
+                                
                                 $WS->setCodigos( $serv_[0]['codigo_sistema'] , $serv_[0]['cuenta_contable'] );
-                                $WS->mensaje( $DetalleOS[0]->action, $WS->XmlBody($det_servicio['valor_venta'], $det_servicio['id_codigo_sistema'], $det_servicio['cuenta_contable'] ) );
+                                $WS->mensaje( $DetalleOS[0]->action, $WS->XmlBody($det_servicio['valor_venta'], $serv_[0]['id_codigo_sistema'], $serv_[0]['cuenta_contable'] ) );
 
                                 $detalle[$key]['detalle']['codigo'][] = $WS->getCodigo();
                                 $detalle[$key]['detalle']['error'][] = $WS->getError();

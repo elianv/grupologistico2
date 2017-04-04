@@ -1,17 +1,17 @@
 <?php
 
 class Orden_model extends CI_Model{
-     
+
     function ultimo_codigo(){
-        
+
         $this->db->select_max('id_orden');
         $result = $this->db->get('orden');
         return $result->result_array();
     }
-    
+
     function insert_orden($orden){
-                 
-        $this->db->trans_start();               
+
+        $this->db->trans_start();
         $this->db->insert('orden',$orden);
         $this->db->trans_status();
 
@@ -20,63 +20,63 @@ class Orden_model extends CI_Model{
         else
             return $this->db->insert_id();
     }
-    
+
     function editar_orden($orden,$id_orden){
         $this->db->where('id_orden', $id_orden);
-        $this->db->update('orden', $orden); 
+        $this->db->update('orden', $orden);
     }
-    
+
     function existe_orden($orden){
         $this->db->select ('id_orden');
         $this->db->from('orden');
         $this->db->where('id_orden',$orden);
-                
+
         $query = $this->db->get();
-        
+
         if($query->num_rows() == 0){
-            
+
             return true;
         }
-        
+
         else{
-            
+
             return false;
         }
     }
-    
+
     function listar_ordenes(){
-         
+
          $this->db->select('orden.id_orden,orden.fecha,cliente.razon_social,orden.id_estado_orden');
          $this->db->from('orden');
          $this->db->join('cliente','orden.cliente_rut_cliente = cliente.rut_cliente','inner');
          $resultado = $this->db->get();
-         
+
          return $resultado->result_array();
      }
-	
+
     function get_orden($id_orden){
-		
+
 		$this->db->select('*');
 		$this->db->from('orden');
 		$this->db->where('id_orden',$id_orden);
 		$result = $this->db->get();
-		
+
 		return $result->result_array();
-		
+
 	}
-	
+
     function getDetalleByOrdenId($id_orden){
-		
+
 		$this->db->select('detalle.*, servicio.descripcion')
 		          ->from('detalle')
                   ->join('servicio','servicio.codigo_servicio = detalle.servicio_codigo_servicio ')
 		          ->where('orden_id_orden',$id_orden);
 		$result = $this->db->get();
-		
+		//var_dump($this->db->last_query());
 		return $result->result_array();
-		
+
 	}
-        
+
     function buscar_ordenes($tipo_orden=null,$desde=null,$hasta=null,$cliente=null){
             $this->db->select();
             $this->db->from('orden');
@@ -91,18 +91,18 @@ class Orden_model extends CI_Model{
                 $this->db->where('id_orden <=',$hasta);
             }
             if($cliente){
-               $this->db->like('cliente.razon_social',$cliente); 
+               $this->db->like('cliente.razon_social',$cliente);
             }
             $this->db->join('estado_orden','orden.id_estado_orden = estado_orden.id', 'inner');
             $result = $this->db->get();
             //var_dump($this->db->last_query());
-            
+
             return $result->result_array();
     }
 
     function getOrden($desde,$limit,$where=null,$order=null,$by=null,$count=0,$opc = 0)
     {
-        
+
         switch ($by) {
             case 0:
                 $valor = 'orden.id_orden';
@@ -114,7 +114,7 @@ class Orden_model extends CI_Model{
                 $valor = 'cliente.razon_social';
             break;
         }
-        
+
         $sql = "SELECT CONCAT(\"<a class='codigo-click' onclick='datos( \", orden.id_orden ,\"  )' data-codigo=' \", orden.id_orden  ,\" ' >  \", orden.id_orden , \" </a> \" ) id, COALESCE(proveedor.razon_social, 'S/P') as proveedor, COALESCE(cliente.razon_social, 'S/C') as cliente";
         $sql .= "
             FROM
@@ -127,23 +127,23 @@ class Orden_model extends CI_Model{
         {
             $sql .= 'WHERE ( CAST(orden.id_orden as CHAR) like "%'.$where.'%" OR cliente.razon_social like "%'.$where.'%"  OR proveedor.razon_social like "%'.$where.'%" ) ';
             $sql .= 'AND ( orden.id_orden IS NOT NULL AND cliente.razon_social IS NOT NULL AND proveedor.razon_social IS NOT NULL )';
-        }                    
-        
+        }
+
         $sql .= "ORDER BY {$valor} {$order} ";
-        
-        if(!$count)            
-            $sql .= "limit  {$desde}, {$limit} ";        
+
+        if(!$count)
+            $sql .= "limit  {$desde}, {$limit} ";
 
         $query = $this->db->query($sql);
-        
+
         //var_dump($this->db->last_query());
         if(!$count){
-            return $query->result_array();                             
+            return $query->result_array();
         }
-            
-        else 
+
+        else
             return $query->num_rows();
-    }    
+    }
 
     function orden($id){
 
@@ -152,17 +152,17 @@ class Orden_model extends CI_Model{
                 ->join('cliente' , 'cliente.rut_cliente = orden.cliente_rut_cliente' , 'left')
                 ->join('tramo' , 'tramo.codigo_tramo = orden.tramo_codigo_tramo' , 'left')
                 ->where('orden.id_orden' , $id);
-                
+
         $result = $this->db->get('orden');
 
         return $result->result_array();
     }
-    
+
     function eliminar_orden($id_orden){
             	$this->db->where('id_orden', $id_orden);
 		if($this->db->delete('orden')){
 			return true;
-		} 
+		}
 		else{
 			return false;
 		}
@@ -174,7 +174,7 @@ class Orden_model extends CI_Model{
         $this->db->from('estado_orden');
 
         $result = $this->db->get();
-        
+
         return $result->result_array();
     }
 }

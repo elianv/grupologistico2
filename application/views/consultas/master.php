@@ -286,6 +286,7 @@
 	                                            <td><?php echo $factura['observacion']; ?></td>
 	                                            <td><?php echo '$'.number_format($factura['margen'], 0, ',', '.'); ?></td>
 	                                            <td><?php echo number_format($factura['porcentaje'], 2, ',', '.').'%.'; ?></td>
+	                                            <!-- <td><?php //echo number_format(($factura['precio_venta'] - $factura['precio_costo'])*100/$factura['precio_costo'],2, ',', '.').'%.' ?></td>-->
 
 
 	                                        </tr>

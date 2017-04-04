@@ -536,7 +536,7 @@ Class consultas_model extends CI_Model{
 					$hasta = new DateTime($hasta);
 
 					//$string .= " AND orden.fecha_presentacion between '".$desde->format('Y-m-d')."' and '".$hasta->format('Y-m-d')."'";
-					$string .= " AND orden.id_orden IN (SELECT id_orden FROM ordenes_facturas WHERE id_factura IN ( SELECT id FROM factura WHERE fecha > '{$desde->format('Y-m-d')}' AND fecha < '{$hasta->format('Y-m-d')}' )) ";
+					$string .= " AND orden.id_orden IN (SELECT id_orden FROM ordenes_facturas WHERE id_factura IN ( SELECT id FROM factura WHERE fecha >= '{$desde->format('Y-m-d')}' AND fecha <= '{$hasta->format('Y-m-d')}' )) ";
 					$query .= $string;
 			}
 
