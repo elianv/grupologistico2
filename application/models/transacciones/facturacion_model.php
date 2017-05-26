@@ -288,7 +288,7 @@ class Facturacion_model extends CI_Model{
                     INNER JOIN ordenes_facturas ON ordenes_facturas.id_factura = factura.id
                     INNER JOIN orden ON ordenes_facturas.id_orden = orden.id_orden
                     INNER JOIN cliente ON orden.cliente_rut_cliente = cliente.rut_cliente
-                    WHERE numero_factura = 0
+                    WHERE (numero_factura = 0 OR numero_factura IS NULL ) 
                     AND estado_factura_id_estado_factura = 1 ";
         if($where)
         {
