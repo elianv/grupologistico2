@@ -288,7 +288,7 @@ class Facturacion_model extends CI_Model{
                     INNER JOIN ordenes_facturas ON ordenes_facturas.id_factura = factura.id
                     INNER JOIN orden ON ordenes_facturas.id_orden = orden.id_orden
                     INNER JOIN cliente ON orden.cliente_rut_cliente = cliente.rut_cliente
-                    WHERE (numero_factura = 0 OR numero_factura IS NULL ) 
+                    WHERE (numero_factura = 0 OR numero_factura IS NULL )
                     AND estado_factura_id_estado_factura = 1 ";
         if($where)
         {
@@ -389,8 +389,8 @@ class Facturacion_model extends CI_Model{
         return $sql->result_array();
     }
 
-    function sincronizarFact($id,$num_factura){
-          $sql = $this->db->query("UPDATE factura SET estado_factura_id_estado_factura = 2, numero_factura = {$num_factura} WHERE id = {$id}");
+    function sincronizarFact($id,$num_factura,$fecha_manager=null){
+          $sql = $this->db->query("UPDATE factura SET estado_factura_id_estado_factura = 2, numero_factura = {$num_factura}, fecha_manager='{$fecha_manager}' WHERE id = {$id}");
           return TRUE;
     }
 

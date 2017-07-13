@@ -31,6 +31,7 @@
                 <strong>¡Atención!</strong>
                 <p> El número de factura (numfact) debe ser la columna G.</p>
                 <p>El numero de la orden de servicio (num_ot) debe ser la columna AC.</p>
+                <p>La fecha de factura en manager (fecha) debe ser la columna E </p>
                 En caso de no cumplirse la operación no se llevara a cabo.
             </div>
             <div class="form-actions" id="botones">
@@ -38,7 +39,7 @@
             </div>
         </fieldset>
     </form>
-    
+
     <br>
     <br>
     <div id="response">
@@ -54,24 +55,24 @@
     				</tr>
     			</thead>
     			<tbody id="body">
-    				
+
     			</tbody>
     		</table>
-    			
+
     	<?php } ?>
     </div>
-    
+
 </div>
 <?php if ($opc == 1){ ?>
 <script>
 	$(document).ready(function(){
 		var data = <?php echo $ok; ?>;
-		var tabla ='';	
+		var tabla ='';
 		$.each(data, function(i,item){
 			tabla = tabla+'<tr><td>'+item+'</td><td>'+i+'</td></tr>';
 		});
 		$('#body').html(tabla);
-		$('#tablaOK').DataTable();	
+		$('#tablaOK').DataTable();
 	});
 </script>
 <?php } ?>
