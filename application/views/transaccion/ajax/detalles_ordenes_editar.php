@@ -123,9 +123,9 @@
     </div>
   <?php }?> 
 </div>    
-<pre>
-<?php print_r($detalles);?>
-</pre>
+
+<?php //"<pre>".print_r($detalles)."</pre>";?>
+
 <div class="modal fade modal-large-custom" id="Proveedores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

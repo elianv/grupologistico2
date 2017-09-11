@@ -64,19 +64,14 @@
                     </div>
                   </div>
 
-                      <div class="control-group">
-                        <label class="control-label"><strong>Fecha Factura</strong></label>
-                        <div class="controls">
-                          <input type="text" class="input-large calendario" name="fecha_factura" value="<?php echo set_value('fecha_factura'); ?>" id="fecha_factura" onclick="calendario();" required>
-                        </div>
-                      </div>
+                  <div class="control-group">
+                    <label class="control-label"><strong>Fecha Factura</strong></label>
+                    <div class="controls">
+                      <input type="text" class="input-large calendario" name="fecha_factura" value="<?php echo set_value('fecha_factura'); ?>" id="fecha_factura" readonly="readonly">
+                    </div>
+                  </div>
 
-              <div class="control-group">
-                <label class="control-label"><strong>Fecha Factura MANAGER</strong></label>
-                <div class="controls">
-                  <input type="text" class="input-large calendario" name="fecha_factura_manager" value="<?php echo set_value('fecha_factura_manager'); ?>" id="fecha_factura" readonly="readonly">
-                </div>
-              </div>
+
 
               <div id="guia_despacho">
                   <div class="repetir-guia" >

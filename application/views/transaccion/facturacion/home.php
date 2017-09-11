@@ -66,7 +66,7 @@
                       <div class="control-group">
                         <label class="control-label"><strong>Fecha Factura</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large calendario" name="fecha_factura" value="<?php echo set_value('fecha_factura'); ?>" id="fecha_factura" onclick="calendario();" required>
+                          <input type="text" class="input-large calendario" name="fecha_factura" value="<?php echo set_value('fecha_factura'); ?>" id="fecha_factura" onclick="calendario();" readonly>
                         </div>
                       </div> 
 
@@ -208,14 +208,6 @@
         });
     });
         function calendario(){
-            $('#fecha_factura').datetimepicker({
-                changeMonth: true,
-                changeYear: true,
-                showHour:false,                      
-                showMinute:false,
-                showTime: false,
-                dateFormat: 'dd-mm-yy'
-            });              
         };
 
         function ordenes_servicios(){
