@@ -22,7 +22,7 @@
             ?>
     
 
-    <form class="form-horizontal" method="post" id="target">
+    <form class="form-horizontal" method="post" id="target" action="<?php echo base_url('index.php/transacciones/facturacion/insertar_facturacion');?>">
         <fieldset>
         
         <div class="row show-grid">
@@ -66,7 +66,7 @@
                       <div class="control-group">
                         <label class="control-label"><strong>Fecha Factura</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large calendario" name="fecha_factura" value="<?php echo set_value('fecha_factura'); ?>" id="fecha_factura" onclick="calendario();" readonly>
+                          <input type="text" class="input-large calendario" name="fecha_factura" value="<?php echo set_value('fecha_factura'); ?>" id="fecha_factura" onclick="calendario();" required>
                         </div>
                       </div> 
 
@@ -117,7 +117,8 @@
 
         <div class="form-actions" id="botones" >
         
-            <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/insertar_facturacion'" value="Guardar"/>
+            <!-- <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/facturacion/insertar_facturacion'" value="Guardar"/> -->
+            <a class="btn btn-success" id="submit">Guardar</a>
         
         </div>    
         </fieldset>
@@ -206,8 +207,23 @@
             
             $('#numero_factura').prop("readonly", true);    
         });
+
+        $('#submit').click(function(){
+            $('#submit').hide();
+            $( "#target" ).submit();
+        });
+
+
     });
         function calendario(){
+            $('#fecha_factura').datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                showHour:false,                      
+                showMinute:false,
+                showTime: false,
+                dateFormat: 'dd-mm-yy'
+            });              
         };
 
         function ordenes_servicios(){

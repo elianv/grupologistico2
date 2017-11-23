@@ -256,7 +256,7 @@
                                         <th>Fact. Proveedor</th>
                                         <th>P. Costo</th>
                                         <th>Factura Log.</th>
-                                        <th>Fecha Factura</th>
+                                        <th>Fecha MASTER</th>
                                         <th>P. Venta</th>
                                         <th>Observacion</th>
                                         <th>Margen</th>
@@ -283,7 +283,7 @@
 	                                            <td><?php echo $factura['factura_proveedor']; ?></td>
 	                                            <td><?php echo '$'.number_format($factura['precio_costo'], 0, ',', '.'); ?></td>
 	                                            <td><?php echo $factura['factura_log']; ?></td>
-                                              <td><?php echo $factura['fecha']; ?></td>
+                                              <td><?php echo $factura['fecha_manager']; ?></td>
 	                                            <td><?php echo '$'.number_format($factura['precio_venta'], 0, ',', '.'); ?></td>
 	                                            <td><?php echo $factura['observacion']; ?></td>
 	                                            <td><?php echo '$'.number_format($factura['margen'], 0, ',', '.'); ?></td>

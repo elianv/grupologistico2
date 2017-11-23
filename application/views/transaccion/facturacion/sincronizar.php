@@ -29,9 +29,9 @@
             <div class="alert alert-warning">
                 <button type="button" class="close" data-dismiss="alert"></button>
                 <strong>¡Atención!</strong>
-                <p> El número de factura (numfact) debe ser la columna H.</p>
-                <p>El numero de la orden de servicio (num_ot) debe ser la columna F.</p>
-                <p>La fecha de factura en manager (fecha) debe ser la columna C </p>
+                <p> El número de factura (numfact) debe ser la columna G.</p>
+                <p>El numero de la orden de servicio (num_ot) debe ser la columna AC.</p>
+                <p>La fecha de factura en manager (fecha) debe ser la columna E </p>
                 En caso de no cumplirse la operación no se llevara a cabo.
             </div>
             <div class="form-actions" id="botones">
