@@ -455,7 +455,7 @@ Class consultas_model extends CI_Model{
 						    factura.total_costo as precio_costo,
 						    factura.numero_factura as factura_log,
 						    factura.total_venta as precio_venta,
-								DATE_FORMAT(factura.fecha_manager,\'%d-%m-%Y\') as fecha_manager,
+							DATE_FORMAT(factura.fecha,\'%d-%m-%Y\') as fecha,
 						    orden.observacion,
 							factura.total_venta - factura.total_costo as  margen,
 							(factura.total_venta - factura.total_costo) * 100 /factura.total_costo as porcentaje
@@ -541,7 +541,7 @@ Class consultas_model extends CI_Model{
 													(SELECT id_orden
 													FROM ordenes_facturas
 													WHERE id_factura IN
-													( SELECT id FROM factura WHERE fecha_manager >= '{$desde->format('Y-m-d')}' AND fecha_manager <= '{$hasta->format('Y-m-d')}' )) ";
+													( SELECT id FROM factura WHERE fecha >= '{$desde->format('Y-m-d')}' AND fecha <= '{$hasta->format('Y-m-d')}' )) ";
 					$query .= $string;
 			}
 

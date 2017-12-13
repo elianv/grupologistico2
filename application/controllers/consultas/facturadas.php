@@ -1568,8 +1568,9 @@
                                 $this->excel->getActiveSheet()->setCellValue('P1', 'Factura G. Log.');
                                 $this->excel->getActiveSheet()->setCellValue('Q1', 'Precio Venta');
                                 $this->excel->getActiveSheet()->setCellValue('R1', 'Observación');
-                                $this->excel->getActiveSheet()->setCellValue('S1', 'Margen');
-                                $this->excel->getActiveSheet()->setCellValue('T1', 'Porcentaje');
+                                $this->excel->getActiveSheet()->setCellValue('S1', 'Fecha factura');
+                                $this->excel->getActiveSheet()->setCellValue('T1', 'Margen');
+                                $this->excel->getActiveSheet()->setCellValue('U1', 'Porcentaje');
 
 
                                 $this->excel->getActiveSheet()->getStyle('A1:T1')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
@@ -1614,6 +1615,8 @@
                                 $this->excel->getActiveSheet()->getStyle('S1')->getFont()->setBold(true);
                                 $this->excel->getActiveSheet()->getStyle('T1')->getFont()->setSize(8);
                                 $this->excel->getActiveSheet()->getStyle('T1')->getFont()->setBold(true);
+                                $this->excel->getActiveSheet()->getStyle('U1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('U1')->getFont()->setBold(true);                                
 
                                 foreach(range('A','T') as $columnID) {
                                     $this->excel->getActiveSheet()->getColumnDimension($columnID)
@@ -1641,8 +1644,10 @@
                                             $this->excel->getActiveSheet()->setCellValue('P'.$i,$factura['factura_log']);
                                             $this->excel->getActiveSheet()->setCellValue('Q'.$i,$factura['precio_venta']);
                                             $this->excel->getActiveSheet()->setCellValue('R'.$i,$factura['observacion']);
-                                            $this->excel->getActiveSheet()->setCellValue('S'.$i,$factura['margen']);
-                                            $this->excel->getActiveSheet()->setCellValue('T'.$i,$factura['porcentaje']);
+                                            $fecha = new DateTime($factura['fecha']);
+                                            $this->excel->getActiveSheet()->setCellValue('S'.$i,$fecha->format('d-m-Y'));
+                                            $this->excel->getActiveSheet()->setCellValue('T'.$i,$factura['margen']);
+                                            $this->excel->getActiveSheet()->setCellValue('U'.$i,$factura['porcentaje']);
 
 
                                             $i++;

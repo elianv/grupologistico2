@@ -38,7 +38,7 @@ class Facturacion extends CI_Controller{
                 $this->form_validation->set_rules('factura_numero', 'Numero Factura','trim|required|xss_clean|numeric|callback_check_database');
             }
 
-            $this->form_validation->set_rules('fecha_factura', 'Fecha de la Factura','trim|required|xss_clean');
+            //$this->form_validation->set_rules('fecha_factura', 'Fecha de la Factura','trim|required|xss_clean');
 
             if(!isset($_POST['nula'])){
                 $this->form_validation->set_rules('total_venta', 'Valor Total Venta','trim|required|xss_clean');
@@ -1013,10 +1013,13 @@ class Facturacion extends CI_Controller{
             $fact = 0;
             $os = 0;
             $this->load->library('excel');
-            $objReader = PHPExcel_IOFactory::createReader('Excel5');
+            $file = $_FILES['uploadFile']['tmp_name'];
+            // $inputFileType = 'Excel5'
+            $inputFileType = PHPExcel_IOFactory::identify($file);
+            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
             //agregar mas formatos de excel
             $objReader->setReadDataOnly(true);
-
+            date_default_timezone_set('UTC');
 
             //validadiones de archivo
             if ( $objReader->canRead($_FILES['uploadFile']['tmp_name'])){
@@ -1025,22 +1028,31 @@ class Facturacion extends CI_Controller{
 
                 $u_fila = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();
 
-                if($objPHPExcel->getActiveSheet()->getCell('G1')->getFormattedValue() == 'numfact' && $objPHPExcel->getActiveSheet()->getCell('AC1')->getFormattedValue() == 'num_ot'){
+                if(trim($objPHPExcel->getActiveSheet()->getCell('F1')->getFormattedValue()) == 'numero_documento' 
+                    && trim($objPHPExcel->getActiveSheet()->getCell('H1')->getFormattedValue()) == 'no_nv' 
+                    && trim($objPHPExcel->getActiveSheet()->getCell('C1')->getFormattedValue()) == 'fecha_documento' ){
 
                     for($i = 2; $i <= $u_fila ; $i++){
-                        $id       = trim($objPHPExcel->getActiveSheet()->getCell('AC'.$i)->getFormattedValue());
-                        $num_fact = trim($objPHPExcel->getActiveSheet()->getCell('G'.$i)->getFormattedValue());
-                        $fecha_manager = trim($objPHPExcel->getActiveSheet()->getCell('E'.$i)->getFormattedValue());
+                        //VEO QUE SEA UNA FACTURA NO OTRO DOCUMENTO...!! 
+                        if ($objPHPExcel->getActiveSheet()->getCell('G'.$i)->getFormattedValue() == 'FAV'){
 
-                        if ( $num_fact != "" && $num_fact != " " && strlen($num_fact) > 0 && $id != "" && $id != " " && strlen($id) > 0 ){
-
-                            $OK[$objPHPExcel->getActiveSheet()->getCell('AC'.$i)->getFormattedValue()] = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getFormattedValue();
-                            // guardo el id;
-
-                            $this->facturacion_model->actualizarOS($id);
-                            $fecha_manager = date("Y-m-d", strtotime($fecha_manager));
-                            $this->facturacion_model->sincronizarFact($id,$num_fact,$fecha_manager);
-
+                            $num_fact       = trim($objPHPExcel->getActiveSheet()->getCell('F'.$i)->getFormattedValue());
+                            $id = trim($objPHPExcel->getActiveSheet()->getCell('H'.$i)->getFormattedValue());
+                            $fecha_manager = trim($objPHPExcel->getActiveSheet()->getCell('C'.$i)->getFormattedValue());
+                            $fecha      = date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($fecha_manager) );
+                            //print_r( array($fecha_manager,$fecha,$id,$num_fact ) );
+                            
+    
+                            if ( $num_fact != "" && $num_fact != " " && strlen($num_fact) > 0 && $id != "" && $id != " " && strlen($id) > 0 ){
+    
+                                $OK[$objPHPExcel->getActiveSheet()->getCell('F'.$i)->getFormattedValue()] = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getFormattedValue();
+                                // guardo el id;
+    
+                                $this->facturacion_model->actualizarOS($id);
+                                $fecha_manager = date("Y-m-d", strtotime($fecha_manager));
+                                $this->facturacion_model->sincronizarFact($id,$num_fact,$fecha);
+    
+                            }
                         }
                     }
 					$data['opc'] = 1;
