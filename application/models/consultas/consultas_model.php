@@ -383,6 +383,7 @@ Class consultas_model extends CI_Model{
 	}
 
 	public function facturadas($cliente = null,   $desde = null, $hasta = null, $todas = null){
+		
 		$sql= 	"select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
@@ -430,6 +431,9 @@ Class consultas_model extends CI_Model{
 					    factura
 					where
 					    factura.estado_factura_id_estado_factura = 3";
+
+		
+
 		$result = $this->db->query($sql);
 
 		return $result->result_array();
