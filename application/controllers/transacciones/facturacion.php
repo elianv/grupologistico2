@@ -11,6 +11,7 @@ class Facturacion extends CI_Controller{
         $this->load->model('mantencion/proveedores_model');
         $this->load->model('mantencion/clientes_model');
         $this->load->model('mantencion/naves_model');
+        $this->load->model('transacciones/notas_credito_model');
 
     }
 
@@ -1037,9 +1038,9 @@ class Facturacion extends CI_Controller{
                         if ($objPHPExcel->getActiveSheet()->getCell('G'.$i)->getFormattedValue() == 'FAV'){
 
                             $num_fact       = trim($objPHPExcel->getActiveSheet()->getCell('F'.$i)->getFormattedValue());
-                            $id = trim($objPHPExcel->getActiveSheet()->getCell('H'.$i)->getFormattedValue());
-                            $fecha_manager = trim($objPHPExcel->getActiveSheet()->getCell('C'.$i)->getFormattedValue());
-                            $fecha      = date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($fecha_manager) );
+                            $id 			= trim($objPHPExcel->getActiveSheet()->getCell('H'.$i)->getFormattedValue());
+                            $fecha_manager 	= trim($objPHPExcel->getActiveSheet()->getCell('C'.$i)->getFormattedValue());
+                            $fecha      	= date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($fecha_manager) );
                             //print_r( array($fecha_manager,$fecha,$id,$num_fact ) );
                             
     
@@ -1053,6 +1054,38 @@ class Facturacion extends CI_Controller{
                                 $this->facturacion_model->sincronizarFact($id,$num_fact,$fecha);
     
                             }
+                        }
+                        else if ($objPHPExcel->getActiveSheet()->getCell('G'.$i)->getFormattedValue() == 'NCV'){
+							
+							$num_nota       = trim($objPHPExcel->getActiveSheet()->getCell('F'.$i)->getFormattedValue());
+                            $num_fact 		= trim($objPHPExcel->getActiveSheet()->getCell('H'.$i)->getFormattedValue());
+                            $fecha_manager 	= trim($objPHPExcel->getActiveSheet()->getCell('C'.$i)->getFormattedValue());
+                            $monto			= trim($objPHPExcel->getActiveSheet()->getCell('M'.$i)->getFormattedValue());
+                            $codigo_sistema	= trim($objPHPExcel->getActiveSheet()->getCell('J'.$i)->getFormattedValue());
+							//$fecha      	= date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($fecha_manager) );
+							$fecha  = date("Y-m-d", strtotime($fecha_manager));
+                            
+							//$factura = $this->facturacion_model->datos_factura($num_fact);
+                            
+							if( $num_fact != "" && $num_fact != " " && strlen($num_fact) > 0 && $num_nota != "" && $num_nota != " " && strlen($num_nota) > 0 ){
+								   	
+								   	$nota = array(
+                            				'id_factura' 	 => $num_fact,
+                            				'numero_nota' 	 => $num_nota,
+                            				'monto'			 => $monto,
+                            				'fecha'			 => $fecha,
+                            				'codigo_sistema' => $codigo_sistema
+                            			);
+                                    error_log(print_r($nota,true));
+								   	
+                            		$result = $this->notas_credito_model->insertar_nc($nota);
+                            		
+                            		if ($result){
+                            			$OK[$objPHPExcel->getActiveSheet()->getCell('F'.$i)->getFormattedValue()] = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getFormattedValue();
+                            		}
+							}
+
+
                         }
                     }
 					$data['opc'] = 1;

@@ -392,7 +392,7 @@ class Facturacion_model extends CI_Model{
     function sincronizarFact($id,$num_factura,$fecha_manager=null){
             //echo "UPDATE factura SET estado_factura_id_estado_factura = 2, numero_factura = {$num_factura}, fecha='{$fecha_manager}' WHERE id = {$id}";
             $sql = $this->db->query("UPDATE factura SET estado_factura_id_estado_factura = 2, numero_factura = {$num_factura}, fecha='{$fecha_manager}' WHERE id = {$id}");
-            error_log("UPDATE factura SET estado_factura_id_estado_factura = 2, numero_factura = {$num_factura}, fecha='{$fecha_manager}' WHERE id = {$id}");
+            //error_log("UPDATE factura SET estado_factura_id_estado_factura = 2, numero_factura = {$num_factura}, fecha='{$fecha_manager}' WHERE id = {$id}");
             return TRUE;
     }
 

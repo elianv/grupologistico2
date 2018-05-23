@@ -75,7 +75,6 @@ Class consultas_model extends CI_Model{
 		}
 
 		$result = $this->db->get();
-		//var_dump($this->db->last_query());
 		return $result->result_array();
 	}
 
@@ -454,7 +453,7 @@ Class consultas_model extends CI_Model{
 						    tramo.descripcion as tramo,
 						    orden.fecha_presentacion,
 						    proveedor.razon_social as proveedor,
-
+						    factura.id as id_factura,
 							ordenes_facturas.factura_tramo as factura_proveedor,
 						    factura.total_costo as precio_costo,
 						    factura.numero_factura as factura_log,
@@ -539,6 +538,7 @@ Class consultas_model extends CI_Model{
 			if($desde && $hasta){
 					$desde = new DateTime($desde);
 					$hasta = new DateTime($hasta);
+					//print_r($string);
 
 					//$string .= " AND orden.fecha_presentacion between '".$desde->format('Y-m-d')."' and '".$hasta->format('Y-m-d')."'";
 					$string .= " AND orden.id_orden IN

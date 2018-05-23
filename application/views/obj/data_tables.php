@@ -10,8 +10,12 @@
 </div>
 
 <div class="container">
-    <div class=<?php echo "tabla-".$clase."\""; ?>">
-        <table id=<?php echo "tabla-".$clase."\""; ?> class="table table-bordered table-striped dataTable">
+
+
+
+    <div class=<?php echo "tabla-div-".$clase."\""; ?>">
+        <table id=<?php echo "tabla-".$clase; ?> class="table table-bordered table-striped dataTable">
+
             <thead>
             <tr>
                 <?php 
@@ -29,7 +33,12 @@
     </div>
     <br>
     <div align="right">
-        <a class="btn btn-success" id="procesar">Re facturar seleccionados</a>
+        <?php 
+            if(isset($botones)){
+                foreach ($botones as $boton) {  
+                echo "<a class='btn btn-".$boton['tipo']."' id='".$boton['id']."'>".$boton['texto']."</a>";}
+        } ?>
+        
     </div>
     <div id="detalle">
     </div>
@@ -38,21 +47,9 @@
 
 <script>
     $( document ).ready(function() {
-        $('#tabla-facturas').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "bProcessing": true,
-            "ajax": "porFacturar_ajax" ,
+            <?php echo $js_ajax; ?> 
 
-            columns: [
-                {data:"boton"},
-                {data:"id"},
-                {data:"cliente"},
-                {data:"fecha"}
-
-            ]
-        });
-
+    /*
         $('#procesar').click( function () {
             var checkedValues = $('input:checkbox:checked').map(function() {
                 return this.value;
@@ -83,5 +80,6 @@
 
           });
     });
+    */
   });
 </script>

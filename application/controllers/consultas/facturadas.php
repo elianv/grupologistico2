@@ -6,7 +6,7 @@
             parent::__construct();
             $this->load->model('transacciones/orden_model');
             $this->load->model('consultas/consultas_model');
-
+            $this->load->model('transacciones/notas_credito_model');
 
             date_default_timezone_set('America/Santiago');
         }
@@ -1373,6 +1373,7 @@
 
             if($this->session->userdata('logged_in')){
                 $data['tipo'] = 0;
+                ini_set('memory_limit', '-1');
                 $this->load->view('include/head',$session_data);
                 $this->load->view('consultas/master',$data);
                 $this->load->view('include/script');
@@ -1485,8 +1486,20 @@
                         $costos = $this->consultas_model->total_ordenes($data['facturas'][$i]['id_orden']);
                         $data['facturas'][$i]['precio_costo'] = $costos[0]['total_costo'];
                         $data['facturas'][$i]['precio_venta'] = $costos[0]['total_venta'];
+                        $nc = $this->notas_credito_model->getNotaByFactura($factura['id_factura']);
+                        //print_r($nc);
+                        if(isset($nc[0]['numero_nota'])){
+                            $data['facturas'][$i]['nc'] = $nc[0]['numero_nota'];
+                            $data['facturas'][$i]['sum'] = $nc[0]['suma'];    
+                        }
+                        else{
+                            $data['facturas'][$i]['nc'] = null;
+                            $data['facturas'][$i]['sum'] = 0;  
+                        }
+
+                        
                         if($costos[0]['total_costo'] !=0 && !is_null($costos[0]['total_costo'])){
-                            $data['facturas'][$i]['porcentaje'] = ($costos[0]['total_venta']-$costos[0]['total_costo'])*100/$costos[0]['total_costo'];    
+                            $data['facturas'][$i]['porcentaje'] = ($costos[0]['total_venta']-$costos[0]['total_costo']+$data['facturas'][$i]['nc'])*100/$costos[0]['total_costo'];    
                         }
                         $data['facturas'][$i]['margen'] = $costos[0]['margen'];
                         $j = 0;
@@ -1571,6 +1584,8 @@
                                 $this->excel->getActiveSheet()->setCellValue('S1', 'Fecha factura');
                                 $this->excel->getActiveSheet()->setCellValue('T1', 'Margen');
                                 $this->excel->getActiveSheet()->setCellValue('U1', 'Porcentaje');
+                                $this->excel->getActiveSheet()->setCellValue('V1', 'Nota crédito');
+                                $this->excel->getActiveSheet()->setCellValue('W1', 'Monto');
 
 
                                 $this->excel->getActiveSheet()->getStyle('A1:T1')->getBorders()->getBottom()->setBorderStyle(PHPExcel_Style_Border::BORDER_DOUBLE);
@@ -1617,6 +1632,8 @@
                                 $this->excel->getActiveSheet()->getStyle('T1')->getFont()->setBold(true);
                                 $this->excel->getActiveSheet()->getStyle('U1')->getFont()->setSize(8);
                                 $this->excel->getActiveSheet()->getStyle('U1')->getFont()->setBold(true);                                
+                                $this->excel->getActiveSheet()->getStyle('V1')->getFont()->setSize(8);
+                                $this->excel->getActiveSheet()->getStyle('W1')->getFont()->setBold(true);
 
                                 foreach(range('A','T') as $columnID) {
                                     $this->excel->getActiveSheet()->getColumnDimension($columnID)
@@ -1649,6 +1666,12 @@
                                             $this->excel->getActiveSheet()->setCellValue('T'.$i,$factura['margen']);
                                             $this->excel->getActiveSheet()->setCellValue('U'.$i,$factura['porcentaje']);
 
+                                            //print_r($data);
+                                            //error_log(print_r(json_encode($data),true));
+
+                                            $this->excel->getActiveSheet()->setCellValue('V'.$i,$factura['nc']);
+                                            $this->excel->getActiveSheet()->setCellValue('W'.$i,$factura['sum']);
+
 
                                             $i++;
                                             $j = $i;
@@ -1662,6 +1685,8 @@
                                                 $this->excel->getActiveSheet()->setCellValue('O'.$j,$otro_servicio['valor_costo']);
                                                 $this->excel->getActiveSheet()->setCellValue('Q'.$j,$otro_servicio['valor_venta']);
                                                 $this->excel->getActiveSheet()->setCellValue('P'.$j,$factura['factura_log']);
+                                                $this->excel->getActiveSheet()->setCellValue('V'.$i,'');
+                                                $this->excel->getActiveSheet()->setCellValue('W'.$i,'');                                                
                                                 $j++;
                                             }
                                             $i = $j;
@@ -2009,7 +2034,7 @@
                 $this->load->model('transacciones/orden_model');
 
                 $data['ordenes'] = $this->orden_model->listar_ordenes();
-                error_log(print_r($data['ordenes'][0], true));
+                //error_log(print_r($data['ordenes'][0], true));
                 $this->load->view('consultas/ajax/modal_ordenes',$data);
             }
             else

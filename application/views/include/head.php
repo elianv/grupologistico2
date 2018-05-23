@@ -63,6 +63,7 @@
 	                                <li><a href='<?php echo base_url("index.php/transacciones/facturacion/editar");?>' >Editar, Imprimir Factura</a></li>
 	                                <li><a href='<?php echo base_url("index.php/transacciones/facturacion/reFacturar"); ?>' >Reintentar Facturar</a></li>
 	                                <li><a href='<?php echo base_url("index.php/transacciones/facturacion/realizadas");?>' >Realizadas</a></li>
+	                                <li><a href='<?php echo base_url("index.php/transacciones/notas_credito");?>' >Notas de crédito</a></li>
 	                                <li class="divider"></li>
 	                                <li><a href='<?php echo base_url("index.php/transacciones/facturacion/sincronizar");?>' >Sincronizar con MANAGER</a></li>
 								</ul>
