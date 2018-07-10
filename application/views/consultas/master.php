@@ -261,8 +261,8 @@
                                         <th>Observacion</th>
                                         <th>Margen</th>
                                         <th>Porcentaje</th>
-                                        <th>Nota de crédito</th>
-                                        <th>Monto</th>
+                                        <th>Nota crédito</th>
+                                        <th>monto TOTAL</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -288,10 +288,10 @@
                                               <td><?php echo $factura['fecha']; ?></td>
 	                                            <td><?php echo '$'.number_format($factura['precio_venta'], 0, ',', '.'); ?></td>
 	                                            <td><?php echo $factura['observacion']; ?></td>
-	                                            <td><?php echo '$'.number_format($factura['margen']+$factura['sum'], 0, ',', '.'); ?></td>
+	                                            <td><?php echo '$'.number_format($factura['margen'], 0, ',', '.'); ?></td>
 	                                            <td><?php echo number_format($factura['porcentaje'], 2, ',', '.').'%.'; ?></td>
 	                                            <td><?php echo $factura['nc']; ?></td>
-	                                            <td><?php echo '$'.number_format($factura['sum']*(-1),0, ',', '.'); ?></td>
+												<td><?php echo '$'.number_format($factura['sum'], 0, ',', '.'); ?></td>
 	                                            <!-- <td><?php //echo number_format(($factura['precio_venta'] - $factura['precio_costo'])*100/$factura['precio_costo'],2, ',', '.').'%.' ?></td>-->
 
 
@@ -321,8 +321,8 @@
 				                                            <td></td>
 				                                            <td>$0</td>
 				                                            <td>0%</td>
-	                                            			<td></td>
-	                                            			<td></td>
+				                                            <td></td>
+				                                            <td></td>
 			                                        	</tr>
 	                                        	<?php }?>
 	                                        <?php } ?>
