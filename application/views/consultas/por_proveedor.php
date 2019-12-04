@@ -101,7 +101,7 @@
                                     <?php foreach ($proveedores_ as $proveedor) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$proveedor['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $proveedor['id_orden']; ?></a></td>
-                                            <?php $fecha = new DateTime($proveedor['fecha_creacion']); ?>
+                                            <?php $fecha = new DateTime($proveedor['fecha_presentacion']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>                                            
                                             <td><?php echo $proveedor['tipo_orden']; ?></td>
                                             <td><?php echo $proveedor['razon_social']; ?></td>

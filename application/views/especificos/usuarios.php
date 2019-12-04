@@ -81,13 +81,15 @@
                         <tr>
                             <th>Rut Usuario</th>
                             <th>Nombre</th>
+                            <th>Tipo</th>
                         </tr>
                       </thead>
                       <tbody>
                               <?php foreach ($tablas as $tabla) { ?>
 			                      <tr>
-			                      <td><a class="codigo-click" data-rut="<?php echo $tabla['rut_usuario']; ?>" data-nombre="<?php echo $tabla['nombre']; ?>"><?php echo $tabla['rut_usuario']; ?></a></td>
+			                      <td><a class="codigo-click" data-rut="<?php echo $tabla['rut_usuario']; ?>" data-nombre="<?php echo $tabla['nombre'];?>" data-tipo="<?php echo $tabla['id_tipo_usuario'];?>"><?php echo $tabla['rut_usuario']; ?></a></td>
 			                      <td><?php echo $tabla['nombre']; ?></td>
+                            <td><?php echo $tabla['tipo_usuario']; ?></td>
 			                      </tr>
 			                  <?php } ?>
                        </tbody>
@@ -105,11 +107,14 @@
 			e.preventDefault();
 			var rut_usuario = $(this).attr('data-rut');
 			var nombre = $(this).attr('data-nombre');
+      var tipo = $(this).attr('data-tipo');
+      console.log("tipo usuario:"+tipo);
 			$('#rut_usuario').val(rut_usuario);
 			$('#nombre').val(nombre);
+      $('#tusuario').val(tipo).find("option[value="+tipo+"]").attr('selected',true);
 		});
 		$('#tabla-ordenes-clientes').DataTable();	
-        $('#tabla-cliente').DataTable();					           
+    $('#tabla-cliente').DataTable();					           
     });
         
 

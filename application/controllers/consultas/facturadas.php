@@ -117,7 +117,7 @@
                                         foreach ($data['clientes_'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['referencia']);
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['tipo_orden']);
@@ -246,7 +246,7 @@
                                         foreach ($data['conductores_'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['razon_social']);
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['total_neto']);
@@ -376,7 +376,7 @@
                                         foreach ($data['camiones_'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['razon_social']);
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['total_neto']);
@@ -505,7 +505,7 @@
                                         foreach ($data['proveedores_'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['tipo_orden']);
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['razon_social']);
@@ -646,7 +646,7 @@
                                         foreach ($data['depositos_'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['referencia']);
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['tipo_orden']);
@@ -782,7 +782,7 @@
                                         foreach ($data['puertos_'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['referencia']);
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['tipo_orden']);
@@ -917,7 +917,7 @@
                                         foreach ($data['ordenes'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['referencia']);
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['referencia_2']);
@@ -1049,7 +1049,7 @@
                                         foreach ($data['ordenes'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['referencia']);
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['referencia_2']);
@@ -1181,7 +1181,7 @@
                                         foreach ($data['realizadas'] as $orden) {
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$orden['tipo_orden']);
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['razon_social']);
@@ -1333,7 +1333,7 @@
 
                                                     $this->excel->getActiveSheet()->setCellValue('A'.$i,$orden['id_orden']);
                                                     $this->excel->getActiveSheet()->setCellValue('B'.$i,$orden['tipo_orden']);
-                                                    $fecha = new DateTime($orden['fecha_creacion']);
+                                                    $fecha = new DateTime($orden['fecha_presentacion']);
                                                     $this->excel->getActiveSheet()->setCellValue('C'.$i,$fecha->format('d-m-Y'));
                                                     $this->excel->getActiveSheet()->setCellValue('D'.$i,$orden['total_neto']);
                                                     $this->excel->getActiveSheet()->setCellValue('E'.$i,$orden['numero_factura']);

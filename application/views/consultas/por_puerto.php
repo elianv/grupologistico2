@@ -101,7 +101,7 @@
                                     <?php foreach ($puertos_ as $puerto) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$puerto['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $puerto['id_orden']; ?></a></td>
-                                            <?php $fecha = new DateTime($puerto['fecha_creacion']); ?>
+                                            <?php $fecha = new DateTime($puerto['fecha_presentacion']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>   
                                             <td><?php echo $puerto['referencia']; ?></td>
                                             <td><?php echo $puerto['tipo_orden']; ?></td>

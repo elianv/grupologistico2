@@ -135,7 +135,7 @@ class Usuarios extends CI_Controller{
             
             $this->load->library('form_validation');
             $this->form_validation->set_rules('nombre', 'Nombre','trim|required|xss_clean');
-            $this->form_validation->set_rules('clave', 'Clave','trim|required|xss_clean');
+            //$this->form_validation->set_rules('clave', 'Clave','trim|required|xss_clean');
 			$this->form_validation->set_rules('rut_usuario', 'rut_usuario','trim|required|xss_clean');
 
             // si validacion incorrecta
@@ -149,14 +149,22 @@ class Usuarios extends CI_Controller{
             
             else{
                 
-                $arreglo = array(
-                					'rut_usuario' => $this->input->post('rut_usuario'),
+                if ($this->input->post('clave') != ''){
+                    $arreglo = array(
+                                    'rut_usuario' => $this->input->post('rut_usuario'),
                                     'nombre' => $this->input->post('nombre'),
                                     'clave' => md5($this->input->post('clave')),
-                                    'id_tipo_usuario' => $this->input->post('tusuario'),
-                                );
-
-
+                                    'id_tipo_usuario' => $this->input->post('tusuario')
+                                );                    
+                }
+                else{
+                    $arreglo = array(
+                                    'rut_usuario' => $this->input->post('rut_usuario'),
+                                    'nombre' => $this->input->post('nombre'),
+                                    'id_tipo_usuario' => $this->input->post('tusuario')
+                                );                          
+                }
+                
                 $this->Usuarios_model->modificar($arreglo,$arreglo['rut_usuario']);
                 $this->session->set_flashdata('mensaje','Usuario modificado con éxito');
                 redirect('especificos/usuarios','refresh');

@@ -20,7 +20,7 @@
 				<div class="container" style="width: auto">
 					<a style="margin-left: 0px" class="brand logo" href=<?php echo base_url();?>index.php/main>Grupo Logistico</a>
 					<ul class="nav"><li class="divider"></li>
-					    <?php if($id_tipo_usuario != 3) { ?>
+
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mantenci&oacute;n <b class="caret"></b></a>
 								<ul class="dropdown-menu">
@@ -39,21 +39,27 @@
 									<li><a href=<?php echo base_url();?>index.php/mantencion/servicios>Otros Servicios</a></li>
 								</ul>
 							</li>
-						<?php } ?>
+
+						
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Transacciones<b class="caret"></b></a>
 							<ul class="dropdown-menu">
+
 								<li class="nav-header">Orden de Servicio</li>
 								<li class="divider"></li>
 								<li><a href=<?php echo base_url();?>index.php/transacciones/orden>Crear O.S.</a></li>
                                 <li><a href=<?php echo base_url();?>index.php/transacciones/orden/editar_orden>Editar, Imprimir O.S.</a></li>
-                                <?php if($id_tipo_usuario == 0) { ?>
+
+                                <?php if($id_tipo_usuario == 0 || $id_tipo_usuario == 1 || $id_tipo_usuario == 4) { ?>
+
 	                                <li class="divider"></li>
 	                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/datosFaltantes>Ingresar Costos</a></li>
+
                                 <?php } ?>
 							</ul>
-						</li> 
-						<?php if($id_tipo_usuario == 0 || $id_tipo_usuario == 2 ) { ?>
+						</li>
+
+						<?php if($id_tipo_usuario == 0 || $id_tipo_usuario == 1 ||  $id_tipo_usuario == 4 ) { ?>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Facturaci&oacute;n<b class="caret"></b></a>
 								<ul class="dropdown-menu">
@@ -69,15 +75,18 @@
 								</ul>
 							</li>
 						<?php } ?> 					   
+
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Consultas<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li class="nav-header">Generar Datos</li>
-								<?php if($id_tipo_usuario == 0 ) { ?>
+
+								<?php if($id_tipo_usuario == 0 || $id_tipo_usuario == 2 || $id_tipo_usuario == 1) { ?>
 									<li><a href="<?php echo base_url('index.php/consultas/facturadas/master');?>">Master</a></li>
 								<?php } ?>
+								
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/resumen');?>">Resumen</a></li>
-								<li class="divider"></li>
+								<li class="divider"></li>							
 								<li class="nav-header">O.S por Otros</li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_cliente');?>">Clientes</a></li>
 								<li><a href="<?php echo base_url('index.php/consultas/facturadas/por_proveedor');?>">Proveedor</a></li>

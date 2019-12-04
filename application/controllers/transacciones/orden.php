@@ -349,7 +349,7 @@
                                $cod_servicio = explode("-",$servicio);
                                $detalle = array(
                                             'id_detalle'               => $id_detalle,
-                                            'servicio_codigo_servicio' => $servicio[0],
+                                            'servicio_codigo_servicio' => $cod_servicio[0],
                                             'orden_id_orden'           => $num_orden,
                                             'valor_costo'              => str_replace(".", "", $costo[$i]),
                                             'valor_venta'              => str_replace(".", "", $venta[$i])

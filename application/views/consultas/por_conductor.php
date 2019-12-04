@@ -95,7 +95,7 @@
                                     <?php foreach ($conductores_ as $conductor) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$conductor['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $conductor['id_orden']; ?></a></td>
-                                            <?php $fecha = new DateTime($conductor['fecha_creacion']); ?>
+                                            <?php $fecha = new DateTime($conductor['fecha_presentacion']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>                                            
                                             <td><?php echo $conductor['razon_social']; ?></td>
                                             <td><?php echo '$'.number_format($conductor['total_neto'], 0, ',', '.'); ?></td>

@@ -77,7 +77,7 @@
                                     <?php foreach ($realizadas as $realizada) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$realizada['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $realizada['id_orden']; ?></a></td>
-                                            <?php $fecha = new DateTime($realizada['fecha_creacion']); ?>
+                                            <?php $fecha = new DateTime($realizada['fecha_presentacion']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>                                            
                                             <td><?php echo $realizada['tipo_orden']; ?></td>
                                             <td><?php echo $realizada['razon_social']; ?></td>

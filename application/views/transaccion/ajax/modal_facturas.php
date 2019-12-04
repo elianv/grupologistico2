@@ -14,7 +14,14 @@
 			<tr>
 				<td><a class="codigo-click" data-codigo="<?php echo $factura['numero_factura']; ?>" data-os="<?php echo $factura['id']; ?>" ><?php echo $factura['numero_factura']; ?></a></td>
 				<td><?php echo $factura['id']; ?></td>
-				<td><?php echo $factura['cliente']; ?></td>
+				<td>
+					<?php 
+						if( isset($factura['cliente']) )
+							echo $factura['cliente']; 
+						else
+							echo "--";
+					?>
+				</td>
 				 <?php $date = date_create($factura['fecha']); ?>
 				<td><?php echo date_format($date, 'd-m-Y'); ?></td>
 				<?php if($factura['estado_factura_id_estado_factura'] == 3) {?>

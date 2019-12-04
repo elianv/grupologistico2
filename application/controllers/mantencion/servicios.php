@@ -55,6 +55,10 @@ class Servicios extends CI_Controller{
     function modificar_servicio(){
         if($this->session->userdata('logged_in')){
             
+
+            $_POST['vcosto'] = str_replace(".", "", $this->input->post('vcosto') );
+            $_POST['vventa'] = str_replace(".", "", $this->input->post('vventa') );
+
             $this->load->library('form_validation');
             $this->form_validation->set_rules('codigo', 'Codigo Servicio','trim|required|xss_clean|numeric');
             $this->form_validation->set_rules('descripcion', 'Descripción','trim|required|xss_clean|');
@@ -118,12 +122,16 @@ class Servicios extends CI_Controller{
     function guardar_servicio(){
         if($this->session->userdata('logged_in')){
             
+            $_POST['vcosto'] = str_replace(".", "", $this->input->post('vcosto') );
+            $_POST['vventa'] = str_replace(".", "", $this->input->post('vventa') );
+
             $this->load->library('form_validation');
             $this->form_validation->set_rules('codigo', 'Codigo Servicio','trim|required|xss_clean|numeric');
             $this->form_validation->set_rules('descripcion', 'Descripción','trim|required|xss_clean|');
             $this->form_validation->set_rules('vcosto', 'Valor Costo','trim|numeric|xss_clean|');
             $this->form_validation->set_rules('vventa', 'Valor Venta','trim|numeric|xss_clean|');
             $this->form_validation->set_rules('moneda','Moneda','required|xss_clean');
+            
             
             // si validacion incorrecta
             if($this->form_validation->run() == FALSE){     
@@ -173,6 +181,7 @@ class Servicios extends CI_Controller{
                 redirect('mantencion/servicios','refresh');
                
             }
+
         }
         else{
             redirect('home','refresh');

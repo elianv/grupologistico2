@@ -80,7 +80,7 @@
                                     <?php foreach ($ordenes as $orden) { ?>
                                         <tr>
                                             <td><a href="<?php echo base_url('index.php/transacciones/orden/pdf/'.$orden['id_orden'])?>" title="Para ver la Orden haga click"><?php echo $orden['id_orden']; ?></a></td>
-                                            <?php $fecha = new DateTime($orden['fecha_creacion']); ?>
+                                            <?php $fecha = new DateTime($orden['fecha_presentacion']); ?>
                                             <td><?php echo $fecha->format('d-m-Y'); ?></td>   
                                             <td><?php echo $orden['referencia']; ?></td>
                                             <td><?php echo $orden['referencia_2']; ?></td>
