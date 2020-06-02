@@ -8,6 +8,7 @@
         $this->load->model('utils/Viaje');
         $this->load->model('utils/Detalle');
         $this->load->model('utils/log');
+        $this->load->model('utils/Generica');
         $this->load->model('mantencion/Clientes_model');
         $this->load->model('mantencion/Agencias_model');
         $this->load->model('mantencion/Bodegas_model');
@@ -21,6 +22,7 @@
         $this->load->model('mantencion/Depositos_model');
         $this->load->model('mantencion/Naves_model');
         $this->load->model('mantencion/Navieras_model');
+        $this->load->helper('ormhelper');
         date_default_timezone_set('America/Santiago');
     }
 
@@ -676,21 +678,6 @@
                 if(isset($_POST['tipo_orden'])){
 
                     $query = $this->Orden_model->buscar_ordenes($_POST['tipo_orden'],$_POST['desde'],$_POST['hasta'],  strtoupper($_POST['cliente']));
-
-                    /*$i=0;
-                    foreach ($query as $orden){
-
-                        $estado_orden = $this->Facturacion->estado_orden_factura($orden['id_orden']);
-                        //print_r($estado_orden);
-                        if(isset($estado_orden[0])){
-                            if($estado_orden[0]['estado_factura_id_estado_factura'] == 2 ){
-                                $query[$i]['estado'] = "FACTURABLE";
-                                //$query[$i]['estado'] = 2;
-                            }
-                        }
-                    $i++;
-                    }
-                    */
                     $data['ordenes'] = $query;
 
                 }
@@ -890,7 +877,6 @@
         else{
             redirect('home','refresh');
         }
-
     }
 
     function editarDatosFaltantes(){
@@ -943,7 +929,6 @@
         else{
             redirect('home','refresh');
         }
-
     }
 
     function costos_ajax(){
@@ -1011,6 +996,182 @@
         }
     }
 
+    function orden_auto(){
+
+        if($this->session->userdata('logged_in')){
+            $this->load->library('form_validation');
+            
+            $session_data   = $this->session->userdata('logged_in');
+            $clientes       = $this->Clientes_model->clientes_carga_masiva();
+            
+            $this->form_validation->set_rules('file','Archivo orden','callback_check_cargas_extensiones');
+            
+            $data = array(
+                "titulo"    => "Crear ordenes de servicios desde archivo",
+                "clientes"  => $clientes,
+                "result"    => False,
+            );
+            
+            if ($this->form_validation->run() == true){
+                
+                $files     = $_FILES;
+                $textos = get_text($files);
+                //$textos = test_txt();
+                
+                $cliente = $this->input->post('cliente');
+                
+                $campos = $this->Generica->SqlSelect('*', 'ocr_configuracion', array('id_cliente'=>$cliente), False);
+                
+                $datos = array();
+                $i = 0;
+
+                foreach ($textos as $tx) {
+                    //echo '<pre>';
+                    //print_r($tx);
+                    //echo '</pre>';
+                    foreach($campos as $cp){
+                        if ($cp['configuracion'] == 'orden'){
+                            
+                            if (is_null($cp['valor_fijo']) ){
+                                
+                                //ELIMINO EL CAMPO ANTERIOR A LO QUE BUSCO
+                                $tx_ant = explode($cp['ant'], $tx['texto']);
+                                
+                                //LA BUSQUEDA ES CON ALGUN EXP. REG
+                                if (!is_null($cp['regex'])){
+                                    preg_match($cp['regex'], $tx_ant[1], $matches);
+
+                                    if($cp['regex_encontrado'] == 'CEN'){
+                                       
+                                        $busqueda = $matches;
+                                        
+                                    }
+                                    else if($cp['regex_encontrado'] == 'IZQ'){
+                                        
+                                        $busqueda = explode(trim($matches[0]),$tx_ant[1]);
+                                        
+                                    }
+                                    else if($cp['regex_encontrado'] == 'DER'){
+                                    
+                                        $busqueda = explode(trim($matches[0]), $tx_ant[1]);
+                                        $busqueda = explode($cp['suc'], $busqueda[1]);
+
+                                    }
+                                    
+                                    //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
+                                    if( $cp['formato_tipo'] == 'date'){
+
+                                        $formato = $cp['formato'];
+                                        $time = strtotime(str_replace('.', '-', trim($busqueda[0])));
+                                        $busqueda[0] = date($formato, $time);
+
+                                    }
+
+                                }
+                                
+                                //COMO NO ES EXPRESION REG. DIVIDO CON LOS CAMPOS QUE SE.
+                                else{
+                                    $busqueda = explode($cp['suc'], $tx_ant[1]);
+                                }
+                                    
+                                //SE DEBE BUSCAR EL CODIGO DE LO QUE ENCONTRE O O LA ASIGNACION ES UN TEXTO PLANO
+                                if($cp['buscar']){
+                                    $r = $this->Generica->SqlSelect('*', $cp['busqueda_tabla'], array('UPPER('.$cp['busqueda_campo'].')'=> strtoupper(trim($busqueda[0]))), False);
+
+                                    //SI exsite lo asigno
+                                    if (count($r)){
+                                        $result = trim($r[0][$cp['busqueda_pk']]);
+                                    }
+                                    //NO EXISTE CREO EL DATO
+                                    else{
+
+                                        $ins_id = $this->Generica->SqlInsert($cp['busqueda_tabla'], array($cp['busqueda_campo'] => strtoupper(trim($busqueda[0]))));
+
+                                        if ($ins_id){
+                                            $result = $ins_id;
+                                        }
+                                        else{
+                                            //ERROR pensar como sacar de todo
+                                        }
+                                    }
+                                }
+                                //NO REQUIERO BUSCAR, ASIGNO
+                                else{
+                                    $result = trim($busqueda[0]);
+                                }
+
+                                
+                            }
+                            else if (!is_null($cp['valor_fijo']) ) {
+                                 $result = trim($cp['valor_fijo']);
+                            }
+                            
+                            //ASIGNO EL DATO A PARA GUARDAR
+                            $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = $result;
+                            
+                        }
+                        else{
+                            if (!is_null($cp['valor_fijo'])) {
+                                $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = trim($cp['valor_fijo']);
+                            }                            
+                        }
+                        
+                        if ($cp['fk']){
+                            $ordenes[$datos[$i][$cp['configuracion']][$cp['campo_tabla']]] = null;
+                        }
+                    }
+                    $i++;
+                }
+                
+                //CARGAR LOS DATOS A LAS ORDENES
+
+                foreach ($datos as $d){
+                    try{
+                        
+                        $d['orden']['cliente_rut_cliente'] = $cliente;
+                        
+                        $id_viaje = $this->Viaje->crear_viaje($d['viaje']);
+                        $d['orden']['viaje_id_viaje'] = $id_viaje;
+
+                        $id_orden = $this->Orden_model->insert_orden($d['orden']);
+                        $ordenes['result'][$d['orden']['referencia_2']] = $id_orden;
+                        
+                        
+                    } catch (Exception $ex) {
+                        $ordenes[$d['orden']['referencia_2']] = False;
+                    }
+                }
+
+            $data['result'] = $this->load->view('transaccion/orden/resultado_carga', $ordenes, TRUE);
+                //$data['debug']['datos'] = $datos;
+                //$data['debug']['ordenes'] = $ordenes;
+            }
+
+            $this->load->view('include/head', $session_data);
+            $this->load->view('transaccion/orden/orden_automatica',$data);
+            $this->load->view('include/tables');
+            $this->load->view('include/script');
+        }
+        else{
+            redirect('home','refresh');
+        }
+    }
+
+    /*
+    function orden_auto_clienteAjax(){
+        if($this->session->userdata('logged_in') && isset($_POST['cliente'])){
+
+        }
+        else{
+            $data['error'] = True;
+            $data['mensaje'] = 'Cliente con el cliente.';
+
+            $this->output->set_content_type('application/json');
+            $this->output->set_output(json_encode($data));
+        }
+    }
+
+*/
     function pdf($id = null){
         $orden = $this->Orden_model->get_orden($id);
 
@@ -1687,6 +1848,50 @@
         }
         else
             return TRUE;
+    }
+    
+    function check_cargas_extensiones(){
+        $files     = $_FILES;
+        $cliente = $this->input->post('cliente');
+        $extensiones = $this->Generica->SqlSelect('extension','cliente_extension',array('cliente'=>$cliente),False);
+        $e = array();
+        
+        foreach ($extensiones as $ext){
+            array_push($e, $ext['extension']);
+        }
+        
+        //valido que se hayan subido OK!
+        $i = 0;
+        foreach ($files['orden_file']['error'] as $f) {
+            if ($f != 0){
+                $archivo = $files['orden_file']['name'][$i];
+                $mensaje = 'Hubo un error al subir el archivo';
+                $this->form_validation->set_message('check_cargas_extensiones', $mensaje.' '.$archivo);
+                
+                return false;
+            }
+            $i++;
+        }
+        
+        //Valido los tipos de archivo
+        $i = 0;
+        foreach ($files['orden_file']['type'] as $f) {
+            
+                if(!in_array($f, $e)){
+                    $archivo = $files['orden_file']['name'][$i];
+                    $mensaje = 'El archivo '.$archivo.' no cumple con la extensión.';
+                    $this->form_validation->set_message('check_cargas_extensiones', $mensaje);
+                    
+                    echo '-'.$f.'-';
+                    echo in_array($f, $e) ? 'true' : 'false';
+                    return false;       
+                }
+            $i++;
+        }
+        
+        return true;
+       
+ 
     }
 
     function datos_ordensh($id_orden){

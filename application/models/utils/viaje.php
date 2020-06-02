@@ -14,12 +14,17 @@ class Viaje extends CI_Model{
     }
     
     function crear_viaje($viaje){
-        if($this->db->insert('viaje', $viaje)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        $this->db->trans_start();
+        $this->db->insert('viaje', $viaje);
+        $this->db->trans_complete();
+        
+        if ($this->db->trans_status() === FALSE)
+                return False;
+
+
+        $query = $this->db->query('SELECT LAST_INSERT_ID() as last_id');
+        $result = $query->result_array();
+        return $result[0]['last_id'];
     }
     
     function seleccionar_viaje($id_viaje){

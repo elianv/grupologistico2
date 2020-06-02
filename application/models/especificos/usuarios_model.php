@@ -27,10 +27,15 @@ class Usuarios_model extends CI_Model{
        
     function listar_usuarios(){
         
-        $this->db->select('rut_usuario,nombre');
+        /*$this->db->select('rut_usuario,nombre');
         $resultado = $this->db->get('usuario');
         
         return $resultado->result_array();
+        */
+        $sql = 'SELECT * FROM glc_sct.usuario as u, tipos_usuario as t where t.id = u.id_tipo_usuario';
+        $result = $this->db->query($sql);
+
+        return $result->result_array();
         
     }
     

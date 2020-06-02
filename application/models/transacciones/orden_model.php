@@ -13,12 +13,15 @@ class Orden_model extends CI_Model{
 
         $this->db->trans_start();
         $this->db->insert('orden',$orden);
-        $this->db->trans_status();
-
+        $query = $this->db->query('SELECT LAST_INSERT_ID() as last_id');
+        //var_dump($this->db->last_query());
+        //print_r($this->db->last_query());
         if ($this->db->trans_status() === FALSE)
             return FALSE;
         else
-            return $this->db->insert_id();
+            $this->db->trans_complete();
+            $result = $query->result_array();
+            return $result[0]['last_id'];
     }
 
     function editar_orden($orden,$id_orden){

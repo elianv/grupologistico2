@@ -71,14 +71,24 @@ class Clientes_model extends CI_Model{
         }
     }
     
-        function datos_cliente($rut) {
-			$this->db->select ('rut_cliente,razon_social,giro,direccion,comuna,ciudad,fono,contacto,celular,dias_plazo,tipo_factura');
-			$this->db->from('cliente');
-			$this->db->where('rut_cliente',$rut);
-			$resultado = $this->db->get();
-			
-			return $resultado->result_array();
+    function datos_cliente($rut) {
+		$this->db->select ('rut_cliente,razon_social,giro,direccion,comuna,ciudad,fono,contacto,celular,dias_plazo,tipo_factura');
+		$this->db->from('cliente');
+		$this->db->where('rut_cliente',$rut);
+		$resultado = $this->db->get();
+		
+		return $resultado->result_array();
         
+    }
+
+    function clientes_carga_masiva(){
+        $this->db->select('rut_cliente,razon_social');
+        $this->db->from('cliente');
+        $this->db->where('carga_masiva',1);
+
+        $resultado = $this->db->get();
+        //var_dump($this->db->last_query());
+        return $resultado->result_array();        
     }
 }
 
