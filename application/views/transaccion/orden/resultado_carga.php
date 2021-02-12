@@ -4,7 +4,7 @@
         <tr>
             <th>Orden Cliente</th>
             <th>OS GLC</th>
-            <th>Acción</th>>
+            <th>Acción</th>
         </tr>
     </thead>
     <tbody>
@@ -12,7 +12,7 @@
             <tr>
                 <td><?php echo $key; ?></td>
                 <td><?php echo $value; ?></td>
-                <td><a class="btn btn-primary" target="_blank" href="<?php echo base_url('transacciones/orden/formulario_editar/'.$value); ?>" <i class=" icon-edit icon-white"></i> Editar</a></td>
+                <td><a class="btn btn-primary" target="_blank" href="<?php echo base_url() . 'index.php/transacciones/orden/formulario_editar/'.$value ; ?>" <i class=" icon-edit icon-white"></i> Editar</a></td>
             </tr>
         <?php } ?>
     </tbody>

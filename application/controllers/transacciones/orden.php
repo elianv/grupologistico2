@@ -193,7 +193,7 @@
                     $data['numero_orden']   = $this->input->post('numero_orden') ;
 
                     $data['active'] = $_POST['tipo_orden'];
-                    
+
                     $this->load->view('include/head',$session_data);
                     $this->load->view('transaccion/orden/crear_orden',$data);
                     $this->load->view('modal/modal_aduana', $data);
@@ -1000,80 +1000,115 @@
 
         if($this->session->userdata('logged_in')){
             $this->load->library('form_validation');
-            
+
             $session_data   = $this->session->userdata('logged_in');
             $clientes       = $this->Clientes_model->clientes_carga_masiva();
-            
+
             $this->form_validation->set_rules('file','Archivo orden','callback_check_cargas_extensiones');
-            
+
             $data = array(
                 "titulo"    => "Crear ordenes de servicios desde archivo",
                 "clientes"  => $clientes,
                 "result"    => False,
             );
-            
+
             if ($this->form_validation->run() == true){
-                
+
                 $files     = $_FILES;
                 $textos = get_text($files);
                 //$textos = test_txt();
-                
+
                 $cliente = $this->input->post('cliente');
-                
+
                 $campos = $this->Generica->SqlSelect('*', 'ocr_configuracion', array('id_cliente'=>$cliente), False);
-                
+
                 $datos = array();
                 $i = 0;
 
                 foreach ($textos as $tx) {
-                    //echo '<pre>';
-                    //print_r($tx);
-                    //echo '</pre>';
                     foreach($campos as $cp){
                         if ($cp['configuracion'] == 'orden'){
-                            
                             if (is_null($cp['valor_fijo']) ){
-                                
+
                                 //ELIMINO EL CAMPO ANTERIOR A LO QUE BUSCO
                                 $tx_ant = explode($cp['ant'], $tx['texto']);
-                                
-                                //LA BUSQUEDA ES CON ALGUN EXP. REG
-                                if (!is_null($cp['regex'])){
-                                    preg_match($cp['regex'], $tx_ant[1], $matches);
 
-                                    if($cp['regex_encontrado'] == 'CEN'){
-                                       
-                                        $busqueda = $matches;
-                                        
-                                    }
-                                    else if($cp['regex_encontrado'] == 'IZQ'){
-                                        
-                                        $busqueda = explode(trim($matches[0]),$tx_ant[1]);
-                                        
-                                    }
-                                    else if($cp['regex_encontrado'] == 'DER'){
-                                    
-                                        $busqueda = explode(trim($matches[0]), $tx_ant[1]);
-                                        $busqueda = explode($cp['suc'], $busqueda[1]);
-
-                                    }
-                                    
-                                    //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
-                                    if( $cp['formato_tipo'] == 'date'){
-
-                                        $formato = $cp['formato'];
-                                        $time = strtotime(str_replace('.', '-', trim($busqueda[0])));
-                                        $busqueda[0] = date($formato, $time);
-
-                                    }
-
+                                if (!isset($tx_ant[1]) &&  !is_null($cp['ant_2'])){
+                                    $tx_ant = explode($cp['ant_2'], $tx['texto']);
                                 }
-                                
-                                //COMO NO ES EXPRESION REG. DIVIDO CON LOS CAMPOS QUE SE.
+                                if (!isset($tx_ant[1])){
+                                    $busqueda[0] = 'DATO NO ENCONTRADO';
+                                }
                                 else{
-                                    $busqueda = explode($cp['suc'], $tx_ant[1]);
-                                }
+                                    //LA BUSQUEDA ES CON ALGUN EXP. REG
+                                    if (!is_null($cp['regex'])){
+                                        preg_match($cp['regex'], $tx_ant[1], $matches);
+                                        if (count($matches) > 0){
+                                            if (!array_key_exists(0, $matches) && !is_null($cp['replace']) && !is_null($cp['regex'])){
+                                                $cp['regex'] = str_replace($cp['needle'], $cp['replace'], $cp['regex']);
+                                                preg_match($cp['regex'], $tx_ant[1], $matches);
+
+                                            }
+
+                                            if($cp['regex_encontrado'] == 'CEN'){
+
+                                                $busqueda = $matches;
+
+                                            }
+                                            else if($cp['regex_encontrado'] == 'IZQ'){
+
+                                                $busqueda = explode(trim($matches[0]),$tx_ant[1]);
+
+                                            }
+                                            else if($cp['regex_encontrado'] == 'DER'){
+
+                                                $busqueda = explode(trim($matches[0]), $tx_ant[1]);
+                                                $b_aux = $busqueda;
+                                                $busqueda = explode($cp['suc'], $busqueda[1]);
+
+                                                if (!is_null($cp['suc_2'])){
+                                                    $busqueda_2 = explode($cp['suc_2'], $b_aux[1]);
+                                                    if (strlen($busqueda[0]) >= 15)
+                                                        $busqueda = $busqueda_2;
+                                                }
+                                            }
+
+                                            //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
+                                            if( $cp['formato_tipo'] == 'date'){
+                                                $formato = $cp['formato'];
+                                                $time = preg_replace('/[^A-Za-z0-9\-\.\s]/', '', trim($busqueda[0])); 
+                                                $time = str_replace('.', '-', $time);
+                                                $time = strtotime($time);
+                                                $busqueda[0] = date($formato, $time);
+                                            }
+                                        }
+                                        else
+                                            $busqueda[0] = 'DATO NO ENCONTRADO';
+                                    }
+
+                                    //COMO NO ES EXPRESION REG. DIVIDO CON LOS CAMPOS QUE SE.
+                                    else{
+                                        if (isset($tx_ant[1])){
+                                            $busqueda = explode($cp['suc'], $tx_ant[1]);
+                                                if (strlen($busqueda[0]) <= 1){
+                                                    $busqueda[0] = 'DATO NO ENCONTRADO';
+                                                }
+                                            }
+                                        else{
+                                            $busqueda[0] = 'DATO NO ENCONTRADO';
+                                        }
                                     
+                                        if (!is_null($cp['suc_2'])){
+                                            $busqueda_2 = explode($cp['suc_2'], $tx_ant[1]);
+
+                                            if (strlen($busqueda[0]) >= 15){
+                                                $busqueda = $busqueda_2;
+                                            }
+                                        }
+                                    
+                                    }
+                                }
+
                                 //SE DEBE BUSCAR EL CODIGO DE LO QUE ENCONTRE O O LA ASIGNACION ES UN TEXTO PLANO
                                 if($cp['buscar']){
                                     $r = $this->Generica->SqlSelect('*', $cp['busqueda_tabla'], array('UPPER('.$cp['busqueda_campo'].')'=> strtoupper(trim($busqueda[0]))), False);
@@ -1100,51 +1135,52 @@
                                     $result = trim($busqueda[0]);
                                 }
 
-                                
+
                             }
                             else if (!is_null($cp['valor_fijo']) ) {
                                  $result = trim($cp['valor_fijo']);
                             }
-                            
+
                             //ASIGNO EL DATO A PARA GUARDAR
                             $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = $result;
-                            
+
                         }
                         else{
                             if (!is_null($cp['valor_fijo'])) {
                                 $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = trim($cp['valor_fijo']);
-                            }                            
+                            }
                         }
-                        
+
                         if ($cp['fk']){
                             $ordenes[$datos[$i][$cp['configuracion']][$cp['campo_tabla']]] = null;
                         }
                     }
                     $i++;
                 }
-                
-                //CARGAR LOS DATOS A LAS ORDENES
 
+                //CARGAR LOS DATOS A LAS ORDENES
                 foreach ($datos as $d){
                     try{
-                        
+
                         $d['orden']['cliente_rut_cliente'] = $cliente;
-                        
+
                         $id_viaje = $this->Viaje->crear_viaje($d['viaje']);
                         $d['orden']['viaje_id_viaje'] = $id_viaje;
 
                         $id_orden = $this->Orden_model->insert_orden($d['orden']);
-                        $ordenes['result'][$d['orden']['referencia_2']] = $id_orden;
                         
-                        
+                        if (isset($d['orden']['referencia_2']))
+                            $ordenes['result'][$d['orden']['referencia_2']] = $id_orden;
+                        else
+                            $ordenes['result'][$d['orden']['referencia']] = $id_orden;
+
+
                     } catch (Exception $ex) {
                         $ordenes[$d['orden']['referencia_2']] = False;
                     }
                 }
 
-            $data['result'] = $this->load->view('transaccion/orden/resultado_carga', $ordenes, TRUE);
-                //$data['debug']['datos'] = $datos;
-                //$data['debug']['ordenes'] = $ordenes;
+                $data['result'] = $this->load->view('transaccion/orden/resultado_carga', $ordenes, TRUE);
             }
 
             $this->load->view('include/head', $session_data);
@@ -1849,17 +1885,17 @@
         else
             return TRUE;
     }
-    
+
     function check_cargas_extensiones(){
         $files     = $_FILES;
         $cliente = $this->input->post('cliente');
         $extensiones = $this->Generica->SqlSelect('extension','cliente_extension',array('cliente'=>$cliente),False);
         $e = array();
-        
+
         foreach ($extensiones as $ext){
             array_push($e, $ext['extension']);
         }
-        
+
         //valido que se hayan subido OK!
         $i = 0;
         foreach ($files['orden_file']['error'] as $f) {
@@ -1867,31 +1903,31 @@
                 $archivo = $files['orden_file']['name'][$i];
                 $mensaje = 'Hubo un error al subir el archivo';
                 $this->form_validation->set_message('check_cargas_extensiones', $mensaje.' '.$archivo);
-                
+
                 return false;
             }
             $i++;
         }
-        
+
         //Valido los tipos de archivo
         $i = 0;
         foreach ($files['orden_file']['type'] as $f) {
-            
+
                 if(!in_array($f, $e)){
                     $archivo = $files['orden_file']['name'][$i];
                     $mensaje = 'El archivo '.$archivo.' no cumple con la extensión.';
                     $this->form_validation->set_message('check_cargas_extensiones', $mensaje);
-                    
+
                     echo '-'.$f.'-';
                     echo in_array($f, $e) ? 'true' : 'false';
-                    return false;       
+                    return false;
                 }
             $i++;
         }
-        
+
         return true;
-       
- 
+
+
     }
 
     function datos_ordensh($id_orden){

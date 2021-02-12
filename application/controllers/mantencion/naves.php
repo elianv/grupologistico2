@@ -133,7 +133,6 @@ class Naves extends CI_Controller{
                 $codigo_naviera = explode("-",$this->input->post('codigo_naviera'));
                 $nave = array(
                         'nombre' => $this->input->post('nombre'),
-                        'naviera_codigo_naviera' => '1'
                         );
                 $this->Naves_model->insertar_nave($nave);
                 $this->session->set_flashdata('mensaje','Nave guardada con éxito');

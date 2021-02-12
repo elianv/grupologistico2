@@ -11,7 +11,10 @@ if ( ! function_exists('get_text')){
         $CI = & get_instance();
         $session_data   = $CI->session->userdata('logged_in');
         $ruta = '/'.$session_data['rut_usuario'] .'_'.date('s_u');
-        mkdir(sys_get_temp_dir().$ruta, 01777) ;
+        if (!is_dir(sys_get_temp_dir().$ruta)){
+            mkdir(sys_get_temp_dir().$ruta, 01777);
+        }
+        
 
         $i = 0;
         
@@ -19,10 +22,11 @@ if ( ! function_exists('get_text')){
             
             try{
                 $file_name = str_replace(' ', '_', $files['orden_file']['name'][$i]);
+                //print(file_get_contents($f));
 
                 /* PDF TEMP A JPG */
                 $destino = sys_get_temp_dir() . $ruta. '/' . $file_name . '.jpg';
-                $command = 'convert -append -density 800 ' . $f . ' ' . $destino;
+                $command = 'convert -append -density 800 ' . $f . '[0-2] ' . $destino;
                 shell_exec($command);
 
                 /* JPG A TEXTO */
@@ -33,6 +37,12 @@ if ( ! function_exists('get_text')){
                 shell_exec($command);
 
                 // LEO EL TXT
+                /*
+                echo '<pre>';
+                echo file_get_contents($destino.'.txt');
+				echo '</pre>';
+                */
+
                 $f_text = fopen($destino.'.txt', 'r');
                 $texto = fread($f_text, filesize($destino.'.txt'));
                 fclose($f_text);
@@ -60,7 +70,7 @@ if ( ! function_exists('get_text')){
         }
         
         try{
-            rmdir(sys_get_temp_dir().$ruta);
+            //rmdir(sys_get_temp_dir().$ruta);
         } catch (Exception $ex) {
             
         }

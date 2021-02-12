@@ -1,14 +1,7 @@
 <style>
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400);
-    body {
-      height: 100%;
-      padding: 0px;
-      margin: 0px;
-      background: #333;
-      font-family: 'Roboto', sans-serif !important;
-      font-size: 1em;
-    }
+
     h1{
       font-family: 'Roboto', sans-serif;
       font-size: 30px;
@@ -135,6 +128,8 @@
     
 </style>
 
+
+
 <div class="container">
 	
     <div class="row">
@@ -179,7 +174,6 @@
                     <div class="controls">
                         <select input type='text' class='span5' id='cliente' name='cliente'>
                         <?php
-                        echo '<pre>';
                             foreach ($clientes as $key => $value) {
                                 echo '<option value="'.$value['rut_cliente'].'">'.$value['razon_social'].'</option>';
                             }
