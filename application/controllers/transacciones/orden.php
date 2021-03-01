@@ -1026,12 +1026,17 @@
                 $i = 0;
 
                 foreach ($textos as $tx) {
+                    //echo '<pre>'; print_r($tx);echo '</pre>';
+                    //$tx['texto'] = str_replace("\r\n", "", $tx['texto']);
+
                     foreach($campos as $cp){
                         if ($cp['configuracion'] == 'orden'){
                             if (is_null($cp['valor_fijo']) ){
 
                                 //ELIMINO EL CAMPO ANTERIOR A LO QUE BUSCO
                                 $tx_ant = explode($cp['ant'], $tx['texto']);
+                                //$a = 1;
+                                //$tx_ant[1] = str_replace("\r\n", "", $tx_ant[1], $a);
 
                                 if (!isset($tx_ant[1]) &&  !is_null($cp['ant_2'])){
                                     $tx_ant = explode($cp['ant_2'], $tx['texto']);
@@ -1040,46 +1045,55 @@
                                     $busqueda[0] = 'DATO NO ENCONTRADO';
                                 }
                                 else{
+
                                     //LA BUSQUEDA ES CON ALGUN EXP. REG
                                     if (!is_null($cp['regex'])){
-                                        preg_match($cp['regex'], $tx_ant[1], $matches);
-                                        if (count($matches) > 0){
-                                            if (!array_key_exists(0, $matches) && !is_null($cp['replace']) && !is_null($cp['regex'])){
-                                                $cp['regex'] = str_replace($cp['needle'], $cp['replace'], $cp['regex']);
-                                                preg_match($cp['regex'], $tx_ant[1], $matches);
 
-                                            }
+                                        // PRIMERO SE DEBE REVISAR QUE NO VENGA VACIO EL CAMPO DONDE BUSCAR
+                                        $var_aux = explode($cp['suc'], $tx_ant[1]);
+                                        if ( strlen($var_aux[0]) > 3){
+                                          preg_match($cp['regex'], $tx_ant[1], $matches);
 
-                                            if($cp['regex_encontrado'] == 'CEN'){
+                                          if (count($matches) > 0){
+                                                if (!array_key_exists(0, $matches) && !is_null($cp['replace']) && !is_null($cp['regex'])){
+                                                    $cp['regex'] = str_replace($cp['needle'], $cp['replace'], $cp['regex']);
+                                                    preg_match($cp['regex'], $tx_ant[1], $matches);
+                                                }
 
-                                                $busqueda = $matches;
+                                                if($cp['regex_encontrado'] == 'CEN'){
+                                                    $busqueda = $matches;
+                                                }
+                                                else if($cp['regex_encontrado'] == 'IZQ'){
+                                                    echo '<pre>';
+                                                    print_r($cp['campo_tabla']);
+                                                    print_r( $matches);
+                                                    echo '</pre>';
+                                                    $busqueda = explode(trim($matches[0]),$tx_ant[1]);
+                                                }
+                                                else if($cp['regex_encontrado'] == 'DER'){
 
-                                            }
-                                            else if($cp['regex_encontrado'] == 'IZQ'){
+                                                    $busqueda = explode(trim($matches[0]), $tx_ant[1]);
+                                                    $b_aux = $busqueda;
+                                                    $busqueda = explode($cp['suc'], $busqueda[1]);
 
-                                                $busqueda = explode(trim($matches[0]),$tx_ant[1]);
+                                                    if (!is_null($cp['suc_2'])){
+                                                        $busqueda_2 = explode($cp['suc_2'], $b_aux[1]);
+                                                        if (strlen($busqueda[0]) >= 15)
+                                                            $busqueda = $busqueda_2;
+                                                    }
+                                                }
 
-                                            }
-                                            else if($cp['regex_encontrado'] == 'DER'){
-
-                                                $busqueda = explode(trim($matches[0]), $tx_ant[1]);
-                                                $b_aux = $busqueda;
-                                                $busqueda = explode($cp['suc'], $busqueda[1]);
-
-                                                if (!is_null($cp['suc_2'])){
-                                                    $busqueda_2 = explode($cp['suc_2'], $b_aux[1]);
-                                                    if (strlen($busqueda[0]) >= 15)
-                                                        $busqueda = $busqueda_2;
+                                                //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
+                                                if( $cp['formato_tipo'] == 'date'){
+                                                    $formato = $cp['formato'];
+                                                    $time = preg_replace('/[^A-Za-z0-9\-\.\s]/', '', trim($busqueda[0]));
+                                                    $time = str_replace('.', '-', $time);
+                                                    $time = strtotime($time);
+                                                    $busqueda[0] = date($formato, $time);
                                                 }
                                             }
-
-                                            //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
-                                            if( $cp['formato_tipo'] == 'date'){
-                                                $formato = $cp['formato'];
-                                                $time = preg_replace('/[^A-Za-z0-9\-\.\s]/', '', trim($busqueda[0])); 
-                                                $time = str_replace('.', '-', $time);
-                                                $time = strtotime($time);
-                                                $busqueda[0] = date($formato, $time);
+                                            else {
+                                              $busqueda[0] = 'DATO NO ENCONTRADO';
                                             }
                                         }
                                         else
@@ -1097,7 +1111,7 @@
                                         else{
                                             $busqueda[0] = 'DATO NO ENCONTRADO';
                                         }
-                                    
+
                                         if (!is_null($cp['suc_2'])){
                                             $busqueda_2 = explode($cp['suc_2'], $tx_ant[1]);
 
@@ -1105,7 +1119,7 @@
                                                 $busqueda = $busqueda_2;
                                             }
                                         }
-                                    
+
                                     }
                                 }
 
@@ -1132,6 +1146,7 @@
                                 }
                                 //NO REQUIERO BUSCAR, ASIGNO
                                 else{
+                                    //echo $busqueda[0].'<br>';
                                     $result = trim($busqueda[0]);
                                 }
 
@@ -1168,7 +1183,7 @@
                         $d['orden']['viaje_id_viaje'] = $id_viaje;
 
                         $id_orden = $this->Orden_model->insert_orden($d['orden']);
-                        
+
                         if (isset($d['orden']['referencia_2']))
                             $ordenes['result'][$d['orden']['referencia_2']] = $id_orden;
                         else
