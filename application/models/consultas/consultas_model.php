@@ -355,6 +355,7 @@ Class consultas_model extends CI_Model{
 				    tipo_orden.tipo_orden,
 				    estado_orden.estado,
 				    orden.fecha_creacion,
+						orden.fecha_presentacion,
 				    coalesce(SUM(detalle.valor_venta), 0) + coalesce(orden.valor_venta_tramo, 0) as total_neto,
 				    cliente.razon_social
 				from
@@ -382,7 +383,7 @@ Class consultas_model extends CI_Model{
 	}
 
 	public function facturadas($cliente = null,   $desde = null, $hasta = null, $todas = null){
-		
+
 		$sql= 	"select
 				    orden.id_orden,
 				    tipo_orden.tipo_orden,
@@ -431,7 +432,7 @@ Class consultas_model extends CI_Model{
 					where
 					    factura.estado_factura_id_estado_factura = 3";
 
-		
+
 
 		$result = $this->db->query($sql);
 
