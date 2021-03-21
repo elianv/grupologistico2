@@ -1007,181 +1007,27 @@
             $this->form_validation->set_rules('file','Archivo orden','callback_check_cargas_extensiones');
 
             $data = array(
-                "titulo"    => "Crear ordenes de servicios desde archivo",
-                "clientes"  => $clientes,
-                "result"    => False,
+                "result" => False,
             );
 
             if ($this->form_validation->run() == true){
 
                 $files     = $_FILES;
-                $textos = get_text($files);
-                //$textos = test_txt();
-
                 $cliente = $this->input->post('cliente');
-
-                $campos = $this->Generica->SqlSelect('*', 'ocr_configuracion', array('id_cliente'=>$cliente), False);
-
-                $datos = array();
-                $i = 0;
-
-                foreach ($textos as $tx) {
-                    foreach($campos as $cp){
-                        if ($cp['configuracion'] == 'orden'){
-                            if (is_null($cp['valor_fijo']) ){
-
-                                //ELIMINO EL CAMPO ANTERIOR A LO QUE BUSCO
-                                $tx_ant = explode($cp['ant'], $tx['texto']);
-
-                                if (!isset($tx_ant[1]) &&  !is_null($cp['ant_2'])){
-                                    $tx_ant = explode($cp['ant_2'], $tx['texto']);
-                                }
-                                if (!isset($tx_ant[1])){
-                                    $busqueda[0] = 'DATO NO ENCONTRADO';
-                                }
-                                else{
-                                    //LA BUSQUEDA ES CON ALGUN EXP. REG
-                                    if (!is_null($cp['regex'])){
-                                        preg_match($cp['regex'], $tx_ant[1], $matches);
-                                        if (count($matches) > 0){
-                                            if (!array_key_exists(0, $matches) && !is_null($cp['replace']) && !is_null($cp['regex'])){
-                                                $cp['regex'] = str_replace($cp['needle'], $cp['replace'], $cp['regex']);
-                                                preg_match($cp['regex'], $tx_ant[1], $matches);
-
-                                            }
-
-                                            if($cp['regex_encontrado'] == 'CEN'){
-
-                                                $busqueda = $matches;
-
-                                            }
-                                            else if($cp['regex_encontrado'] == 'IZQ'){
-
-                                                $busqueda = explode(trim($matches[0]),$tx_ant[1]);
-
-                                            }
-                                            else if($cp['regex_encontrado'] == 'DER'){
-
-                                                $busqueda = explode(trim($matches[0]), $tx_ant[1]);
-                                                $b_aux = $busqueda;
-                                                $busqueda = explode($cp['suc'], $busqueda[1]);
-
-                                                if (!is_null($cp['suc_2'])){
-                                                    $busqueda_2 = explode($cp['suc_2'], $b_aux[1]);
-                                                    if (strlen($busqueda[0]) >= 15)
-                                                        $busqueda = $busqueda_2;
-                                                }
-                                            }
-
-                                            //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
-                                            if( $cp['formato_tipo'] == 'date'){
-                                                $formato = $cp['formato'];
-                                                $time = preg_replace('/[^A-Za-z0-9\-\.\s]/', '', trim($busqueda[0]));
-                                                $time = str_replace('.', '-', $time);
-                                                $time = strtotime($time);
-                                                $busqueda[0] = date($formato, $time);
-                                            }
-                                        }
-                                        else
-                                            $busqueda[0] = 'DATO NO ENCONTRADO';
-                                    }
-
-                                    //COMO NO ES EXPRESION REG. DIVIDO CON LOS CAMPOS QUE SE.
-                                    else{
-                                        if (isset($tx_ant[1])){
-                                            $busqueda = explode($cp['suc'], $tx_ant[1]);
-                                                if (strlen($busqueda[0]) <= 1){
-                                                    $busqueda[0] = 'DATO NO ENCONTRADO';
-                                                }
-                                            }
-                                        else{
-                                            $busqueda[0] = 'DATO NO ENCONTRADO';
-                                        }
-
-                                        if (!is_null($cp['suc_2'])){
-                                            $busqueda_2 = explode($cp['suc_2'], $tx_ant[1]);
-
-                                            if (strlen($busqueda[0]) >= 15){
-                                                $busqueda = $busqueda_2;
-                                            }
-                                        }
-
-                                    }
-                                }
-
-                                //SE DEBE BUSCAR EL CODIGO DE LO QUE ENCONTRE O O LA ASIGNACION ES UN TEXTO PLANO
-                                if($cp['buscar']){
-                                    $r = $this->Generica->SqlSelect('*', $cp['busqueda_tabla'], array('UPPER('.$cp['busqueda_campo'].')'=> strtoupper(trim($busqueda[0]))), False);
-
-                                    //SI exsite lo asigno
-                                    if (count($r)){
-                                        $result = trim($r[0][$cp['busqueda_pk']]);
-                                    }
-                                    //NO EXISTE CREO EL DATO
-                                    else{
-
-                                        $ins_id = $this->Generica->SqlInsert($cp['busqueda_tabla'], array($cp['busqueda_campo'] => strtoupper(trim($busqueda[0]))));
-
-                                        if ($ins_id){
-                                            $result = $ins_id;
-                                        }
-                                        else{
-                                            //ERROR pensar como sacar de todo
-                                        }
-                                    }
-                                }
-                                //NO REQUIERO BUSCAR, ASIGNO
-                                else{
-                                    $result = trim($busqueda[0]);
-                                }
-
-
-                            }
-                            else if (!is_null($cp['valor_fijo']) ) {
-                                 $result = trim($cp['valor_fijo']);
-                            }
-
-                            //ASIGNO EL DATO A PARA GUARDAR
-                            $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = $result;
-
-                        }
-                        else{
-                            if (!is_null($cp['valor_fijo'])) {
-                                $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = trim($cp['valor_fijo']);
-                            }
-                        }
-
-                        if ($cp['fk']){
-                            $ordenes[$datos[$i][$cp['configuracion']][$cp['campo_tabla']]] = null;
-                        }
-                    }
-                    $i++;
+                $dataCliente = $this->Clientes_model->datos_cliente($cliente);
+                
+                if ($dataCliente[0]['proc_carga'] == 'curl'){
+                    $opc = 'curl';
                 }
-
-                //CARGAR LOS DATOS A LAS ORDENES
-                foreach ($datos as $d){
-                    try{
-
-                        $d['orden']['cliente_rut_cliente'] = $cliente;
-
-                        $id_viaje = $this->Viaje->crear_viaje($d['viaje']);
-                        $d['orden']['viaje_id_viaje'] = $id_viaje;
-
-                        $id_orden = $this->Orden_model->insert_orden($d['orden']);
-
-                        if (isset($d['orden']['referencia_2']))
-                            $ordenes['result'][$d['orden']['referencia_2']] = $id_orden;
-                        else
-                            $ordenes['result'][$d['orden']['referencia']] = $id_orden;
-
-
-                    } catch (Exception $ex) {
-                        $ordenes[$d['orden']['referencia_2']] = False;
-                    }
+                elseif ($dataCliente[0]['proc_carga'] == 'ocr') {
+                    $opc = 'ocr';
                 }
-
-                $data['result'] = $this->load->view('transaccion/orden/resultado_carga', $ordenes, TRUE);
+                
+                $data = getTexto($files, $cliente, $opc);
+                
             }
+            $data['titulo'] = "Crear ordenes de servicios desde archivo";
+            $data['clientes'] = $clientes;
 
             $this->load->view('include/head', $session_data);
             $this->load->view('transaccion/orden/orden_automatica',$data);
@@ -1192,6 +1038,7 @@
             redirect('home','refresh');
         }
     }
+    
 
     /*
     function orden_auto_clienteAjax(){
