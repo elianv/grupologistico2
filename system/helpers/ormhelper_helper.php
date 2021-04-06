@@ -116,7 +116,7 @@ if ( ! function_exists('get_text_curl')){
             );
 
             $ws_data = $CI->Web_service_model->get('name','convertapi');
-            print_r($ws_data);
+            //print_r($ws_data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_URL,$ws_data[0]['url'].$ws_data[0]['action']);
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -195,11 +195,6 @@ if ( !function_exists('lee_texto_curl') ){
 
                         //ELIMINO EL CAMPO ANTERIOR A LO QUE BUSCO
                         $tx_ant = explode($cp['ant'], $tx['texto']);
-                           if ($cp['campo_tabla'] == 'aduana_codigo_aduana'){
-                               echo '<pre>';
-                               print_r($tx_ant);
-                               echo '</pre>';
-                           }
                         if (!isset($tx_ant[1]) &&  !is_null($cp['ant_2'])){
                             $tx_ant = explode($cp['ant_2'], $tx['texto']);
                         }
