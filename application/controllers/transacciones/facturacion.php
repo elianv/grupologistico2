@@ -39,7 +39,7 @@ class Facturacion extends CI_Controller{
                 $this->form_validation->set_rules('factura_numero', 'Numero Factura','trim|required|xss_clean|numeric|callback_check_database');
             }
 
-            //$this->form_validation->set_rules('fecha_factura', 'Fecha de la Factura','trim|required|xss_clean');
+            $this->form_validation->set_rules('fecha_factura', 'Fecha de la Factura','trim|required|xss_clean');
 
             if(!isset($_POST['nula'])){
                 $this->form_validation->set_rules('total_venta', 'Valor Total Venta','trim|required|xss_clean');
