@@ -329,7 +329,7 @@ Class consultas_model extends CI_Model{
 		$sql =  "SELECT
 				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha_presentacion, cliente.razon_social, orden.referencia_2
 				FROM
-				    glc_sct.orden
+				    orden
 				        inner join
 				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
 				where
