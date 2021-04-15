@@ -11,8 +11,6 @@
 
 <div class="container">
 
-
-
     <div class=<?php echo "tabla-div-".$clase."\""; ?>">
         <table id=<?php echo "tabla-".$clase; ?> class="table table-bordered table-striped dataTable">
 
@@ -44,42 +42,3 @@
     </div>
 
 </div>
-
-<script>
-    $( document ).ready(function() {
-            <?php echo $js_ajax; ?> 
-
-    /*
-        $('#procesar').click( function () {
-            var checkedValues = $('input:checkbox:checked').map(function() {
-                return this.value;
-            }).get()
-
-            $.ajax({
-                method:"POST",
-                url:"<?php echo base_url();?>index.php/transacciones/facturacion/reFacturacion_ajax",
-                dataType: 'json',
-                data: { ordenes : checkedValues},
-                success: function(response){
-                    var tDetalle = "<table class='table table-bordered table-striped dataTable'><thead><tr><th>Orden N°</th><th>Código MANAGER</th><th>Mensaje MANAGER</th></tr></thead><tbody>";
-                    for(var k in response) {
-                       tDetalle += "<tr><td>"+response[k].num_orden+"</td><td>"+response[k].cabecera.codigo+"</td><td>"+response[k].cabecera.error+"</td></tr>";
-                    }
-                    tDetalle +="</tbody></table>";
-                    $('#detalle').html(tDetalle);
-
-                },
-                error: function(jqXHR, textStatus, errorThrown){
-                  mensaje = '<div class="alert alert-success" role="alert"><strong>ERROR!</strong><br>Error al comunicarse con MANAGER</div>';
-                  $('#detalle').html(mensaje);
-                }
-
-          }).fail( function( jqXHR, textStatus, errorThrown ) {
-            mensaje = '<div class="alert alert-success" role="alert"><strong>ERROR!</strong><br>Error al comunicarse con MANAGER</div>';
-            $('#detalle').html(mensaje);
-
-          });
-    });
-    */
-  });
-</script>

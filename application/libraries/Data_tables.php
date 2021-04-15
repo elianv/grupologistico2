@@ -10,25 +10,26 @@ class Data_tables
 
 	public $titulos;
 	public $titulo;
-	public $pColumna;
+	public $columns;
 	public $clase;
 	public $ajax;
+	public $vista;
 	private $CI;
 	
 	function __construct()
 	{
 		$this->CI =& get_instance();
-		
-
 	}
 
 
 	function setData($params){
-		$this->titulos 	= $params['titulos'];
-		$this->titulo 	= $params['titulo'];
-		$this->clase 	= $params['clase'];
-		$this->ajax 	= $params['ajax'];
-		$this->botones  = $params['botones'];
+		$this->titulos 	= (isset($params['titulos'])) ? $params['titulos'] : '';
+		$this->titulo 	= (isset($params['titulo'])) ? $params['titulo'] : '';
+		$this->clase 	= (isset($params['clase'])) ? $params['clase'] : '';
+		$this->ajax 	= (isset($params['ajax'])) ? $params['ajax'] : '';
+		$this->botones  = (isset($params['botones'])) ? $params['botones'] : NULL;
+		$this->columns 	= (isset($params['columns'])) ? $params['columns'] : '';
+		$this->vista	= (isset($params['vista'])) ? $params['vista'] : '';
 	}
 
 	function render(){
@@ -36,18 +37,20 @@ class Data_tables
 		$datos = array('titulos' 	=> $this->titulos,
 						'titulo' 	=> $this->titulo,
 						'clase'		=> $this->clase,
-						'js_ajax' 	=> $this->ajax_tabla(),
 						'botones'	=> $this->botones
 					);
-
-		$view = $this->CI->load->view('obj/data_tables',$datos,true);
+		if ($this->vista == 'tabla_modal')
+			$view['table'] = $this->CI->load->view('obj/table_modal',$datos,true);
+		else
+			$view['table'] = $this->CI->load->view('obj/data_tables',$datos,true);
+		$view['js'] = $this->ajax_tabla();
 		return $view;
 	}
 	
 	function ajax_tabla(){
 
 		$columns = '';
-		foreach ($this->titulos as $key => $value) {
+		foreach ($this->columns as $key => $value) {
 			$columns .= "{data:\"{$value}\"},\n";
 		}
 		$js ="	
@@ -55,28 +58,30 @@ class Data_tables
 		            \"processing\": true,
 		            \"serverSide\": true,
 		            \"bProcessing\": true,
-		            \"ajax\": \"{$this->ajax}\" ,
-		
+		            \"ajax\": {
+						\"url\" : \"{$this->ajax}\",
+						\"type\" : \"POST\",
+					},
 		            columns: [{$columns}]
 		        });";
 		return $js;
 	}
 
-	function dTables_ajax($ruta_model,$nombre_model, $function, $GET){
-                $inicio    = $GET['start'];
-                $cantidad  = $GET['length'];
-                $where     = $GET['search']['value'];
-                $order     = $GET['order'][0]['dir'];
-                $by        = $GET['order'][0]['column'];
+	function dTables_ajax($ruta_model,$nombre_model, $function, $POST, $opc=array()){
+                $inicio    = $POST['start'];
+                $cantidad  = $POST['length'];
+                $where     = $POST['search']['value'];
+                $order     = $POST['order'][0]['dir'];
+                $by        = $POST['order'][0]['column'];
 
                 $this->CI->load->model($ruta_model.'/'.$nombre_model);
                 
-                $total = $this->CI->$nombre_model->$function($inicio, $cantidad,$where,$order,$by,1,0);
+                $total = $this->CI->$nombre_model->$function($inicio, $cantidad,$where,$order,$by,1);
 
-                $data['draw']              = $GET['draw'];
+                $data['draw']              = $POST['draw'];
                 $data['recordsTotal']      = $total;
                 $data['recordsFiltered']   = $total;
-                $data['data']              = $this->CI->$nombre_model->$function($inicio, $cantidad,$where,$order,$by);
+                $data['data']              = $this->CI->$nombre_model->$function($inicio, $cantidad,$where,$order,$by, 0, $opc);
                 return $data;
 
 	}
