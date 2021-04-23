@@ -14,7 +14,21 @@
 
     <form class="form-horizontal" id="formulario" method="post">
 
-        <div class="row control-group">
+        <div class="row control-groups">
+            <div class="span12">
+                <label class="control-label"><strong>Rango de fechas</strong></label>
+                <div class="controls">
+                    <label class="radio">
+                        <input type="radio" name="fechas" id="todas_fechas" value="todo" checked>Todas las fechas
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="fechas" id="rango_fechas" value="rango">Rango de fechas
+                    </label>
+                </div>
+            </div>   
+        </div>
+
+        <div class="row control-group" id="input_fechas" style="display: none;">
             <div class="span6">
                 <label class="control-label"><strong>Desde</strong></label>
                 <div class="controls"><input type="text" id="desde" name="desde" placeholder="Seleccione fecha" value="<?php echo set_value('desde'); ?>" readonly></div>
@@ -54,6 +68,17 @@
 </div>
 <script>
     $(document).ready(function(){
+
+        $('#todas_fechas').click(function(){
+            $('#desde').val("");
+            $('#hasta').val("");
+            $('#input_fechas').css("display","none");
+            
+        });
+        $('#rango_fechas').click(function(){
+            $('#input_fechas').css("display","");
+        })
+
     	$('#desde').datepicker({
                         changeMonth: true,
                         changeYear: true,

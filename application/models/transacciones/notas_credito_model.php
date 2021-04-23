@@ -26,6 +26,9 @@ class notas_credito_model extends CI_Model{
                 $valor = 'f.numero_factura';
                 break;
             case 5:
+                $valor = 'nc.codigo_sistema';
+                break;
+            case 6:
                 $valor = 'nc.fecha';
                 break;
 

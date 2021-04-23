@@ -397,7 +397,7 @@ class Facturacion_model extends CI_Model{
     }
 
     function actualizarOS($id){
-          $sql = $this->db->query("UPDATE orden SET id_estado_orden = 3 WHERE id_orden IN (SELECT id_orden FROM glc_sct.ordenes_facturas WHERE id_factura  = {$id})");
+          $sql = $this->db->query("UPDATE orden SET id_estado_orden = 3 WHERE id_orden IN (SELECT id_orden FROM ordenes_facturas WHERE id_factura  = {$id})");
           return TRUE;
     }
 

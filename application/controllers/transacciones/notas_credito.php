@@ -19,34 +19,43 @@ class notas_credito extends CI_Controller{
             $data['result'] = False;
 
             if ($this->input->server('REQUEST_METHOD') === 'POST'){
-                
+                $fechas = $this->input->post('fechas');
                 $desde = $this->input->post('desde');
                 $hasta = $this->input->post('hasta');
                 $output = $this->input->post('salida');
 
-                if ($output == 'excel'){
-                    $out = $this->informe_nc($desde, $hasta);
+                $this->load->library('form_validation');
+                if ($fechas == 'rango'){
+                    $this->form_validation->set_rules('desde', 'Fecha desde','trim|required|xss_clean');
+                    $this->form_validation->set_rules('hasta', 'Fecha hasta','trim|required|xss_clean');
                 }
-                elseif ($output == 'pantalla'){
-                    if (strlen($desde) > 8 && strlen($hasta) > 8){
-                        $ajax_url = 'notas_credito/listar_ajax/'.$desde.'/'.$hasta;
-                    }
-                    else
-                        $ajax_url = 'notas_credito/listar_ajax';
 
-                    $params = array('titulos'   => array('Numero','Rut Cliente','Razon social','Monto','Factura','Codigo sistema','Fecha'),
-                                    'titulo'    => 'Notas de crédito',
-                                    'columns'   => array('Numero','Rut Cliente','Razon social','Monto','Factura','Codigo sistema','Fecha'),
-                                    'clase'     => 'ncredito',
-                                    'ajax'      => $ajax_url,
-                                    'botones'   => null,
-                                    'vista'     => 'tabla',
-                                    );
-        
-                    $this->dtNota->setData($params);
-        
-                    $data['notas'] = $this->dtNota->render();
-                    $data['result'] = True;
+                if(!$this->form_validation->run()){
+                                        
+                    if ($output == 'excel'){
+                        $out = $this->informe_nc($desde, $hasta);
+                    }
+                    elseif ($output == 'pantalla'){
+                        if ($fechas = 'rango'){
+                            $ajax_url = 'notas_credito/listar_ajax/'.$desde.'/'.$hasta;
+                        }
+                        else
+                            $ajax_url = 'notas_credito/listar_ajax';
+    
+                        $params = array('titulos'   => array('Numero','Rut Cliente','Razon social','Monto','Factura','Codigo sistema','Fecha'),
+                                        'titulo'    => 'Notas de crédito',
+                                        'columns'   => array('Numero','Rut Cliente','Razon social','Monto','Factura','Codigo sistema','Fecha'),
+                                        'clase'     => 'ncredito',
+                                        'ajax'      => $ajax_url,
+                                        'botones'   => null,
+                                        'vista'     => 'tabla',
+                                        );
+            
+                        $this->dtNota->setData($params);
+            
+                        $data['notas'] = $this->dtNota->render();
+                        $data['result'] = True;
+                    }
                 }
             }
 
