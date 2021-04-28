@@ -7,7 +7,7 @@
             $this->load->model('transacciones/orden_model');
             $this->load->model('consultas/consultas_model');
             $this->load->model('transacciones/notas_credito_model');
-
+            error_reporting(0);
             date_default_timezone_set('America/Santiago');
         }
 
@@ -1515,15 +1515,8 @@
                             }
                         }
 
-
-
-                        //echo "<pre>";
-                        //print_r($data['facturas']);
-                        //print_r($costos[0]);
-                        //print_r($nc);
                         $j = 0;
 
-                        //print_r($data['facturas'][$i]);
                         foreach ($data['facturas'][$i]['otros_servicios'] as $os) {
                           if (isset($os['proveedor_rut_proveedor'])) {
                                 $proveedor                                                = $this->Proveedores_model->datos_proveedor($os['proveedor_rut_proveedor']);
@@ -1537,8 +1530,6 @@
                         }
                         $i++;
                     }
-                    //echo "<pre>";
-                    //print_r($data);
 
                     if($salida == 'pantalla' ){
                         $this->load->view('include/head',$session_data);

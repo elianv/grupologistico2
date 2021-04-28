@@ -9,7 +9,7 @@ class notas_credito extends CI_Controller{
         $this->load->library('Data_tables');
         $this->dtNota = new Data_tables();
         $this->load->model('transacciones/notas_credito_model');
-
+        error_reporting(0);
     }
 
     function index(){
