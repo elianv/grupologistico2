@@ -1063,7 +1063,7 @@ class Facturacion extends CI_Controller{
                             $monto			= trim($objPHPExcel->getActiveSheet()->getCell('M'.$i)->getFormattedValue());
                             $codigo_sistema	= trim($objPHPExcel->getActiveSheet()->getCell('J'.$i)->getFormattedValue());
 							$fecha      	= date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($fecha_manager) );
-							$fecha  = date("Y-m-d", strtotime($fecha_manager));
+							//$fecha          = date("Y-m-d", strtotime($fecha));
                             
 							//$factura = $this->facturacion_model->datos_factura($num_fact);
                             

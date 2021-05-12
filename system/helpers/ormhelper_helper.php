@@ -189,12 +189,14 @@ if ( !function_exists('lee_texto_curl') ){
         $i = 0;
 
         foreach ($textos as $tx) {
+            //echo '<pre>'; print_r($tx); echo '</pre>';
             foreach($campos as $cp){
                 if ($cp['configuracion'] == 'orden'){
                     if (is_null($cp['valor_fijo']) ){
 
                         //ELIMINO EL CAMPO ANTERIOR A LO QUE BUSCO
                         $tx_ant = explode($cp['ant'], $tx['texto']);
+                        $tx_ant[1] = trim($tx_ant[1]);
                         if (!isset($tx_ant[1]) &&  !is_null($cp['ant_2'])){
                             $tx_ant = explode($cp['ant_2'], $tx['texto']);
                         }
