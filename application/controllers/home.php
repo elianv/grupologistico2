@@ -7,8 +7,9 @@ class Home extends CI_Controller{
      */
     public function index(){
         
-        $this->load->helper(array('form'));
-        $this->load->view('login');
+        redirect('verifylogin','refresh');
+        //$this->load->helper(array('form'));
+        //$this->load->view('login');
         
     }   
     
