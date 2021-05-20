@@ -187,7 +187,7 @@ if ( !function_exists('lee_texto_curl') ){
     function lee_texto_curl($textos, $cliente){
         $CI = & get_instance();    
         $CI->load->model('utils/Generica');
-        $ordenes = '';
+        $ordenes = array();
         
         $campos = $CI->Generica->SqlSelect('*', 'ocr_configuracion', array('id_cliente'=>$cliente), False);
 
@@ -207,84 +207,89 @@ if ( !function_exists('lee_texto_curl') ){
                             if (!isset($tx_ant[1]) &&  !is_null($cp['ant_2'])){
                                 $tx_ant = explode($cp['ant_2'], $tx['texto']);
                             }
+
+                            //NO ENCONTRO NADA
                             if (!isset($tx_ant[1])){
                                 $busqueda[0] = 'DATO NO ENCONTRADO';
                             }
+                            //SI ENCUENTRA CORTO POR EL TAG QUE SIGUE
                             else{
-                                //LA BUSQUEDA ES CON ALGUN EXP. REG
-                                if (!is_null($cp['regex'])){
-                                    preg_match($cp['regex'], $tx_ant[1], $matches);
-                                    if (count($matches) > 0){
-                                        if (!array_key_exists(0, $matches) && !is_null($cp['replace']) && !is_null($cp['regex'])){
-                                            $cp['regex'] = str_replace($cp['needle'], $cp['replace'], $cp['regex']);
-                                            preg_match($cp['regex'], $tx_ant[1], $matches);
 
-                                        }
-
-                                        if($cp['regex_encontrado'] == 'CEN'){
-
-                                            $busqueda = $matches;
-
-                                        }
-                                        else if($cp['regex_encontrado'] == 'IZQ'){
-
-                                            $busqueda = explode(trim($matches[0]),$tx_ant[1]);
-
-                                        }
-                                        else if($cp['regex_encontrado'] == 'DER'){
-
-                                            $busqueda = explode(trim($matches[0]), $tx_ant[1]);
-                                            $b_aux = $busqueda;
-                                            $busqueda = explode($cp['suc'], $busqueda[1]);
-
-                                            if (!is_null($cp['suc_2'])){
-                                                $busqueda_2 = explode($cp['suc_2'], $b_aux[1]);
-                                                if (strlen($busqueda[0]) >= 15)
-                                                    $busqueda = $busqueda_2;
-                                            }
-                                        }
-
-                                        //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
-                                        if( $cp['formato_tipo'] == 'date'){
-                                            $formato = $cp['formato'];
-                                            $time = preg_replace('/[^A-Za-z0-9\-\.\s]/', '', trim($busqueda[0]));
-                                            $time = str_replace('.', '-', $time);
-                                            $time = strtotime($time);
-                                            $busqueda[0] = date($formato, $time);
-                                        }
-                                    }
-                                    else{
-                                        if( $cp['formato_tipo'] == 'date'){
-                                            $time = strtotime('01-01-1999');
-                                            $busqueda[0] = date('Y-m-d', $time);
-                                        }
-                                        else
+                                if (isset($tx_ant[1])){
+                                    $busqueda = explode($cp['suc'], $tx_ant[1]);
+                                        if (strlen($busqueda[0]) <= 1){
                                             $busqueda[0] = 'DATO NO ENCONTRADO';
+                                        }
                                     }
+                                else{
+                                    $busqueda[0] = 'DATO NO ENCONTRADO';
                                 }
 
-                                //COMO NO ES EXPRESION REG. DIVIDO CON LOS CAMPOS QUE SE.
-                                else{
-                                    if (isset($tx_ant[1])){
-                                        $busqueda = explode($cp['suc'], $tx_ant[1]);
-                                            if (strlen($busqueda[0]) <= 1){
-                                                $busqueda[0] = 'DATO NO ENCONTRADO';
-                                            }
-                                        }
-                                    else{
-                                        $busqueda[0] = 'DATO NO ENCONTRADO';
+                                if (!is_null($cp['suc_2'])){
+                                    $busqueda_2 = explode($cp['suc_2'], $tx_ant[1]);
+
+                                    if (strlen($busqueda[0]) >= 15){
+                                        $busqueda = $busqueda_2;
                                     }
-
-                                    if (!is_null($cp['suc_2'])){
-                                        $busqueda_2 = explode($cp['suc_2'], $tx_ant[1]);
-
-                                        if (strlen($busqueda[0]) >= 15){
-                                            $busqueda = $busqueda_2;
-                                        }
-                                    }
-
                                 }
                             }
+
+                            //SE BUSCA EXP REGULAR
+                            if (!is_null($cp['regex']) && $busqueda[0] != 'DATO NO ENCONTRADO'){
+                                preg_match($cp['regex'], $busqueda[0], $matches);
+                                if (count($matches) > 0){
+                                    if (!array_key_exists(0, $matches) && !is_null($cp['replace']) && !is_null($cp['regex'])){
+                                        $cp['regex'] = str_replace($cp['needle'], $cp['replace'], $cp['regex']);
+                                        preg_match($cp['regex'], $busqueda[0], $matches);
+
+                                    }
+
+                                    if($cp['regex_encontrado'] == 'CEN'){
+
+                                        $busqueda = $matches;
+
+                                    }
+                                    else if($cp['regex_encontrado'] == 'IZQ'){
+
+                                        $busqueda = explode(trim($matches[0]),$busqueda[0]);
+
+                                    }
+                                    else if($cp['regex_encontrado'] == 'DER'){
+
+                                        $busqueda = explode(trim($matches[0]), $busqueda[0]);
+                                        $b_aux = $busqueda;
+                                        $busqueda = explode($cp['suc'], $busqueda[1]);
+
+                                        if (!is_null($cp['suc_2'])){
+                                            $busqueda_2 = explode($cp['suc_2'], $b_aux[1]);
+                                            if (strlen($busqueda[0]) >= 15)
+                                                $busqueda = $busqueda_2;
+                                        }
+                                    }
+
+                                    //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
+                                    if( $cp['formato_tipo'] == 'date'){
+                                        $formato = $cp['formato'];
+                                        $time = preg_replace('/[^A-Za-z0-9\-\.\s]/', '', trim($busqueda[0]));
+                                        $time = str_replace('.', '-', $time);
+                                        $time = strtotime($time);
+                                        $busqueda[0] = date($formato, $time);
+                                    }
+                                }
+                                else{
+                                    if( $cp['formato_tipo'] == 'date'){
+                                        $time = strtotime('01-01-1999');
+                                        $busqueda[0] = date('Y-m-d', $time);
+                                    }
+                                    else
+                                        $busqueda[0] = 'DATO NO ENCONTRADO';
+                                }
+                            }                            
+
+                            //LIMPIO TODO LO ENCONTRADO, MENOS LAS FECHAS
+                            if( $cp['formato_tipo'] != 'date')
+                                $busqueda[0] = str_replace(":", "", $busqueda[0]);
+                            $busqueda[0] = trim($busqueda[0]);
 
                             //SE DEBE BUSCAR EL CODIGO DE LO QUE ENCONTRE O O LA ASIGNACION ES UN TEXTO PLANO
                             if($cp['buscar']){
