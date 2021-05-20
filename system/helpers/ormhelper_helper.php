@@ -83,20 +83,20 @@ if ( ! function_exists('get_text_ocr')){
 
 if ( ! function_exists('get_text_curl')){
     function get_text_curl($files){
-
-      $CI = & get_instance();
+        //error_reporting(E_ERROR | E_WARNING | E_PARSE);
+        $CI = & get_instance();
       
-      $CI->load->model('utils/Web_service_model');
+        $CI->load->model('utils/Web_service_model');
       
-      $session_data   = $CI->session->userdata('logged_in');
-      $ruta = '/'.$session_data['rut_usuario'] .'_'.date('s_u');
-      if (!is_dir(sys_get_temp_dir().$ruta)){
-          mkdir(sys_get_temp_dir().$ruta, 01777);
-      }
+        $session_data   = $CI->session->userdata('logged_in');
+        $ruta = '/'.$session_data['rut_usuario'] .'_'.date('s_u');
+        if (!is_dir(sys_get_temp_dir().$ruta)){
+            mkdir(sys_get_temp_dir().$ruta, 01777);
+        }
 
-      $i = 0;
+        $i = 0;
 
-      foreach ($files['orden_file']['tmp_name'] as $f) {
+        foreach ($files['orden_file']['tmp_name'] as $f) {
           
           try{
             $ch = curl_init();
@@ -129,12 +129,17 @@ if ( ! function_exists('get_text_curl')){
             $data = json_decode($server_output, true);
 
             $curl_handle=curl_init();
-            curl_setopt($curl_handle, CURLOPT_URL, $data['Files'][0]['Url']);
-            curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
-            curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl_handle, CURLOPT_USERAGENT, 'SCT');
-            $query = curl_exec($curl_handle);
-            curl_close($curl_handle);
+
+            if( !isset($data['Code'])){
+                curl_setopt($curl_handle, CURLOPT_URL, $data['Files'][0]['Url']);
+                curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+                curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curl_handle, CURLOPT_USERAGENT, 'SCT');
+                $query = curl_exec($curl_handle);
+                curl_close($curl_handle);
+            }
+            else 
+                $query = FALSE;
 
             $file_name = $f;
             $texto = $query;
@@ -182,6 +187,7 @@ if ( !function_exists('lee_texto_curl') ){
     function lee_texto_curl($textos, $cliente){
         $CI = & get_instance();    
         $CI->load->model('utils/Generica');
+        $ordenes = '';
         
         $campos = $CI->Generica->SqlSelect('*', 'ocr_configuracion', array('id_cliente'=>$cliente), False);
 
@@ -190,157 +196,170 @@ if ( !function_exists('lee_texto_curl') ){
 
         foreach ($textos as $tx) {
             //echo '<pre>'; print_r($tx); echo '</pre>';
-            foreach($campos as $cp){
-                if ($cp['configuracion'] == 'orden'){
-                    if (is_null($cp['valor_fijo']) ){
+            if ($tx['texto']){
+                foreach($campos as $cp){
+                    if ($cp['configuracion'] == 'orden'){
+                        if (is_null($cp['valor_fijo']) ){
 
-                        //ELIMINO EL CAMPO ANTERIOR A LO QUE BUSCO
-                        $tx_ant = explode($cp['ant'], $tx['texto']);
-                        $tx_ant[1] = trim($tx_ant[1]);
-                        if (!isset($tx_ant[1]) &&  !is_null($cp['ant_2'])){
-                            $tx_ant = explode($cp['ant_2'], $tx['texto']);
-                        }
-                        if (!isset($tx_ant[1])){
-                            $busqueda[0] = 'DATO NO ENCONTRADO';
-                        }
-                        else{
-                            //LA BUSQUEDA ES CON ALGUN EXP. REG
-                            if (!is_null($cp['regex'])){
-                                preg_match($cp['regex'], $tx_ant[1], $matches);
-                                if (count($matches) > 0){
-                                    if (!array_key_exists(0, $matches) && !is_null($cp['replace']) && !is_null($cp['regex'])){
-                                        $cp['regex'] = str_replace($cp['needle'], $cp['replace'], $cp['regex']);
-                                        preg_match($cp['regex'], $tx_ant[1], $matches);
+                            //ELIMINO EL CAMPO ANTERIOR A LO QUE BUSCO
+                            $tx_ant = explode($cp['ant'], $tx['texto']);
+                            $tx_ant[1] = trim($tx_ant[1]);
+                            if (!isset($tx_ant[1]) &&  !is_null($cp['ant_2'])){
+                                $tx_ant = explode($cp['ant_2'], $tx['texto']);
+                            }
+                            if (!isset($tx_ant[1])){
+                                $busqueda[0] = 'DATO NO ENCONTRADO';
+                            }
+                            else{
+                                //LA BUSQUEDA ES CON ALGUN EXP. REG
+                                if (!is_null($cp['regex'])){
+                                    preg_match($cp['regex'], $tx_ant[1], $matches);
+                                    if (count($matches) > 0){
+                                        if (!array_key_exists(0, $matches) && !is_null($cp['replace']) && !is_null($cp['regex'])){
+                                            $cp['regex'] = str_replace($cp['needle'], $cp['replace'], $cp['regex']);
+                                            preg_match($cp['regex'], $tx_ant[1], $matches);
 
-                                    }
+                                        }
 
-                                    if($cp['regex_encontrado'] == 'CEN'){
+                                        if($cp['regex_encontrado'] == 'CEN'){
 
-                                        $busqueda = $matches;
+                                            $busqueda = $matches;
 
-                                    }
-                                    else if($cp['regex_encontrado'] == 'IZQ'){
+                                        }
+                                        else if($cp['regex_encontrado'] == 'IZQ'){
 
-                                        $busqueda = explode(trim($matches[0]),$tx_ant[1]);
+                                            $busqueda = explode(trim($matches[0]),$tx_ant[1]);
 
-                                    }
-                                    else if($cp['regex_encontrado'] == 'DER'){
+                                        }
+                                        else if($cp['regex_encontrado'] == 'DER'){
 
-                                        $busqueda = explode(trim($matches[0]), $tx_ant[1]);
-                                        $b_aux = $busqueda;
-                                        $busqueda = explode($cp['suc'], $busqueda[1]);
+                                            $busqueda = explode(trim($matches[0]), $tx_ant[1]);
+                                            $b_aux = $busqueda;
+                                            $busqueda = explode($cp['suc'], $busqueda[1]);
 
-                                        if (!is_null($cp['suc_2'])){
-                                            $busqueda_2 = explode($cp['suc_2'], $b_aux[1]);
-                                            if (strlen($busqueda[0]) >= 15)
-                                                $busqueda = $busqueda_2;
+                                            if (!is_null($cp['suc_2'])){
+                                                $busqueda_2 = explode($cp['suc_2'], $b_aux[1]);
+                                                if (strlen($busqueda[0]) >= 15)
+                                                    $busqueda = $busqueda_2;
+                                            }
+                                        }
+
+                                        //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
+                                        if( $cp['formato_tipo'] == 'date'){
+                                            $formato = $cp['formato'];
+                                            $time = preg_replace('/[^A-Za-z0-9\-\.\s]/', '', trim($busqueda[0]));
+                                            $time = str_replace('.', '-', $time);
+                                            $time = strtotime($time);
+                                            $busqueda[0] = date($formato, $time);
                                         }
                                     }
-
-                                    //VEO SI TENGO QUE CAMBIAR EL FORMATO DEL TEXTO
-                                    if( $cp['formato_tipo'] == 'date'){
-                                        $formato = $cp['formato'];
-                                        $time = preg_replace('/[^A-Za-z0-9\-\.\s]/', '', trim($busqueda[0]));
-                                        $time = str_replace('.', '-', $time);
-                                        $time = strtotime($time);
-                                        $busqueda[0] = date($formato, $time);
-                                    }
-                                }
-                                else
-                                    $busqueda[0] = 'DATO NO ENCONTRADO';
-                            }
-
-                            //COMO NO ES EXPRESION REG. DIVIDO CON LOS CAMPOS QUE SE.
-                            else{
-                                if (isset($tx_ant[1])){
-                                    $busqueda = explode($cp['suc'], $tx_ant[1]);
-                                        if (strlen($busqueda[0]) <= 1){
+                                    else{
+                                        if( $cp['formato_tipo'] == 'date'){
+                                            $time = strtotime('01-01-1999');
+                                            $busqueda[0] = date('Y-m-d', $time);
+                                        }
+                                        else
                                             $busqueda[0] = 'DATO NO ENCONTRADO';
+                                    }
+                                }
+
+                                //COMO NO ES EXPRESION REG. DIVIDO CON LOS CAMPOS QUE SE.
+                                else{
+                                    if (isset($tx_ant[1])){
+                                        $busqueda = explode($cp['suc'], $tx_ant[1]);
+                                            if (strlen($busqueda[0]) <= 1){
+                                                $busqueda[0] = 'DATO NO ENCONTRADO';
+                                            }
+                                        }
+                                    else{
+                                        $busqueda[0] = 'DATO NO ENCONTRADO';
+                                    }
+
+                                    if (!is_null($cp['suc_2'])){
+                                        $busqueda_2 = explode($cp['suc_2'], $tx_ant[1]);
+
+                                        if (strlen($busqueda[0]) >= 15){
+                                            $busqueda = $busqueda_2;
                                         }
                                     }
-                                else{
-                                    $busqueda[0] = 'DATO NO ENCONTRADO';
+
                                 }
+                            }
 
-                                if (!is_null($cp['suc_2'])){
-                                    $busqueda_2 = explode($cp['suc_2'], $tx_ant[1]);
+                            //SE DEBE BUSCAR EL CODIGO DE LO QUE ENCONTRE O O LA ASIGNACION ES UN TEXTO PLANO
+                            if($cp['buscar']){
+                                $r = $CI->Generica->SqlSelect('*', $cp['busqueda_tabla'], array('UPPER('.$cp['busqueda_campo'].')'=> strtoupper(trim($busqueda[0]))), False);
 
-                                    if (strlen($busqueda[0]) >= 15){
-                                        $busqueda = $busqueda_2;
+                                //SI exsite lo asigno
+                                if (count($r)){
+                                    $result = trim($r[0][$cp['busqueda_pk']]);
+                                }
+                                //NO EXISTE CREO EL DATO
+                                else{
+
+                                    $ins_id = $CI->Generica->SqlInsert($cp['busqueda_tabla'], array($cp['busqueda_campo'] => strtoupper(trim($busqueda[0]))));
+
+                                    if ($ins_id){
+                                        $result = $ins_id;
+                                    }
+                                    else{
+                                        //ERROR pensar como sacar de todo
                                     }
                                 }
-
                             }
+                            //NO REQUIERO BUSCAR, ASIGNO
+                            else if (!is_null($busqueda))
+                                $result = trim($busqueda[0]);
+
+                        }
+                        else if (!is_null($cp['valor_fijo']) ) {
+                            $result = trim($cp['valor_fijo']);
                         }
 
-                        //SE DEBE BUSCAR EL CODIGO DE LO QUE ENCONTRE O O LA ASIGNACION ES UN TEXTO PLANO
-                        if($cp['buscar']){
-                            $r = $CI->Generica->SqlSelect('*', $cp['busqueda_tabla'], array('UPPER('.$cp['busqueda_campo'].')'=> strtoupper(trim($busqueda[0]))), False);
+                        //ASIGNO EL DATO A PARA GUARDAR
+                        $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = $result;
 
-                            //SI exsite lo asigno
-                            if (count($r)){
-                                $result = trim($r[0][$cp['busqueda_pk']]);
-                            }
-                            //NO EXISTE CREO EL DATO
-                            else{
-
-                                $ins_id = $CI->Generica->SqlInsert($cp['busqueda_tabla'], array($cp['busqueda_campo'] => strtoupper(trim($busqueda[0]))));
-
-                                if ($ins_id){
-                                    $result = $ins_id;
-                                }
-                                else{
-                                    //ERROR pensar como sacar de todo
-                                }
-                            }
+                    }
+                    else{
+                        if (!is_null($cp['valor_fijo'])) {
+                            $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = trim($cp['valor_fijo']);
                         }
-                        //NO REQUIERO BUSCAR, ASIGNO
-                        else{
-                            $result = trim($busqueda[0]);
-                        }
-
-
-                    }
-                    else if (!is_null($cp['valor_fijo']) ) {
-                         $result = trim($cp['valor_fijo']);
                     }
 
-                    //ASIGNO EL DATO A PARA GUARDAR
-                    $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = $result;
-
-                }
-                else{
-                    if (!is_null($cp['valor_fijo'])) {
-                        $datos[$i][$cp['configuracion']][$cp['campo_tabla']] = trim($cp['valor_fijo']);
+                    if ($cp['fk']){
+                        $ordenes[$datos[$i][$cp['configuracion']][$cp['campo_tabla']]] = null;
                     }
-                }
-
-                if ($cp['fk']){
-                    $ordenes[$datos[$i][$cp['configuracion']][$cp['campo_tabla']]] = null;
                 }
             }
+            else
+                $datos[$i] = FALSE;
+            
             $i++;
         }
 
         //CARGAR LOS DATOS A LAS ORDENES
         foreach ($datos as $d){
-            try{
+            if ($d){
+                try{
 
-                $d['orden']['cliente_rut_cliente'] = $cliente;
+                    $d['orden']['cliente_rut_cliente'] = $cliente;
 
-                $id_viaje = $CI->Viaje->crear_viaje($d['viaje']);
-                $d['orden']['viaje_id_viaje'] = $id_viaje;
+                    $id_viaje = $CI->Viaje->crear_viaje($d['viaje']);
+                    $d['orden']['viaje_id_viaje'] = $id_viaje;
 
-                $id_orden = $CI->Orden_model->insert_orden($d['orden']);
+                    $id_orden = $CI->Orden_model->insert_orden($d['orden']);
+                    if (!$id_orden)
+                        throw new Exception("Error al ingresar.");
 
-                if (isset($d['orden']['referencia_2']))
-                    $ordenes['result'][$d['orden']['referencia_2']] = $id_orden;
-                else
-                    $ordenes['result'][$d['orden']['referencia']] = $id_orden;
+                    if (isset($d['orden']['referencia_2']))
+                        $ordenes['result'][$d['orden']['referencia_2']] = $id_orden;
+                    else
+                        $ordenes['result'][$d['orden']['referencia']] = $id_orden;
 
 
-            } catch (Exception $ex) {
-                $ordenes[$d['orden']['referencia_2']] = False;
+                } catch (Exception $ex) {
+                    $ordenes[$d['orden']['referencia_2']] = False;
+                }
             }
         }
 
