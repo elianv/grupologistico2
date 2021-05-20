@@ -203,7 +203,7 @@ if ( !function_exists('lee_texto_curl') ){
 
                             //ELIMINO EL CAMPO ANTERIOR A LO QUE BUSCO
                             $tx_ant = explode($cp['ant'], $tx['texto']);
-                            $tx_ant[1] = trim($tx_ant[1]);
+
                             if (!isset($tx_ant[1]) &&  !is_null($cp['ant_2'])){
                                 $tx_ant = explode($cp['ant_2'], $tx['texto']);
                             }
@@ -214,7 +214,7 @@ if ( !function_exists('lee_texto_curl') ){
                             }
                             //SI ENCUENTRA CORTO POR EL TAG QUE SIGUE
                             else{
-
+                                $tx_ant[1] = trim($tx_ant[1]);
                                 if (isset($tx_ant[1])){
                                     $busqueda = explode($cp['suc'], $tx_ant[1]);
                                         if (strlen($busqueda[0]) <= 1){
@@ -290,6 +290,17 @@ if ( !function_exists('lee_texto_curl') ){
                             if( $cp['formato_tipo'] != 'date')
                                 $busqueda[0] = str_replace(":", "", $busqueda[0]);
                             $busqueda[0] = trim($busqueda[0]);
+                            
+                            // SI LO QUE ENCUENTRA ES MAS GRANDE QUE EL CAMPO A GUARDA ES PQ NO CORRESPONDE EL DATO
+
+                            $tabla = (isset($cp['busqueda_tabla'])) ? $cp['busqueda_tabla'] : 'orden'; 
+                            $campo = (isset($cp['busqueda_tabla'])) ? $cp['busqueda_campo'] : $cp['campo_tabla']; 
+                            
+                            $l_campo = $CI->Generica->column_long($tabla, $campo);
+                            if ( !is_null($l_campo[0]["CHARACTER_MAXIMUM_LENGTH"]) && intval($l_campo[0]["CHARACTER_MAXIMUM_LENGTH"]) < strlen($busqueda[0])){
+                                $busqueda[0] = 'DATO NO ENCONTRADO';
+                            }
+
 
                             //SE DEBE BUSCAR EL CODIGO DE LO QUE ENCONTRE O O LA ASIGNACION ES UN TEXTO PLANO
                             if($cp['buscar']){
