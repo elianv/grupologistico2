@@ -1019,8 +1019,8 @@
                 if ($dataCliente[0]['proc_carga'] == 'curl'){
                     $opc = 'curl';
                 }
-                elseif ($dataCliente[0]['proc_carga'] == 'ocr') {
-                    $opc = 'ocr';
+                elseif ($dataCliente[0]['proc_carga'] == 'plain_text') {
+                    $opc = 'plain_text';
                 }
                 
                 $data = getTexto($files, $cliente, $opc);

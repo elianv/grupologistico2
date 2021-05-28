@@ -165,26 +165,60 @@ if ( ! function_exists('get_text_curl')){
     }
 }
 
-if ( !function_exists('test_txt')){
-    function test_txt(){
+if ( !function_exists('get_text_plain')){
+    function get_text_plain($files){
 
-        for ($i=0; $i<1; $i++){
-            $f_text = fopen('/tmp/out.jpg.txt', 'r');
-            $texto = fread($f_text, filesize('/tmp/out.jpg.txt'));
+        $i = 0;
+        foreach ($files['orden_file']['tmp_name'] as $f) {
+            $f_text = fopen($f, 'r');
+            $texto = fread($f_text, filesize($f));
 
             $a[$i] = array(
-                'nombre'=>'nombre',
+                'nombre'=>$f,
                 'status'=> true,
                 'texto'=>$texto,
                 );
+            $i++;
         }
 
         return $a;
     }
 }
 
-if ( !function_exists('lee_texto_curl') ){
-    function lee_texto_curl($textos, $cliente){
+if (!function_exists('fecha_comfrut')){
+    function fecha_comfrut($args=''){
+        $_mes = array(
+            'ENERO'         => '01',
+            'FEBRERO'       => '02',
+            'MARZO'         => '03',
+            'ABRIL'         => '04',
+            'MAYO'          => '05',
+            'JUNIO'         => '06',
+            'JULIO'         => '07',
+            'AGOSTO'        => '08',
+            'SEPTIEMBRE'    => '09',
+            'OCTUBRE'       => '10',
+            'NOVIEMBRE'     => '11',
+            'DICIEMBRE'     => '12',
+
+        );
+
+        $data = explode(" ", $args[0]);
+
+        $ano = date("Y");
+        $mes = $_mes[$data[3]];
+        $dia = $data[1];
+        $hora = $data[5];
+        
+        $fecha = $ano . '-' . $mes . '-' . $dia . ' ' . $hora;
+        
+        return $fecha;
+    }
+}
+
+
+if ( !function_exists('lee_texto') ){
+    function lee_texto($textos, $cliente){
         $CI = & get_instance();    
         $CI->load->model('utils/Generica');
         $ordenes = array();
@@ -212,7 +246,7 @@ if ( !function_exists('lee_texto_curl') ){
                             if (!isset($tx_ant[1])){
                                 $busqueda[0] = 'DATO NO ENCONTRADO';
                             }
-                            //SI ENCUENTRA CORTO POR EL TAG QUE SIGUE
+                            //SI ENCUENTRA, CORTO POR EL TAG QUE SIGUE
                             else{
                                 $tx_ant[1] = trim($tx_ant[1]);
                                 if (isset($tx_ant[1])){
@@ -286,9 +320,19 @@ if ( !function_exists('lee_texto_curl') ){
                                 }
                             }                            
 
+                            //Hago calculo de datos, para campos mas especificos
+                            if (!is_null($cp['fx_calculo'])){
+                                $formato = $cp['formato'];
+                                $time = $cp['fx_calculo']($busqueda);
+                                $time = strtotime($time);
+                                $busqueda[0] = date($formato, $time);
+                            }
+                                
+
                             //LIMPIO TODO LO ENCONTRADO, MENOS LAS FECHAS
                             if( $cp['formato_tipo'] != 'date')
                                 $busqueda[0] = str_replace(":", "", $busqueda[0]);
+                                $busqueda[0] = preg_replace('([^A-Za-z0-9 -_,/%])', '', $busqueda[0]);
                             $busqueda[0] = trim($busqueda[0]);
                             
                             // SI LO QUE ENCUENTRA ES MAS GRANDE QUE EL CAMPO A GUARDA ES PQ NO CORRESPONDE EL DATO
@@ -384,16 +428,37 @@ if ( !function_exists('lee_texto_curl') ){
     }
 }
         
+if ( !function_exists('test_txt') ){
+    function test_txt($files){
+        for ($i=0; $i<1; $i++){
+            $f_text = fopen('/tmp/out.jpg.txt', 'r');
+            $texto = fread($f_text, filesize('/tmp/out.jpg.txt'));
+
+            $a[$i] = array(
+                'nombre'=>'nombre',
+                'status'=> true,
+                'texto'=>$texto,
+                );
+        }
+
+        return $a;        
+    }
+}
+
+
 if ( !function_exists('getTexto') ){
     function getTexto($files, $cliente, $opc){
         
         if ($opc == 'curl'){
             $textos = get_text_curl($files);
-            $datos = lee_texto_curl($textos, $cliente);
+        }
+        else if ($opc == 'plain_text'){
+            $textos = get_text_plain($files);
         }
         
-        return $datos;
+        $datos = lee_texto($textos, $cliente);
         
+        return $datos;
     }
         
         
