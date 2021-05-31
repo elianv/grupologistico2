@@ -187,30 +187,45 @@ if ( !function_exists('get_text_plain')){
 
 if (!function_exists('fecha_comfrut')){
     function fecha_comfrut($args=''){
-        $_mes = array(
-            'ENERO'         => '01',
-            'FEBRERO'       => '02',
-            'MARZO'         => '03',
-            'ABRIL'         => '04',
-            'MAYO'          => '05',
-            'JUNIO'         => '06',
-            'JULIO'         => '07',
-            'AGOSTO'        => '08',
-            'SEPTIEMBRE'    => '09',
-            'OCTUBRE'       => '10',
-            'NOVIEMBRE'     => '11',
-            'DICIEMBRE'     => '12',
+        if ($args['dato'] != "DATO NO ENCONTRADO"){
+            $_mes = array(
+                'ENERO'         => '01',
+                'FEBRERO'       => '02',
+                'MARZO'         => '03',
+                'ABRIL'         => '04',
+                'MAYO'          => '05',
+                'JUNIO'         => '06',
+                'JULIO'         => '07',
+                'AGOSTO'        => '08',
+                'SEPTIEMBRE'    => '09',
+                'OCTUBRE'       => '10',
+                'NOVIEMBRE'     => '11',
+                'DICIEMBRE'     => '12',
 
-        );
+            );
 
-        $data = explode(" ", $args[0]);
+            
 
-        $ano = date("Y");
-        $mes = $_mes[$data[3]];
-        $dia = $data[1];
-        $hora = $data[5];
+            preg_match('/[a-zA-Z]* [0-9]{2} [a-zA-Z]* [a-zA-Z]* - [0-9]{2}:[0-9]{2} [a-zA-Z]*./', $args['dato'], $data);
+            //preg_match('/[0-9]{2}:[0-9]{2}/', $args['dato'], $hora);
+            //$data = explode("-", $data[0]);
+            //preg_match('/[0-9]{2}/', $data[0], $dia);
+
+            $data = explode(" ", $data[0]);
+
+            $ano = date("Y");
+            $mes = $_mes[$data[3]];
+            $dia = $data[1];
+            $hora = $data[5];
+            
+            $time = $ano . '-' . $mes . '-' . $dia . ' ' . $hora;
+        }
+        else
+            $time = '01-01-1999';
         
-        $fecha = $ano . '-' . $mes . '-' . $dia . ' ' . $hora;
+        
+        $time = strtotime($time);
+        $fecha = date($args['formato'], $time);
         
         return $fecha;
     }
@@ -323,11 +338,8 @@ if ( !function_exists('lee_texto') ){
                             //Hago calculo de datos, para campos mas especificos
                             if (!is_null($cp['fx_calculo'])){
                                 $formato = $cp['formato'];
-                                $time = $cp['fx_calculo']($busqueda);
-                                $time = strtotime($time);
-                                $busqueda[0] = date($formato, $time);
+                                $busqueda[0] = $cp['fx_calculo'](array('dato'=>$busqueda[0], 'tipo'=>$cp['formato_tipo'], 'formato'=> $formato) );
                             }
-                                
 
                             //LIMPIO TODO LO ENCONTRADO, MENOS LAS FECHAS
                             if( $cp['formato_tipo'] != 'date')
