@@ -204,12 +204,14 @@ if (!function_exists('fecha_comfrut')){
 
             );
 
-            
-
-            preg_match('/[a-zA-Z]* [0-9]{2} [a-zA-Z]* [a-zA-Z]* - [0-9]{2}:[0-9]{2} [a-zA-Z]*./', $args['dato'], $data);
+            $linea = preg_replace('([^A-Za-z0-9 :-])', '', $args['dato']);
+            preg_match('/[a-zA-Z]* [0-9]{2} [a-zA-Z]* [a-zA-Z]* - [0-9]{2}:[0-9]{2} [a-zA-Z]*./', $linea, $data);
             //preg_match('/[0-9]{2}:[0-9]{2}/', $args['dato'], $hora);
             //$data = explode("-", $data[0]);
             //preg_match('/[0-9]{2}/', $data[0], $dia);
+
+            if (count($data) == 0 )
+                $data[0] = $linea;
 
             $data = explode(" ", $data[0]);
 
