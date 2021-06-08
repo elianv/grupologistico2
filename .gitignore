@@ -4,3 +4,8 @@
 */cache/*
 */cache/!index.html
 */application/config/database.php
+.vscode/extensions.json
+
+.vscode/launch.json
+
+application/config/database.php

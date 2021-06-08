@@ -10630,7 +10630,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Siguiente",
+				"sNext": "Sig",
 	
 	
 				/**
@@ -10653,7 +10653,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Anterior"
+				"sPrevious": "Ant"
 			},
 	
 			/**
@@ -10708,7 +10708,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Mostrando desde _START_ hasta _END_ de un total de _TOTAL_ registros",
+			"sInfo": "Desde _START_ hasta _END_ , total _TOTAL_ registros",
 	
 	
 			/**
@@ -10729,7 +10729,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Mostrando 0 de 0 de un total de 0 datos",
+			"sInfoEmpty": "0 de 0, total de 0 datos",
 	
 	
 			/**

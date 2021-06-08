@@ -306,7 +306,7 @@ Class consultas_model extends CI_Model{
 		$sql =  "SELECT
 				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha_presentacion, cliente.razon_social, orden.referencia_2
 				FROM
-				    glc_sct.orden
+				    orden
 				        inner join
 				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
 				where
@@ -329,7 +329,7 @@ Class consultas_model extends CI_Model{
 		$sql =  "SELECT
 				    orden.id_orden, orden.numero as contenedor, orden.referencia, orden.fecha_presentacion, cliente.razon_social, orden.referencia_2
 				FROM
-				    glc_sct.orden
+				    orden
 				        inner join
 				    cliente ON cliente.rut_cliente = orden.cliente_rut_cliente
 				where
@@ -688,43 +688,43 @@ Class consultas_model extends CI_Model{
 			return $result;
     }
 
-		function getByIdOrden($id){
-				$query = "SELECT
-									detalle.*, servicio.descripcion, servicios_orden_factura.*
+	function getByIdOrden($id){
+			$query = "SELECT
+								detalle.*, servicio.descripcion, servicios_orden_factura.*
+							FROM
+								detalle
+										LEFT JOIN
+								servicio ON servicio.codigo_servicio = detalle.servicio_codigo_servicio
+										LEFT JOIN
+								servicios_orden_factura ON servicios_orden_factura.detalle_id_detalle = detalle.id_detalle
+							WHERE
+								orden_id_orden = {$id}";
+			$sql = $this->db->query($query);
+			//var_dump($this->db->last_query());
+			return $sql->result_array();
+	}
+
+	function total_ordenes($id_orden){
+
+		$query = "SELECT
+								(valor_costo_tramo + COALESCE(det_costo,0)) as total_costo,
+									(valor_venta_tramo + COALESCE(det_venta,0)) as total_venta,
+									(valor_venta_tramo + COALESCE(det_venta,0)) - (valor_costo_tramo + COALESCE(det_costo,0)) AS margen
+							FROM
+								orden,
+								(SELECT
+									SUM(valor_costo) AS det_costo, SUM(valor_venta) AS det_venta
 								FROM
 									detalle
-											LEFT JOIN
-									servicio ON servicio.codigo_servicio = detalle.servicio_codigo_servicio
-											LEFT JOIN
-									servicios_orden_factura ON servicios_orden_factura.detalle_id_detalle = detalle.id_detalle
 								WHERE
-									orden_id_orden = {$id}";
-				$sql = $this->db->query($query);
-				//var_dump($this->db->last_query());
-				return $sql->result_array();
-		}
+									orden_id_orden = {$id_orden}) det
+							WHERE
+								id_orden = {$id_orden}";
 
-		function total_ordenes($id_orden){
-
-			$query = "SELECT
-								    (valor_costo_tramo + COALESCE(det_costo,0)) as total_costo,
-										(valor_venta_tramo + COALESCE(det_venta,0)) as total_venta,
-										(valor_venta_tramo + COALESCE(det_venta,0)) - (valor_costo_tramo + COALESCE(det_costo,0)) AS margen
-								FROM
-								    orden,
-								    (SELECT
-								        SUM(valor_costo) AS det_costo, SUM(valor_venta) AS det_venta
-								    FROM
-								        detalle
-								    WHERE
-								        orden_id_orden = {$id_orden}) det
-								WHERE
-								    id_orden = {$id_orden}";
-
-				$sql = $this->db->query($query);
-				//var_dump($this->db->last_query());
-				return $sql->result_array();
-		}
-}
-
+			$sql = $this->db->query($query);
+			//var_dump($this->db->last_query());
+			return $sql->result_array();
+	}
+        }
+        
 ?>

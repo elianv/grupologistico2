@@ -44,8 +44,16 @@ class Generica extends CI_Model{
         $result = $query->result_array();
         return $result[0]['last_id'];
     }
-    
-    
-}
+
+    function column_long($tabla, $campo){
+        $this->db->select('CHARACTER_MAXIMUM_LENGTH');
+        $this->db->from('information_schema.`COLUMNS`');
+        $this->db->where('TABLE_NAME', $tabla);
+        $this->db->where('COLUMN_NAME', $campo);
+        $query = $this->db->get();
+
+        return $query->result_array();
+    }
+    }
 
 ?>

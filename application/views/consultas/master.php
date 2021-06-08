@@ -21,7 +21,7 @@
 										<input type="checkbox" id="check_orden" name="check_orden" value="1"> Filtrar por Orden
 									</label>
 			                    	<div class="input-append" id="input-orden">
-			                    		<input type="text" name="n_orden" id="n_orden" readonly="">
+			                    		<input type="text" name="n_orden" id="n_orden">
 			                    		<a class="btn" id="modal_ordenes" data-target="#modal-ordenes" data-toggle="modal"><i class="icon-search"></i></a>
 			                    	</div>
 			                    </div>
