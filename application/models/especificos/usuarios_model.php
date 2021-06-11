@@ -32,7 +32,7 @@ class Usuarios_model extends CI_Model{
         
         return $resultado->result_array();
         */
-        $sql = 'SELECT * FROM glc_sct.usuario as u, tipos_usuario as t where t.id = u.id_tipo_usuario';
+        $sql = 'SELECT * FROM usuario as u, tipos_usuario as t where t.id = u.id_tipo_usuario';
         $result = $this->db->query($sql);
 
         return $result->result_array();
