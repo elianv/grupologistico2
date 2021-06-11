@@ -215,7 +215,7 @@ $('.form-aduanas .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/agencias',
+		url:'../index.php/mantencion/agencias',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
