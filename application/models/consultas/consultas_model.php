@@ -527,7 +527,7 @@ Class consultas_model extends CI_Model{
 			}
 			if($nave){
 
-					$string .= ' nave.codigo_nave = '.$nave;
+					$string .= 'AND nave.codigo_nave = '.$nave;
 					$query .= $string;
 			}
 			if($puerto){
@@ -536,7 +536,7 @@ Class consultas_model extends CI_Model{
 			}
 			if($contenedor){
 
-					$string .= ' orden.numero like "%'.$contenedor.'%"';
+					$string .= 'AND orden.numero like "%'.$contenedor.'%"';
 					$query .= $string;
 			}
 			if($desde && $hasta){

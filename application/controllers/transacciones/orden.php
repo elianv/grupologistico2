@@ -509,6 +509,7 @@
                     $destino            = explode(' - ',  $this->input->post('destino'));
                     $carga              = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
                     $tramo              = explode(' - ', $this->input->post('tramo_codigo_tramo'));
+                    $naviera            = explode(' - ', $this->input->post('naviera_codigo_naviera'));
                     $fecha              = $this->input->post('fecha');
                     $fecha_presentacion = $this->input->post('fecha_presentacion');
                     $fecha              = str_replace('/','-', $fecha);
@@ -559,7 +560,7 @@
                                     'tramo_codigo_tramo'        => $tramo[0],
                                     'valor_costo_tramo'         => str_replace(".", "",$this->input->post('valor_costo_tramo')),
                                     'valor_venta_tramo'         => str_replace(".", "",$this->input->post('valor_venta_tramo')),
-                                    'naviera_codigo_naviera'    => $this->input->post('naviera_codigo_naviera'),
+                                    'naviera_codigo_naviera'    => $naviera[0],
                                     'lugar_retiro'              => $lugar_retiro
                                 );
 
