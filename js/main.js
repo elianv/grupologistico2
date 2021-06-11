@@ -494,16 +494,16 @@ $('#modal-aduana .codigo-click').click(function(e){
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
 		console.log('Editando');
-		url_controller = '../../../mantencion/agencias';
+		url_controller = '../../../index.php/mantencion/agencias';
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/agencias';
+		url_controller = '../../index.php/mantencion/agencias';
 	}
 	else{
 		console.log('Creando');
-		url_controller = '../mantencion/agencias';
+		url_controller = '../index.php/mantencion/agencias';
 	}
 
 	e.preventDefault();
@@ -565,16 +565,16 @@ $('#modal-tramo .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/tramos';
+		url_controller = '../../../index.php/mantencion/tramos';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/tramos';
+		url_controller = '../../index.php/mantencion/tramos';
 	}
 	else{
-		url_controller = '../mantencion/tramos';
+		url_controller = '../index.php/mantencion/tramos';
 		console.log('Creando');
 	}
 
@@ -763,15 +763,15 @@ $('#modal-conductor .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/conductores';
+		url_controller = '../../../index.php/mantencion/conductores';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/conductores';
+		url_controller = '../../index.php/mantencion/conductores';
 	}else{
-		url_controller = '../mantencion/conductores';
+		url_controller = '../index.php/mantencion/conductores';
 		console.log('Creando');
 	}
 	//Ejemplo con error
@@ -809,16 +809,16 @@ $('#modal-camion .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../../mantencion/camiones';
+		url_controller = '../../../../index.php/mantencion/camiones';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/camiones';
+		url_controller = '../../index.php/mantencion/camiones';
 	}
 	else{
-		url_controller = '../mantencion/camiones';
+		url_controller = '../index.php/mantencion/camiones';
 		console.log('Creando');
 	}
 
