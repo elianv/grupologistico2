@@ -503,13 +503,13 @@
                                 'id_viaje'          => $orden_bd[0]['viaje_id_viaje']
                             );
 
-                    $aduana             = explode(' - ', $this->input->post('aduana_codigo_aduana'));
-                    $nave               = explode(' - ',  $this->input->post('nave_codigo_nave'));
-                    $bodega             = explode(' - ',  $this->input->post('bodega_codigo_bodega'));
-                    $destino            = explode(' - ',  $this->input->post('destino'));
-                    $carga              = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
-                    $tramo              = explode(' - ', $this->input->post('tramo_codigo_tramo'));
-                    $naviera            = explode(' - ', $this->input->post('naviera_codigo_naviera'));
+                    $aduana             = explode('-', $this->input->post('aduana_codigo_aduana'));
+                    $nave               = explode('-',  $this->input->post('nave_codigo_nave'));
+                    $bodega             = explode('-',  $this->input->post('bodega_codigo_bodega'));
+                    $destino            = explode('-',  $this->input->post('destino'));
+                    $carga              = explode('-', $this->input->post('tipo_carga_codigo_carga'));
+                    $tramo              = explode('-', $this->input->post('tramo_codigo_tramo'));
+                    $naviera            = explode('-', $this->input->post('naviera_codigo_naviera'));
                     $fecha              = $this->input->post('fecha');
                     $fecha_presentacion = $this->input->post('fecha_presentacion');
                     $fecha              = str_replace('/','-', $fecha);
@@ -528,7 +528,7 @@
 
                     if($_POST['tipo_orden'] == "EXPORTACION"){
                         $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
-                        $puerto = explode(' - ', $this->input->post('puerto_codigo_puerto'));
+                        $puerto = explode('-', $this->input->post('puerto_codigo_puerto'));
                     }
                     else{
                         $deposito[0] = 1;
@@ -548,28 +548,28 @@
                                     'fecha'                     => $fecha,
                                     'cliente_rut_cliente'       => $this->input->post('cliente_rut_cliente'),
                                     'booking'                   => $this->input->post('booking'),
-                                    'aduana_codigo_aduana'      => $aduana[0],
+                                    'aduana_codigo_aduana'      => trim($aduana[0]),
                                     'numero'                    => $this->input->post('numero'),
                                     'peso'                      => $this->input->post('peso'),
                                     'set_point'                 => $this->input->post('set_point'),
                                     'fecha_presentacion'        => $fecha_presentacion,
-                                    'bodega_codigo_bodega'      => $bodega[0],
-                                    'destino'                   => $destino[0],
-                                    'puerto_codigo_puerto'      => $puerto[0],
+                                    'bodega_codigo_bodega'      => trim($bodega[0]),
+                                    'destino'                   => trim($destino[0]),
+                                    'puerto_codigo_puerto'      => trim($puerto[0]),
                                     'proveedor_rut_proveedor'   => $this->input->post('proveedor_rut_proveedor'),
                                     'observacion'               => $this->input->post('observacion'),
                                     'referencia_2'              => $this->input->post('referencia2'),
-                                    'tipo_carga_codigo_carga'   => $carga[0],
+                                    'tipo_carga_codigo_carga'   => trim($carga[0]),
                                     'tipo_orden_id_tipo_orden'  => '',
-                                    'deposito_codigo_deposito'  => $deposito[0],
-                                    'nave_codigo_nave'          => $nave[0],
+                                    'deposito_codigo_deposito'  => trim($deposito[0]),
+                                    'nave_codigo_nave'          => trim($nave[0]),
                                     'mercaderia'                =>  $this->input->post('mercaderia'),
                                     'num_servicios'             => $c_oservicio,
-                                    'viaje_id_viaje'            => $orden_bd[0]['viaje_id_viaje'],
-                                    'tramo_codigo_tramo'        => $tramo[0],
+                                    'viaje_id_viaje'            => trim($orden_bd[0]['viaje_id_viaje']),
+                                    'tramo_codigo_tramo'        => trim($tramo[0]),
                                     'valor_costo_tramo'         => str_replace(".", "",$this->input->post('valor_costo_tramo')),
                                     'valor_venta_tramo'         => str_replace(".", "",$this->input->post('valor_venta_tramo')),
-                                    'naviera_codigo_naviera'    => $naviera[0],
+                                    'naviera_codigo_naviera'    => trim($naviera[0]),
                                     'lugar_retiro'              => $lugar_retiro
                                 );
 

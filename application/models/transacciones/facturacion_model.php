@@ -204,16 +204,16 @@ class Facturacion_model extends CI_Model{
     function getOrdenFacturaByOrden($orden)
     {
     	$sql = "SELECT
-                    COALESCE(of.id,'SIN DATOS') id,
-                    COALESCE(of.id_factura,'SIN DATOS') id_factura,
-                    COALESCE(of.id_orden,'SIN DATOS') id_orden,
-                    COALESCE(of.factura_tramo,'SIN DATOS') factura_tramo,
-                    COALESCE(DATE_FORMAT(of.fecha_factura , \"%d-%m-%Y\"), '') as fecha_factura_tramo,
+                    COALESCE(_of.id,'SIN DATOS') id,
+                    COALESCE(_of.id_factura,'SIN DATOS') id_factura,
+                    COALESCE(_of.id_orden,'SIN DATOS') id_orden,
+                    COALESCE(_of.factura_tramo,'SIN DATOS') factura_tramo,
+                    COALESCE(DATE_FORMAT(_of.fecha_factura , \"%d-%m-%Y\"), '') as fecha_factura_tramo,
                     f.*
                 FROM
-                    ordenes_facturas of
+                    ordenes_facturas _of
                 LEFT JOIN
-                    factura f ON f.id = of.id_factura
+                    factura f ON f.id = _of.id_factura
                 WHERE
                     id_orden = {$orden}
                 ";
