@@ -516,6 +516,15 @@
                     $fecha              = date("Y-m-d H:i",strtotime($fecha));
                     $fecha_presentacion = str_replace('/','-', $fecha_presentacion);
                     $fecha_presentacion = date("Y-m-d H:i",strtotime($fecha_presentacion));
+                    $o_serv             = $this->input->post('codigo_Servicio');
+
+                    if($o_serv === false){
+                        $c_oservicio = 0;
+                    }
+                    else
+                        $c_oservicio = count($this->input->post('codigo_Servicio'));
+
+
 
                     if($_POST['tipo_orden'] == "EXPORTACION"){
                         $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
@@ -555,7 +564,7 @@
                                     'deposito_codigo_deposito'  => $deposito[0],
                                     'nave_codigo_nave'          => $nave[0],
                                     'mercaderia'                =>  $this->input->post('mercaderia'),
-                                    'num_servicios'             => count($this->input->post('codigo_Servicio')),
+                                    'num_servicios'             => $c_oservicio,
                                     'viaje_id_viaje'            => $orden_bd[0]['viaje_id_viaje'],
                                     'tramo_codigo_tramo'        => $tramo[0],
                                     'valor_costo_tramo'         => str_replace(".", "",$this->input->post('valor_costo_tramo')),

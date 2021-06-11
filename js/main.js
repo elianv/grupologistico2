@@ -405,16 +405,16 @@ $('#modal-servicio .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../../mantencion/servicios';
+		url_controller = '../../../../index.php/mantencion/servicios';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/servicios';
+		url_controller = '../../index.php/mantencion/servicios';
 	}
 	else{
-		url_controller = '../mantencion/servicios';
+		url_controller = '../index.php/mantencion/servicios';
 		console.log('Creando');
 	}
 
