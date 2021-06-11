@@ -653,16 +653,16 @@ $('#modal-bodega .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/bodegas';
+		url_controller = '../../../index.php/mantencion/bodegas';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/bodegas';
+		url_controller = '../../index.php/mantencion/bodegas';
 	}
 	else{
-		url_controller = '../mantencion/bodegas';
+		url_controller = '../index.php/mantencion/bodegas';
 		console.log('Creando');
 	}
 
