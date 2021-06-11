@@ -479,8 +479,12 @@ Class consultas_model extends CI_Model{
 						        left join
 						    tramo ON orden.tramo_codigo_tramo = tramo.codigo_tramo
 						        left join
-						    proveedor ON proveedor.rut_proveedor = orden.proveedor_rut_proveedor
-								WHERE 1 ';
+						    proveedor ON proveedor.rut_proveedor = orden.proveedor_rut_proveedor ';
+			if($puerto){
+				$query .= ' 	LEFT JOIN 
+							puerto ON puerto.codigo_puerto = orden.puerto_codigo_puerto ';
+			}
+			$query .= 'WHERE 1 ';
 
 			if($facturas){
 					$facturas = explode(',', $facturas);
@@ -527,8 +531,7 @@ Class consultas_model extends CI_Model{
 					$query .= $string;
 			}
 			if($puerto){
-					$string .= ' LEFT JOIN puerto ON puerto.codigo_puerto = orden.puerto_codigo_puerto ';
-					$string .= ' where puerto.codigo_puerto = '.$puerto;
+					$query .= ' AND puerto.codigo_puerto = '.$puerto;
 					$query .= $string;
 			}
 			if($contenedor){
