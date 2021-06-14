@@ -291,6 +291,15 @@
                     else
                         $c_oservicio = count($this->input->post('codigo_Servicio'));                    
 
+                    if ($_POST['tipo_orden'] == "OTRO SERVICIO"){
+                        $valor_costo_tramo = NULL;
+                        $valor_costo_tramo = NULL;
+                    }
+                    else{
+                        $valor_costo_tramo = str_replace(".", "",$this->input->post('valor_costo_tramo'));
+                        $valor_venta_tramo = str_replace(".", "",$this->input->post('valor_venta_tramo'));
+                    }
+                        
                     $orden = array(
                         'id_orden'                  => $num_orden,
                         'referencia'                => $this->input->post('referencia'),
@@ -316,8 +325,8 @@
                         'num_servicios'             => $c_oservicio,
                         'viaje_id_viaje'            => $id_viaje,
                         'tramo_codigo_tramo'        => trim($tramo[0]),
-                        'valor_costo_tramo'         => str_replace(".", "",$this->input->post('valor_costo_tramo')),
-                        'valor_venta_tramo'         => str_replace(".", "",$this->input->post('valor_venta_tramo')),
+                        'valor_costo_tramo'         => $valor_costo_tramo,
+                        'valor_venta_tramo'         => $valor_venta_tramo,
                         'naviera_codigo_naviera'    => trim($naviera[0]),
                         'lugar_retiro'              => $lugar_retiro
                     );
@@ -562,7 +571,7 @@
                                     'set_point'                 => $this->input->post('set_point'),
                                     'fecha_presentacion'        => $fecha_presentacion,
                                     'bodega_codigo_bodega'      => trim($bodega[0]),
-                                    'destino'                   => trim($destino[0]),
+                                    'destino'                   => (trim($destino[0]) == "") ? -1 : trim($destino[0]),
                                     'puerto_codigo_puerto'      => trim($puerto[0]),
                                     'proveedor_rut_proveedor'   => $this->input->post('proveedor_rut_proveedor'),
                                     'observacion'               => $this->input->post('observacion'),
@@ -574,7 +583,7 @@
                                     'mercaderia'                =>  $this->input->post('mercaderia'),
                                     'num_servicios'             => $c_oservicio,
                                     'viaje_id_viaje'            => trim($orden_bd[0]['viaje_id_viaje']),
-                                    'tramo_codigo_tramo'        => trim($tramo[0]),
+                                    'tramo_codigo_tramo'        => (trim($tramo[0]) == "") ? -1 : trim($tramo[0]),
                                     'valor_costo_tramo'         => str_replace(".", "",$this->input->post('valor_costo_tramo')),
                                     'valor_venta_tramo'         => str_replace(".", "",$this->input->post('valor_venta_tramo')),
                                     'naviera_codigo_naviera'    => trim($naviera[0]),
