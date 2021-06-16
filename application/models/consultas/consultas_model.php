@@ -666,7 +666,7 @@ Class consultas_model extends CI_Model{
 			}
 			if($puerto){
 
-					$string = ' LEFT JOIN puerto ON puerto.codigo_puerto = orden.puerto_codigo_puerto ';
+					//$string = ' LEFT JOIN puerto ON puerto.codigo_puerto = orden.puerto_codigo_puerto ';
 					$string .= ' and orden.puerto_codigo_puerto = '.$puerto;
 					$query .= $string;
 			}
