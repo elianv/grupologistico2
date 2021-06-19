@@ -1,3 +1,8 @@
+url_server = window.location.href;
+dividida = url_server.split("index.php");
+url_server = dividida[0] + 'index.php';
+
+
 $('.form-navieras .codigo-click').click(function(e){
 
 	e.preventDefault();
@@ -20,7 +25,7 @@ $('.form-camiones .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/camiones',
+		url: url_server+'/mantencion/camiones',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -90,7 +95,7 @@ $('.form-clientes .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/clientes',
+		url: url_server+'/mantencion/clientes',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -193,7 +198,7 @@ $('.form-naves .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/naves',
+		url:url_server+'/mantencion/naves',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -215,7 +220,7 @@ $('.form-aduanas .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/agencias',
+		url:url_server+'/mantencion/agencias',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -238,7 +243,7 @@ $('.form-tramos .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/tramos',
+		url:url_server+'/mantencion/tramos',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -262,7 +267,7 @@ $('.form-proveedores .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/proveedores',
+		url:url_server+'/mantencion/proveedores',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -292,7 +297,7 @@ $('.form-bodegas .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/bodegas',
+		url:url_server+'/mantencion/bodegas',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -316,7 +321,7 @@ $('.form-servicios .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/servicios',
+		url:url_server+'/mantencion/servicios',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -341,7 +346,7 @@ $('.form-conductores .codigo-click').click(function(e){
 
 	$.ajax({
 		type:'post',
-		url:'../mantencion/conductores',
+		url:url_server+'/mantencion/conductores',
 		dataType: 'json',
 		data:{codigo:$(this).data('codigo')},
 		//beforeSend: function(){//},
@@ -405,16 +410,16 @@ $('#modal-servicio .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../../index.php/mantencion/servicios';
+		url_controller = url_server+'/mantencion/servicios';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../index.php/mantencion/servicios';
+		url_controller = url_server+'/mantencion/servicios';
 	}
 	else{
-		url_controller = '../index.php/mantencion/servicios';
+		url_controller = url_server+'/mantencion/servicios';
 		console.log('Creando');
 	}
 
@@ -494,16 +499,16 @@ $('#modal-aduana .codigo-click').click(function(e){
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
 		console.log('Editando');
-		url_controller = '../../../mantencion/agencias';
+		url_controller = url_server+'/mantencion/agencias';
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/agencias';
+		url_controller = url_server+'/mantencion/agencias';
 	}
 	else{
 		console.log('Creando');
-		url_controller = '../mantencion/agencias';
+		url_controller = url_server+'/mantencion/agencias';
 	}
 
 	e.preventDefault();
@@ -565,18 +570,19 @@ $('#modal-tramo .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/tramos';
+		url_controller = '../../../index.php/mantencion/tramos';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/tramos';
+		url_controller = '../../index.php/mantencion/tramos';
 	}
 	else{
-		url_controller = '../mantencion/tramos';
+		url_controller = '../index.php/mantencion/tramos';
 		console.log('Creando');
 	}
+	url_controller = url_server+'/mantencion/tramos';
 
 	$.ajax({
 		type:'post',
@@ -653,18 +659,20 @@ $('#modal-bodega .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/bodegas';
+		url_controller = '../../../index.php/mantencion/bodegas';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/bodegas';
+		url_controller = '../../index.php/mantencion/bodegas';
 	}
 	else{
-		url_controller = '../mantencion/bodegas';
+		url_controller = '../index.php/mantencion/bodegas';
 		console.log('Creando');
 	}
+
+	url_controller = url_server+'/mantencion/bodegas';
 
 	$.ajax({
 		type:'post',
@@ -721,7 +729,7 @@ $('#modal-deposito .codigo-click').click(function(e){
 $('#modal-proveedor .codigo-click').click(function(e){
 
 	e.preventDefault();
-	console.log("fghjk");
+	console.log("Proveedor");
 	$('.form-orden #rut').attr('value', $(this).data('codigo'));
 	$('.form-orden #rsocial').attr('value', $(this).data('rs'));
 	$('#modal-proveedor').fadeOut('fast',function(){
@@ -763,19 +771,19 @@ $('#modal-conductor .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../mantencion/conductores';
+		url_controller = '../../../index.php/mantencion/conductores';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/conductores';
+		url_controller = '../../index.php/mantencion/conductores';
 	}else{
-		url_controller = '../mantencion/conductores';
+		url_controller = '../index.php/mantencion/conductores';
 		console.log('Creando');
 	}
 	//Ejemplo con error
-
+	url_controller = url_server+'/mantencion/conductores';
 	$.ajax({
 		type:'post',
 		//url:'../mantencion/conductores',
@@ -809,19 +817,20 @@ $('#modal-camion .codigo-click').click(function(e){
 
 	if($('form.form-orden').hasClass('editar_orden'))
 	{
-		url_controller = '../../../../mantencion/camiones';
+		url_controller = '../../../../index.php/mantencion/camiones';
 		console.log('Editando');
 	}
 	else if($('.alert.alert-info'))
 	{
 		console.log('Con Error');
-		url_controller = '../../mantencion/camiones';
+		url_controller = '../../index.php/mantencion/camiones';
 	}
 	else{
-		url_controller = '../mantencion/camiones';
+		url_controller = '../index.php/mantencion/camiones';
 		console.log('Creando');
 	}
 
+	url_controller = url_server+'/mantencion/camiones';
 	$.ajax({
 		type:'post',
 		//url:'../mantencion/camiones',

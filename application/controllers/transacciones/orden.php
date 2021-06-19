@@ -232,15 +232,16 @@
                                 'id_viaje' => $id_viaje
                             );
 
-                    $aduana = explode(' - ', $this->input->post('aduana_codigo_aduana'));
-                    $nave = explode(' - ',  $this->input->post('nave_codigo_nave'));
-                    $bodega = explode(' - ',  $this->input->post('bodega_codigo_bodega'));
-                    $destino = explode(' - ',  $this->input->post('destino'));
-                    $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
-                    $carga = explode(' - ', $this->input->post('tipo_carga_codigo_carga'));
+                    $aduana = explode('-', $this->input->post('aduana_codigo_aduana'));
+                    $nave = explode('-',  $this->input->post('nave_codigo_nave'));
+                    $bodega = explode('-',  $this->input->post('bodega_codigo_bodega'));
+                    $destino = explode('-',  $this->input->post('destino'));
+                    $deposito = explode('-', $this->input->post('deposito_codigo_deposito'));
+                    $carga = explode('-', $this->input->post('tipo_carga_codigo_carga'));
+                    $naviera = explode('-', $this->input->post('naviera_codigo_naviera'));
 
                     if($_POST['tipo_orden'] == "EXPORTACION"){
-                        $puerto = explode(' - ', $this->input->post('puerto_codigo_puerto'));
+                        $puerto = explode('-', $this->input->post('puerto_codigo_puerto'));
                     }
                     else{
 
@@ -283,34 +284,50 @@
 
                     }
 
+                    $o_serv = $this->input->post('codigo_Servicio');
+                    if($o_serv === false){
+                        $c_oservicio = 0;
+                    }
+                    else
+                        $c_oservicio = count($this->input->post('codigo_Servicio'));                    
+
+                    if ($_POST['tipo_orden'] == "OTRO SERVICIO"){
+                        $valor_costo_tramo = NULL;
+                        $valor_costo_tramo = NULL;
+                    }
+                    else{
+                        $valor_costo_tramo = str_replace(".", "",$this->input->post('valor_costo_tramo'));
+                        $valor_venta_tramo = str_replace(".", "",$this->input->post('valor_venta_tramo'));
+                    }
+                        
                     $orden = array(
                         'id_orden'                  => $num_orden,
                         'referencia'                => $this->input->post('referencia'),
                         'fecha'                     => $fecha ,
                         'cliente_rut_cliente'       => $this->input->post('cliente_rut_cliente'),
                         'booking'                   => $this->input->post('booking'),
-                        'aduana_codigo_aduana'      => $aduana[0],
+                        'aduana_codigo_aduana'      => trim($aduana[0]),
                         'numero'                    => $this->input->post('numero'),
                         'peso'                      => $this->input->post('peso'),
                         'set_point'                 => $this->input->post('set_point'),
                         'fecha_presentacion'        => $fecha_presentacion,
-                        'bodega_codigo_bodega'      => $bodega[0],
-                        'destino'                   => $destino[0],
+                        'bodega_codigo_bodega'      => trim($bodega[0]),
+                        'destino'                   => trim($destino[0]),
                         'puerto_codigo_puerto'      => $puerto[0],
                         'proveedor_rut_proveedor'   => $this->input->post('proveedor_rut_proveedor'),
                         'observacion'               => $this->input->post('observacion'),
                         'referencia_2'              => $this->input->post('referencia2'),
-                        'tipo_carga_codigo_carga'   => $carga[0],
+                        'tipo_carga_codigo_carga'   => trim($carga[0]),
                         'tipo_orden_id_tipo_orden'  => '',
-                        'deposito_codigo_deposito'  => $deposito[0],
-                        'nave_codigo_nave'          => $nave[0],
+                        'deposito_codigo_deposito'  => trim($deposito[0]),
+                        'nave_codigo_nave'          => trim($nave[0]),
                         'mercaderia'                =>  $this->input->post('mercaderia'),
-                        'num_servicios'             => count($this->input->post('codigo_servicio')),
+                        'num_servicios'             => $c_oservicio,
                         'viaje_id_viaje'            => $id_viaje,
-                        'tramo_codigo_tramo'        => $tramo[0],
-                        'valor_costo_tramo'         => str_replace(".", "",$this->input->post('valor_costo_tramo')),
-                        'valor_venta_tramo'         => str_replace(".", "",$this->input->post('valor_venta_tramo')),
-                        'naviera_codigo_naviera'    => $this->input->post('naviera_codigo_naviera'),
+                        'tramo_codigo_tramo'        => trim($tramo[0]),
+                        'valor_costo_tramo'         => $valor_costo_tramo,
+                        'valor_venta_tramo'         => $valor_venta_tramo,
+                        'naviera_codigo_naviera'    => trim($naviera[0]),
                         'lugar_retiro'              => $lugar_retiro
                     );
 
@@ -406,6 +423,7 @@
                 $this->form_validation->set_rules('aduana_codigo_aduana','Aduana','trim|xss_clean|required|callback_check_aduana');
                 $this->form_validation->set_rules('bodega_codigo_bodega','Bodega','trim|xss_clean|required|callback_check_bodega');
                 $this->form_validation->set_rules('puerto_codigo_puerto','Puerto','trim|xss_clean|required|callback_check_puerto');
+                $this->form_validation->set_rules('fecha','Fecha retiro','trim|xss_clean|required|callback_check_fecha');
 
                 if($_POST['tipo_orden'] != "NACIONAL" &&  $_POST['tipo_orden'] != "OTRO SERVICIO"){
                       $this->form_validation->set_rules('destino','Destino','trim|xss_clean|required|callback_check_destino');
@@ -510,12 +528,13 @@
                     $carga              = explode('-', $this->input->post('tipo_carga_codigo_carga'));
                     $tramo              = explode('-', $this->input->post('tramo_codigo_tramo'));
                     $naviera            = explode('-', $this->input->post('naviera_codigo_naviera'));
-                    $fecha              = $this->input->post('fecha');
-                    $fecha_presentacion = $this->input->post('fecha_presentacion');
-                    $fecha              = str_replace('/','-', $fecha);
+                    
+                    $fecha              = str_replace('/','-', $this->input->post('fecha'));
                     $fecha              = date("Y-m-d H:i",strtotime($fecha));
-                    $fecha_presentacion = str_replace('/','-', $fecha_presentacion);
+                    
+                    $fecha_presentacion = str_replace('/','-', $this->input->post('fecha_presentacion'));
                     $fecha_presentacion = date("Y-m-d H:i",strtotime($fecha_presentacion));
+
                     $o_serv             = $this->input->post('codigo_Servicio');
 
                     if($o_serv === false){
@@ -554,7 +573,7 @@
                                     'set_point'                 => $this->input->post('set_point'),
                                     'fecha_presentacion'        => $fecha_presentacion,
                                     'bodega_codigo_bodega'      => trim($bodega[0]),
-                                    'destino'                   => trim($destino[0]),
+                                    'destino'                   => (trim($destino[0]) == "") ? -1 : trim($destino[0]),
                                     'puerto_codigo_puerto'      => trim($puerto[0]),
                                     'proveedor_rut_proveedor'   => $this->input->post('proveedor_rut_proveedor'),
                                     'observacion'               => $this->input->post('observacion'),
@@ -566,7 +585,7 @@
                                     'mercaderia'                =>  $this->input->post('mercaderia'),
                                     'num_servicios'             => $c_oservicio,
                                     'viaje_id_viaje'            => trim($orden_bd[0]['viaje_id_viaje']),
-                                    'tramo_codigo_tramo'        => trim($tramo[0]),
+                                    'tramo_codigo_tramo'        => (trim($tramo[0]) == "") ? -1 : trim($tramo[0]),
                                     'valor_costo_tramo'         => str_replace(".", "",$this->input->post('valor_costo_tramo')),
                                     'valor_venta_tramo'         => str_replace(".", "",$this->input->post('valor_venta_tramo')),
                                     'naviera_codigo_naviera'    => trim($naviera[0]),
@@ -600,7 +619,8 @@
                     $costo_total = $orden['valor_costo_tramo'];
                     $venta_total = $orden['valor_venta_tramo'];
 
-                    if($_POST['codigo_servicio'][0] != ''){
+                    if (isset($_POST['codigo_servicio'][0])){
+                        if($_POST['codigo_servicio'][0] != ''){
 
                             foreach ($this->input->post('codigo_servicio') as $servicio){
                                 $id_detalle                     = $this->Detalle->ultimo_codigo();
@@ -623,6 +643,7 @@
                                //guarda uno a uno los detalles.
                                $this->Detalle->guardar_detalle($detalle);
                             }
+                    }
                     }
 
                     /*   SI la orden esta facturable
@@ -1666,7 +1687,7 @@
 
             return true;
         }
-    }
+    }   
 
     function check_carga($carga){
 
@@ -1829,5 +1850,19 @@
 
 		return $lastret;
 	}
+
+    function check_fecha($fecha){
+
+        preg_match('/[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}/', $fecha, $data);
+        preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}/', $fecha, $data2);
+
+        if(count($data) > 0 || count($data2)>0)
+            return true;
+
+        $this->form_validation->set_message('check_fecha','El formato de la fecha no es correcto.');        
+        return false;
+
+
+    }
 }
 ?>

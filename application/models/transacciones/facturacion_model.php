@@ -383,8 +383,8 @@ class Facturacion_model extends CI_Model{
     function total_costo($id){
 
         $sql = $this->db->query("SELECT od_costo + det_costo as TOTAL_COSTO FROM
-                (SELECT SUM(valor_costo_tramo) as od_costo FROM orden where id_orden IN (SELECT id_orden FROM glc_sct.ordenes_facturas where id_factura = {$id} )) as od,
-                (SELECT SUM(valor_costo) as det_costo FROM detalle WHERE orden_id_orden IN (SELECT id_orden FROM glc_sct.ordenes_facturas where id_factura = {$id} )) as det");
+                (SELECT SUM(valor_costo_tramo) as od_costo FROM orden where id_orden IN (SELECT id_orden FROM ordenes_facturas where id_factura = {$id} )) as od,
+                (SELECT SUM(valor_costo) as det_costo FROM detalle WHERE orden_id_orden IN (SELECT id_orden FROM ordenes_facturas where id_factura = {$id} )) as det");
 
         return $sql->result_array();
     }

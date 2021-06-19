@@ -311,7 +311,11 @@
             <div class="control-group destino">
                 <label class="control-label" for="destino"><strong>Puerto Destino</strong></label>
                     <div class="controls">
+                        <?php if (isset($destino[0])){ ?>
                         <div class="input-append"><input type="text" class="input-xxlarge" id="destino" name="destino" value="<?php echo $destino[0]['codigo_puerto']." - ".$destino[0]['nombre']; ?>" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-destino"><i class="icon-search"></i></button></div>
+                        <?php }else{ ?>
+                        <div class="input-append"><input type="text" class="input-xxlarge" id="destino" name="destino" value="" readonly><button class="btn" type="button" data-toggle="modal" href="#modal-destino"><i class="icon-search"></i></button></div>
+                        <?php } ?>
                     </div>
             </div>
 

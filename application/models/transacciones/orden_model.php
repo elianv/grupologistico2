@@ -134,7 +134,10 @@ class Orden_model extends CI_Model{
         {
             $sql .= 'WHERE ( CAST(orden.id_orden as CHAR) like "%'.$where.'%" OR cliente.razon_social like "%'.$where.'%"  OR proveedor.razon_social like "%'.$where.'%" ) ';
             $sql .= 'AND ( orden.id_orden IS NOT NULL AND cliente.razon_social IS NOT NULL AND proveedor.razon_social IS NOT NULL )';
+            $sql .= 'AND orden.id_estado_orden in (2,3)';
         }
+        else
+            $sql .= ' WHERE orden.id_estado_orden in (2,3)';
 
         $sql .= "ORDER BY {$valor} {$order} ";
 
