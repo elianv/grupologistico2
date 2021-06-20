@@ -296,8 +296,13 @@
                         $valor_costo_tramo = NULL;
                     }
                     else{
-                        $valor_costo_tramo = str_replace(".", "",$this->input->post('valor_costo_tramo'));
-                        $valor_venta_tramo = str_replace(".", "",$this->input->post('valor_venta_tramo'));
+                        
+                        $valor_costo_tramo = $this->input->post('valor_costo_tramo');
+                        $valor_venta_tramo = $this->input->post('valor_venta_tramo');
+
+                        $valor_costo_tramo =  ($valor_costo_tramo == '' ) ? NULL : str_replace(".", "",$valor_costo_tramo);
+                        $valor_venta_tramo =  ($valor_venta_tramo == '' ) ? NULL : str_replace(".", "",$valor_venta_tramo);
+
                     }
                         
                     $orden = array(
