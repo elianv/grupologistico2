@@ -114,6 +114,9 @@ class Facturacion extends CI_Controller{
                             $fecha_factura_tramo[$i] = str_replace('/','-', $fecha_factura_tramo[$i]);
                             $fecha_factura_tramo[$i] = date("Y-m-d ",strtotime($fecha_factura_tramo[$i]));
 
+                            if($factura_tramo[$i] == '')
+                                $factura_tramo[$i] = -1;
+
                             $orden_factura = array(
                                     'factura_tramo' => $factura_tramo[$i],
                                     'fecha_factura' => $fecha_factura_tramo[$i],
