@@ -6,13 +6,13 @@
                       <div class="control-group">
                         <label class="control-label"><strong>Factura Proveedor</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large" name="factura_tramo[]" id="factura_tramo">
+                          <input type="text" class="input-large" name="factura_tramo[]" id="factura_tramo" required>
                         </div>
                       </div>  
                       <div class="control-group">
                         <label class="control-label"><strong>Fecha Factura</strong></label>
                         <div class="controls">
-                          <input type="text" class="input-large calendario" name="fecha_factura_tramo[]">
+                          <input type="text" class="input-large calendario" name="fecha_factura_tramo[]" required>
                         </div>
                       </div>                       
 
@@ -69,13 +69,13 @@
                           <div class="control-group">
                             <label class="control-label"><strong>Factura Proveedor</strong></label>
                             <div class="controls">
-                              <input type="text" class="input-large" name="factura_otros_servicios[]">
+                              <input type="text" class="input-large" name="factura_otros_servicios[]" required>
                             </div>
                           </div>    
                           <div class="control-group">
                             <label class="control-label"><strong>Fecha Factura</strong></label>
                             <div class="controls">
-                              <input type="text" class="input-large calendario" name="fecha_otros_servicios[]">
+                              <input type="text" class="input-large calendario" name="fecha_otros_servicios[]" required>
                             </div>
                           </div>  
                           <div class="control-group">
