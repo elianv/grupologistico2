@@ -25,17 +25,20 @@
 
 <?php if (isset($orden_factura[0])) { ?>
     <h6>Factura proveedor</h6>
+
+    <input type="hidden" id="ordenFactura" name="ordenFactura" value="<?php echo $orden_factura[0]['id_of'];?>" >
+
     <div class="control-group">
         <label class="control-label" ><b>Factura Proveedor</b></label>
         <div class="controls">
-            <input type="text" class="input-small" id="inputProveedor" value="<?php echo $orden_factura[0]['factura_tramo'];?>" readonly>
+            <input type="text" class="input-small" id="inputFactProveedor" value="<?php echo $orden_factura[0]['factura_tramo'];?>" name="factura_proveedor" required>
         </div>
     </div>    
 
     <div class="control-group">
         <label class="control-label" ><b>Fecha Factura Proveedor</b></label>
         <div class="controls">
-            <input type="text" class="input-medium" id="inputProveedor" value="<?php echo $orden_factura[0]['fecha_factura_tramo'];?>" readonly>
+            <input type="text" class="input-medium" id="inputFechaProveedor" value="<?php echo $orden_factura[0]['fecha_factura_tramo'];?>" name="fecha_factura_proveedor" required readonly>
         </div>
     </div>    
     <hr>
@@ -156,6 +159,14 @@
     $( document ).ready( function(){
         var cont = <?php echo $i;?>
         //console.log(cont);
+        $('#inputFechaProveedor').datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                showHour:false,                      
+                showMinute:false,
+                showTime: false,
+                dateFormat: 'dd-mm-yy'
+          });        
     function calendario(id){
             $('#inputFechaOS_'+id).datetimepicker({
                 changeMonth: true,
