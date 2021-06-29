@@ -157,8 +157,7 @@
 <script type="text/javascript">
 
     $( document ).ready( function(){
-        var cont = <?php echo $i;?>
-        //console.log(cont);
+
         $('#inputFechaProveedor').datetimepicker({
                 changeMonth: true,
                 changeYear: true,
