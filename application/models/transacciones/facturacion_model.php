@@ -26,7 +26,7 @@ class Facturacion_model extends CI_Model{
         $this->db->insert('factura', $factura);
         $insert_id = $this->db->insert_id();
 
-   return  $insert_id;
+        return  $insert_id;
     }
 
     function insertar_orden_facturacion($orden){
@@ -204,7 +204,7 @@ class Facturacion_model extends CI_Model{
     function getOrdenFacturaByOrden($orden)
     {
     	$sql = "SELECT
-                    COALESCE(_of.id,'SIN DATOS') id,
+                    COALESCE(_of.id,'SIN DATOS') id_of,
                     COALESCE(_of.id_factura,'SIN DATOS') id_factura,
                     COALESCE(_of.id_orden,'SIN DATOS') id_orden,
                     COALESCE(_of.factura_tramo,'SIN DATOS') factura_tramo,
@@ -409,6 +409,15 @@ class Facturacion_model extends CI_Model{
         $query = $this->db->get('web_service');
 
         return $query->result();
+    }
+
+    function actualizar_ordenesFacturas($orden_factura,$id){
+
+        $this->db->where('id', $id);
+        $this->db->update('ordenes_facturas', $orden_factura);
+        
+        return $this->db->affected_rows();
+
     }
 
 }

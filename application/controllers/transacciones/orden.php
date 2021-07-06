@@ -929,38 +929,52 @@
                                   );
                 $this->Orden_model->editar_orden($data, $this->input->post('inputOrden_'));
 
+                $id_of = $this->input->post('ordenFactura');
+                $factura_tramo = $this->input->post('factura_proveedor');
+                $fecha_factura = $this->input->post('fecha_factura_proveedor');
+                $fecha_factura = new DateTime($fecha_factura);
+                
+                $ordenes_facturas = array(
+                    'fecha_factura' => (string)$fecha_factura->format('Y-m-d'),
+                    'factura_tramo' => $factura_tramo,
+                );
+
+                $out_of = $this->Facturacion_model->actualizar_ordenesFacturas($ordenes_facturas, $id_of);
+
                 $i=0;
-                foreach ($this->input->post('inputProveedorOtroServicio_') as $key => $value) {
-                    list($proveedor, $id_servicios_orden_factura, $id_detalle, $orden, $id_ordenes_facturas) = explode('W' , $value);
-     //echo "<br>";
-     //print_r($id_servicios_orden_factura);
-                    //detalle de os
-                    $detalle = array('valor_costo' => str_replace('.', '', $_POST['inputCostoOS_'][$i] ) );
-                    $this->Detalle->editarDetalle($id_detalle,$detalle);
+                
+                $otro_os = $this->input->post('inputProveedorOtroServicio_');
+                if ($otro_os){
+                    foreach ($otro_os as $key => $value) {
+                        list($proveedor, $id_servicios_orden_factura, $id_detalle, $orden, $id_ordenes_facturas) = explode('W' , $value);
 
-                    //detalle factura
-                    $fecha = new DateTime($_POST['inputFechaOS_'][$i]);
-                    $servicios_orden_factura = array(
+                        //detalle de os
+                        $detalle = array('valor_costo' => str_replace('.', '', $_POST['inputCostoOS_'][$i] ) );
+                        $this->Detalle->editarDetalle($id_detalle,$detalle);
 
-                                                        'proveedor_rut_proveedor' => $_POST['inputProveedorOtroServicioNew_'][$i],
-                                                        'fecha_factura_servicio'  => (string)$fecha->format('Y-m-d'),
-                                                        'factura_numero_factura'  => $_POST['inputFacturaOS_'][$i],
+                        //detalle factura
+                        $fecha = new DateTime($_POST['inputFechaOS_'][$i]);
+                        $servicios_orden_factura = array(
 
-                                                    );
-                    $this->Facturacion_model->editarServiciosOrdenesFacturas($id_servicios_orden_factura,$servicios_orden_factura);
-                    //re calculo factura
+                                                            'proveedor_rut_proveedor' => $_POST['inputProveedorOtroServicioNew_'][$i],
+                                                            'fecha_factura_servicio'  => (string)$fecha->format('Y-m-d'),
+                                                            'factura_numero_factura'  => $_POST['inputFacturaOS_'][$i],
 
-                    $i++;
+                                                        );
+                        $this->Facturacion_model->editarServiciosOrdenesFacturas($id_servicios_orden_factura,$servicios_orden_factura);
+                        //re calculo factura
+
+                        $i++;
+                    }
                 }
 
                 $costo_total            = $this->Facturacion_model->total_costo($this->input->post('idFactura_'));
                 $factura['total_costo'] = $costo_total[0]['TOTAL_COSTO'];
                 $this->Facturacion_model->modificar_facturacion($factura, $this->input->post('idFactura_'));
 
-
                 $this->session->set_flashdata('mensaje','La orden '.$this->input->post('inputOrden_').' se modifico con éxito');
 
-               redirect('transacciones/orden/datosFaltantes','refresh');
+                redirect('transacciones/orden/datosFaltantes','refresh');
         }
         else{
             redirect('home','refresh');
