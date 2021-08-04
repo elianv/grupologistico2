@@ -1013,7 +1013,7 @@ class Facturacion extends CI_Controller{
 
         if($session_data['id_tipo_usuario'] == 0 && isset($session_data['id_tipo_usuario']) && $_FILES['uploadFile']['error'] == 0 ){
 
-
+            $OK = array();
             $fact = 0;
             $os = 0;
             $this->load->library('excel');
@@ -1072,20 +1072,29 @@ class Facturacion extends CI_Controller{
                             
 							if( $num_fact != "" && $num_fact != " " && strlen($num_fact) > 0 && $num_nota != "" && $num_nota != " " && strlen($num_nota) > 0 ){
 								   	
-								   	$nota = array(
-                            				'id_factura' 	 => $num_fact,
-                            				'numero_nota' 	 => $num_nota,
-                            				'monto'			 => $monto,
-                            				'fecha'			 => $fecha,
-                            				'codigo_sistema' => $codigo_sistema
-                            			);
-                                    error_log(print_r($nota,true));
+                                $id_nc = $this->notas_credito_model->getNC($num_nota, $num_fact, $codigo_sistema );  
+                                
+                                $nota = array(
+                                    'id_factura' 	 => $num_fact,
+                                    'numero_nota' 	 => $num_nota,
+                                    'monto'			 => $monto,
+                                    'fecha'			 => $fecha,
+                                    'codigo_sistema' => $codigo_sistema
+                                );
+
+                                if (count($id_nc) > 0){
+                                    $result = $this->notas_credito_model->updateNC($id_nc[0]['id_nc'], $nota);
+                                }
+                                else{
+
+                                    //error_log(print_r($nota,true));
 								   	
                             		$result = $this->notas_credito_model->insertar_nc($nota);
+                                }
                             		
-                            		if ($result){
-                            			$OK[$objPHPExcel->getActiveSheet()->getCell('F'.$i)->getFormattedValue()] = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getFormattedValue();
-                            		}
+                                if ($result){
+                                    $OK[$objPHPExcel->getActiveSheet()->getCell('F'.$i)->getFormattedValue()] = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getFormattedValue();
+                                }
 							}
 
 
