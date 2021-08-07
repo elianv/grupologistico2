@@ -25,12 +25,13 @@ class notas_credito extends CI_Controller{
                 $output = $this->input->post('salida');
 
                 $this->load->library('form_validation');
+                $this->form_validation->set_rules('salida', 'Formato salida','trim|required|xss_clean');
                 if ($fechas == 'rango'){
                     $this->form_validation->set_rules('desde', 'Fecha desde','trim|required|xss_clean');
                     $this->form_validation->set_rules('hasta', 'Fecha hasta','trim|required|xss_clean');
                 }
 
-                if(!$this->form_validation->run()){
+                if($this->form_validation->run() == TRUE){
                                         
                     if ($output == 'excel'){
                         $out = $this->informe_nc($desde, $hasta);
