@@ -345,26 +345,34 @@ class Facturacion_model extends CI_Model{
 
 
     function detalleTotalByOrden($id_orden){
-        $sql = $this->db->query("SELECT
-                                    servicios_orden_factura.*,
-                                    tx.*,
-                                    proveedor.razon_social
+        $sql = $this->db->query("select
+                                sof.*,
+                                tx.*,
+                                proveedor.razon_social
+                            from
+                                ordenes_facturas of2,
+                                servicios_orden_factura sof,
+                                proveedor,
+                                (
+                                SELECT
+                                    det2.*,
+                                    ser.descripcion
                                 FROM
-                                    servicios_orden_factura,
-                                    (SELECT
-                                        det2 . *, ser.descripcion
-                                    FROM
-                                        detalle det2, (SELECT
-                                        ser.codigo_servicio, ser.descripcion
+                                    detalle det2,
+                                    (
+                                    SELECT
+                                        ser.codigo_servicio,
+                                        ser.descripcion
                                     FROM
                                         servicio ser) ser
-                                    where
-                                        ser.codigo_servicio = det2.servicio_codigo_servicio) as tx,
-                                    proveedor
-                                WHERE
-                                    tx.orden_id_orden = {$id_orden}
-                                AND detalle_id_detalle = tx.id_detalle
-                                AND proveedor.rut_proveedor = servicios_orden_factura.proveedor_rut_proveedor;");
+                                where
+                                    ser.codigo_servicio = det2.servicio_codigo_servicio
+                                    and det2.orden_id_orden = {$id_orden}) as tx
+                            where
+                                of2.id_orden = {$id_orden}
+                                and of2.id = sof.id_ordenes_facturas
+                                and tx.id_detalle = sof.detalle_id_detalle
+                                AND proveedor.rut_proveedor = sof.proveedor_rut_proveedor");
 
         return $sql->result_array();
     }

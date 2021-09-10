@@ -111,6 +111,26 @@ class notas_credito_model extends CI_Model{
         return $query->result_array();
     }
 
+    function getNC($n_nc, $n_fac,$cod_sis){
+        $this->db->select("id_nc");
+        $this->db->from("notas_credito");
+        $this->db->where("id_factura",$n_fac);
+        $this->db->where("numero_nota",$n_nc);
+        $this->db->where("codigo_sistema",$cod_sis);
+
+        $result = $this->db->get();
+        //var_dump( $this->db->last_query() );
+		return $result->result_array();
+
+    }
+
+    function updateNC($id, $data){
+        $this->db->where("id_nc", $id);
+        $this->db->update("notas_credito",$data);
+        var_dump( $this->db->last_query() );
+        return $this->db->affected_rows();
+    }
+
     function GetNotas($desde=NULL, $hasta=NULL){
 
         $this->db->select("nc.numero_nota,
