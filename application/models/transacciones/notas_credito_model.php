@@ -127,7 +127,7 @@ class notas_credito_model extends CI_Model{
     function updateNC($id, $data){
         $this->db->where("id_nc", $id);
         $this->db->update("notas_credito",$data);
-        var_dump( $this->db->last_query() );
+        //var_dump( $this->db->last_query() );
         return $this->db->affected_rows();
     }
 
