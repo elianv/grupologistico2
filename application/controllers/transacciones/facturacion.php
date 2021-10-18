@@ -996,7 +996,7 @@ class Facturacion extends CI_Controller{
 
     function sincronizar(){
         $session_data = $this->session->userdata('logged_in');
-        if($session_data['id_tipo_usuario'] == 0 && isset($session_data['id_tipo_usuario']) ){
+        if(in_array($session_data['id_tipo_usuario'],[0,1]) && isset($session_data['id_tipo_usuario']) ){
 			      $data['opc'] = 0;
             $this->load->view('include/head',$session_data);
             $this->load->view('transaccion/facturacion/sincronizar',$data);

@@ -87,7 +87,7 @@ class Usuarios extends CI_Controller{
             $this->load->library('form_validation');
             $this->form_validation->set_rules('nombre', 'Nombre','trim|required|xss_clean');
             $this->form_validation->set_rules('clave', 'Clave','trim|required|xss_clean');
-			$this->form_validation->set_rules('rut_usuario', 'rut_usuario','trim|required|xss_clean');
+			$this->form_validation->set_rules('rut_usuario', 'rut_usuario','trim|required|xss_clean|callback_valida_rut');
 
             // si validacion incorrecta
             if($this->form_validation->run() == FALSE){
@@ -186,6 +186,35 @@ class Usuarios extends CI_Controller{
         
     }
      
+    function valida_rut($rut)
+    {
+        $rut = preg_replace('/[^k0-9]/i', '', $rut);
+        $dv  = substr($rut, -1);
+        $numero = substr($rut, 0, strlen($rut)-1);
+        $i = 2;
+        $suma = 0;
+        foreach(array_reverse(str_split($numero)) as $v)
+        {
+            if($i==8)
+                $i = 2;
+    
+            $suma += $v * $i;
+            ++$i;
+        }
+    
+        $dvr = 11 - ($suma % 11);
+        
+        if($dvr == 11)
+            $dvr = 0;
+        if($dvr == 10)
+            $dvr = 'K';
+    
+        if($dvr != strtoupper($dv)){
+            $this->form_validation->set_message('valida_rut','RUT ingresado no es válido.');
+            return false;
+        }
+    }
+
 }
 
 ?>
