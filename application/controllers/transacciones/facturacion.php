@@ -1011,7 +1011,7 @@ class Facturacion extends CI_Controller{
 
         $session_data = $this->session->userdata('logged_in');
 
-        if($session_data['id_tipo_usuario'] == 0 && isset($session_data['id_tipo_usuario']) && $_FILES['uploadFile']['error'] == 0 ){
+        if(in_array($session_data['id_tipo_usuario'],[0,1]) && isset($session_data['id_tipo_usuario']) && $_FILES['uploadFile']['error'] == 0 ){
 
             $OK = array();
             $fact = 0;
