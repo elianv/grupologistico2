@@ -110,6 +110,17 @@ class Orden_model extends CI_Model{
     function getOrden($desde,$limit,$where=null,$order=null,$by=null,$count=0,$opc = 0)
     {
 
+        $orden_status = array(
+            0 => '1,2,3',
+            1 => '1',
+            2 => '2',   
+            3 => '3',
+            4 => '2,3'
+
+        );
+
+        $in = $orden_status[$opc];
+
         switch ($by) {
             case 0:
                 $valor = 'orden.id_orden';
@@ -134,10 +145,73 @@ class Orden_model extends CI_Model{
         {
             $sql .= 'WHERE ( CAST(orden.id_orden as CHAR) like "%'.$where.'%" OR cliente.razon_social like "%'.$where.'%"  OR proveedor.razon_social like "%'.$where.'%" ) ';
             $sql .= 'AND ( orden.id_orden IS NOT NULL AND cliente.razon_social IS NOT NULL AND proveedor.razon_social IS NOT NULL )';
-            $sql .= 'AND orden.id_estado_orden in (2,3)';
+            $sql .= "AND orden.id_estado_orden in ({$in})";
         }
         else
-            $sql .= ' WHERE orden.id_estado_orden in (2,3)';
+            $sql .= " WHERE orden.id_estado_orden in ({$in})";
+
+        $sql .= "ORDER BY {$valor} {$order} ";
+
+        if(!$count)
+            $sql .= "limit  {$desde}, {$limit} ";
+
+        $query = $this->db->query($sql);
+
+        //var_dump($this->db->last_query());
+        if(!$count){
+            return $query->result_array();
+        }
+
+        else
+            return $query->num_rows();
+    }
+
+    function getOrdenes_check($desde,$limit,$where=null,$order=null,$by=null,$count=0,$opc = 0)
+    {
+
+        $orden_status = array(
+            0 => '1,2,3',
+            1 => '1',
+            2 => '2',   
+            3 => '3',
+            4 => '2,3'
+
+        );
+
+        $in = $orden_status[$opc];
+
+        switch ($by) {
+            case 0:
+                $valor = 'orden.id_orden';
+            break;
+            case 1:
+                $valor = 'proveedor.razon_social';
+            break;
+            case 2:
+                $valor = 'cliente.razon_social';
+            break;
+        }
+
+        $sql = "SELECT 
+                orden.id_orden as id, 
+                COALESCE(proveedor.razon_social, 'S/P') as proveedor,
+                COALESCE(cliente.razon_social, 'S/C') as cliente";
+                
+        $sql .= "
+            FROM
+                orden
+                    left join
+                proveedor ON orden.proveedor_rut_proveedor = proveedor.rut_proveedor
+                    left join
+                cliente ON cliente.rut_cliente = orden.cliente_rut_cliente ";
+        if($where)
+        {
+            $sql .= 'WHERE ( CAST(orden.id_orden as CHAR) like "%'.$where.'%" OR cliente.razon_social like "%'.$where.'%"  OR proveedor.razon_social like "%'.$where.'%" ) ';
+            $sql .= 'AND ( orden.id_orden IS NOT NULL AND cliente.razon_social IS NOT NULL AND proveedor.razon_social IS NOT NULL )';
+            $sql .= "AND orden.id_estado_orden in ({$in})";
+        }
+        else
+            $sql .= " WHERE orden.id_estado_orden in ({$in})";
 
         $sql .= "ORDER BY {$valor} {$order} ";
 
@@ -182,6 +256,16 @@ class Orden_model extends CI_Model{
     {
         $this->db->select('*');
         $this->db->from('estado_orden');
+
+        $result = $this->db->get();
+
+        return $result->result_array();
+    }
+
+    function ordenes(){
+        $this->db->select('*');
+        $this->db->from('ordenes');
+        $this->db->where('id_estado_orden', 1);
 
         $result = $this->db->get();
 

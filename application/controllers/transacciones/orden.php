@@ -1558,6 +1558,25 @@
         }
     }
 
+    function cerrar_orden(){
+
+        if($this->session->userdata('logged_in')){
+            $session_data   = $this->session->userdata('logged_in');
+            
+            $this->load->library('form_validation');
+            
+            $data = array();
+
+            $this->load->view('include/head', $session_data);
+            $this->load->view('transaccion/orden/cerrar_orden',$data);
+            $this->load->view('include/tables');
+            $this->load->view('include/script');                
+        }
+        else
+            redirect('home','refresh');
+    }
+
+
     function check_cliente($rut){
 
         $result = $this->Clientes_model->existe_rut($rut);

@@ -56,6 +56,7 @@
 	                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/datosFaltantes>Ingresar Costos</a></li>
 
                                 <?php } ?>
+								<li><a href=<?php echo base_url();?>index.php/transacciones/orden/cerrar_orden>Cerrar O.S.</a></li>
 							</ul>
 						</li>
 
