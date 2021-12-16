@@ -24,6 +24,9 @@
         $this->load->model('mantencion/Navieras_model');
         $this->load->helper('ormhelper');
         date_default_timezone_set('America/Santiago');
+
+        $this->load->library('Data_tables');
+        $this->dtOS = new Data_tables();
     }
 
     function index(){
@@ -1089,22 +1092,6 @@
         }
     }
     
-
-    /*
-    function orden_auto_clienteAjax(){
-        if($this->session->userdata('logged_in') && isset($_POST['cliente'])){
-
-        }
-        else{
-            $data['error'] = True;
-            $data['mensaje'] = 'Cliente con el cliente.';
-
-            $this->output->set_content_type('application/json');
-            $this->output->set_output(json_encode($data));
-        }
-    }
-
-*/
     function pdf($id = null){
         $orden = $this->Orden_model->get_orden($id);
 
@@ -1556,6 +1543,75 @@
 
             $this->pdf->Output("Orden_de_Servicio_".$id.".pdf", 'I');
         }
+    }
+
+    function cerrar_orden(){
+
+        if($this->session->userdata('logged_in')){
+            $session_data   = $this->session->userdata('logged_in');
+            $data = array();
+            $data['result'] = False;
+            
+            if ($this->input->server('REQUEST_METHOD') === 'POST'){
+                $this->load->library('form_validation');
+
+                $desde = $this->input->post('desde');
+                $hasta = $this->input->post('hasta');
+                $this->form_validation->set_rules('desde', 'Fecha desde','trim|required|xss_clean');
+                $this->form_validation->set_rules('hasta', 'Fecha hasta','trim|required|xss_clean');
+                
+                if($this->form_validation->run() == TRUE){
+
+                    if ($fechas = 'rango'){
+                        $ajax_url = 'transacciones/orden/cerrar_orden_ajax/'.$desde.'/'.$hasta;
+                    }
+                    else
+                        $ajax_url = 'transacciones/orden/cerrar_orden_ajax';
+
+                    $params = array('titulos'   => array('N° OS','Cliente','Proovedor',''),
+                                    'titulo'    => 'Ordenes por facturar',
+                                    'columns'   => array('Numero','Rut Cliente','Razon social','Monto','Factura','Codigo sistema','Fecha'),
+                                    'clase'     => 'os_facturables',
+                                    'ajax'      => $ajax_url,
+                                    'botones'   => null,
+                                    'vista'     => 'tabla',
+                                    );
+        
+                    $this->dtOS->setData($params);
+        
+                    $data['ordenes'] = $this->dtOS->render();
+                    $data['result'] = True;
+                }
+            }   
+            
+
+            $this->load->view('include/head', $session_data);
+            $this->load->view('transaccion/orden/cerrar_orden',$data);
+            $this->load->view('include/tables');
+            $this->load->view('include/script');                
+        }
+        else
+            redirect('home','refresh');
+    }
+
+    function cerrar_orden_ajax($desde=NULL,$hasta=NULL ){
+
+        if($this->session->userdata('logged_in')){
+            $data_post = $_POST;
+
+            if (!is_null($desde)  && !is_null($hasta)){
+                $opc['desde'] = $desde;
+                $opc['hasta'] = $hasta;
+                $opc['operador'] = ' AND ';
+                $datos = $this->dtOS->dTables_ajax('transacciones','notas_credito_model','getData',$data_post, $opc);
+            }
+            else
+                $datos = $this->dtNota->dTables_ajax('transacciones','notas_credito_model','getData',$data_post);
+            
+            echo json_encode($datos);
+        }
+        else
+            echo json_encode(array('response'=>'error'));
     }
 
     function check_cliente($rut){

@@ -110,6 +110,17 @@ class Orden_model extends CI_Model{
     function getOrden($desde,$limit,$where=null,$order=null,$by=null,$count=0,$opc = 0)
     {
 
+        $orden_status = array(
+            0 => '2,3',
+            1 => '1',
+            2 => '2',   
+            3 => '3',
+            4 => '1,2,3'
+
+        );
+
+        $in = $orden_status[$opc];
+
         switch ($by) {
             case 0:
                 $valor = 'orden.id_orden';
@@ -134,10 +145,10 @@ class Orden_model extends CI_Model{
         {
             $sql .= 'WHERE ( CAST(orden.id_orden as CHAR) like "%'.$where.'%" OR cliente.razon_social like "%'.$where.'%"  OR proveedor.razon_social like "%'.$where.'%" ) ';
             $sql .= 'AND ( orden.id_orden IS NOT NULL AND cliente.razon_social IS NOT NULL AND proveedor.razon_social IS NOT NULL )';
-            $sql .= 'AND orden.id_estado_orden in (2,3)';
+            $sql .= "AND orden.id_estado_orden in ({$in})";
         }
         else
-            $sql .= ' WHERE orden.id_estado_orden in (2,3)';
+            $sql .= " WHERE orden.id_estado_orden in ({$in})";
 
         $sql .= "ORDER BY {$valor} {$order} ";
 

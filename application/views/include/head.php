@@ -50,12 +50,14 @@
 								<li><a href=<?php echo base_url();?>index.php/transacciones/orden>Crear O.S.</a></li>
                                 <li><a href=<?php echo base_url();?>index.php/transacciones/orden/editar_orden>Editar, Imprimir O.S.</a></li>
                                 <li><a href=<?php echo base_url();?>index.php/transacciones/orden/orden_auto>Crear O.S. desde archivo</a></li>
+								<li><a href=<?php echo base_url();?>index.php/transacciones/orden/cerrar_orden>Cerrar O.S.</a></li>
                                 <?php if($id_tipo_usuario == 0 || $id_tipo_usuario == 1 || $id_tipo_usuario == 4) { ?>
 
 	                                <li class="divider"></li>
 	                                <li><a href=<?php echo base_url();?>index.php/transacciones/orden/datosFaltantes>Ingresar Costos</a></li>
 
                                 <?php } ?>
+								
 							</ul>
 						</li>
 
