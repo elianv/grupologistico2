@@ -116,7 +116,6 @@ class Orden_model extends CI_Model{
             2 => '2',   
             3 => '3',
             4 => '1,2,3'
-
         );
 
         $in = $orden_status[$opc];
@@ -193,6 +192,16 @@ class Orden_model extends CI_Model{
     {
         $this->db->select('*');
         $this->db->from('estado_orden');
+
+        $result = $this->db->get();
+
+        return $result->result_array();
+    }
+
+    function ordenes(){
+        $this->db->select('*');
+        $this->db->from('ordenes');
+        $this->db->where('id_estado_orden', 1);
 
         $result = $this->db->get();
 
