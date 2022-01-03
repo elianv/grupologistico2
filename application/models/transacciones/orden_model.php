@@ -31,6 +31,7 @@ class Orden_model extends CI_Model{
     function editar_orden($orden,$id_orden){
         $this->db->where('id_orden', $id_orden);
         $this->db->update('orden', $orden);
+        //var_dump($this->db->last_query());
     }
 
     function existe_orden($orden){
@@ -239,15 +240,17 @@ class Orden_model extends CI_Model{
 
         $sql = "
             SELECT 
-                numero_factura as n_factura,
+                factura.id as nota_venta,
                 fecha,
-                CONCAT(\"<input onclick=check_fact(\",factura.id,\") data-fact=\",factura.id,\" type='radio' name='facturas' value=\", factura.id, \">\") as checks
+                CONCAT(\"<a class='codigo-click' onclick='datos( \", of2.id_orden ,\"  )' data-codigo=' \", of2.id_orden  ,\" ' >  \", of2.id_orden , \" </a> \" ) id_orden,
+                CONCAT(\"<input onclick=check_fact(\",factura.id,\",\",of2.id_orden , \") data-fact=\",factura.id,\" type='radio' name='facturas' value=\", factura.id, \">\") as checks
             FROM 
                 factura
+            INNER JOIN ordenes_facturas of2 ON of2.id_factura = factura.id
             WHERE
-                numero_factura like '%{$where}%'
-                OR fecha like '%{$where}%'
-                AND numero_factura IS NOT NULL ";
+                (factura.id like '%{$where}%'
+                OR fecha like '%{$where}%')
+                AND numero_factura IS NULL ";
 
         $sql .= " ORDER BY {$valor} {$order} ";
 

@@ -1554,16 +1554,7 @@
             
             if ($this->input->server('REQUEST_METHOD') === 'GET'){
 
-                $ajax_url = "cerrar_orden_ajax";
                 $ajax_url_facturas = "get_facturas_ajax";
-
-                $botones_os = array(
-                    0 => array(
-                        'tipo'  => 'btn btn-primary',
-                        'id'    => 'sel_modal_os',
-                        'texto' => 'Seleccionar',
-                    )
-                ); 
 
                 $botones_fact = array(
                     0 => array(
@@ -1573,28 +1564,17 @@
                     )
                 ); 
 
-                $params = array('titulos'   => array('N° OS','Cliente','Proovedor','Seleccionar'),
-                                'titulo'    => 'Seleccione una orden para facturar',
-                                'columns'   => array('id','cliente','proveedor', 'checks'),
-                                'clase'     => 'os_facturables',
-                                'ajax'      => $ajax_url,
-                                'botones'   => $botones_os,
-                                'vista'     => 'tabla_modal',
-                                );
-
-                $params_fact = array('titulos'   => array('Num factura','Fecha','check'),
+                $params_fact = array('titulos'   => array('Nota venta','Fecha', 'Orden asociada','check'),
                         'titulo'    => 'Seleccione la factura a asociar',
-                        'columns'   => array('n_factura','fecha','checks'),
+                        'columns'   => array('nota_venta','fecha','id_orden','checks'),
                         'clase'     => 'facturas_os',
                         'ajax'      => $ajax_url_facturas,
                         'botones'   => $botones_fact,
                         'vista'     => 'tabla_modal',
                         );
     
-                $this->dtOS->setData($params);
                 $this->data_table->setData($params_fact);
                 
-                $data['ordenes'] = $this->dtOS->render();
                 $data['fact']    = $this->data_table->render();
             }   
 
@@ -1607,45 +1587,24 @@
             redirect('home','refresh');
     }
 
-    function cerrar_orden_ajax(){
-
-        if($this->session->userdata('logged_in')){
-            $data_post = $_POST;
-            $opc['in'] = '2';
-            $datos = $this->dtOS->dTables_ajax('transacciones','orden_model','dtGetOrden',$data_post, $opc);
-            
-            echo json_encode($datos);
-        }
-        else
-            echo json_encode(array('response'=>'error'));
-    }
-
     function send_cerraros_ajax(){
         
         if($this->session->userdata('logged_in') && $this->input->server('REQUEST_METHOD') == 'POST'){
 
-            $fact       = $this->input->post('fact');
-            $orden      = $this->input->post('os');
-            $fact_prove = $this->input->post('fac_prove');
-            $fecha      = $this->input->post('fecha');
+            $fact_manager  = $this->input->post('fact_manager');
+            $fact_sct      = $this->input->post('fact_sct');
+            $id_orden      = $this->input->post('orden');
 
-            $data_factura = $this->Facturacion_model->datos_factura($fact);
 
-            $fecha = date("Y-m-d ",strtotime($fecha));
+            $fact = array('numero_factura' => $fact_manager);
+            $fact_os = $this->Facturacion_model->modificar_facturacion($fact, $fact_sct);
 
-            $orden_factura = array(
-                'factura_tramo' => $fact_prove,
-                'fecha_factura' => $fecha,
-                'id_factura'    => $data_factura[0]['id'],
-                'id_orden'      => $orden
-            );
 
             $estado_orden = array('id_estado_orden' => 3); 
-            $this->Orden_model->editar_orden($estado_orden,$orden);
 
-            $this->Facturacion_model->insertar_orden_facturacion($orden_factura);
+            $this->Orden_model->editar_orden($estado_orden,$id_orden);
 
-            $response = array('OK' => 'OK CARGADO');
+            $response = array('OK' => 'ASOCIACION CORRECTA');
             $code = 200;
 
         }

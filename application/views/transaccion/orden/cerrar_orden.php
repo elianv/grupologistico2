@@ -30,21 +30,11 @@
         <div class="row">
             <div class="span6">
                 <div class="control-group input-append">
-                    <label class="control-label"><strong>N° Factura</strong></label>
+                    <label class="control-label"><strong>N° Factura SCT</strong></label>
                     <div class="controls">
-                        <input class="input-medium" type="text" id="num_factura" name="num_factura" value="<?php echo set_value('num_factura'); ?>" readonly>
+                        <input class="input-medium" type="text" id="fact_sct" name="fact_sct" value="<?php echo set_value('num_factura'); ?>" readonly>
                         <span class="add-omn">
                             <a class="btn" id="modal-fact"><i class="icon-search"></i></a>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="control-group input-append">
-                    <label class="control-label"><strong>Orden</strong></label>
-                    <div class="controls">
-                        <input class="input-medium" type="text" id="ordenes" name="ordenes" readonly>
-                        <span class="add-omn">
-                            <a class="btn" id="modal-os"><i class="icon-search"></i></a>
                         </span>
                     </div>
                 </div>
@@ -52,23 +42,16 @@
 
             <div class="span6">
                 <div class="control-group">
-                    <label class="control-label"><strong>Factura proveedor</strong></label>
-                    <div class="controls">
-                        <input class="input-medium" type="text" id="factura_proveedor" name="factura_proveedor">
-                    </div>
-                </div>   
-                
-                <div class="control-group">
-                    <label class="control-label"><strong>Fecha factura</strong></label>
-                    <div class="controls">
-                        <input class="input-medium" type="text" id="fecha_factura" name="fecha_factura" readonly>
-                    </div>
-                </div>   
+                        <label class="control-label"><strong>Factura Manager</strong></label>
+                        <div class="controls">
+                            <input class="input-medium" type="text" id="fact_manager" name="fact_manager">
+                        </div>
+                </div>
             </div>  
         </div>
-
+        <input class="input-medium" type="hidden" id="orden" name="orden">
         <div class="form-actions">
-            <a id="facturar" class="btn btn-success">Facturar</a>
+            <a id="facturar" class="btn btn-success">Guardar</a>
         </div>
 
     </form>
@@ -77,78 +60,39 @@
 </div>
 
 <?php echo $fact['table']; ?>
-<?php echo $ordenes['table']; ?>
 
 <script>
     $( document ).ready(function() {
         
-        $("#sel_modal_os").click(function(e){
-            $("#myModal_os_facturables").modal('toggle');
-        });
-
         $("#sel_modal_fact").click(function(e){
             $("#myModal_facturas_os").modal('toggle');
         });        
 
         $("#modal-fact").click(function(e){
-
-            /*
-            $.ajax({
-				type:'post',
-				url:'<?php echo base_url('index.php/transacciones/orden/get_facturas_ajax');?>',
-				success: function(response){
-					console.log(response);
-				},
-                error: function(jqXHR, textStatus, errorThrown){
-                    console.log(jqXHR);
-                    $("#modalBody").html(jqXHR.responseJSON.ERROR);
-                    $("#modalHeader").html("ERROR");
-                    $('#myModal').modal()
-                  
-                }
-    	    });
-            */
             $('#myModal_facturas_os').modal();
         })
-
-        $("#modal-os").click(function(e){
-            $('#myModal_os_facturables').modal();
-        });        
-        
-        $('#fecha_factura').datepicker({
-                        changeMonth: true,
-                        changeYear: true,
-                        showHour:false,
-                        showMinute:false,
-                        showTime: false,
-                        dateFormat: 'dd-mm-yy'
-        });    
 
         $('#facturar').click(function(e){
             e.preventDefault();
             console.log('form search');
-            var nfactura = $('#num_factura').val();
-            var ordenes = $('#ordenes').val();
-            var fecha = $("#fecha_factura").val();
-            var fac_prove = $("#factura_proveedor").val();
+            var fact_sct = $('#fact_sct').val();
+            var fact_manager = $('#fact_manager').val();
+            var orden = $('#orden').val();
             
-            if (nfactura == ''){
-                $("#modalBody").html("Debe ingresar un número de factura");
+            if (fact_sct == ''){
+                $("#modalBody").html("Debe seleccionar la factura SCT");
                 $("#modalHeader").html("ERROR");
                 $('#myModal').modal()
             }
-            if (ordenes == ''){
-                $("#modalBody").html("Debe seleccionar ordenes");
+
+            if (fact_manager == ''){
+                $("#modalBody").html("Debe ingresar la factura de MANAGER");
                 $("#modalHeader").html("ERROR");
                 $('#myModal').modal()
             }
-            if (fac_prove == ''){
-                $("#modalBody").html("Debe ingresar Factura proveedor");
-                $("#modalHeader").html("ERROR");
-                $('#myModal').modal()
-            }
-            if (fecha == ''){
-                $("#modalBody").html("Debe seleccionar una fecha");
+
+            if (orden == ''){
+                $("#modalBody").html("ERROR INTERNO");
                 $("#modalHeader").html("ERROR");
                 $('#myModal').modal()
             }
@@ -157,42 +101,37 @@
 				type:'post',
 				url:'<?php echo base_url('index.php/transacciones/orden/send_cerraros_ajax');?>',
 				dataType: 'json',
-				data: { os : ordenes, fact: nfactura, fecha: fecha, fac_prove: fac_prove},
+				data: { fact_sct: fact_sct, fact_manager: fact_manager, orden: orden},
 				success: function(response){
                     console.log("success");
 					console.log(response);
-                    $('#num_factura').val('');
-                    $('#ordenes').val('');
-                    $("#fecha_factura").val('');
-                    $("#factura_proveedor").val('');
+                    $('#fact_sct').val('');
+                    $('#fact_manager').val('');
                     $("#modalBody").html("Orden facturada con éxito");
                     $("#modalHeader").html("Operación completada");
                     $('#myModal').modal()
-                    $('#tabla-os_facturables').DataTable().ajax.reload();
+                    $('#tabla-facturas_os').DataTable().ajax.reload();
 				},
                 error: function(jqXHR, textStatus, errorThrown){
-                    console.log(jqXHR);
                     $("#modalBody").html(jqXHR.responseJSON.ERROR);
                     $("#modalHeader").html("ERROR");
                     $('#myModal').modal()
-                  
+                    $('#orden').val('');
                 }
     	    }); 
 
         });
 
-        <?php if(isset($ordenes['js'])) echo $ordenes['js']; ?>
         <?php if(isset($fact['js'])) echo $fact['js']; ?>
     });
     function datos(dato){
         window.open("<?php echo base_url('index.php/transacciones/orden/pdf/');?>/" + dato , "_blank")
     }
 
-    function checkeable(id){
-        $("#ordenes").val(id);
-    } 
-    function check_fact(id){
-        $("#num_factura").val(id);
+    function check_fact(id,id_orden){
+        $("#fact_sct").val(id);
+        $("#orden").val(id_orden);
+
     }
 
 </script>
