@@ -32,18 +32,24 @@ class Data_tables
 		$this->vista	= (isset($params['vista'])) ? $params['vista'] : '';
 	}
 
-	function render(){
+	function render($otro_js = NULL){
 
 		$datos = array('titulos' 	=> $this->titulos,
 						'titulo' 	=> $this->titulo,
 						'clase'		=> $this->clase,
-						'botones'	=> $this->botones
+						'botones'	=> $this->botones,
 					);
 		if ($this->vista == 'tabla_modal')
+
 			$view['table'] = $this->CI->load->view('obj/table_modal',$datos,true);
 		else
 			$view['table'] = $this->CI->load->view('obj/data_tables',$datos,true);
+		
 		$view['js'] = $this->ajax_tabla();
+
+		if(!is_null($otro_js)){
+			$view['otro_js'] = $this->CI->load->view($otro_js, $datos,true);
+		}
 		return $view;
 	}
 	
@@ -76,7 +82,7 @@ class Data_tables
 
                 $this->CI->load->model($ruta_model.'/'.$nombre_model);
                 
-                $total = $this->CI->$nombre_model->$function($inicio, $cantidad,$where,$order,$by,1);
+                $total = $this->CI->$nombre_model->$function($inicio, $cantidad,$where,$order,$by,1, $opc);
 
                 $data['draw']              = $POST['draw'];
                 $data['recordsTotal']      = $total;

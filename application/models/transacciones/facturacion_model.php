@@ -46,9 +46,11 @@ class Facturacion_model extends CI_Model{
     function modificar_facturacion($factura,$id){
         $this->db->where('id', $id);
         if($this->db->update('factura', $factura)){
+            //var_dump($this->db->last_query());
             return true;
         }
         else{
+            //var_dump($this->db->last_query());
             return false;
         }
 
