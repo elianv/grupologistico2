@@ -1041,7 +1041,7 @@
                 $data['draw']              = $_GET['draw'];
                 $data['recordsTotal']      = $total;
                 $data['recordsFiltered']   = $total;
-                $data['data']              = $this->Orden_model->getOrden($inicio, $cantidad,$where,$order,$by,0,1);
+                $data['data']              = $this->Orden_model->getOrden($inicio, $cantidad,$where,$order,$by,0,0);
                 echo json_encode($data);
         }
         else{
