@@ -27,6 +27,7 @@
 
         $this->load->library('Data_tables');
         $this->dtOS = new Data_tables();
+        $this->data_table = new Data_tables();
     }
 
     function index(){
@@ -1550,63 +1551,88 @@
         if($this->session->userdata('logged_in')){
             $session_data   = $this->session->userdata('logged_in');
             $data = array();
-            $data['result'] = False;
             
-            if ($this->input->server('REQUEST_METHOD') === 'POST'){
-                $this->load->library('form_validation');
+            if ($this->input->server('REQUEST_METHOD') === 'GET'){
 
-                $desde = $this->input->post('desde');
-                $hasta = $this->input->post('hasta');
-                $this->form_validation->set_rules('desde', 'Fecha desde','trim|required|xss_clean');
-                $this->form_validation->set_rules('hasta', 'Fecha hasta','trim|required|xss_clean');
+                $ajax_url_facturas = "get_facturas_ajax";
+
+                $botones_fact = array(
+                    0 => array(
+                        'tipo'  => 'btn btn-primary',
+                        'id'    => 'sel_modal_fact',
+                        'texto' => 'Seleccionar',
+                    )
+                ); 
+
+                $params_fact = array('titulos'   => array('Nota venta','Fecha', 'Orden asociada','check'),
+                        'titulo'    => 'Seleccione la factura a asociar',
+                        'columns'   => array('nota_venta','fecha','id_orden','checks'),
+                        'clase'     => 'facturas_os',
+                        'ajax'      => $ajax_url_facturas,
+                        'botones'   => $botones_fact,
+                        'vista'     => 'tabla_modal',
+                        );
+    
+                $this->data_table->setData($params_fact);
                 
-                if($this->form_validation->run() == TRUE){
-
-                    if ($fechas = 'rango'){
-                        $ajax_url = 'transacciones/orden/cerrar_orden_ajax/'.$desde.'/'.$hasta;
-                    }
-                    else
-                        $ajax_url = 'transacciones/orden/cerrar_orden_ajax';
-
-                    $params = array('titulos'   => array('N° OS','Cliente','Proovedor',''),
-                                    'titulo'    => 'Ordenes por facturar',
-                                    'columns'   => array('Numero','Rut Cliente','Razon social','Monto','Factura','Codigo sistema','Fecha'),
-                                    'clase'     => 'os_facturables',
-                                    'ajax'      => $ajax_url,
-                                    'botones'   => null,
-                                    'vista'     => 'tabla',
-                                    );
-        
-                    $this->dtOS->setData($params);
-        
-                    $data['ordenes'] = $this->dtOS->render();
-                    $data['result'] = True;
-                }
+                $data['fact']    = $this->data_table->render();
             }   
-            
 
             $this->load->view('include/head', $session_data);
             $this->load->view('transaccion/orden/cerrar_orden',$data);
-            $this->load->view('include/tables');
-            $this->load->view('include/script');                
+            $this->load->view('include/modal');
+            $this->load->view('include/script');
         }
         else
             redirect('home','refresh');
     }
 
-    function cerrar_orden_ajax($desde=NULL,$hasta=NULL ){
+    function send_cerraros_ajax(){
+        
+        if($this->session->userdata('logged_in') && $this->input->server('REQUEST_METHOD') == 'POST'){
+
+            $fact_manager  = $this->input->post('fact_manager');
+            $fact_sct      = $this->input->post('fact_sct');
+            $id_orden      = $this->input->post('orden');
+
+
+            $fact = array('numero_factura' => $fact_manager);
+            $fact_os = $this->Facturacion_model->modificar_facturacion($fact, $fact_sct);
+
+
+            $estado_orden = array('id_estado_orden' => 3); 
+
+            $this->Orden_model->editar_orden($estado_orden,$id_orden);
+
+            $response = array('OK' => 'ASOCIACION CORRECTA');
+            $code = 200;
+
+        }
+        elseif($this->input->server('REQUEST_METHOD') != 'POST'){
+            $response = array('ERROR' => 'METODO NO PERMITIDO');
+            $code = 400;
+        }
+        else{
+            $response = array('ERROR'=> 'Debe loguearse');
+            $code = 400;
+        }
+        
+        $this->output
+                ->set_status_header($code)
+                ->set_content_type('application/json', 'utf-8')
+                ->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+                ->_display();
+        
+        exit;
+                //echo json_encode($response);
+    }
+
+    function get_facturas_ajax(){
 
         if($this->session->userdata('logged_in')){
             $data_post = $_POST;
 
-            if (!is_null($desde)  && !is_null($hasta)){
-                $opc['desde'] = $desde;
-                $opc['hasta'] = $hasta;
-                $opc['operador'] = ' AND ';
-                $datos = $this->dtOS->dTables_ajax('transacciones','notas_credito_model','getData',$data_post, $opc);
-            }
-            else
-                $datos = $this->dtNota->dTables_ajax('transacciones','notas_credito_model','getData',$data_post);
+            $datos = $this->data_table->dTables_ajax('transacciones','orden_model','dtGetFacturas',$data_post);
             
             echo json_encode($datos);
         }

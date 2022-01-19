@@ -31,6 +31,7 @@ class Orden_model extends CI_Model{
     function editar_orden($orden,$id_orden){
         $this->db->where('id_orden', $id_orden);
         $this->db->update('orden', $orden);
+        //var_dump($this->db->last_query());
     }
 
     function existe_orden($orden){
@@ -164,6 +165,108 @@ class Orden_model extends CI_Model{
         else
             return $query->num_rows();
     }
+
+    function dtGetOrden($desde,$limit,$where=null,$order=null,$by=null,$count=0,$opc = 0)
+    {
+
+        $in = $opc['in'];
+
+        switch ($by) {
+            case 0:
+                $valor = 'orden.id_orden';
+            break;
+            case 1:
+                $valor = 'proveedor.razon_social';
+            break;
+            case 2:
+                $valor = 'cliente.razon_social';
+            break;
+        }
+
+        $sql = "SELECT 
+            CONCAT(\"<a class='codigo-click' onclick='datos( \", orden.id_orden ,\"  )' data-codigo=' \", orden.id_orden  ,\" ' >  \", orden.id_orden , \" </a> \" ) id,
+            COALESCE(proveedor.razon_social, 'S/P') as proveedor, 
+            COALESCE(cliente.razon_social, 'S/C') as cliente,
+            CONCAT(\"<input onclick=checkeable(\",orden.id_orden,\") data-os=\", orden.id_orden,\" type='radio' name=ordenes[] value=\", orden.id_orden, \">\") as checks";
+        $sql .= "
+            FROM
+                orden
+                    left join
+                proveedor ON orden.proveedor_rut_proveedor = proveedor.rut_proveedor
+                    left join
+                cliente ON cliente.rut_cliente = orden.cliente_rut_cliente ";
+        if($where)
+        {
+            $sql .= 'WHERE ( CAST(orden.id_orden as CHAR) like "%'.$where.'%" OR cliente.razon_social like "%'.$where.'%"  OR proveedor.razon_social like "%'.$where.'%" ) ';
+            $sql .= 'AND ( orden.id_orden IS NOT NULL AND cliente.razon_social IS NOT NULL AND proveedor.razon_social IS NOT NULL )';
+            $sql .= "AND orden.id_estado_orden in ({$in})";
+        }
+        else
+            $sql .= " WHERE orden.id_estado_orden in ({$in})";
+
+        if (array_key_exists('desde', $opc) && array_key_exists('hasta', $opc)){
+
+            $o_desde = new DateTime($opc['desde']);
+            $o_hasta = new DateTime($opc['hasta']);
+            $sql .= ' AND orden.fecha_presentacion between "'.$o_desde->format('Y-m-d').'" '.$opc['operador'].' "'.$o_hasta->format('Y-m-d').' "' ;
+
+        }
+
+        $sql .= "ORDER BY {$valor} {$order} ";
+
+        if(!$count)
+            $sql .= "limit  {$desde}, {$limit} ";
+
+        $query = $this->db->query($sql);
+
+        //var_dump($this->db->last_query());
+        if(!$count){
+            return $query->result_array();
+        }
+
+        else
+            return $query->num_rows();
+    }
+
+    function dtGetFacturas($desde,$limit,$where=null,$order=null,$by=null,$count=0){
+        switch ($by) {
+            case 0:
+                $valor = 'factura.numero_factura';
+            break;
+            case 1:
+                $valor = 'factura.fecha';
+            break;
+        }
+
+        $sql = "
+            SELECT 
+                factura.id as nota_venta,
+                fecha,
+                CONCAT(\"<a class='codigo-click' onclick='datos( \", of2.id_orden ,\"  )' data-codigo=' \", of2.id_orden  ,\" ' >  \", of2.id_orden , \" </a> \" ) id_orden,
+                CONCAT(\"<input onclick=check_fact(\",factura.id,\",\",of2.id_orden , \") data-fact=\",factura.id,\" type='radio' name='facturas' value=\", factura.id, \">\") as checks
+            FROM 
+                factura
+            INNER JOIN ordenes_facturas of2 ON of2.id_factura = factura.id
+            WHERE
+                (factura.id like '%{$where}%'
+                OR fecha like '%{$where}%')
+                AND numero_factura IS NULL ";
+
+        $sql .= " ORDER BY {$valor} {$order} ";
+
+        if(!$count)
+            $sql .= "limit  {$desde}, {$limit} ";
+
+        $query = $this->db->query($sql);
+
+        //var_dump($this->db->last_query());
+        if(!$count){
+            return $query->result_array();
+        }
+        else
+            return $query->num_rows();
+    }
+
 
     function orden($id){
 
