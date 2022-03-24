@@ -41,7 +41,7 @@
             <input type="text" class="input-medium" id="inputFechaProveedor" value="<?php echo $orden_factura[0]['fecha_factura_tramo'];?>" name="fecha_factura_proveedor" required readonly>
         </div>
     </div>    
-    <hr>
+
     <input type="hidden" name="idFactura_" value="<?php echo $orden_factura[0]['id_factura'];?>">
 <?php } ?>
   	<div class="control-group">
@@ -81,73 +81,148 @@
   	</div>
 
     <?php if ( isset($detalle[0]) ){?>
+        <hr>
+        <?php $i = 0; ?>
+        <?php foreach ($detalle as $d) { ?>
+            <h6>Otros servicios</h6>
+            <input type="hidden" id="inputIdOtroServicio" value="<?php echo $d['id_detalle']; ?>">
 
-        <h6>Otros servicios</h6>
-            <?php $i = 0; ?>
-            <?php foreach ($detalle as $d) { ?>
+            <div class="control-group">
+                <label class="control-label" ><b>Otro Servicio</b></label>
+                <div class="controls">
+                    <input type="text" class="input-xxlarge" id="inputOtroServicio" disabled="" value="<?php echo $d['servicio_codigo_servicio'].'  -  '.$d['descripcion']; ?>">
+                    <input type="hidden" id="inputOtroServicio" value="<?php echo $d['servicio_codigo_servicio']; ?>">
 
-                <input type="hidden" id="inputIdOtroServicio" value="<?php echo $d['id_detalle']; ?>">
-
-                <div class="control-group">
-                    <label class="control-label" ><b>Otro Servicio</b></label>
-                    <div class="controls">
-                        <input type="text" class="input-xxlarge" id="inputOtroServicio" disabled="" value="<?php echo $d['servicio_codigo_servicio'].'  -  '.$d['descripcion']; ?>">
-                        <input type="hidden" id="inputOtroServicio" value="<?php echo $d['servicio_codigo_servicio']; ?>">
-
-                    </div>
+                </div>
+            </div>     
                 </div>     
+            </div>     
 
-                <div class="control-group">
-                    <label class="control-label" ><b>Proveedor otro servicio</b></label>
-                    <div class="controls">
-                        <div class="input-append">
-                            <input type="text" class="input-xxlarge" id="inputProveedor_<?php echo $i; ?>" value="<?php echo $d['proveedor_rut_proveedor'].'   '.$d['razon_social'] ;?>" readonly>
-                            <a class="btn" type="button" onclick="openModal('proveedor',<?php echo "'".$i."'"; ?>)"><i class="icon-search"></i></a>
+            <div class="control-group">
+                <label class="control-label" ><b>Proveedor otro servicio</b></label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" class="input-xxlarge" id="inputProveedor_<?php echo $i; ?>" value="<?php echo $d['proveedor_rut_proveedor'].'   '.$d['razon_social'] ;?>" readonly>
+                        <a class="btn" type="button" onclick="openModal('proveedor',<?php echo "'".$i."'"; ?>)"><i class="icon-search"></i></a>
+                    </div>                  
                         </div>                  
-                        <input class="input-xxlarge" type="hidden" id="inputProveedorOtroServicio_<?php echo $i; ?>" name="inputProveedorOtroServicio_[]" value="<?php echo $d['proveedor_rut_proveedor'].'W'.$d['id'].'W'.$d['detalle_id_detalle'].'W'.$d['orden_id_orden'].'W'.$d['id_ordenes_facturas']  ;?>" >
-                        <input type="hidden" id="inputProveedorOtroServicioNew_<?php echo $i; ?>" name="inputProveedorOtroServicioNew_[]" value="<?php echo $d['proveedor_rut_proveedor'];?>" >
-                    </div>
+                    </div>                  
+                    <input class="input-xxlarge" type="hidden" id="inputProveedorOtroServicio_<?php echo $i; ?>" name="inputProveedorOtroServicio_[]" value="<?php echo $d['proveedor_rut_proveedor'].'W'.$d['id'].'W'.$d['detalle_id_detalle'].'W'.$d['orden_id_orden'].'W'.$d['id_ordenes_facturas']  ;?>" >
+                    <input type="hidden" id="inputProveedorOtroServicioNew_<?php echo $i; ?>" name="inputProveedorOtroServicioNew_[]" value="<?php echo $d['proveedor_rut_proveedor'];?>" >
+                </div>
+            </div>                 
                 </div>                 
+            </div>                 
 
-                <div class="control-group">
-                    <label class="control-label" ><b>Factura Proveedor Otro Servicio</b></label>
-                    <div class="controls">
-                        <input type="text" class="input-small" name="inputFacturaOS_[]" id="inputFacturaOS_<?php echo $i; ?>" value="<?php echo $d['factura_numero_factura'];?>" >
-                    </div>
+            <div class="control-group">
+                <label class="control-label" ><b>Factura Proveedor Otro Servicio</b></label>
+                <div class="controls">
+                    <input type="text" class="input-small" name="inputFacturaOS_[]" id="inputFacturaOS_<?php echo $i; ?>" value="<?php echo $d['factura_numero_factura'];?>" >
+                </div>
+            </div>    
                 </div>    
+            </div>    
 
-                <div class="control-group">
-                    <label class="control-label" ><b>Fecha Factura Proveedor Otro Servicio</b></label>
-                    <div class="controls">
-                    <?php $fecha = new DateTime($d['fecha_factura_servicio']);?>
-                        <input type="text" onclick="calendario(<?php echo $i; ?>)" class="input-medium" name="inputFechaOS_[]" id="inputFechaOS_<?php echo $i; ?>" value="<?php echo $fecha->format('d-m-Y');?>" >
-                    </div>
+            <div class="control-group">
+                <label class="control-label" ><b>Fecha Factura Proveedor Otro Servicio</b></label>
+                <div class="controls">
+                <?php $fecha = new DateTime($d['fecha_factura_servicio']);?>
+                    <input type="text" onclick="calendario(<?php echo $i; ?>)" class="input-medium" name="inputFechaOS_[]" id="inputFechaOS_<?php echo $i; ?>" value="<?php echo $fecha->format('d-m-Y');?>" >
+                </div>
+            </div>             
                 </div>             
+            </div>             
 
-                <div class="control-group">
-                    <label class="control-label" ><b>Costo otro servicio</b></label>
-                    <div class="controls">
-                        <input type="text" name="inputCostoOS_[]" id="inputCostoOS_<?php echo $i; ?>" value="<?php echo number_format($d['valor_costo'], 0, ',', '.') ?>">
+            <div class="control-group">
+                <label class="control-label" ><b>Costo otro servicio</b></label>
+                <div class="controls">
+                    <input type="text" name="inputCostoOS_[]" id="inputCostoOS_<?php echo $i; ?>" value="<?php echo number_format($d['valor_costo'], 0, ',', '.') ?>">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" ><b>Venta otro servicio</b></label>
+                <div class="controls">
+                    <input type="text" id="inputVenta" disabled="" value="<?php echo number_format($d['valor_venta'], 0, ',', '.') ?>">
+                </div>
+            </div>
+                </div>                
+            </div>
+
+        <?php $i++; ?>
+        <?php } ?>
+        
+	<?php } ?>
+    
+    <div class="campo-a-repetir original">
+        <hr>
+        <h6>Otros servicios</h6>
+            <div class="control-group">
+                <label class="control-label" ><b>Otro Servicio</b></label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" class="input-xxlarge" id="inputOtroServicio" name="append_inputOtroServicio_[]" value="">
+                        <a class="btn" type="button" onclick="openModal('otro servicio',)"><i class="icon-search"></i></a>
                     </div>
                 </div>
-                
-                <div class="control-group">
-                    <label class="control-label" ><b>Venta otro servicio</b></label>
-                    <div class="controls">
-                        <input type="text" id="inputVenta" disabled="" value="<?php echo number_format($d['valor_venta'], 0, ',', '.') ?>">
-                    </div>
-                </div>                
+            </div>     
 
-            <?php $i++; ?>
-            <?php } ?>
-        <hr>
-	<?php } ?>
+            <div class="control-group">
+                <label class="control-label" ><b>Proveedor otro servicio</b></label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" class="input-xxlarge" id="inputProveedor_" name="append_inputProveedor_[]" value="" >
+                        <a class="btn" type="button" onclick="openModal('proveedor',)"><i class="icon-search"></i></a>
+                    </div>                  
+                </div>
+            </div>                 
 
-	<div class="control-group">
-	    <div class="controls">
-	      	<button type="submit" class="btn btn-success">Editar</button>
-	    </div>
-	</div>
+            <div class="control-group">
+                <label class="control-label" ><b>Factura Proveedor Otro Servicio</b></label>
+                <div class="controls">
+                    <input type="text" class="input-small" name="append_inputFacturaOS_[]" id="_inputFacturaOS_" value="" >
+                </div>
+            </div>    
+
+            <div class="control-group">
+                <label class="control-label" ><b>Fecha Factura Proveedor Otro Servicio</b></label>
+                <div class="controls">
+                    <input type="text" class="input-medium inputFechaOS" name="append_inputFechaOS_[]" value="" readonly >
+                </div>
+            </div>             
+
+            <div class="control-group">
+                <label class="control-label" ><b>Costo otro servicio</b></label>
+                <div class="controls">
+                    <input type="text" name="append_inputCostoOS_[]" id="inputCostoOS_" value="">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" ><b>Venta otro servicio</b></label>
+                <div class="controls">
+                    <input type="text" name="append_inputVenta_[]" id="inputVenta" value="">
+                </div>
+            </div>
+    </div>
+    
+    <div class="control-group">
+        <div class="eliminar-campo">
+            <a >Eliminar Servicio <span>-</span></a>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <div class="boton-repetir">
+            <a >Agregar otro Servicio <span>+</span></a>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <div class="controls">
+            <button type="submit" class="btn btn-success">Editar</button>
+        </div>
+    </div>
 
     
 </form>
@@ -158,6 +233,16 @@
 
     $( document ).ready( function(){
 
+        $('.inputFechaOS').datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                showHour:false,                      
+                showMinute:false,
+                showTime: false,
+                dateFormat: 'dd-mm-yy'
+        }); 
+
+
         $('#inputFechaProveedor').datetimepicker({
                 changeMonth: true,
                 changeYear: true,
@@ -165,8 +250,16 @@
                 showMinute:false,
                 showTime: false,
                 dateFormat: 'dd-mm-yy'
-          });        
-    function calendario(id){
+        });        
+        $('#inputFechaProveedor').datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                showHour:false,                      
+                showMinute:false,
+                showTime: false,
+                dateFormat: 'dd-mm-yy'
+        });        
+        function calendario(id){
             $('#inputFechaOS_'+id).datetimepicker({
                 changeMonth: true,
                 changeYear: true,
@@ -174,12 +267,22 @@
                 showMinute:false,
                 showTime: false,
                 dateFormat: 'dd-mm-yy'
-          });              
-    }
+            });              
+        }
+   
     });
 
+    $('.inputFechaOS').click(function(){
+        $('.inputFechaOS').datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                showHour:false,                      
+                showMinute:false,
+                showTime: false,
+                dateFormat: 'dd-mm-yy'
+        });              
+    });
 
-    
     function openModal(id,serv)
     {
         $('#modalBody').html();
@@ -198,6 +301,9 @@
                 opc = 3;
                 tBody = '<th>Código</th><th>Tramo</th></tr></thead><tbody>';
             break;
+            case 'otro servicio':
+                opc = 4;
+                tBody = '<th>Código</th><th>Otro servicio</th></tr></thead><tbody>';
         }
         $.ajax({
                 type:'post',
@@ -233,9 +339,14 @@
                                 tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.codigo_tramo+"', '"+item.descripcion+"', 'inputTramo')\">"+ item.codigo_tramo +"</a></td> <td>"+item.descripcion+"</td></tr>";
                             });                                      
                         break;
+                        case 'otro servicio':
+                            $.each(response, function(i, item) {
+                                tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.codigo_servicio+"', '"+item.descripcion+"', 'inputTramo')\">"+ item.codigo_servicio +"</a></td> <td>"+item.descripcion+"</td></tr>";
+                            });                                      
+                        break;                        
                     }       
                     tabla = tBody+'';          
-                    console.log(tHeader+''+tBody+''+tFooter);
+                    //console.log(tHeader+''+tBody+''+tFooter);
                     $('#modalBody').html(tHeader+''+tBody+''+tFooter);
                     $('#tabla_modal').DataTable();
                 }
@@ -258,3 +369,5 @@
 
 
 </script>
+
+<script type="text/javascript" charset="utf-8" language="javascript" src="<?php echo base_url(); ?>js/edit_orden.js"></script>
