@@ -340,7 +340,7 @@
                         break;
                         case 'otro servicio':
                             $.each(response, function(i, item) {
-                                tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.codigo_servicio+"', '"+item.descripcion+"', 'inputTramo')\">"+ item.codigo_servicio +"</a></td> <td>"+item.descripcion+"</td></tr>";
+                                tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.codigo_servicio+"', '"+item.descripcion+"', 'inputOtroServicio')\">"+ item.codigo_servicio +"</a></td> <td>"+item.descripcion+"</td></tr>";
                             });                                      
                         break;                        
                     }       
