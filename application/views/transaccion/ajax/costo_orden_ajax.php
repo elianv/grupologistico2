@@ -320,7 +320,7 @@
                         case 'proveedor':
                             $.each(response, function(i, item) {
                                 if (serv === undefined){
-                                    tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.rut_proveedor+"', '"+item.razon_social+"', 'inputProveedor_')\">"+ item.rut_proveedor +"</a></td><td>"+item.razon_social+"</td></tr>";
+                                    tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.rut_proveedor+"', '"+item.razon_social+"', 'inputProveedor')\">"+ item.rut_proveedor +"</a></td><td>"+item.razon_social+"</td></tr>";
                                 }
                                 else{
                                     tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.rut_proveedor+"', '"+item.razon_social+"', 'inputProveedor_"+serv+"','"+serv+"'  )\">"+ item.rut_proveedor +"</a></td><td>"+item.razon_social+"</td></tr>";   
