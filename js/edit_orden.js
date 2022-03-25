@@ -10,7 +10,7 @@ $('.boton-repetir a').click(function(e){
 		showMinute:false,
 		showTime: false,
 		dateFormat: 'dd-mm-yy'
-}); 
+	});
 
 	e.preventDefault();
 
@@ -20,7 +20,18 @@ $('.boton-repetir a').click(function(e){
 
 	var value = $('.campo-a-repetir').not('.original').last().attr('data-form');
 
-	$('.campo-a-repetir').not('.original').last().attr('data-form', parseInt(value)+1)
+	$('.campo-a-repetir').not('.original').last().attr('data-form', parseInt(value)+1);
+
+	$('.campo-a-repetir').not('.original').last().find('.inputFechaOS').attr('class', "input-medium inputFechaOS");
+
+	$('.campo-a-repetir').not('.original').last().find('.inputFechaOS').datetimepicker({
+		changeMonth: true,
+		changeYear: true,
+		showHour:false,                      
+		showMinute:false,
+		showTime: false,
+		dateFormat: 'dd-mm-yy'
+	});
 
 	document.setCloneEvent();
 
