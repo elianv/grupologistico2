@@ -283,8 +283,9 @@
         });              
     });
 
-    function openModal(id,serv)
-    {
+    function openModal(id,serv) {
+        $(this).closest('.campo-a-repetir');
+        console.log($(this).closest('.campo-a-repetir'))
         $('#modalBody').html();
         tHeader = '<table id="tabla_modal" class="table table-bordered table-striped dataTable"><thead><tr>';
         tBody   = '<th>RUT</th><th>Razón Social</th></tr></thead><tbody>';
