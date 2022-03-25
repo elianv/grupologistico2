@@ -154,7 +154,7 @@
         
 	<?php } ?>
     
-    <div class="campo-a-repetir original">
+    <div class="campo-a-repetir original" data-form="0">
         <hr>
         <h6>Otros servicios</h6>
             <div class="control-group">

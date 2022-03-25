@@ -18,6 +18,10 @@ $('.boton-repetir a').click(function(e){
 
 	$('.campo-a-repetir:last').removeClass('original');
 
+	var value = $('.campo-a-repetir').not('.original').last().attr('data-form');
+
+	$('.campo-a-repetir').not('.original').last().attr('data-form', parseInt(value)+1)
+
 	document.setCloneEvent();
 
 });
@@ -43,10 +47,9 @@ $('#modal-servicio .close').click(function(){
 });
 
 $('.eliminar-campo a').click(function(e){
-	console.log('ELIMINAR....')
 	e.preventDefault();
-
-	$(this).closest('.campo-a-repetir').remove();
+	// va a buscar el último que no sea el original
+	$('.campo-a-repetir').not('.original').last().remove();
 
 });
 
