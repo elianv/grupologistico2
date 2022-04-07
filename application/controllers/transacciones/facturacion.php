@@ -134,6 +134,7 @@ class Facturacion extends CI_Controller{
                             $factura_otros_servicios = $this->input->post('factura_otros_servicios');
                             $proveedor_servicio      = $this->input->post('proveedor_servicio');
                             $id_detalle              = $this->input->post('id_detalle');
+                            $id_orden_faturacion     = $this->input->post('ordenFactura');
 
                             $j = 0;
                             if(isset($ordenes_detalle[0])){
@@ -149,7 +150,7 @@ class Facturacion extends CI_Controller{
                                                         'factura_numero_factura' => $factura_otros_servicios[$j],
                                                         'proveedor_rut_proveedor'=> $prov[0],
                                                         'fecha_factura_servicio' => $fecha_otros_servicios[$j],
-                                                        'id_ordenes_facturas'    => $id_orden_faturacion[0]['id']
+                                                        'id_ordenes_facturas'    => $id_orden_faturacion
                                             );
                                             $this->facturacion_model->insertar_servicios_orden_factura($servicios_orden_factura);
                                             $j++;

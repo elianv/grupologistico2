@@ -923,10 +923,9 @@
 
         if($this->session->userdata('logged_in') && isset($_POST['inputOrden_'])){
 
-
                 //actualizar datos orden
                 $data = array(
-                                'proveedor_rut_proveedor'   => $this->input->post('inputProveedor'),
+                                'proveedor_rut_proveedor'   => explode(" - ", $this->input->post('inputProveedor'))[0],
                                 'cliente_rut_cliente'       => $this->input->post('inputCliente'),
                                 'tramo_codigo_tramo'        => $this->input->post('inputTramo'),
                                 'valor_costo_tramo'         => str_replace('.', '', $this->input->post('inputCosto'))
@@ -948,6 +947,7 @@
                 $i=0;
                 
                 $otro_os = $this->input->post('inputProveedorOtroServicio_');
+                $append_os = $this->input->post('append_inputOtroServicio_');
                 if ($otro_os){
                     foreach ($otro_os as $key => $value) {
                         list($proveedor, $id_servicios_orden_factura, $id_detalle, $orden, $id_ordenes_facturas) = explode('W' , $value);
@@ -971,6 +971,58 @@
                         $i++;
                     }
                 }
+                elseif ($append_os){
+
+                    $id_orden = $this->input->post('inputOrden_');
+                    
+                    $otros_servicios     = $this->input->post('append_inputOtroServicio_');
+                    $prove_os            = $this->input->post('append_inputOtroServicio_');
+                    $fact_prove_os       = $this->input->post('append_inputFacturaOS_');
+                    $fecha_fact          = $this->input->post('append_inputFechaOS_');
+                    $costo               = $this->input->post('append_inputCostoOS_');
+                    $venta               = $this->input->post('append_inputVenta_');
+                    $id_orden_faturacion = $this->input->post('ordenFactura');
+
+                    $cant_os = count($otros_servicios);
+                    $arr = range(0,$cant_os-1);
+                    
+                    foreach($arr as $i){
+
+                        $cod_detalle  = $this->Detalle->ultimo_codigo();
+                        $id_detalle   = $cod_detalle[0]['id_detalle'] + 1;
+                        $cod_servicio = explode("-",$otros_servicios[$i]);
+                        
+                        // SE GUARDAN LOS OTROS SERVICIOS, SE VERAN EN LA ORDEN
+                        $detalle = array(
+                            'id_detalle'               => $id_detalle,
+                            'servicio_codigo_servicio' => $cod_servicio[0],
+                            'orden_id_orden'           => $id_orden,
+                            'valor_costo'              => str_replace(".", "", $costo[$i]),
+                            'valor_venta'              => str_replace(".", "", $venta[$i])
+                        );
+
+                        $this->Detalle->guardar_detalle($detalle);
+
+                        
+                        // SE GUARDAN LOS DATOS ADICIONALES
+                        $fecha_otros_servicios = str_replace('/','-', $fecha_fact[$i]);
+                        $fecha_otros_servicios = date("Y-m-d ",strtotime($fecha_otros_servicios));
+                        $prov                  = explode(" - ", $prove_os[$i]);
+
+                        $servicios_orden_factura = array(
+                            'detalle_id_detalle'     => $id_detalle,
+                            'factura_numero_factura' => $fact_prove_os[$i],
+                            'proveedor_rut_proveedor'=> $prov[0],
+                            'fecha_factura_servicio' => $fecha_otros_servicios,
+                            'id_ordenes_facturas'    => $id_orden_faturacion
+                        );
+                        $this->Facturacion_model->insertar_servicios_orden_factura($servicios_orden_factura);
+
+
+                    }
+                    
+                }
+                // PONER IF CON LOS OTROS SERVICIOS AGREGADOS!!
 
                 $costo_total            = $this->Facturacion_model->total_costo($this->input->post('idFactura_'));
                 $factura['total_costo'] = $costo_total[0]['TOTAL_COSTO'];
@@ -984,7 +1036,7 @@
             redirect('home','refresh');
         }
     }
-
+    
     function costos_ajax(){
 
         if($this->session->userdata('logged_in')){
@@ -1016,6 +1068,8 @@
                 case 3:
                     $data = $this->Tramos_model->listar_tramos();
                     break;
+                case 4:
+                    $data = $this->Servicios_model->listar_servicios();
             }
 
 

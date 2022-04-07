@@ -8,12 +8,15 @@ Class Detalle extends CI_Model{
     
     function guardar_detalle($detalle){
         
-        if($this->db->insert('detalle', $detalle)){
-            return true;
-        }
-        else{
+        $this->db->insert('detalle', $detalle);
+        $insert_id = $this->db->insert_id();
+        
+        if ($insert_id > 0)
+            return  $insert_id;
+        
+        else
             return false;
-        }
+        
     }
     
     function detalle_orden($id_orden){
