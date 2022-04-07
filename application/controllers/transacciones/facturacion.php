@@ -134,7 +134,6 @@ class Facturacion extends CI_Controller{
                             $factura_otros_servicios = $this->input->post('factura_otros_servicios');
                             $proveedor_servicio      = $this->input->post('proveedor_servicio');
                             $id_detalle              = $this->input->post('id_detalle');
-                            $id_orden_faturacion     = $this->input->post('ordenFactura');
 
                             $j = 0;
                             if(isset($ordenes_detalle[0])){
