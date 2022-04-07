@@ -361,7 +361,7 @@
 
         var currentElement = event.target.getAttribute("data-element");
 
-        $('#'+opc).val(codigo+'   '+texto);
+        $('#'+opc).val(codigo+' -  '+texto);
         $('#'+opc+'_').val(codigo);
         $('#myModal').modal('hide')
         if( serv !== undefined){

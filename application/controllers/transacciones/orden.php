@@ -923,10 +923,9 @@
 
         if($this->session->userdata('logged_in') && isset($_POST['inputOrden_'])){
 
-
                 //actualizar datos orden
                 $data = array(
-                                'proveedor_rut_proveedor'   => $this->input->post('inputProveedor'),
+                                'proveedor_rut_proveedor'   => explode(" - ", $this->input->post('inputProveedor'))[0],
                                 'cliente_rut_cliente'       => $this->input->post('inputCliente'),
                                 'tramo_codigo_tramo'        => $this->input->post('inputTramo'),
                                 'valor_costo_tramo'         => str_replace('.', '', $this->input->post('inputCosto'))
