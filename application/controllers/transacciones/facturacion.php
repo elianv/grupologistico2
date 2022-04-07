@@ -149,7 +149,7 @@ class Facturacion extends CI_Controller{
                                                         'factura_numero_factura' => $factura_otros_servicios[$j],
                                                         'proveedor_rut_proveedor'=> $prov[0],
                                                         'fecha_factura_servicio' => $fecha_otros_servicios[$j],
-                                                        'id_ordenes_facturas'    => $id_orden_faturacion
+                                                        'id_ordenes_facturas'    => $id_orden_faturacion[0]['id']
                                             );
                                             $this->facturacion_model->insertar_servicios_orden_factura($servicios_orden_factura);
                                             $j++;
