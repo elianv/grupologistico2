@@ -24,6 +24,10 @@ $('.boton-repetir a').click(function(e){
 
 	$('.campo-a-repetir').not('.original').last().find('.inputFechaOS').attr('class', "input-medium inputFechaOS");
 
+	$('.campo-a-repetir').not('.original').last().find('.boton-levantar-modal').attr('data-form', parseInt(value)+1);
+	
+	$('.campo-a-repetir').not('.original').last().find("#inputProveedor_").val('')
+
 	$('.campo-a-repetir').not('.original').last().find('.inputFechaOS').datetimepicker({
 		changeMonth: true,
 		changeYear: true,

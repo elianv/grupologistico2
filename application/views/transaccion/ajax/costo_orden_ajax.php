@@ -172,7 +172,7 @@
                 <div class="controls">
                     <div class="input-append">
                         <input type="text" class="input-xxlarge" id="inputProveedor_" name="append_inputProveedor_[]" value="" >
-                        <a class="btn" type="button" onclick="openModal('proveedor',)"><i class="icon-search"></i></a>
+                        <a class="btn boton-levantar-modal" type="button" onclick="openModal('proveedor', '', '0')" data-form="0"><i class="icon-search" style="pointer-events: none"></i></a>
                     </div>                  
                 </div>
             </div>                 
@@ -283,7 +283,9 @@
         });              
     });
 
-    function openModal(id, serv) {
+    function openModal(id, serv, currentForm) {
+        
+        var currentElement = event.target.getAttribute('data-form')
         $('#modalBody').html();
         tHeader = '<table id="tabla_modal" class="table table-bordered table-striped dataTable"><thead><tr>';
         tBody   = '<th>RUT</th><th>Razón Social</th></tr></thead><tbody>';
@@ -323,7 +325,7 @@
                                     tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.rut_proveedor+"', '"+item.razon_social+"', 'inputProveedor')\">"+ item.rut_proveedor +"</a></td><td>"+item.razon_social+"</td></tr>";
                                 }
                                 else{
-                                    tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.rut_proveedor+"', '"+item.razon_social+"', 'inputProveedor_"+serv+"','"+serv+"'  )\">"+ item.rut_proveedor +"</a></td><td>"+item.razon_social+"</td></tr>";   
+                                    tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.rut_proveedor+"', '"+item.razon_social+"', 'inputProveedor_"+serv+"','"+serv+"', '"+currentElement+"'  )\" data-element="+currentElement+">"+ item.rut_proveedor +"</a></td><td>"+item.razon_social+"</td></tr>";   
                                 }
                                 
                             });              
@@ -355,7 +357,9 @@
 
     }
 
-    function imputText(codigo, texto, opc, serv ){
+    function imputText(codigo, texto, opc, serv, currentForm ){
+
+        var currentElement = event.target.getAttribute("data-element");
 
         $('#'+opc).val(codigo+'   '+texto);
         $('#'+opc+'_').val(codigo);
@@ -363,6 +367,8 @@
         if( serv !== undefined){
             $('#inputProveedorOtroServicioNew_'+serv).val(codigo);
         }
+
+        currentForm ? $(".campo-a-repetir[data-form="+currentElement+"]").find("#inputProveedor_").val(codigo +' - '+texto) : '';
     }
     
 
