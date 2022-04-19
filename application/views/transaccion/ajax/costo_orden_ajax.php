@@ -162,7 +162,7 @@
                 <div class="controls">
                     <div class="input-append">
                         <input type="text" class="input-xxlarge" id="inputOtroServicio" name="append_inputOtroServicio_[]" value="">
-                        <a class="btn" type="button" onclick="openModal('otro servicio',)"><i class="icon-search"></i></a>
+                        <a class="btn boton-levantar-modal-2" type="button" onclick="openModal('otro servicio', '', '0')" data-form="0"><i class="icon-search"></i></a>
                     </div>
                 </div>
             </div>     
@@ -342,7 +342,7 @@
                         break;
                         case 'otro servicio':
                             $.each(response, function(i, item) {
-                                tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.codigo_servicio+"', '"+item.descripcion+"', 'inputOtroServicio')\">"+ item.codigo_servicio +"</a></td> <td>"+item.descripcion+"</td></tr>";
+                                    tBody = tBody + "<tr><td><a onclick=\"imputText('"+item.codigo_servicio+"', '"+item.descripcion+"', 'inputOtroServicio', '', '" + currentElement + "')\" data-element="+currentElement+">"+ item.codigo_servicio +"</a></td> <td>"+item.descripcion+"</td></tr>";
                             });                                      
                         break;                        
                     }       
@@ -358,9 +358,8 @@
     }
 
     function imputText(codigo, texto, opc, serv, currentForm ){
-
+        console.log('asd '+currentForm)
         var currentElement = event.target.getAttribute("data-element");
-
         $('#'+opc).val(codigo+' -  '+texto);
         $('#'+opc+'_').val(codigo);
         $('#myModal').modal('hide')
@@ -368,7 +367,15 @@
             $('#inputProveedorOtroServicioNew_'+serv).val(codigo);
         }
 
-        currentForm ? $(".campo-a-repetir[data-form="+currentElement+"]").find("#inputProveedor_").val(codigo +' - '+texto) : '';
+        if (opc == 'inputOtroServicio'){
+            console.log('asd')
+            //currentForm ? $(".campo-a-repetir[data-form="+currentElement+"]").find("#inputOtroServicio").val(codigo +' - '+texto) : '';
+            $(".campo-a-repetir[data-form="+currentElement+"]").find("#inputOtroServicio").val(codigo +' - '+texto)
+        }
+        else if(opc == 'inputProveedor_'){
+            currentForm ? $(".campo-a-repetir[data-form="+currentElement+"]").find("#inputProveedor_").val(codigo +' - '+texto) : '';
+        }
+        
     }
     
 
