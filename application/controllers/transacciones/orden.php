@@ -971,12 +971,12 @@
                         $i++;
                     }
                 }
-                elseif ($append_os){
+                if ($append_os){
 
                     $id_orden = $this->input->post('inputOrden_');
                     
                     $otros_servicios     = $this->input->post('append_inputOtroServicio_');
-                    $prove_os            = $this->input->post('append_inputOtroServicio_');
+                    $prove_os            = $this->input->post('append_inputProveedor_');
                     $fact_prove_os       = $this->input->post('append_inputFacturaOS_');
                     $fecha_fact          = $this->input->post('append_inputFechaOS_');
                     $costo               = $this->input->post('append_inputCostoOS_');
