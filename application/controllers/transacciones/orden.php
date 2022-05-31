@@ -971,7 +971,7 @@
                         $i++;
                     }
                 }
-                if ($append_os){
+                if (strlen($append_os[0]) > 0){
 
                     $id_orden = $this->input->post('inputOrden_');
                     
