@@ -354,7 +354,7 @@
                         }
                     }
 
-            //##########################  guarda viaje y la orden. ##########################
+                    //##########################  guarda viaje y la orden. ##########################
                     $this->Viaje->crear_viaje($viaje);
 		            $this->Orden_model->insert_orden($orden);
 
@@ -385,13 +385,13 @@
                                $i = $i + 1;
                                $id_detalle = $id_detalle + 1;
 
-            //########################## guarda uno a uno los detalles. ##########################
+                    //########################## guarda uno a uno los detalles. ##########################
                                $this->Detalle->guardar_detalle($detalle);
                             }
                     }
 
 
-            //########################## Log de creado. ##########################
+                //########################## Log de creado. ##########################
 
                 $log = array(   'nombre_usuario' => $session_data['nombre'],
                                 'rut_usuario' => $session_data['rut_usuario'],
@@ -1639,6 +1639,126 @@
         }
         else
             redirect('home','refresh');
+    }
+
+    function anular_orden(){
+        if($this->session->userdata('logged_in')){
+            $session_data   = $this->session->userdata('logged_in');
+            
+            $data = array();
+            $ajax_url_anular = "listar_os_ajax";
+
+            $params_anular = array('titulos'   => array('OS','Cliente', 'Proveedor'),
+            'titulo'    => 'Seleccione la OS que desea anular',
+            'columns'   => array('id','cliente','proveedor'),
+            'clase'     => 'anular_os',
+            'ajax'      => $ajax_url_anular,
+            );
+
+            $this->data_table->setData($params_anular);
+            $data['dt'] = $this->data_table->render();
+
+            $this->load->view('include/head', $session_data);
+            $this->load->view('transaccion/orden/anular_orden',$data);
+            $this->load->view('include/modal');
+            $this->load->view('include/script');
+        }
+        else
+            redirect('home','refresh');        
+    }
+
+    function form_os_anulada(){
+        if($this->session->userdata('logged_in') && $this->input->server('REQUEST_METHOD') === 'POST'){
+            $id_os = $this->input->post('id_orden');
+
+            $os_nula = array(
+                'id_orden' => $id_os,
+                'observacion' => $this->input->post('observacion')
+            );
+
+            $orden = array(
+                'id_estado_orden' => 4
+            );
+            $this->Orden_model->anular_orden($os_nula);
+            $this->Orden_model->editar_orden($orden, $id_os);
+
+            echo json_encode(array('response'=>'ok'));
+            
+
+        }   
+        else
+            echo json_encode(array('response'=>'error'));
+    }
+
+
+    function listar_os_ajax(){
+
+        if($this->session->userdata('logged_in')){
+            $data_post = $_POST;
+            
+            $opc = 4;
+            $datos = $this->data_table->dTables_ajax('transacciones','orden_model','getOrden',$data_post, $opc);
+            
+            echo json_encode($datos);
+        }
+        else
+            echo json_encode(array('response'=>'error'));
+    }
+
+
+    function os_anuladas(){
+        if($this->session->userdata('logged_in')){
+            $session_data   = $this->session->userdata('logged_in');
+            
+            $data = array();
+            $ajax_url_anular = "listar_anuladas_ajax";
+
+            $params_anular = array('titulos'   => array('OS','Cliente', 'Proveedor'),
+            'titulo'    => 'Seleccione la orden para ver detalle',
+            'columns'   => array('id','cliente','proveedor'),
+            'clase'     => 'anulada_os',
+            'ajax'      => $ajax_url_anular,
+            );
+
+            $this->data_table->setData($params_anular);
+            $data['dt'] = $this->data_table->render();
+
+            $this->load->view('include/head', $session_data);
+            $this->load->view('transaccion/orden/ordenes_anuladas',$data);
+            $this->load->view('include/modal');
+            $this->load->view('include/script');
+        }
+        else
+            redirect('home','refresh');           
+    }
+
+    function listar_anuladas_ajax(){
+        if($this->session->userdata('logged_in')){
+            $data_post = $_POST;
+            
+            $opc = 5;
+            $datos = $this->data_table->dTables_ajax('transacciones','orden_model','getOrden',$data_post, $opc);
+            
+            echo json_encode($datos);
+        }
+        else
+            echo json_encode(array('response'=>'error'));        
+    }
+
+    function get_detalle_nula(){
+        if($this->session->userdata('logged_in')){
+            $data_post = $_POST;
+            
+            $detalle_nula = $this->Orden_model->detalle_nula($data_post["id_orden"]);
+            $response = array(
+                'data' => $detalle_nula,
+                'response' => 'OK'
+            );
+
+            echo json_encode($response);
+        }
+        else
+            echo json_encode(array('response'=>'error'));         
     }
 
     function send_cerraros_ajax(){

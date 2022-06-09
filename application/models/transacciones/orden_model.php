@@ -116,7 +116,8 @@ class Orden_model extends CI_Model{
             1 => '1',
             2 => '2',   
             3 => '3',
-            4 => '1,2,3'
+            4 => '1,2,3',
+            5 => '4'
         );
 
         $in = $orden_status[$opc];
@@ -133,7 +134,11 @@ class Orden_model extends CI_Model{
             break;
         }
 
-        $sql = "SELECT CONCAT(\"<a class='codigo-click' onclick='datos( \", orden.id_orden ,\"  )' data-codigo=' \", orden.id_orden  ,\" ' >  \", orden.id_orden , \" </a> \" ) id, COALESCE(proveedor.razon_social, 'S/P') as proveedor, COALESCE(cliente.razon_social, 'S/C') as cliente";
+        $sql = "SELECT CONCAT(\"<a class='codigo-click' onclick='datos( \", orden.id_orden ,\"  )' data-codigo=' \", orden.id_orden  ,\" ' >  \", orden.id_orden , \" </a> \" ) id, 
+                        COALESCE(proveedor.razon_social, 'S/P') as proveedor, 
+                        COALESCE(cliente.razon_social, 'S/C') as cliente
+                        
+                ";
         $sql .= "
             FROM
                 orden
@@ -310,5 +315,20 @@ class Orden_model extends CI_Model{
 
         return $result->result_array();
     }
+
+    function anular_orden($os_nula){
+        $this->db->insert('ordenes_anuladas',$os_nula);
+    }
+
+    function detalle_nula($id_os)
+    {
+        $this->db->select('*');
+        $this->db->from('ordenes_anuladas');
+        $this->db->where('id_orden', $id_os);
+
+        $result = $this->db->get();
+
+        return $result->result_array();
+    }    
 }
 ?>

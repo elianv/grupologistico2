@@ -23,7 +23,7 @@
             }
         ?>
 
-		<form class="form-horizontal form-orden" method="post">
+		<form class="form-horizontal form-orden" method="post" action='<?php echo base_url("index.php/transacciones/orden/guardar") ?>'>
 			<fieldset>
 			<div class="row show-grid">
 				<div class="span5">
@@ -79,7 +79,7 @@
 
 			</br>
 			</br>
-<!--   ##############################################################    -->
+            <!--   ##############################################################    -->
 
             <div class="control-group">
                 <label class="control-label" for="cliente"><strong>RUT Cliente</strong></label>
@@ -174,7 +174,7 @@
                </br>
 
 
-<!--   ##############################################################    -->
+            <!--   ##############################################################    -->
             <div class="control-group">
                 <label class="control-label" for="fecha"><strong>Fecha Retiro</strong></label>
                 <div class="controls">
@@ -406,7 +406,8 @@
 
 
             <div class="form-actions" >
-                <input type="submit" class="btn btn-success" onclick = "this.form.action = '<?php echo base_url();?>index.php/transacciones/orden/guardar'" value="Crear"/>
+                <input type="submit" class="btn btn-success" value="Crear"/> 
+                
             </div>
            </fieldset>
           </form>
@@ -478,5 +479,30 @@
 		$('.modal').on('shown.bs.modal', function() {
   		$(this).find('[autofocus]').focus();
 		});
+
+        $('form').submit(function() {
+            // when form is submitted for the first time
+            // change button text
+            // and prevent further form submissions
+            if ($('form input[type="submit"]').data('submitted') == '1') {
+                return false;
+            } else {
+                // I've also added a class and 
+                // changed the value to make it obvious to the 
+                // user that the form is submitting
+                // but this is entirely optional
+                // and you can customise this as you wish
+                $('form input[type="submit"]')
+                .attr('data-submitted', '1')
+                .addClass('submitting')
+                .val('Submitting...')
+                .submit();
+                
+            }
+        
+            return false; // for demo purposes only
+        });
+        
+
 
 </script>
