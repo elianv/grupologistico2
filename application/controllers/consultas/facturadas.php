@@ -1505,9 +1505,16 @@
                         if($costos[0]['total_costo'] !=0 && !is_null($costos[0]['total_costo'])){
 
                             if($opc_){
-                                $margen = $costos[0]['total_venta'] - $costos[0]['total_costo'] + $nc[0]['suma'];
-                                $data['facturas'][$i]['margen'] = $margen;
-                                $data['facturas'][$i]['porcentaje'] = ( $margen )*100/( $costos[0]['total_costo']  );
+                                if(abs($nc[0]['suma']) == abs($costos[0]['total_venta'])){
+                                    $margen = 0;
+                                    $data['facturas'][$i]['margen'] = $margen;
+                                    $data['facturas'][$i]['porcentaje'] = 0;                                    
+                                }
+                                else{
+                                    $margen = $costos[0]['total_venta'] - $costos[0]['total_costo'] + $nc[0]['suma'];
+                                    $data['facturas'][$i]['margen'] = $margen;
+                                    $data['facturas'][$i]['porcentaje'] = ( $margen )*100/( $costos[0]['total_costo']  );
+                                }
                             }
                             else {
                                 $data['facturas'][$i]['margen'] = $costos[0]['margen'];

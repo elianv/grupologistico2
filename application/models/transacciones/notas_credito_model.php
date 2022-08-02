@@ -111,12 +111,13 @@ class notas_credito_model extends CI_Model{
         return $query->result_array();
     }
 
-    function getNC($n_nc, $n_fac,$cod_sis){
+    function getNC($n_nc, $n_fac,$cod_sis, $desc){
         $this->db->select("id_nc");
         $this->db->from("notas_credito");
         $this->db->where("id_factura",$n_fac);
         $this->db->where("numero_nota",$n_nc);
         $this->db->where("codigo_sistema",$cod_sis);
+        $this->db->where("desc",$desc);
 
         $result = $this->db->get();
         //var_dump( $this->db->last_query() );

@@ -1065,6 +1065,7 @@ class Facturacion extends CI_Controller{
                             $fecha_manager 	= trim($objPHPExcel->getActiveSheet()->getCell('C'.$i)->getFormattedValue());
                             $monto			= trim($objPHPExcel->getActiveSheet()->getCell('M'.$i)->getFormattedValue());
                             $codigo_sistema	= trim($objPHPExcel->getActiveSheet()->getCell('J'.$i)->getFormattedValue());
+                            $descripcion	= trim($objPHPExcel->getActiveSheet()->getCell('K'.$i)->getFormattedValue());
 							$fecha      	= date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($fecha_manager) );
 							//$fecha          = date("Y-m-d", strtotime($fecha));
                             
@@ -1072,7 +1073,7 @@ class Facturacion extends CI_Controller{
 
 							if( $num_fact != "" && $num_fact != " " && strlen($num_fact) > 0 && $num_nota != "" && $num_nota != " " && strlen($num_nota) > 0 ){
 								   	
-                                $id_nc = $this->notas_credito_model->getNC($num_nota, $num_fact, $codigo_sistema );  
+                                $id_nc = $this->notas_credito_model->getNC($num_nota, $num_fact, $codigo_sistema, $descripcion );  
 
                                 if (!array_key_exists($num_fact,$data_fact )){
                                     $data_fact[$num_fact] = array();
@@ -1085,7 +1086,8 @@ class Facturacion extends CI_Controller{
                                     'numero_nota' 	 => $num_nota,
                                     'monto'			 => $monto,
                                     'fecha'			 => $fecha,
-                                    'codigo_sistema' => $codigo_sistema
+                                    'codigo_sistema' => $codigo_sistema,
+                                    'desc'           => $descripcion,
                                 );
 
                                 if (count($id_nc) > 0){
