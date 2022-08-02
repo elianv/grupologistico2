@@ -231,7 +231,9 @@ class Facturacion_model extends CI_Model{
     	$sql = "select
                     id,
                     numero_factura,
-                    DATE_FORMAT(fecha,\"%d-%m-%Y\") as fecha
+                    DATE_FORMAT(fecha,\"%d-%m-%Y\") as fecha,
+                    total_costo,
+                    total_venta
                 from
                     factura
     			where id = {$id} ";
