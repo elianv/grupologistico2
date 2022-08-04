@@ -1139,7 +1139,7 @@ class Facturacion extends CI_Controller{
         
         foreach($data_fact as $clave => $valor){
             $fact = $this->facturacion_model->getFacturabyId($clave);
-            if ($fact[0]['total_venta'] == array_sum($valor)){
+            if ($fact[0]['total_venta'] <= array_sum($valor)){
                 $ordenes_facturas = $this->facturacion_model->getFacturaOrden($clave);
                 foreach($ordenes_facturas as $of){
                     
