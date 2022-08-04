@@ -1147,7 +1147,7 @@ class Facturacion extends CI_Controller{
 
                     $os_nula = array(
                         'id_orden' => $id_os,
-                        'observacion' => 'Anulada por archivo sincronizacion'
+                        'observacion' => 'Anulada por NC (sincronización con MANAGER)'
                     );
         
                     $orden = array(
