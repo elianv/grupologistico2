@@ -40,6 +40,7 @@ class notas_credito_model extends CI_Model{
                     c.razon_social AS 'Razon social',
                     nc.monto AS Monto,
                     f.numero_factura AS Factura,
+                    o.id_orden as OS,
                     nc.codigo_sistema AS 'Codigo sistema', 
                     nc.fecha AS Fecha
                 FROM
@@ -61,6 +62,7 @@ class notas_credito_model extends CI_Model{
             OR c.razon_social like "%'.$where.'%" 
             OR CAST(nc.monto as CHAR) like "%'.$where.'%" 
             OR CAST(f.numero_factura AS CHAR) like "%'.$where.'%" 
+            OR CAST(o.id_orden AS CHAR) like "%'.$where.'%" 
             OR CAST(nc.fecha AS CHAR) like "%'.$where.'%") ';
         }
         
