@@ -1012,7 +1012,7 @@ class Facturacion extends CI_Controller{
         $session_data = $this->session->userdata('logged_in');
 
         if(in_array($session_data['id_tipo_usuario'],[0,1]) && isset($session_data['id_tipo_usuario']) && $_FILES['uploadFile']['error'] == 0 ){
-
+            $data_fact = array();
             $OK = array();
             $fact = 0;
             $os = 0;
@@ -1065,21 +1065,29 @@ class Facturacion extends CI_Controller{
                             $fecha_manager 	= trim($objPHPExcel->getActiveSheet()->getCell('C'.$i)->getFormattedValue());
                             $monto			= trim($objPHPExcel->getActiveSheet()->getCell('M'.$i)->getFormattedValue());
                             $codigo_sistema	= trim($objPHPExcel->getActiveSheet()->getCell('J'.$i)->getFormattedValue());
+                            $descripcion	= trim($objPHPExcel->getActiveSheet()->getCell('K'.$i)->getFormattedValue());
 							$fecha      	= date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($fecha_manager) );
 							//$fecha          = date("Y-m-d", strtotime($fecha));
                             
 							//$factura = $this->facturacion_model->datos_factura($num_fact);
-                            
+
 							if( $num_fact != "" && $num_fact != " " && strlen($num_fact) > 0 && $num_nota != "" && $num_nota != " " && strlen($num_nota) > 0 ){
 								   	
-                                $id_nc = $this->notas_credito_model->getNC($num_nota, $num_fact, $codigo_sistema );  
+                                $id_nc = $this->notas_credito_model->getNC($num_nota, $num_fact, $codigo_sistema, $descripcion );  
+
+                                if (!array_key_exists($num_fact,$data_fact )){
+                                    $data_fact[$num_fact] = array();
+                                }
+                                
+                                array_push($data_fact[$num_fact], abs($monto));
                                 
                                 $nota = array(
                                     'id_factura' 	 => $num_fact,
                                     'numero_nota' 	 => $num_nota,
                                     'monto'			 => $monto,
                                     'fecha'			 => $fecha,
-                                    'codigo_sistema' => $codigo_sistema
+                                    'codigo_sistema' => $codigo_sistema,
+                                    'desc'           => $descripcion,
                                 );
 
                                 if (count($id_nc) > 0){
@@ -1100,6 +1108,8 @@ class Facturacion extends CI_Controller{
 
                         }
                     }
+
+                    $this->anular_fact($data_fact);
 					$data['opc'] = 1;
 					$data['ok']  = json_encode($OK);
 		            $this->load->view('include/head',$session_data);
@@ -1120,6 +1130,34 @@ class Facturacion extends CI_Controller{
         else{
             $this->session->set_flashdata('mensaje','<b>¡Error!</b>.<br>No ha cargado ningún archivo');
 			redirect('transacciones/facturacion/sincronizar','refresh');
+        }
+
+        
+    }
+
+    function anular_fact($data_fact){
+        
+        foreach($data_fact as $clave => $valor){
+            $fact = $this->facturacion_model->getFacturabyId($clave);
+            if ($fact[0]['total_venta'] <= array_sum($valor)){
+                $ordenes_facturas = $this->facturacion_model->getFacturaOrden($clave);
+                foreach($ordenes_facturas as $of){
+                    
+                    $id_os = $of['id_orden'];
+
+                    $os_nula = array(
+                        'id_orden' => $id_os,
+                        'observacion' => 'Anulada por NC (sincronización con MANAGER)'
+                    );
+        
+                    $orden = array(
+                        'id_estado_orden' => 4
+                    );
+                    $this->load->model('transacciones/Orden_model');
+                    $this->Orden_model->anular_orden($os_nula);
+                    $this->Orden_model->editar_orden($orden, $id_os);
+                }
+            }
         }
     }
 

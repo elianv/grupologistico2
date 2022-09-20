@@ -43,9 +43,9 @@ class notas_credito extends CI_Controller{
                         else
                             $ajax_url = 'notas_credito/listar_ajax';
     
-                        $params = array('titulos'   => array('Numero','Rut Cliente','Razon social','Monto','Factura','Codigo sistema','Fecha'),
+                        $params = array('titulos'   => array('Numero','Rut Cliente','Razon social','Monto','Factura', 'OS', 'Codigo sistema','Fecha'),
                                         'titulo'    => 'Notas de crédito',
-                                        'columns'   => array('Numero','Rut Cliente','Razon social','Monto','Factura','Codigo sistema','Fecha'),
+                                        'columns'   => array('Numero','Rut Cliente','Razon social','Monto','Factura','OS', 'Codigo sistema','Fecha'),
                                         'clase'     => 'ncredito',
                                         'ajax'      => $ajax_url,
                                         'botones'   => null,

@@ -710,9 +710,9 @@ Class consultas_model extends CI_Model{
 	function total_ordenes($id_orden){
 
 		$query = "SELECT
-								(valor_costo_tramo + COALESCE(det_costo,0)) as total_costo,
-									(valor_venta_tramo + COALESCE(det_venta,0)) as total_venta,
-									(valor_venta_tramo + COALESCE(det_venta,0)) - (valor_costo_tramo + COALESCE(det_costo,0)) AS margen
+								(COALESCE(valor_costo_tramo,0) + COALESCE(det_costo,0)) as total_costo,
+									(COALESCE(valor_venta_tramo,0) + COALESCE(det_venta,0)) as total_venta,
+									(COALESCE(valor_venta_tramo,0) + COALESCE(det_venta,0)) - (COALESCE(valor_costo_tramo,0) + COALESCE(det_costo,0)) AS margen
 							FROM
 								orden,
 								(SELECT
