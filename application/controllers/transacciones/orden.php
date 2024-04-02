@@ -162,7 +162,7 @@
                 $this->form_validation->set_rules('referencia','Referncia','trim|xss_clean');
                 $this->form_validation->set_rules('fono_aduana','Telefono Aduana','trim|xss_clean');
                 $this->form_validation->set_rules('contacto','Contacto Aduana','trim|xss_clean');
-                $this->form_validation->set_rules('fecha','Fecha de Retiro','trim|xss_clean');
+                $this->form_validation->set_rules('fecha','Fecha de Retiro','trim|xss_clean|required');
                 $this->form_validation->set_rules('mercaderia','Mercaderia','trim|xss_clean');
                 $this->form_validation->set_rules('numero','Número Contenedor','trim|xss_clean');
                 $this->form_validation->set_rules('peso','Peso','trim|xss_clean');

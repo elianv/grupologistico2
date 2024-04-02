@@ -178,7 +178,7 @@
         <div class="control-group">
             <label class="control-label" for="fecha"><strong>Fecha Retiro</strong></label>
             <div class="controls">
-                <input type="text" class="input-large" name="fecha" id="fecha" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha'); ?>">
+                <input type="text" class="input-large" name="fecha" id="fecha" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha'); ?>" required>
             </div>
         </div>
 
