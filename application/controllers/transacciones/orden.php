@@ -170,7 +170,7 @@
                 $this->form_validation->set_rules('direccion_bodega','Dirección Bogeda','trim|xss_clean');
                 $this->form_validation->set_rules('contacto_bodega','Contacto Bodega','trim|xss_clean');
                 $this->form_validation->set_rules('telefono_bodega','Telefono Bodega','trim|xss_clean');
-                $this->form_validation->set_rules('fecha_presentacion','Fecha de Presentación','trim|xss_clean');
+                $this->form_validation->set_rules('fecha_presentacion','Fecha de Presentación','trim|xss_clean|required');
                 $this->form_validation->set_rules('referencia2','referencia 2','trim|xss_clean');
                 $this->form_validation->set_rules('observacion','Observacion','trim|xss_clean');
                 $this->form_validation->set_rules('telefono_conductor','Telefono Conductor','trim|xss_clean');
