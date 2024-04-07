@@ -240,7 +240,7 @@
         <div class="control-group">
             <label class="control-label" for="fecha_presentacion"><strong>Fecha Presentación</strong></label>
             <div class="controls">
-                <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha_presentacion'); ?>">
+                <input type="text" class="input-xxlarge" id="fecha_presentacion" name="fecha_presentacion" placeholder="Seleccione Fecha" value="<?php echo set_value('fecha_presentacion'); ?>" required>
             </div>
         </div>
 
