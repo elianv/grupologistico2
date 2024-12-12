@@ -247,8 +247,11 @@ class Web_service
 	public function mensaje( $action , $xml , $opc=0 )
 	{
 
+        $CI =& get_instance();
+        $CI->load->model('utils/log');
+
         $this->clienteWS->send( $xml , $action);
-				error_reporting(E_ERROR);
+        error_reporting(E_ERROR);
         $doc = new DOMDocument('1.0', 'utf-8');
         $doc->loadXML( $this->clienteWS->responseData );
 
@@ -262,6 +265,16 @@ class Web_service
 
         $this->codWS   = (int)$XMLresults->item(0)->nodeValue;
         $this->error_h = '<strong>Mensaje Manager: <br>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';
+
+        $log = array(   
+            'accion' => 'REFACTURAR NV MANAGER',
+            'factura_id' => $this->numNota ,
+            'ip' => $_SERVER['REMOTE_ADDR'],
+            'ws_action' => $action,
+            'ws_request' => $this->clienteWS->request,
+            'ws_response' => $this->clienteWS->response
+        );
+        $CI->log->insertar_log($log);
 
 	}
 
