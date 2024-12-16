@@ -376,7 +376,7 @@
                         $num_orden_2 = $num_orden + 1;
                         $orden_2['id_orden'] = $num_orden_2;
                         $orden_2['tramo_codigo_tramo'] = -1;
-                        
+                        $orden_2['deposito_codigo_deposito'] = trim($deposito[0]);
                         $orden_2['destino'] = -1;
                         $orden_2['valor_costo_tramo'] = NULL;
                         $orden_2['valor_venta_tramo'] = NULL;
