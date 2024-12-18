@@ -573,7 +573,8 @@
                     $carga              = explode('-', $this->input->post('tipo_carga_codigo_carga'));
                     $tramo              = explode('-', $this->input->post('tramo_codigo_tramo'));
                     $naviera            = explode('-', $this->input->post('naviera_codigo_naviera'));
-                    
+                    $deposito           = explode(' - ', $this->input->post('deposito_codigo_deposito'));
+                    $puerto             = explode('-', $this->input->post('puerto_codigo_puerto'));                    
                     $fecha              = str_replace('/','-', $this->input->post('fecha'));
                     $fecha              = date("Y-m-d H:i",strtotime($fecha));
                     
@@ -588,16 +589,6 @@
                     else
                         $c_oservicio = count($this->input->post('codigo_Servicio'));
 
-
-
-                    if($_POST['tipo_orden'] == "EXPORTACION"){
-                        $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
-                        $puerto = explode('-', $this->input->post('puerto_codigo_puerto'));
-                    }
-                    else{
-                        $deposito[0] = 1;
-                        $puerto[0] = 1;
-                    }
                     if($_POST['tipo_orden'] == "IMPORTACION"){
                         $lugar_retiro = $_POST['lugar_retiro'];
 
