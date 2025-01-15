@@ -371,38 +371,74 @@
                             $id_detalle = $cod_detalle[0]['id_detalle'] + 1;
                         }
 
+                    if (array_key_exists("checkbox_duplicate", $_POST) && $_POST["checkbox_duplicate"] == "on"){
+                        $orden_2 = $orden;
+                        $num_orden_2 = $num_orden + 1;
+                        $orden_2['id_orden'] = $num_orden_2;
+                        $orden_2['tramo_codigo_tramo'] = -1;
+                        $orden_2['deposito_codigo_deposito'] = trim($deposito[0]);
+                        $orden_2['destino'] = -1;
+                        $orden_2['valor_costo_tramo'] = NULL;
+                        $orden_2['valor_venta_tramo'] = NULL;
+                        
+                        foreach($tipo_ordenes as $tipo_orden){
+
+                            if($tipo_orden['tipo_orden'] == 'OTRO SERVICIO'){
+                                $orden_2['tipo_orden_id_tipo_orden'] = $tipo_orden['id_tipo_orden'];
+                            }
+                        }
+                        $this->Orden_model->insert_orden($orden_2);
+                    }
+
                     if($_POST['codigo_servicio'][0] != ''){
                             foreach ($this->input->post('codigo_servicio') as $servicio){
-                               $cod_servicio = "";
-                               $cod_servicio = explode("-",$servicio);
-                               $detalle = array(
-                                            'id_detalle'               => $id_detalle,
-                                            'servicio_codigo_servicio' => $cod_servicio[0],
-                                            'orden_id_orden'           => $num_orden,
-                                            'valor_costo'              => str_replace(".", "", $costo[$i]),
-                                            'valor_venta'              => str_replace(".", "", $venta[$i])
-                               );
-                               $i = $i + 1;
-                               $id_detalle = $id_detalle + 1;
+                                $cod_servicio = "";
+                                $cod_servicio = explode("-",$servicio);
+                                $detalle = array(
+                                                'id_detalle'               => $id_detalle,
+                                                'servicio_codigo_servicio' => $cod_servicio[0],
+                                                'orden_id_orden'           => $num_orden,
+                                                'valor_costo'              => str_replace(".", "", $costo[$i]),
+                                                'valor_venta'              => str_replace(".", "", $venta[$i])
+                                );
+                                $i = $i + 1;
+                                $id_detalle = $id_detalle + 1;
 
-                    //########################## guarda uno a uno los detalles. ##########################
+                                if (array_key_exists("checkbox_duplicate", $_POST) && $_POST["checkbox_duplicate"] == "on"){
+                                    $detalle['orden_id_orden'] = $num_orden_2;
+                                }
+
+                                //########################## guarda uno a uno los detalles. ##########################
                                $this->Detalle->guardar_detalle($detalle);
                             }
                     }
 
-
                 //########################## Log de creado. ##########################
-
-                $log = array(   'nombre_usuario' => $session_data['nombre'],
-                                'rut_usuario' => $session_data['rut_usuario'],
-                                'accion' => 'CREAR ORDEN',
-                                'orden_id' => $num_orden,
-                                'ip' => $_SERVER['REMOTE_ADDR']
+                if (array_key_exists("checkbox_duplicate", $_POST) && $_POST["checkbox_duplicate"] == "on"){
+                    $log = array(   'nombre_usuario' => $session_data['nombre'],
+                                    'rut_usuario' => $session_data['rut_usuario'],
+                                    'accion' => 'CREAR ORDEN DUPLICADA',
+                                    'orden_id' => $num_orden_2,
+                                    'ip' => $_SERVER['REMOTE_ADDR']
+                    );
+                    $this->log->insertar_log($log);
+                }
+                else {
+                    $log = array(   'nombre_usuario' => $session_data['nombre'],
+                                    'rut_usuario' => $session_data['rut_usuario'],
+                                    'accion' => 'CREAR ORDEN',
+                                    'orden_id' => $num_orden,
+                                    'ip' => $_SERVER['REMOTE_ADDR']
                             );
 
-                $this->log->insertar_log($log);
-
-                $this->session->set_flashdata('sin_orden','La orden <b>'.$num_orden.'</b> se ha creado con éxito');
+                    $this->log->insertar_log($log);
+                }
+                if (array_key_exists("checkbox_duplicate", $_POST) && $_POST["checkbox_duplicate"] == "on"){
+                    $this->session->set_flashdata('sin_orden','Las ordenes: <b><br>'.$num_orden.'<br>'.$num_orden_2.'</b><br> se han creado con éxito');
+                }
+                else{
+                    $this->session->set_flashdata('sin_orden','La orden <b>'.$num_orden.'</b> se ha creado con éxito');
+                }
                 redirect('transacciones/orden/index');
                 $this->load->view('prueba');
                 }
@@ -537,7 +573,8 @@
                     $carga              = explode('-', $this->input->post('tipo_carga_codigo_carga'));
                     $tramo              = explode('-', $this->input->post('tramo_codigo_tramo'));
                     $naviera            = explode('-', $this->input->post('naviera_codigo_naviera'));
-                    
+                    $deposito           = explode(' - ', $this->input->post('deposito_codigo_deposito'));
+                    $puerto             = explode('-', $this->input->post('puerto_codigo_puerto'));                    
                     $fecha              = str_replace('/','-', $this->input->post('fecha'));
                     $fecha              = date("Y-m-d H:i",strtotime($fecha));
                     
@@ -552,16 +589,6 @@
                     else
                         $c_oservicio = count($this->input->post('codigo_Servicio'));
 
-
-
-                    if($_POST['tipo_orden'] == "EXPORTACION"){
-                        $deposito = explode(' - ', $this->input->post('deposito_codigo_deposito'));
-                        $puerto = explode('-', $this->input->post('puerto_codigo_puerto'));
-                    }
-                    else{
-                        $deposito[0] = 1;
-                        $puerto[0] = 1;
-                    }
                     if($_POST['tipo_orden'] == "IMPORTACION"){
                         $lugar_retiro = $_POST['lugar_retiro'];
 

@@ -12,6 +12,7 @@ class Facturacion extends CI_Controller{
         $this->load->model('mantencion/clientes_model');
         $this->load->model('mantencion/naves_model');
         $this->load->model('transacciones/notas_credito_model');
+        $this->load->model('utils/log');
 
     }
 
@@ -241,6 +242,17 @@ class Facturacion extends CI_Controller{
                             $codWS = $XMLresults->item(0)->nodeValue;
                             $errorH .= '<br><strong>'.$XMLresults2->item(0)->nodeValue.'</strong><br>';
 
+                            $log = array(   'nombre_usuario' => $session_data['nombre'],
+                                'rut_usuario' => $session_data['rut_usuario'],
+                                'accion' => 'CABECERA NV MANAGER',
+                                'factura_id' => $catch_factura[0]["id"],
+                                'ip' => $_SERVER['REMOTE_ADDR'],
+                                'ws_action' => $datosWS[0]->action,
+                                'ws_request' => $cliente->request,
+                                'ws_response' => $cliente->response
+                            );
+                            $this->log->insertar_log($log);
+
                             if($codWS != '0' ){
                                 $flag1 = 1;
                             }
@@ -336,6 +348,16 @@ class Facturacion extends CI_Controller{
                                                 $errorB .= '<br><strong>'.$XMLresults2Detalle->item(0)->nodeValue.'</strong>';
 
                                             }
+                                            $log = array(   'nombre_usuario' => $session_data['nombre'],
+                                                'rut_usuario' => $session_data['rut_usuario'],
+                                                'accion' => 'DETALLE NV MANAGER TRAMO',
+                                                'factura_id' => $catch_factura[0]["id"],
+                                                'ip' => $_SERVER['REMOTE_ADDR'],
+                                                'ws_action' => $DetalleOS[0]->action,
+                                                'ws_request' => $cliente->request,
+                                                'ws_response' => $cliente->response
+                                            );
+                                            $this->log->insertar_log($log);                                            
                                     }
 
 
@@ -390,6 +412,16 @@ class Facturacion extends CI_Controller{
                                                 $errorB .= '<br><strong>'.$XMLresults2Detalle->item(0)->nodeValue.'</strong>';
 
                                             }
+                                            $log = array(   'nombre_usuario' => $session_data['nombre'],
+                                                'rut_usuario' => $session_data['rut_usuario'],
+                                                'accion' => 'DETALLE NV MANAGER OTRO SERVICIO',
+                                                'factura_id' => $catch_factura[0]["id"],
+                                                'ip' => $_SERVER['REMOTE_ADDR'],
+                                                'ws_action' => $DetalleOS[0]->action,
+                                                'ws_request' => $cliente->request,
+                                                'ws_response' => $cliente->response
+                                            );
+                                            $this->log->insertar_log($log);                                              
                                     }
                             }
 
@@ -460,6 +492,17 @@ class Facturacion extends CI_Controller{
                             if($codWS != '0' ){
                                 $flag1 = 1;
                             }
+
+                            $log = array(   'nombre_usuario' => $session_data['nombre'],
+                                'rut_usuario' => $session_data['rut_usuario'],
+                                'accion' => 'ACTUALIZAR CABECERA NV MANAGER',
+                                'factura_id' => $catch_factura[0]["id"],
+                                'ip' => $_SERVER['REMOTE_ADDR'],
+                                'ws_action' => $actualizar[0]->action,
+                                'ws_request' => $cliente->request,
+                                'ws_response' => $cliente->response
+                            );
+                            $this->log->insertar_log($log);
 
                             if( $flag1 || $flag2 )
                                 if($flag1)

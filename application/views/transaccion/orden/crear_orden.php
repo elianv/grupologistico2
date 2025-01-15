@@ -51,6 +51,13 @@
 
                 <div class="span6">
                     <div class="control-group">
+                        <label class="control-label" for="duplicar_orden"><strong>Duplicar orden</strong></label>
+                            <div class="controls">
+                                <input type="checkbox" id="checkbox_duplicate" name="checkbox_duplicate">
+                            </div>
+                        </label>
+                    </div>
+                    <div class="control-group">
                         <label class="control-label" for="tipo_factura"><strong>Tipo</strong></label>
                         <div class="controls">
                             <select id="tipo_factura" name="tipo_orden" class="span2" onchange="cambioOrden(this)">
