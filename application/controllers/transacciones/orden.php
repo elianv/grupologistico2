@@ -372,6 +372,14 @@
                         }
 
                     if (array_key_exists("checkbox_duplicate", $_POST) && $_POST["checkbox_duplicate"] == "on"){
+
+                        $new_viaje = array(
+                            'camion_camion_id' => $camion[0]['camion_id'],
+                            'conductor_rut' => $this->input->post('conductor_rut'),
+                            'id_viaje' => $id_viaje + 1
+                        );
+                        $this->Viaje->crear_viaje($new_viaje);
+
                         $orden_2 = $orden;
                         $num_orden_2 = $num_orden + 1;
                         $orden_2['id_orden'] = $num_orden_2;
@@ -380,6 +388,7 @@
                         $orden_2['destino'] = -1;
                         $orden_2['valor_costo_tramo'] = NULL;
                         $orden_2['valor_venta_tramo'] = NULL;
+                        $orden_2['viaje_id_viaje'] = $id_viaje + 1;
                         
                         foreach($tipo_ordenes as $tipo_orden){
 
